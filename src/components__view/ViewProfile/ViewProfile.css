@@ -1,0 +1,37 @@
+
+
+.ViewProfile__maincol {
+  display: flex;
+}
+.ViewProfile__maincol form {
+  width: 100%;
+}
+.ViewProfile__maincol textarea {
+  height: 100px;
+}
+
+/* smaller screen */
+@media(max-width: 765px) {  
+  .ViewProfile__maincol {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ViewProfile__maincol .user-avatar {
+    margin-bottom: 20px;
+  }
+}
+
+/* large screen */
+@media(min-width: 766px) {  
+  .ViewProfile__maincol {
+    flex-direction: row-reverse;
+  }
+  .ViewProfile__maincol .user-avatar {
+    margin-left: 20px;
+  }
+}
+
+.ViewProfile__maincol .user-avatar {
+  width: 100px;
+  height: 100px;
+}

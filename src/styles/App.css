@@ -1,0 +1,51 @@
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #eee;
+  overflow-y: scroll;
+}
+.App > .AppContent {
+  position: relative;
+  margin-bottom: 60px; 
+  /*-- We want the content to occupy the rentire height 
+  real estate left by 'AppHeader' and 'AppFooter' --*/
+  flex: 1; 
+  width: 100%;
+  max-width: 700px;
+  z-index: 1;
+}
+
+
+.App > .AppHeader,
+.App > .AppFooter {  
+  z-index: 2;
+}
+
+@media(max-width: 765px) {  
+  .App > .AppContent { 
+    margin-top: 80px; /*67px; */
+  } 
+}
+
+
+/*-- larger screens --*/
+@media(min-width: 766px) { 
+  .App > .AppContent {
+    margin: auto;
+    margin-top: 60px; 
+  } 
+}
+
+
+ 
+
+
+/**
+ * all buttons with SVG icons
+ * ------------------
+*/
+.btn .svg-inline--fa {
+  margin-right: 20px;
+}

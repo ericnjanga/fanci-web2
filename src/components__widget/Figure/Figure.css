@@ -1,0 +1,8 @@
+
+.Figure figcaption{
+  padding: .5rem;
+  font-style: italic;
+  font-family: georgia;
+  font-size: 0.9rem;
+  background-color: #d1e4d1;
+}

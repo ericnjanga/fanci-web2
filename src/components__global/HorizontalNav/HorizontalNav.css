@@ -1,0 +1,81 @@
+ 
+.HorizontalNav ul {
+  padding-top: 10px;
+  list-style: none;
+  margin: 0; 
+  padding: 0;
+  display: flex; 
+  justify-content: center;
+} 
+
+.HorizontalNav__list a {
+  text-decoration: none; 
+  color: #333;
+} 
+ 
+
+@media(max-width: 765px) { 
+  .HorizontalNav {
+    display: none;
+  }
+  .HorizontalNav.is-active {
+    display: block;
+    position: relative;
+    top: 20px;
+    width: calc(100% + 40px);
+    left: -20px;
+  }
+  .HorizontalNav__list {
+    position: absolute; 
+    left: 0; 
+    width:  100%;
+    background-color: #ccc;
+    font-size: 0.9rem;
+  }
+  .HorizontalNav__list a { 
+    display: block;
+    padding: 10px 20px; 
+    color: #333;
+  }
+  .HorizontalNav__btn-frame .App__btnLogout { 
+    display: block;
+    padding: 10px 20px;
+    border: 0px solid;
+    width: 100%; 
+    background: transparent;
+  }
+}
+
+@media(min-width: 766px) {
+  .HorizontalNav{   
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+  .HorizontalNav .nav-item {
+    display: inline-block;
+    width: initial;
+  } 
+  .HorizontalNav a {
+    display: inline-block;
+    padding: 5px 15px;
+    color: #ccc;
+  }
+  .HorizontalNav a:hover,
+  .HorizontalNav a.active {
+    display: inline-block;
+    padding: 5px 15px;
+    color: lime;
+    text-decoration: underline;
+  } 
+  .HorizontalNav__btn-frame {
+    float: right;
+  }
+  .HorizontalNav__btn-frame .App__btnLogout { 
+    background: transparent;
+    border: 0;
+    color: lime; 
+    padding: 0;
+    position: relative;
+    top: 5px; 
+  }
+}

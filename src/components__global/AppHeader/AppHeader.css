@@ -1,0 +1,87 @@
+
+.AppHeader { 
+  padding: 10px 15px;  
+  background-color: #222;   
+}
+.AppHeader__top {
+  display: flex;
+  align-items: center; 
+  width: 100%;
+}
+
+.AppHeader .AppBrand {
+  margin: 0; 
+}
+.AppHeader .AppBrand a { 
+  color: lime;
+  text-decoration: none;
+}
+.AppHeader .AppBrand small {
+  font-style: italic;
+  color: #ccc; 
+}
+
+.AppHeader .btn-toggle-vertNav--sm,
+.AppHeader .btn-toggle-vertNav--lg button,
+.AppHeader .btn-toggle-vertNav--lg button:hover {
+  background: transparent;
+  border: 0px solid;
+}
+.AppHeader .btn-toggle-vertNav--sm {
+  padding-left: 0;
+  padding-right: 0;
+  width: 50px;
+}
+
+.AppHeader .btn-toggle-vertNav--lg.dropdown .nav-item a {
+  width: 100%;
+  display: block;
+  padding: 6px 20px;
+} 
+
+
+@media(max-width: 765px) {  
+  .AppHeader {
+    position: fixed; 
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px; 
+    background-color: #222;  
+  }
+  .AppHeader__top {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+  .AppHeader .user-avatar{ 
+    margin-right: 10px;
+  }
+  .AppHeader .AppBrand { 
+    font-size: 1.1rem; 
+  }
+  .AppHeader .AppBrand small { 
+    font-size: 0.8rem;
+  }
+  .AppHeader .btn-toggle-vertNav--lg {
+    display: none;
+  }
+}
+
+@media(min-width: 766px) { 
+  .AppHeader { 
+    padding: 20px;  
+  }
+  .AppHeader__top { 
+    justify-content: space-between;    
+    margin-bottom: 20px;  
+  }
+  .AppHeader .AppBrand { 
+    font-size: 1.5rem; 
+  }
+  .AppHeader .AppBrand small { 
+    font-size: 1rem;
+  } 
+  .AppHeader .btn-toggle-vertNav--sm { 
+    display: none;
+  }
+}

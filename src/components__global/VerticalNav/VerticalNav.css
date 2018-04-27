@@ -1,0 +1,66 @@
+
+.VerticalNav__obstructor {
+  opacity: 0;
+  z-index: -1; 
+  content: '';
+  transition: opacity 0.6s;
+  background: rgba(255, 255, 255, 0.6);
+}
+ 
+.VerticalNav.is-active > nav {
+  transform: translateX(0);
+  z-index: 100;
+}
+
+.VerticalNav, 
+.VerticalNav__obstructor {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%; 
+}
+.VerticalNav.is-active, 
+.VerticalNav.is-active .VerticalNav__obstructor {
+  z-index: 99;
+}
+.VerticalNav.is-active .VerticalNav__obstructor {
+  opacity: 1;
+}
+.VerticalNav > nav {
+  transform: translateX(-250px);
+  position: relative;
+  width: 230px; 
+  background: #fafafa;
+  height: 100%; 
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  /* translation */
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-property: transform;
+  transition-property: transform,-webkit-transform;
+}
+.VerticalNav .nav { 
+  padding: 10px 0; 
+  font-size: 1.1rem;
+}
+
+.VerticalNav .nav a.active,
+.VerticalNav .nav a:hover,
+.VerticalNav .nav .btn-logout:hover {  
+  text-decoration: none;
+  background: rgba(0,0,0,.1);
+}
+
+.VerticalNav .UserAvatar {
+  padding: 20px;
+}
+.VerticalNav .UserAvatar > img {
+  width: 60px;
+  height: 60px;
+}
+.VerticalNav .UserAvatar > p {
+  font-weight: bold;
+  font-size: 1.2rem;
+}

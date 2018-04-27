@@ -1,0 +1,15 @@
+
+.AppFooter {   
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  background-color: #333; 
+}
+   
+.AppFooter a {
+  color: lime;
+  font-size: 0.9rem;
+} 
+.AppFooter p {
+  margin-bottom: 0;
+} 

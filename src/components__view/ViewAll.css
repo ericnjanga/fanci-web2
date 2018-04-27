@@ -1,0 +1,17 @@
+/**
+ * Styling for all views
+*/
+/*-- larger screens --*/
+@media(min-width: 766px) { 
+  .view__content figure {
+    float: left;
+    max-width: 340px;
+    height: inherit;
+    margin: 0 10px 10px 0;
+  }
+}
+.view__content::after { 
+  display: block;
+  content: "";
+  clear: both; 
+}

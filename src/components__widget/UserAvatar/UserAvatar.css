@@ -1,0 +1,10 @@
+
+.UserAvatar > p {
+  margin-bottom: 0;
+}
+.user-avatar {
+  border-radius: 120px;
+  width: 35px;
+  height: 35px; 
+  border: 1px solid lime;
+}
