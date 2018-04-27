@@ -4,12 +4,12 @@
 import firebase from 'firebase';
   // Initialize Firebase
 const config = {
-  apiKey: "AIzaSyBNlXmXyc2YhapePfINQDw-Mjh3ibAXk4w",
-  authDomain: "therock-fanclub.firebaseapp.com",
-  databaseURL: "https://therock-fanclub.firebaseio.com",
-  projectId: "therock-fanclub",
-  storageBucket: "therock-fanclub.appspot.com",
-  messagingSenderId: "587064587996"
+  apiKey: "AIzaSyCxntwOBuRnLUn0W1I-CoK5JhzfPdy7x1E",
+  authDomain: "fanci-1.firebaseapp.com",
+  databaseURL: "https://fanci-1.firebaseio.com",
+  projectId: "fanci-1",
+  storageBucket: "fanci-1.appspot.com",
+  messagingSenderId: "25676979886"
 };
 
 firebase.initializeApp(config); 
