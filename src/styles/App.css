@@ -62,8 +62,19 @@
  * Top level views styling
  * ------------------
 */
+/* home view */
 .App.home .AppFooter {
   display: none;
+}
+.App.home .AppContent {
+  margin-bottom: 0;
+}
+.App.home .AppContent > section,
+.App.home .AppContent > section .ViewHome {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
 }
 
 
