@@ -7,11 +7,12 @@ import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import { Button, Container, Row, Col } from 'reactstrap';
 import Figure from './../../components__widget/Figure/Figure.js';
 import DBPost from '../../utilities/DBPost.class.js'; 
+import ViewApp from './../ViewApp.js';
 import './ViewMessageBoard.css'; 
 import img1 from './../../images/therock-1.jpeg'; 
  
 
-class ViewMessageBoard extends React.Component {
+class ViewMessageBoard extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {

@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
 
-const MenuPrimary = (props) => {
+const MenuPrimary = (props) => { 
   return( 
     <Nav>
-      {props.children}
+      { props.children }
       <NavItem>
         <NavLink to={`/`} exact={true}>Home</NavLink>
       </NavItem>

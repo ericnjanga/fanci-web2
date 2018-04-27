@@ -13,10 +13,10 @@ const MenuSecondary = (props) => {
       {props.children}
         
       <NavItem>
-        <NavLink to={`/profile`} onClick={onToggleDropdown}>Profile</NavLink>
+        <NavLink to={`/profile`} onClick={ ()=>{ onToggleDropdown(); } }>Profile</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to={`/settings`} onClick={onToggleDropdown}>Settings</NavLink>
+        <NavLink to={`/settings`} onClick={ ()=>{ onToggleDropdown(); } }>Settings</NavLink>
       </NavItem>
 
       <hr className="hr-menu space" />

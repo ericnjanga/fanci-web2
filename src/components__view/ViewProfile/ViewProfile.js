@@ -3,10 +3,11 @@ import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reac
 import UserAvatar from './../../components__widget/UserAvatar/UserAvatar.js'; 
 import Toast from './../../components__widget/Toast/Toast.js';  
 import DBUser from '../../utilities/DBUser.class.js'; 
+import ViewApp from './../ViewApp.js';
 import './ViewProfile.css';
 
 
-class ViewProfile extends React.Component {
+class ViewProfile extends ViewApp {
   constructor(props) {
     super(props); 
     this.state = { 

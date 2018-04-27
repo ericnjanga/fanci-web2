@@ -12,23 +12,32 @@ import MenuPrimary from './components__global/MenuPrimary.js';
 import MenuSecondary from './components__global/MenuSecondary.js'; 
 import ViewAll from './components__view/ViewAll.js';  
 import Toast from './components__widget/Toast/Toast.js';  
-import DBUser from  './utilities/DBUser.class.js';  
+import DBUser from  './utilities/DBUser.class.js';   
+import AppDoc from  './utilities/AppDoc.class.js'; 
 import './styles/App.css'; 
 import './styles/components/buttons.css'; 
 
- 
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userProfile     : undefined, 
-      vertNavIsActive : false
+      vertNavIsActive : false,
+      currPathName    : null
     }
     this.handleLogin          = this.handleLogin.bind(this);
     this.handleLogout         = this.handleLogout.bind(this);
     this.handleToggleVertNav  = this.handleToggleVertNav.bind(this);
     this.handleCloseVertNav   = this.handleCloseVertNav.bind(this);
     this.handleProfileUpdate  = this.handleProfileUpdate.bind(this);
+    this.handleRouteChange    = this.handleRouteChange.bind(this);
+  }
+
+  //Update state with current path name:
+  //(Useful for styling the app at the highest level based on the current route) 
+  handleRouteChange(currPathName){
+    this.setState({ currPathName: AppDoc.getPathName()}); 
   }
 
   //Shell login method
@@ -51,7 +60,7 @@ class App extends Component {
       this.setState({
         userProfile     : null,
         vertNavIsActive : false
-      });
+      }); 
     });  
   } 
 
@@ -86,7 +95,7 @@ class App extends Component {
       } else {
         this.setState({ userProfile: null });
       }   
-    });  
+    }); 
   }//[end]componentDidMount
   
   handleProfileUpdate(userProfile) {
@@ -94,11 +103,10 @@ class App extends Component {
   }
   
   render() {
-    const { userProfile } = this.state;
-    const { vertNavIsActive } = this.state;
+    const { userProfile, vertNavIsActive, currPathName } = this.state; 
     return (
       <Router>
-        <div className="App"> 
+        <div className={'App' +' '+currPathName}>  
           <AppHeader user={userProfile} onLogout={this.handleLogout} 
           onToggleVertNav={this.handleToggleVertNav}
           onCloseVertNav={this.handleCloseVertNav}>
@@ -116,7 +124,7 @@ class App extends Component {
           
           <section className="AppContent">
             {
-              userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll user={userProfile} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
+              userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll user={userProfile} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
             }  
           </section>
 

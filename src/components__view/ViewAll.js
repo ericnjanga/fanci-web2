@@ -16,12 +16,12 @@ import './ViewAll.css';
 
 
 const ViewAll = (props) => {
-  const { user, onLogin, onProfileChange } = props;
+  const { user, onLogin, onProfileChange, onRouteChange } = props;
   return( 
     <section>   
       {/* Render login only (if user is "unauthenticated") */} 
       <Route exact path="/login" render={() => (
-        !user && <ViewLogin onLogin={onLogin} />
+        !user && <ViewLogin onRouteChange={onRouteChange} onLogin={onLogin} />
       )}/>  
 
       {/* login route doesn't work (if user is authenticated) */
@@ -38,8 +38,10 @@ const ViewAll = (props) => {
       <Route exact path="/" render={() => (
         !user ? (
           <div className="l1"><Redirect to="/login"/></div>
-        ) : (
-          <Route path="/" exact={true} component={ViewHome} />
+        ) : ( 
+          <Route path="/" exact={true} render={() => (
+            <ViewHome onRouteChange={onRouteChange} />
+          )}/>  
         )
       )}/>
 
@@ -48,7 +50,9 @@ const ViewAll = (props) => {
         !user ? (
           <Redirect to="/login"/>
         ) : (
-          <Route path="/about" exact={true} component={ViewAbout} />
+          <Route path="/about" exact={true} render={() => (
+            <ViewAbout onRouteChange={onRouteChange} />
+          )}/>   
         )
       )}/>
 
@@ -57,7 +61,9 @@ const ViewAll = (props) => {
         !user ? (
           <Redirect to="/login"/>
         ) : (
-          <Route path="/articles" exact={true} component={ViewArticles} />
+          <Route path="/articles" exact={true} render={() => (
+            <ViewArticles onRouteChange={onRouteChange} />
+          )}/>  
         )
       )}/>
 
@@ -66,7 +72,9 @@ const ViewAll = (props) => {
         !user ? (
           <Redirect to="/login"/>
         ) : (
-          <Route path="/gallery" exact={true} component={ViewGallery} />
+          <Route path="/gallery" exact={true} render={() => (
+            <ViewGallery onRouteChange={onRouteChange} />
+          )}/> 
         )
       )}/>
 
@@ -75,9 +83,9 @@ const ViewAll = (props) => {
         !user ? (
           <Redirect to="/login"/>
         ) : (
-          <Route path="/message-board" exact={true} render={()=>{
-            return <ViewMessageBoard user={user} />
-          }} />
+          <Route path="/message-board" exact={true} render={() => (
+            <ViewMessageBoard onRouteChange={onRouteChange} user={user} />
+          )}/>  
         )
       )}/>
 
@@ -87,7 +95,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/profile" exact={true} render={()=>{
-            return <ViewProfile user={user} onProfileChange={onProfileChange} />
+            return <ViewProfile user={user} onRouteChange={onRouteChange} onProfileChange={onProfileChange} />
           }} /> 
         )
       )}/>
@@ -97,14 +105,18 @@ const ViewAll = (props) => {
         !user ? (
           <Redirect to="/login"/>
         ) : (
-          <Route path="/settings" exact={true} component={ViewSettings} />
+          <Route path="/settings" exact={true} render={() => (
+            <ViewSettings onRouteChange={onRouteChange} />
+          )}/>  
         )
       )}/>
       {/* Render views (if logged in) / [login view] (if logged out) */}
 
 
       {/* Render [terms & conditions view] at anytime */}
-      <Route path="/terms-and-cnditions" exact={true} component={ViewTermsAndConditions} />
+      <Route path="/terms-and-cnditions" exact={true} render={() => (
+        <ViewTermsAndConditions onRouteChange={onRouteChange} />
+      )}/>  
     </section> 
   );
 };

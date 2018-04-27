@@ -29,7 +29,7 @@
 
 @media(max-width: 765px) {  
   .App > .AppContent { 
-    margin-top: 80px; /*67px; */
+    margin-top: 60px;
   } 
 }
 
@@ -53,3 +53,17 @@
 .btn .svg-inline--fa {
   margin-right: 20px;
 }
+
+
+ 
+
+
+/**
+ * Top level views styling
+ * ------------------
+*/
+.App.home .AppFooter {
+  display: none;
+}
+
+

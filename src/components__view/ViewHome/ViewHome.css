@@ -1,0 +1,7 @@
+.ViewHome {
+  padding: 0;
+}
+.ViewHome .Figure {
+  margin: 0;
+  display: flex;
+}
