@@ -14,6 +14,7 @@ import ViewAll from './components__view/ViewAll.js';
 import Toast from './components__widget/Toast/Toast.js';  
 import DBUser from  './utilities/DBUser.class.js';  
 import './styles/App.css'; 
+import './styles/components/buttons.css'; 
 
  
 class App extends Component {

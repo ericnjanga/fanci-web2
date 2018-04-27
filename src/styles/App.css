@@ -1,9 +1,11 @@
-
+/**
+ * Primary color: #ff9800
+*/
 .App {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: #eee;
+  background: #cfd8dc;
   overflow-y: scroll;
 }
 .App > .AppContent {

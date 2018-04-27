@@ -1,3 +1,8 @@
 .view--login {
+  margin-top: 30%;
   text-align: center;
+}
+.view--login p {
+  margin-top: 20px;
+  line-height: 1rem;
 }

@@ -10,12 +10,15 @@ const ViewLogin = (props) => {
   return(
     <Container className="view--login">
       <Row>
-        <Col> 
-          <h2>Login view</h2>
+        <Col>  
           <Button color="primary" onClick={props.onLogin}>
             <FontAwesomeIcon icon={faGoogle} />
             Login with Google
           </Button> 
+          <p>
+            <small>Chocolate cake danish chocolate lemon drops icing muffin fruitcake. 
+              Toffee marshmallow oat cake chocolate cake cheesecake. Chocolate bar biscuit sesame snaps.</small>
+          </p>
         </Col>
       </Row>
     </Container>
