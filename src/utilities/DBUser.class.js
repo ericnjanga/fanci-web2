@@ -5,11 +5,12 @@ import firebase from './../services/firebase.js';
 
 
 class DBUser { 
+  static nodeName = 'users';
   //Get a user from the database ...
   //(returns a promise which resolves when the snapshot is ready) 
   static get(uid) { 
     return new Promise((resolve, reject) => {
-      firebase.database().ref('/users/' + uid).once('value').then(function(snapshot) {
+      firebase.database().ref('/'+this.nodeName+'/' + uid).once('value').then(function(snapshot) {
         resolve(snapshot.val()); 
       });
     }); 
@@ -66,7 +67,7 @@ class DBUser {
         //(because we assume the user might have changed them somewhere else and will expect to see them reflected on this app) 
         //Create or update user record in the database
         let record = {};
-        record['/users/'+ authObject.uid] = tpl_user; 
+        record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user; 
         firebase.database().ref().update(record); 
       });//get user from DB 
     });//[end] new Promise
@@ -87,7 +88,7 @@ class DBUser {
     tpl_user.email        = authObject.email;
     //Create or update user record in the database
     let record = {};
-    record['/users/'+ authObject.uid] = tpl_user;
+    record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user;
     return firebase.database().ref().update(record);  
   }
 
