@@ -1,7 +1,7 @@
 
 .AppHeader { 
   padding: 10px 15px;  
-  background-color: #222;   
+  background-color: #8ca3ad;   
 }
 .AppHeader__top {
   display: flex;
@@ -13,12 +13,15 @@
   margin: 0; 
 }
 .AppHeader .AppBrand a { 
-  color: lime;
+  color: #fff;
   text-decoration: none;
 }
 .AppHeader .AppBrand small {
+  position: relative;
+  top: -1px;
+  font-size: 1rem;
   font-style: italic;
-  color: #ccc; 
+  color: #ff9800; 
 }
 
 .AppHeader .btn-toggle-vertNav--sm,
@@ -46,8 +49,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 10px 15px; 
-    background-color: #222;  
+    padding: 10px 15px;  
   }
   .AppHeader__top {
     flex-direction: row-reverse;

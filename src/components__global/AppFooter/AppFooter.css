@@ -3,12 +3,12 @@
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;
-  background-color: #333; 
+  background-color: transparent; 
 }
    
 .AppFooter a {
-  color: lime;
-  font-size: 0.9rem;
+  color: #333;
+  font-size: 0.8rem;
 } 
 .AppFooter p {
   margin-bottom: 0;

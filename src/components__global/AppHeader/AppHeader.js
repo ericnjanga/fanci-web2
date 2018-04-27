@@ -5,6 +5,8 @@ import HorizontalNav from './../HorizontalNav/HorizontalNav.js';
 import MenuPrimary from './../MenuPrimary.js';
 import MenuSecondary from './../MenuSecondary.js'; 
 import UserAvatar from './../../components__widget/UserAvatar/UserAvatar.js';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
+import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import './AppHeader.css';
  
 class AppHeader extends React.Component { 
@@ -30,7 +32,7 @@ class AppHeader extends React.Component {
         <div className="AppHeader__top">
           <h1 className="AppBrand">
             <Link onClick={onCloseVertNav} to={`/`}>
-              The Rock <small>Fan Club</small>
+              Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
             </Link> 
           </h1> 
           { 
