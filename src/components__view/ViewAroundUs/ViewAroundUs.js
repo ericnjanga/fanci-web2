@@ -8,11 +8,10 @@ import { Button, Container, Row, Col } from 'reactstrap';
 import Figure from './../../components__widget/Figure/Figure.js';
 import DBPost from '../../utilities/DBPost.class.js'; 
 import ViewApp from './../ViewApp.js';
-import './ViewMessageBoard.css'; 
-import img1 from './../../images/therock-1.jpeg'; 
+import './ViewAroundUs.css';  
  
 
-class ViewMessageBoard extends ViewApp {
+class ViewAroundUs extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,19 +35,22 @@ class ViewMessageBoard extends ViewApp {
     DBPost.getNode().on('value', (snapshot) => { 
       const nodeVal = snapshot.val(); 
       let itemsList = [];
+      console.log('1...itemsList=', itemsList);
       if(nodeVal){ //Avoid error if there is no DB objects
         const postMap = new Map(Object.entries(nodeVal));
+        console.log('2...itemsList=', itemsList);
         postMap.forEach((value, key)=>{
           let post = Object.assign({}, value);
           post.id = key;
           //push values in a regular array 
           itemsList.push(post);
-          itemsList = itemsList.reverse();
+          console.log('3...itemsList=', itemsList);
+          itemsList = itemsList.reverse(); //Reverse array (most recent posts first)
+          console.log('4...itemsList=', itemsList);
         });
-      }else{
-        //save reverse array in state (most recent posts first)
-        this.setState({ itemsList });
-      }  
+      } 
+      //save array in state
+      this.setState({ itemsList }); 
     });//[end] within nodeRef_A  
   }//[edn] componentDidMount
  
@@ -56,14 +58,14 @@ class ViewMessageBoard extends ViewApp {
     const { user } = this.props; 
     const { itemsList } = this.state; 
     return(
-      <Container className="view__content ViewMessageBoard"> 
+      <Container className="view__content ViewAroundUs"> 
         <Row>
-          <Col> 
-            <Figure img={img1} alt={'The Rock'} caption={'The Rock (Dwayne Johnson), getty images'} /> 
-
+          <Col>   
             { /* Display a toast if the list of items is not yet ready */
               !itemsList ? <Toast msg={'Fetching data'} /> : <UserMessageList items={itemsList} />
+              
             }
+            
 
             <UserMessageModal user={user} isOpen={this.state.modal} toggle={this.toggle} 
             className={this.props.className} />
@@ -79,4 +81,4 @@ class ViewMessageBoard extends ViewApp {
   }
 }
 
-export default ViewMessageBoard;
+export default ViewAroundUs;

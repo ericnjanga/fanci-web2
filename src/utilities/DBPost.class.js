@@ -5,7 +5,7 @@ import firebase from './../services/firebase.js';
 
 
 class DBPost {
-  static nodeName = 'board-msg';
+  static nodeName = 'timeline';
 
   //Get all posts from the database
   //(returns a promise which resolves when an iterator containing the posts is ready)

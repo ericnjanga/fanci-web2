@@ -12,7 +12,7 @@ import './UserMessageList.css';
 const UserMessageList = (props) => {
   return(
     <section className="UserMessageList"> 
-      <h3 className="UserMessageList__title">We <FontAwesomeIcon icon={faHeart} /> TheRock</h3>
+      {/* <h3 className="UserMessageList__title">We <FontAwesomeIcon icon={faHeart} /> TheRock</h3> */}
       { 
         props.items.length ?props.items.map((item) => {
           return (

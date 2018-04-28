@@ -17,7 +17,7 @@ const MenuPrimary = (props) => {
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to={`/message-board`}>
+        <NavLink to={`/around-us`}>
           <span className="txt">Around Us</span>
           <FontAwesomeIcon icon={faComment} />
         </NavLink>

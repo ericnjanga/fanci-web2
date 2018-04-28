@@ -63,7 +63,8 @@
  * ------------------
 */
 /* home view */
-.App.home .AppFooter {
+.App.home .AppFooter,
+.App.around-us .AppFooter {
   display: none;
 }
 .App.home .AppContent {

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'; 
-import ViewAbout from './ViewAbout/ViewAbout.js';
+import ViewSearch from './ViewSearch/ViewSearch.js';
 import ViewArticles from './ViewArticles/ViewArticles.js';
 import ViewGallery from './ViewGallery/ViewGallery.js';
 import ViewHome from './ViewHome/ViewHome.js';
@@ -11,7 +11,7 @@ import ViewProfile from './ViewProfile/ViewProfile.js';
 import ViewSettings from './ViewSettings/ViewSettings.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
 import ViewTermsAndConditions from './ViewTermsAndConditions/ViewTermsAndConditions.js';
-import ViewMessageBoard from './ViewMessageBoard/ViewMessageBoard.js';
+import ViewAroundUs from './ViewAroundUs/ViewAroundUs.js';
 import './ViewAll.css';
 
 
@@ -45,47 +45,25 @@ const ViewAll = (props) => {
         )
       )}/>
 
-      {/* About? */}
-      <Route exact path="/about" render={() => (
+      {/* Around Us? */}
+      <Route exact path="/around-us" render={() => (
         !user ? (
           <Redirect to="/login"/>
         ) : (
-          <Route path="/about" exact={true} render={() => (
-            <ViewAbout onRouteChange={onRouteChange} />
+          <Route path="/around-us" exact={true} render={() => (
+            <ViewAroundUs onRouteChange={onRouteChange} user={user} />
+          )}/>  
+        )
+      )}/>
+
+      {/* Search */}
+      <Route exact path="/search" render={() => (
+        !user ? (
+          <Redirect to="/login"/>
+        ) : (
+          <Route path="/search" exact={true} render={() => (
+            <ViewSearch onRouteChange={onRouteChange} />
           )}/>   
-        )
-      )}/>
-
-      {/* Articles? */}
-      <Route exact path="/articles" render={() => (
-        !user ? (
-          <Redirect to="/login"/>
-        ) : (
-          <Route path="/articles" exact={true} render={() => (
-            <ViewArticles onRouteChange={onRouteChange} />
-          )}/>  
-        )
-      )}/>
-
-      {/* Gallery? */}
-      <Route exact path="/gallery" render={() => (
-        !user ? (
-          <Redirect to="/login"/>
-        ) : (
-          <Route path="/gallery" exact={true} render={() => (
-            <ViewGallery onRouteChange={onRouteChange} />
-          )}/> 
-        )
-      )}/>
-
-      {/* Message Board? */}
-      <Route exact path="/message-board" render={() => (
-        !user ? (
-          <Redirect to="/login"/>
-        ) : (
-          <Route path="/message-board" exact={true} render={() => (
-            <ViewMessageBoard onRouteChange={onRouteChange} user={user} />
-          )}/>  
         )
       )}/>
 

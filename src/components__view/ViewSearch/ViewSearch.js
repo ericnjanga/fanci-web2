@@ -2,11 +2,11 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Figure from './../../components__widget/Figure/Figure.js'; 
 import ViewApp from './../ViewApp.js';
-// import './ViewAbout.css';  
+// import './ViewSearch.css';  
 import img1 from './../../images/therock-5.jpeg'; 
 
 
-class ViewAbout extends ViewApp {
+class ViewSearch extends ViewApp {
   render () {
     return(
       <Container className="view__content">
@@ -24,4 +24,4 @@ class ViewAbout extends ViewApp {
   }
 }//[end] About
 
-export default ViewAbout;
+export default ViewSearch;
