@@ -31,3 +31,7 @@ hr.hr-menu.space {
   text-align: left;
   border-radius: 0;
 }
+
+.VerticalNav .nav a .svg-inline--fa {
+  display: none;
+}

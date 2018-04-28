@@ -12,20 +12,20 @@ const MenuPrimary = (props) => {
       { props.children }
       <NavItem> 
         <NavLink to={`/`} exact>
-          <span className="sr-only">Home</span>
-          <small><FontAwesomeIcon icon={faHome} /></small>
+          <span className="txt">Home</span>
+          <FontAwesomeIcon icon={faHome} />
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink to={`/message-board`}>
-          <span className="sr-only">Around Us</span>
-          <small><FontAwesomeIcon icon={faComment} /></small>
+          <span className="txt">Around Us</span>
+          <FontAwesomeIcon icon={faComment} />
         </NavLink>
       </NavItem>  
       <NavItem> 
         <NavLink to={`/search`}>
-          <span className="sr-only">Around Us</span>
-          <small><FontAwesomeIcon icon={faSearch} /></small>
+          <span className="txt">Search</span>
+          <FontAwesomeIcon icon={faSearch} />
         </NavLink>
       </NavItem> 
     </Nav> 

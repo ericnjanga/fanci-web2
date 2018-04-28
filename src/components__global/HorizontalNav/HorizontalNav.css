@@ -58,13 +58,13 @@
   .HorizontalNav a {
     display: inline-block;
     padding: 5px 15px;
-    color: #ccc;
+    color: #fff;
   }
   .HorizontalNav a:hover,
   .HorizontalNav a.active {
     display: inline-block;
     padding: 5px 15px;
-    color: lime;
+    color: #ff9800;
     text-decoration: underline;
   } 
   .HorizontalNav__btn-frame {
@@ -73,7 +73,7 @@
   .HorizontalNav__btn-frame .App__btnLogout { 
     background: transparent;
     border: 0;
-    color: lime; 
+    color: #ff9800; 
     padding: 0;
     position: relative;
     top: 5px; 
