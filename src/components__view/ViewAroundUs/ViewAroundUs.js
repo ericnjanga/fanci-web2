@@ -34,19 +34,15 @@ class ViewAroundUs extends ViewApp {
      */
     DBPost.getNode().on('value', (snapshot) => { 
       const nodeVal = snapshot.val(); 
-      let itemsList = [];
-      console.log('1...itemsList=', itemsList);
+      let itemsList = []; 
       if(nodeVal){ //Avoid error if there is no DB objects
-        const postMap = new Map(Object.entries(nodeVal));
-        console.log('2...itemsList=', itemsList);
+        const postMap = new Map(Object.entries(nodeVal)); 
         postMap.forEach((value, key)=>{
           let post = Object.assign({}, value);
           post.id = key;
           //push values in a regular array 
-          itemsList.push(post);
-          console.log('3...itemsList=', itemsList);
-          itemsList = itemsList.reverse(); //Reverse array (most recent posts first)
-          console.log('4...itemsList=', itemsList);
+          itemsList.push(post); 
+          itemsList = itemsList.reverse(); //Reverse array (most recent posts first) 
         });
       } 
       //save array in state

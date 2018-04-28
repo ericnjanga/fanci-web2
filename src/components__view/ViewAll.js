@@ -3,15 +3,13 @@
  */
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'; 
-import ViewSearch from './ViewSearch/ViewSearch.js';
-import ViewArticles from './ViewArticles/ViewArticles.js';
-import ViewGallery from './ViewGallery/ViewGallery.js';
-import ViewHome from './ViewHome/ViewHome.js';
-import ViewProfile from './ViewProfile/ViewProfile.js';
-import ViewSettings from './ViewSettings/ViewSettings.js';
-import ViewLogin from './ViewLogin/ViewLogin.js';
-import ViewTermsAndConditions from './ViewTermsAndConditions/ViewTermsAndConditions.js';
 import ViewAroundUs from './ViewAroundUs/ViewAroundUs.js';
+import ViewHome from './ViewHome/ViewHome.js';
+import ViewLogin from './ViewLogin/ViewLogin.js';
+import ViewProfile from './ViewProfile/ViewProfile.js';
+import ViewSearch from './ViewSearch/ViewSearch.js';
+import ViewSettings from './ViewSettings/ViewSettings.js';
+import ViewTermsAndConditions from './ViewTermsAndConditions/ViewTermsAndConditions.js';
 import './ViewAll.css';
 
 

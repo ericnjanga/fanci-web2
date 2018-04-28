@@ -61,7 +61,7 @@ class DBUser {
         }
         //...
         resolve(tpl_user);
-        console.log('>>resolved' );
+        // console.log('>>resolved' );
 
         //Note: 'photoURL' and 'email' remains untouched and will always be updated 
         //(because we assume the user might have changed them somewhere else and will expect to see them reflected on this app) 
