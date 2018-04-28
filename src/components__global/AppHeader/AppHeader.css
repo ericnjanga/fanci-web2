@@ -49,7 +49,9 @@
     display: flex;
     align-items: center;
     width: 100%;
+    height: 100px;
     padding: 10px 15px;  
+    flex-direction: column;
   }
   .AppHeader__top {
     flex-direction: row-reverse;
@@ -66,6 +68,37 @@
   }
   .AppHeader .btn-toggle-vertNav--lg {
     display: none;
+  }
+  .AppHeader .HorizontalNav {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+  .AppHeader .HorizontalNav .nav-item {
+    width: initial;
+    flex-grow: 1;
+    flex-basis: 0;
+    text-align: center;
+  }
+  .AppHeader .HorizontalNav a {
+    width: 100%;
+    display: block;
+    padding: 10px 10px 6px 10px;
+    color: #fff;
+    border-bottom: 4px solid transparent;
+  }
+  .AppHeader .HorizontalNav .svg-inline--fa { 
+    font-size: 1rem;
+  }
+  .AppHeader .HorizontalNav a:hover,
+  .AppHeader .HorizontalNav a:focus,
+  .AppHeader .HorizontalNav a:active,
+  .AppHeader .HorizontalNav a.active {
+    border-bottom: 4px solid #ff9800;
+    text-decoration: none;
+  }
+  .AppHeader .HorizontalNav a.active .svg-inline--fa {
+    color: #ff9800; 
   }
 }
 

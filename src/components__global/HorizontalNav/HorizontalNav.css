@@ -15,9 +15,9 @@
  
 
 @media(max-width: 765px) { 
-  .HorizontalNav {
+  /* .HorizontalNav {
     display: none;
-  }
+  } */
   .HorizontalNav.is-active {
     display: block;
     position: relative;
