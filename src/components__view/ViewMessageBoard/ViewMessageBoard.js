@@ -33,21 +33,22 @@ class ViewMessageBoard extends ViewApp {
      * Fetch all elements of listA and for each element of listA:
      * -> find the corresponding element in list B, join it to A and save it into a final list
      */
-    DBPost.getNode().on('value', (snapshot) => {
-      //Get data (iterable object)
+    DBPost.getNode().on('value', (snapshot) => { 
       const nodeVal = snapshot.val(); 
-      const postMap = new Map(Object.entries(nodeVal));
-      //push values in a regular array
       let itemsList = [];
-      postMap.forEach((value, key)=>{
-        let post = Object.assign({}, value);
-        post.id = key;
-        itemsList.push(post);
-      });
-      //save reverse array in state (most recent posts first)
-      this.setState({
-        itemsList: itemsList.reverse()
-      }); 
+      if(nodeVal){ //Avoid error if there is no DB objects
+        const postMap = new Map(Object.entries(nodeVal));
+        postMap.forEach((value, key)=>{
+          let post = Object.assign({}, value);
+          post.id = key;
+          //push values in a regular array 
+          itemsList.push(post);
+          itemsList = itemsList.reverse();
+        });
+      }else{
+        //save reverse array in state (most recent posts first)
+        this.setState({ itemsList });
+      }  
     });//[end] within nodeRef_A  
   }//[edn] componentDidMount
  
