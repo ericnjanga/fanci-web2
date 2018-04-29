@@ -4,7 +4,7 @@ import UserMessageModal from './../../components__widget/UserMessageModal/UserMe
 import Toast from './../../components__widget/Toast/Toast.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col, Form, FormGroup, Input } from 'reactstrap';
 import Figure from './../../components__widget/Figure/Figure.js';
 import DBPost from '../../utilities/DBPost.class.js'; 
 import ViewApp from './../ViewApp.js';
@@ -15,15 +15,26 @@ class ViewAroundUs extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      origItemsList: null
     }
     this.toggle = this.toggle.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
   }
 
   toggle() {
     this.setState({
       modal: !this.state.modal
     });
+  }
+
+  handleFilter(event) {
+    let searchVal = event.target.value;
+    let list = this.state.origItemsList; 
+    let itemsList = list.filter((item)=>{  
+      return item.title.toLowerCase().search(searchVal) > -1;
+    }); 
+    this.setState({ itemsList });
   }
 
   componentDidMount() { 
@@ -48,6 +59,8 @@ class ViewAroundUs extends ViewApp {
       } 
       //save array in state
       this.setState({ itemsList }); 
+      this.setState({ origItemsList:itemsList }); 
+      
     });//[end] within nodeRef_A  
   }//[edn] componentDidMount
  
@@ -56,6 +69,15 @@ class ViewAroundUs extends ViewApp {
     const { itemsList } = this.state; 
     return(
       <Container className="view__content ViewAroundUs"> 
+        <Row>
+          <Col>
+          <Form>
+            <FormGroup> 
+              <Input type="text" name="fanci-search" id="fanci-search" placeholder="Search a Fanci" onChange={this.handleFilter} />
+            </FormGroup> 
+          </Form>
+          </Col>
+        </Row>
         <Row>
           <Col>   
             { /* Display a toast if the list of items is not yet ready */
