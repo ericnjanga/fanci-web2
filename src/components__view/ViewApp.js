@@ -7,9 +7,9 @@ import React from 'react';
 
 class ViewApp extends React.Component {
 
-  componentDidMount(){
+  componentDidMount(){  
     const handleRouteChange = this.props.onRouteChange; 
-    if(handleRouteChange){  
+    if(handleRouteChange){
       handleRouteChange();
     }
   }

@@ -26,7 +26,8 @@ class ViewAroundUs extends ViewApp {
     });
   }
 
-  componentDidMount() {
+  componentDidMount() { 
+    super.componentDidMount(); //User ViewApp parent component
     /**
      * Fetch database records form 2 nodes (relationnal database style: listA and listB)
      * Fetch all elements of listA and for each element of listA:
@@ -58,11 +59,8 @@ class ViewAroundUs extends ViewApp {
         <Row>
           <Col>   
             { /* Display a toast if the list of items is not yet ready */
-              !itemsList ? <Toast msg={'Fetching data'} /> : <UserMessageList items={itemsList} />
-              
-            }
-            
-
+              !itemsList ? <Toast msg={'Fetching data'} /> : <UserMessageList items={itemsList} /> 
+            } 
             <UserMessageModal user={user} isOpen={this.state.modal} toggle={this.toggle} 
             className={this.props.className} />
           

@@ -1,4 +1,29 @@
 
+
+.ViewAroundUs .btn-primary { 
+  position: fixed;
+  z-index: 9;
+  bottom: 30px;
+  right: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* bottom: 70px;  */
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  /* right: 60px; */
+  box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12), 0 1px 1px 0 rgba(0,0,0,.24);
+}
+
+.ViewAroundUs .btn-primary span { 
+  display: none;
+}
+.ViewAroundUs .btn-primary .svg-inline--fa {
+  margin: 0;
+}
+
 /*
 .ViewAroundUs {
   display: flex;
@@ -23,17 +48,6 @@
     position: absolute;
     top:0;
     left: 0;
-  }
-  .ViewAroundUs .btn-primary { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 70px; 
-    width: 70px;
-    height: 70px;
-    border-radius: 70px;
-    right: 60px;
-    box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12), 0 1px 1px 0 rgba(0,0,0,.24);
   }
   .ViewAroundUs .btn-primary .svg-inline--fa { 
     margin: 0;

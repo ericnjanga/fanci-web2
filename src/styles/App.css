@@ -17,7 +17,7 @@
   real estate left by 'AppHeader' and 'AppFooter' --*/
   flex: 1; 
   width: 100%;
-  max-width: 700px;
+  max-width: 600px;
   z-index: 1;
 }
 
@@ -67,7 +67,8 @@
 .App.around-us .AppFooter {
   display: none;
 }
-.App.home .AppContent {
+.App.home .AppContent,
+.App.around-us .AppContent {
   margin-bottom: 0;
 }
 .App.home .AppContent > section,

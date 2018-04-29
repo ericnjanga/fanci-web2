@@ -1,11 +1,56 @@
 
 
-.card .user-avatar {
+.UserMessage .user-avatar { 
+  position: absolute; 
+  top: 10px;
+  left: 10px;
+  width: 35px;
+  height: 35px; 
+}
+
+.UserMessage__head{
+  padding: 10px 10px 10px 55px;
+  line-height: 0.5rem;
+}
+.UserMessage__head .card-title {
+  margin-bottom: 0;
+}
+.UserMessage__date {
+  color: rgba(0,0,0,.54);
+}
+.UserMessage__btn-action { 
+  bottom: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border: 0px;
+  display: flex;
+  justify-content: center;
+}
+.UserMessage__btn-action .svg-inline--fa {
+  margin: 0!important;
+}
+
+.UserMessage__footer {
+  display: flex; 
+  padding: 0;
+} 
+.UserMessage__footer-info {
+  flex: 1;
+  padding: 0.7rem 1.25rem;
+  line-height: 1rem;
+}
+.UserMessage__footer-info > small {
+  position: relative;
+  display: block;
+  padding-left: 25px;
+}
+.UserMessage__footer-info > small .svg-inline--fa {
   position: absolute;
-  top: -10px;
-  right: -10px; 
-  width: 55px;
-  height: 55px;
-  background-color: #999;
-  border: 2px solid #999;
+  top: 0;
+  left: 0;
+}
+.UserMessage__footer-action {
+  display: flex;
+  width: 100px; 
 }

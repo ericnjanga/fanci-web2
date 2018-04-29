@@ -15,7 +15,8 @@ class UserMessageModal extends React.Component {
     super(props);
     this.state = {  
       title:'',
-      content: '' 
+      content: '',
+      location: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -29,7 +30,10 @@ class UserMessageModal extends React.Component {
       this.setState((prevState, props) => {
         return {
           title: '',
-          content: ''
+          content: '',
+          location: '',
+          duration: 0,
+          places : 0
         }
       }); 
     });
@@ -45,16 +49,16 @@ class UserMessageModal extends React.Component {
 
   render() {
     const { user, isOpen, toggle } = this.props;
-    const { title, content } = this.state; 
+    // const { title, content, location, duration, places } = this.state; 
     return( 
       <Modal isOpen={isOpen} toggle={toggle} className={'UserMessageModal'}>
         <UserAvatar item={user} /> 
-        <ModalHeader toggle={toggle}>Say somethig <b>{user.displayName}</b></ModalHeader>
+        <ModalHeader toggle={toggle}>Create your Fanci!</ModalHeader>
         <ModalBody>
-          <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} title={title} content={content} />
+          <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} {...this.state} />
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={(event)=>this.handleSubmit(event, user)}>Send your message</Button>{' '}
+          <Button color="primary" onClick={(event)=>this.handleSubmit(event, user)}>Post Your Fanci</Button>{' '}
           <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
