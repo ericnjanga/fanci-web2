@@ -12,3 +12,15 @@
   box-shadow: 0 0 0 0.2rem rgba(255, 164, 26, 0.5);
 }
 
+
+.btn-fab { 
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  width: 60px;
+  height: 60px; 
+  border-radius: 60px; 
+} 
+.btn-fab .svg-inline--fa { 
+  margin: 0!important;
+} 

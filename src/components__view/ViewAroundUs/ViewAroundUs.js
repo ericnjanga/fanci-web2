@@ -1,9 +1,11 @@
 import React from 'react';
 import UserMessageList from './../../components__widget/UserMessageList/UserMessageList.js'; 
-import UserMessageModal from './../../components__widget/UserMessageModal/UserMessageModal.js';  
+import UserMessageModal from './../../components__widget/UserMessageModal/UserMessageModal.js'; 
+import SearchModal from './../../components__widget/SearchModal/SearchModal.js';  
 import Toast from './../../components__widget/Toast/Toast.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
+import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import { Button, Container, Row, Col, Form, FormGroup, Input } from 'reactstrap';
 import Figure from './../../components__widget/Figure/Figure.js';
 import DBPost from '../../utilities/DBPost.class.js'; 
@@ -15,19 +17,35 @@ class ViewAroundUs extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      timelineModal: false,
+      searchModal: false,
       origItemsList: null
     }
-    this.toggle = this.toggle.bind(this);
+    this.toggleTimelineModal = this.toggleTimelineModal.bind(this);
+    this.toggleSearchModal = this.toggleSearchModal.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
   }
 
-  toggle() {
+
+  /**
+   * Uptimize the 2 functions when it works
+   */
+  toggleTimelineModal() {
     this.setState({
-      modal: !this.state.modal
+      timelineModal: !this.state.timelineModal
+    });
+  } 
+  toggleSearchModal() {
+    this.setState({
+      searchModal: !this.state.searchModal
     });
   }
+  /**
+   * Uptimize the 2 functions when it works
+   */
 
+  //Filter the original list of fancies against user search input
+  //and updatge the state with the resulting array
   handleFilter(event) {
     let searchVal = event.target.value;
     let list = this.state.origItemsList; 
@@ -69,7 +87,7 @@ class ViewAroundUs extends ViewApp {
     const { itemsList } = this.state; 
     return(
       <Container className="view__content ViewAroundUs"> 
-        <Row>
+        <Row className="frame-search">
           <Col>
           <Form>
             <FormGroup> 
@@ -83,12 +101,20 @@ class ViewAroundUs extends ViewApp {
             { /* Display a toast if the list of items is not yet ready */
               !itemsList ? <Toast msg={'Fetching data'} /> : <UserMessageList items={itemsList} /> 
             } 
-            <UserMessageModal user={user} isOpen={this.state.modal} toggle={this.toggle} 
+            <UserMessageModal user={user} isOpen={this.state.timelineModal} toggle={this.toggleTimelineModal} 
+            className={this.props.className} />
+
+            <SearchModal isOpen={this.state.searchModal} toggle={this.toggleSearchModal} 
             className={this.props.className} />
           
-            <Button color="primary" onClick={this.toggle}>
+            <Button className="btn-search btn-fab" color="secondary" onClick={this.toggleSearchModal}>
+              <FontAwesomeIcon icon={faSearch} /> 
+              <span className="sr-only">Search a Fanci</span> 
+            </Button> 
+          
+            <Button className="btn-post btn-fab" color="primary" onClick={this.toggleTimelineModal}>
               <FontAwesomeIcon icon={faPencil} /> 
-              <span>Write a Message</span> 
+              <span className="sr-only">Write a Message</span> 
             </Button> 
           </Col>
         </Row>
