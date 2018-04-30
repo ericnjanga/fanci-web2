@@ -3,7 +3,7 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react'; 
-import { Button, Card, CardText, CardBody, CardTitle, CardFooter, CardSubtitle } from 'reactstrap'; 
+import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
 import DBUser from '../../utilities/DBUser.class.js';  
 import UserAvatar from './../../components__widget/UserAvatar/UserAvatar.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 

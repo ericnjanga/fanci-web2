@@ -11,10 +11,11 @@ const MenuSecondary = (props) => {
   return( 
     <Nav>
       {props.children}
-        
-      <NavItem>
+      
+      {/*<NavItem>
         <NavLink to={`/profile`} onClick={ ()=>{ onToggleDropdown(); } }>Profile</NavLink>
-      </NavItem>
+      </NavItem>*/}
+      
       <NavItem>
         <NavLink to={`/settings`} onClick={ ()=>{ onToggleDropdown(); } }>Settings</NavLink>
       </NavItem>

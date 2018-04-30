@@ -4,7 +4,7 @@ import { Nav, NavItem } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faHome from '@fortawesome/fontawesome-free-solid/faHome';
 import faComment from '@fortawesome/fontawesome-free-solid/faComment';
-import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
+import faUser from '@fortawesome/fontawesome-free-solid/faUser';
 
 const MenuPrimary = (props) => { 
   return( 
@@ -23,9 +23,9 @@ const MenuPrimary = (props) => {
         </NavLink>
       </NavItem>  
       <NavItem> 
-        <NavLink to={`/search`}>
-          <span className="txt">Search</span>
-          <FontAwesomeIcon icon={faSearch} />
+        <NavLink to={`/profile`}>
+          <span className="txt">Profile</span>
+          <FontAwesomeIcon icon={faUser} />
         </NavLink>
       </NavItem> 
     </Nav> 

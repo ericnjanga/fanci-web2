@@ -1,7 +1,7 @@
 import React from 'react'; 
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import UserAvatar from './../../components__widget/UserAvatar/UserAvatar.js'; 
-import Toast from './../../components__widget/Toast/Toast.js';  
+import Toast from './../../components__reusable/Toast/Toast.js';  
 import DBUser from '../../utilities/DBUser.class.js'; 
 import ViewApp from './../ViewApp.js';
 import './ViewProfile.css';

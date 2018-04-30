@@ -2,6 +2,7 @@
 
 .ViewProfile__maincol {
   display: flex;
+  margin-top: 20px;
 }
 .ViewProfile__maincol form {
   width: 100%;

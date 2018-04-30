@@ -7,13 +7,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { auth, provider } from './services/firebase.js'; 
 import AppHeader from './components__global/AppHeader/AppHeader.js';
 import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
+import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';  
 import AppFooter from './components__global/AppFooter/AppFooter.js';
 import MenuPrimary from './components__global/MenuPrimary.js';
 import MenuSecondary from './components__global/MenuSecondary.js'; 
 import ViewAll from './components__view/ViewAll.js';  
-import Toast from './components__widget/Toast/Toast.js';  
-import DBUser from  './utilities/DBUser.class.js';   
-import AppDoc from  './utilities/AppDoc.class.js'; 
+import Toast from './components__reusable/Toast/Toast.js';  
+import DBUser from './utilities/DBUser.class.js';   
+import DBPost from './utilities/DBPost.class.js'; 
+import AppDoc from './utilities/AppDoc.class.js'; 
 import './styles/App.css'; 
 import './styles/components/buttons.css'; 
 
@@ -22,9 +24,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userProfile     : undefined, 
-      vertNavIsActive : false,
-      currPathName    : null
+      userProfile         : undefined, 
+      vertNavIsActive     : false,
+      searchPanelIsActive : false,
+      currPathName        : null,
+      origFanciList       : null,
+      fanciList           : null
     }
     this.handleLogin          = this.handleLogin.bind(this);
     this.handleLogout         = this.handleLogout.bind(this);
@@ -32,6 +37,8 @@ class App extends Component {
     this.handleCloseVertNav   = this.handleCloseVertNav.bind(this);
     this.handleProfileUpdate  = this.handleProfileUpdate.bind(this);
     this.handleRouteChange    = this.handleRouteChange.bind(this);
+    this.toggleSearchPanel    = this.toggleSearchPanel.bind(this);
+    this.handleFilterFanciList         = this.handleFilterFanciList.bind(this);
   }
 
   //Update state with current path name:
@@ -80,9 +87,20 @@ class App extends Component {
     } 
   }
 
-  //Signs users back-in everytime application loads 
-  //(FirebaseAuth service remembers their credentials)
+  //Filter the original list of fancies against user search input
+  //and updatge the state with the resulting array
+  handleFilterFanciList(event) {
+    let searchVal = event.target.value; 
+    let list = this.state.origFanciList; 
+    let fanciList = list.filter((item)=>{  
+      return item.title.toLowerCase().search(searchVal) > -1;
+    }); 
+    this.setState({ fanciList });
+  }
+
   componentDidMount(){
+    //Signs users back-in everytime application loads 
+    //(FirebaseAuth service remembers their credentials)
     auth.onAuthStateChanged((userAuthObject) => { 
       //Save fresh user records in database and save a local version to the state
       //(state version might contains some info from the database)
@@ -96,25 +114,56 @@ class App extends Component {
         this.setState({ userProfile: null });
       }   
     }); 
+
+    /**
+     * Fetch database records form 2 nodes (relationnal database style: listA and listB)
+     * Fetch all elements of listA and for each element of listA:
+     * -> find the corresponding element in list B, join it to A and save it into a final list
+     */
+    DBPost.getNode().on('value', (snapshot) => { 
+      const nodeVal = snapshot.val(); 
+      let fanciList = []; 
+      if(nodeVal){ //Avoid error if there is no DB objects
+        const postMap = new Map(Object.entries(nodeVal)); 
+        postMap.forEach((value, key)=>{
+          let post = Object.assign({}, value);
+          post.id = key;
+          //push values in a regular array 
+          fanciList.push(post); 
+          fanciList = fanciList.reverse(); //Reverse array (most recent posts first) 
+        });
+      } 
+      //save array in state
+      this.setState({ fanciList }); 
+      this.setState({ origFanciList:fanciList }); 
+    });//[end] within nodeRef_A 
   }//[end]componentDidMount
   
   handleProfileUpdate(userProfile) {
     this.setState({ userProfile });
   }
+
+  toggleSearchPanel() {
+    this.setState({
+      searchPanelIsActive: !this.state.searchPanelIsActive
+    });
+  }
   
   render() {
-    const { userProfile, vertNavIsActive, currPathName } = this.state; 
+    const s = {...this.state}; 
     return (
       <Router>
-        <div className={'App' +' '+currPathName}>  
-          <AppHeader user={userProfile} onLogout={this.handleLogout} 
+        <div className={'App '+s.currPathName}>  
+          <AppHeader user={s.userProfile} onLogout={this.handleLogout} 
           onToggleVertNav={this.handleToggleVertNav}
           onCloseVertNav={this.handleCloseVertNav}>
             <MenuPrimary />
           </AppHeader>
 
+          <SearchPanel isActive={s.searchPanelIsActive} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
+
           {
-            userProfile && <VerticalNav user={userProfile} isActive={vertNavIsActive} 
+            s.userProfile && <VerticalNav user={s.userProfile} isActive={s.vertNavIsActive} 
             onCloseVertNav={this.handleCloseVertNav}>
               <MenuPrimary />
               <hr className="hr-menu" />
@@ -124,7 +173,7 @@ class App extends Component {
           
           <section className="AppContent">
             {
-              userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll user={userProfile} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
+              s.userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll user={s.userProfile} fanciList={s.fanciList} toggleSearchPanel={this.toggleSearchPanel} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
             }  
           </section>
 
