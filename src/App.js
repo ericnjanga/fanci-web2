@@ -16,6 +16,7 @@ import Toast from './components__reusable/Toast/Toast.js';
 import DBUser from './utilities/DBUser.class.js';   
 import DBPost from './utilities/DBPost.class.js'; 
 import AppDoc from './utilities/AppDoc.class.js'; 
+import Geoloc from './utilities/Geoloc.class.js'; 
 import './styles/App.css'; 
 import './styles/components/buttons.css'; 
 
@@ -32,7 +33,7 @@ class App extends Component {
       fanciList           : null,
       geolocation         : {
         on        : null,
-        msg       : 'Loading your the map'
+        msg       : 'Loading the map'
       },
       currLocation        : null
     }
@@ -61,8 +62,20 @@ class App extends Component {
       let userProfile;
       DBUser.saveBasicInfo(userAuthObject.user).then((currUserInfo)=>{
         userProfile = currUserInfo; 
-        this.setState({ userProfile });
-      }); 
+        this.setState({ userProfile }); 
+        //Get gelolocation object ...
+        //save user position in the database and object geolocation state
+        Geoloc.getValue().then((geolocation)=>{ 
+          if(geolocation.on) { 
+            let {userProfile} = this.state;
+            let latLong = Geoloc.getPosition(geolocation);
+            userProfile = {...userProfile, ...latLong}; 
+            DBUser.saveBasicInfo(userProfile);
+          }
+          //save goelocation object anyway
+          this.setState({ geolocation });
+        });//[end] Get gelolocation object 
+      });//[end] DBUser.saveBasicInfo
     });//[end] user successful login
   }
 
@@ -114,7 +127,20 @@ class App extends Component {
         DBUser.saveBasicInfo(userAuthObject).then((currUserInfo)=>{
           userProfile = currUserInfo; 
           this.setState({ userProfile });
-        });
+
+          //Get gelolocation object ...
+          //save user position in the database and object geolocation state
+          Geoloc.getValue().then((geolocation)=>{ 
+            if(geolocation.on) { 
+              let {userProfile} = this.state;
+              let latLong = Geoloc.getPosition(geolocation);
+              userProfile = {...userProfile, ...latLong}; 
+              DBUser.saveBasicInfo(userProfile);
+            }
+            //save goelocation object anyway
+            this.setState({ geolocation });
+          });//[end] Get gelolocation object 
+        });//[end] DBUser.saveBasicInfo
       } else {
         this.setState({ userProfile: null });
       }   
@@ -144,34 +170,7 @@ class App extends Component {
     });//[end] Fetch Fancies ...
 
 
-    /**
-     * Get geolocation data:
-     * -> Keep setting off if feature is not available
-     * -> set setting on if: 
-     * --> current position is returned
-     * --> an error occurs while retriving data
-     * (Always update message in any case)
-     */
-    let geolocation = {...this.state.geolocation};
-    if (navigator.geolocation) {
-      geolocation.on = true; 
-      navigator.geolocation.getCurrentPosition((position)=>{
-          geolocation.on = true;
-          geolocation.currPosition = position; 
-          this.setState({ geolocation }); 
-        },
-        (err)=>{ 
-          geolocation.on = false;
-          geolocation.msg = `ERROR(${err.code}): ${err.message}`;
-          this.setState({ geolocation }); 
-        },
-        {timeout:10000}
-      );
-    } else {
-      geolocation.on = false;
-      geolocation.msg = 'Geolocation is not supported on your device... Map cannot work, sorry';
-      this.setState({ geolocation }); 
-    }
+    /**** Geoloxc  */
   }//[end]componentDidMount
   
   handleProfileUpdate(userProfile) {

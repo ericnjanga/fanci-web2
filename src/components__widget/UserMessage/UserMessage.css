@@ -1,12 +1,6 @@
 
 
-.UserMessage .user-avatar { 
-  position: absolute; 
-  top: 10px;
-  left: 10px;
-  width: 35px;
-  height: 35px; 
-}
+
 
 .UserMessage__head{
   padding: 10px 10px 10px 55px;

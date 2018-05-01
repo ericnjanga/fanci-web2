@@ -8,12 +8,42 @@ import React from 'react';
 import './Figure.css';
 
 
-const Figure = (props)=>{
-  const { img, alt, caption } = props;
+const Figure = (props)=>{ 
+  const p = {...props};
+
+  // console.log('xxxxx', p);
+  let borderRadius, width, height, imgClassName;
+  if(p.circle){
+    borderRadius = '100%';
+  }
+  if(p.avatar){
+    switch(p.size){
+      case 'xxl' :  
+        width = '100px';
+        height = '100px';
+        break;
+      case 'large' :  
+        width = '60px';
+        height = '60px';
+        break;
+      case 'med' :  
+        width = '47px';
+        height = '47px';
+        break;
+      case 'small' :  
+        width = '35px';
+        height = '35px';
+        break;
+    }
+  }else{
+    imgClassName = 'img-fluid';
+  }
+  let imgStyle = { borderRadius, width, height }; 
+  let figStyle = p.style;
   return( 
-    img && <figure className="Figure">
-      <img className="img-fluid" src={img} alt={ alt?alt:''} />
-      { caption && <figcaption>{caption}</figcaption> }
+    p.img && <figure className={p.className} style={figStyle}>
+      <img className={imgClassName} src={p.img} alt={ p.alt?p.alt:''} style={imgStyle} />
+      { p.caption && <figcaption>{p.caption}</figcaption> }
     </figure>  
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react'; 
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import UserAvatar from './../../components__widget/UserAvatar/UserAvatar.js'; 
+import Figure from './../../components__reusable/Figure/Figure.js'; 
 import Toast from './../../components__reusable/Toast/Toast.js';  
 import DBUser from '../../utilities/DBUser.class.js'; 
 import ViewApp from './../ViewApp.js';
@@ -54,7 +54,7 @@ class ViewProfile extends ViewApp {
         }
         <Row>
           <Col className="ViewProfile__maincol">
-            <UserAvatar item={user} />
+            <Figure img={user.photoURL} alt={user.displayName} className="user-avatar" avatar circle size="xxl" />  
       
             <Form onSubmit={this.handleSubmit}> 
               <FormGroup>

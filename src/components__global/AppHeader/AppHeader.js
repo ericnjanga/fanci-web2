@@ -4,7 +4,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, Button } from 'reactstrap';
 import HorizontalNav from './../HorizontalNav/HorizontalNav.js';
 import MenuPrimary from './../MenuPrimary.js';
 import MenuSecondary from './../MenuSecondary.js'; 
-import UserAvatar from './../../components__widget/UserAvatar/UserAvatar.js';
+import Figure from './../../components__reusable/Figure/Figure.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import './AppHeader.css';
@@ -39,12 +39,12 @@ class AppHeader extends React.Component {
             user && (
               <div>
                 <Button className="btn-toggle-vertNav--sm" onClick={onToggleVertNav}>
-                  <UserAvatar item={user} /> 
+                  <Figure img={user.photoURL} alt={user.displayName} avatar circle size="small" style={{ margin:'0 10px 0 0' }} /> 
                 </Button>
                 
                 <Dropdown direction="left" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} className="btn-toggle-vertNav--lg">
                   <DropdownToggle>
-                    <UserAvatar item={user} /> 
+                    <Figure img={user.photoURL} alt={user.displayName} avatar circle size="small" style={{ margin:'0' }} /> 
                   </DropdownToggle>
                   <DropdownMenu>
                     <MenuSecondary onLogout={onLogout} onToggleDropdown={this.toggleDropdown} /> 

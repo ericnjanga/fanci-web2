@@ -60,9 +60,7 @@
     flex-direction: row-reverse;
     justify-content: flex-end;
   }
-  .AppHeader .user-avatar{ 
-    margin-right: 10px;
-  }
+
   .AppHeader .AppBrand { 
     font-size: 1.1rem; 
   }

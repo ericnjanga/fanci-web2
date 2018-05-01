@@ -20,9 +20,9 @@ class DBUser {
   //https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties 
   static getBasicProperties(data) {
     const properties = (({
-      displayName, email, phoneNumber, photoURL, biography, visible, uid 
+      displayName, email, phoneNumber, photoURL, biography, visible, lat, lng, uid 
     }) => ({
-      displayName, email, phoneNumber, photoURL, biography, visible, uid 
+      displayName, email, phoneNumber, photoURL, biography, visible, lat, lng, uid 
     }))(data);
     return properties;
   }
@@ -36,7 +36,9 @@ class DBUser {
    *              and saved in the database
    * 
    * The operation: 4 of @authObject properties are subject of change by the user (from profile view), in thsat case
-   *                any further updates from should ignore them. Only consider 2 properties will constantly be updated: photoURL and email
+   *                any further updates from should ignore them.
+   * Properties will constantly be updated are : 
+   * - photoURL, email, lat (latitude), lng (longitude)
    */
   static saveBasicInfo(authObject) { 
     return new Promise((resolve, reject) => {
@@ -61,9 +63,23 @@ class DBUser {
         }
         //...
         resolve(tpl_user);
-        // console.log('>>resolved' );
 
-        //Note: 'photoURL' and 'email' remains untouched and will always be updated 
+        /** Note: 'photoURL', 'email', 'lat' and 'lng remains untouched and will always be updated **/
+        //make sure user lat and lng hav at least a value
+        if(!tpl_user.lat){
+          if(typeof userFromDB.lat==='number'){
+            tpl_user.lat = userFromDB.lat;
+          }else{
+            tpl_user.lat = '---'; 
+          }
+        }
+        if(!tpl_user.lng){
+          if(typeof userFromDB.lng==='number'){
+            tpl_user.lng = userFromDB.lng;
+          }else{
+            tpl_user.lng = '---'; 
+          }
+        } 
         //(because we assume the user might have changed them somewhere else and will expect to see them reflected on this app) 
         //Create or update user record in the database
         let record = {};

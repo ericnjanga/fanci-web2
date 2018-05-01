@@ -13,17 +13,17 @@ class ViewHome extends ViewApp {
 
   render () {  
     const p = {...this.props};
-    
+    console.log('++++++p=', p);
     return(
       <div className="view__content ViewHome"> 
         {
           p.geolocation.on===null && <Toast msg={p.geolocation.msg} />
         }
         {
-          p.geolocation.on===false && <Alert color="danger" style={{ margin: '50px 20px 0 20px' }}>{p.geolocation.msg}</Alert>
+          p.geolocation.on===false && <Alert color="danger" style={{ margin:'50px 20px 0 20px', width:'100%', height:'min-content' }}>{p.geolocation.msg}</Alert>
         }
         { 
-          p.geolocation.on===true && <Map lat={p.geolocation.currPosition.coords.latitude} lng={p.geolocation.currPosition.coords.longitude} />
+          p.geolocation.on===true && <Map points={p.userProfile} lat={p.geolocation.currPosition.coords.latitude} lng={p.geolocation.currPosition.coords.longitude} />
         }
       </div> 
     );

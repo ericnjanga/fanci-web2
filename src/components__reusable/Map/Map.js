@@ -4,12 +4,8 @@
  * - @lng: Longitude 
  */
 import React from 'react';
-import GoogleMapReact from 'google-map-react'
-
-//Organize that later
-const Point = ({ text }) => <div>{ text }</div>;
-
-
+import GoogleMapReact from 'google-map-react';
+import Figure from './../Figure/Figure.js';
 
 
 class Map extends React.Component {
@@ -17,7 +13,6 @@ class Map extends React.Component {
   //   zoom: 11
   // }
   render() {
-    console.log('>>>>>>>>', {...this.props}); 
     const p = {...this.props};
 
     return (
@@ -25,7 +20,8 @@ class Map extends React.Component {
         <GoogleMapReact
           bootstrapURLKeys={{ key:'AIzaSyACIFpmGqxK8mmy65nY9eKrufxdpea3muo' }}
           defaultCenter={[p.lat, p.lng]} defaultZoom={11}>
-          <Point lat={p.lat} lng={p.lng} text={'User'} />
+          {/* just adding "lat" and "lng" properties to a child component position it on the map */}
+          <Figure lat={p.lat} lng={p.lng} img={p.points.photoURL} alt={p.points.displayName} avatar circle size="large" />
         </GoogleMapReact>
       </div>
     )

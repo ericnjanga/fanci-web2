@@ -17,8 +17,8 @@
     flex-direction: column;
     align-items: center;
   }
-  .ViewProfile__maincol .user-avatar {
-    margin-bottom: 20px;
+  .ViewProfile__maincol .user-avatar { 
+    margin: 0 0 20px 0;
   }
 }
 
@@ -27,8 +27,8 @@
   .ViewProfile__maincol {
     flex-direction: row-reverse;
   }
-  .ViewProfile__maincol .user-avatar {
-    margin-left: 20px;
+  .ViewProfile__maincol .user-avatar { 
+    margin: 0 0 0 20px;
   }
 }
 

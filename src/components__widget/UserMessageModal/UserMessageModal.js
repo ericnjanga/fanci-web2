@@ -5,7 +5,7 @@
 import React from 'react'; 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import MessageForm from '../MessageForm/MessageForm';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import Figure from './../../components__reusable/Figure/Figure.js'; 
 import DBPost from '../../utilities/DBPost.class.js';  
 import './UserMessageModal.css';
 
@@ -49,10 +49,17 @@ class UserMessageModal extends React.Component {
 
   render() {
     const { user, isOpen, toggle } = this.props;
-    // const { title, content, location, duration, places } = this.state; 
+    const style = {
+      avatar: { 
+        margin: 0,
+        position: 'absolute', 
+        top: '10px',
+        left: '15px'
+      }
+    }; 
     return( 
-      <Modal isOpen={isOpen} toggle={toggle} className={'UserMessageModal'}>
-        <UserAvatar item={user} /> 
+      <Modal isOpen={isOpen} toggle={toggle} className={'UserMessageModal'}> 
+        <Figure img={user.photoURL} alt={user.displayName} style={style.avatar} avatar circle size="med" />
         <ModalHeader toggle={toggle}>Create your Fanci!</ModalHeader>
         <ModalBody>
           <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} {...this.state} />

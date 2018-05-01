@@ -37,7 +37,7 @@ const ViewAll = (props) => {
           <div className="l1"><Redirect to="/login"/></div>
         ) : ( 
           <Route path="/" exact={true} render={() => (
-            <ViewHome geolocation={p.geolocation} onRouteChange={p.onRouteChange} />
+            <ViewHome userProfile={p.userProfile} geolocation={p.geolocation} onRouteChange={p.onRouteChange} />
           )}/>  
         )
       )}/>

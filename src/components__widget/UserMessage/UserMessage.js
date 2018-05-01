@@ -5,7 +5,7 @@
 import React from 'react'; 
 import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
 import DBUser from '../../utilities/DBUser.class.js';  
-import UserAvatar from './../../components__widget/UserAvatar/UserAvatar.js';
+import Figure from './../../components__reusable/Figure/Figure.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
@@ -30,11 +30,19 @@ class UserMessage extends React.Component {
 
   render() {
     const { data } = this.props; 
-    const { user } = this.state;  
+    const { user } = this.state; 
+    const style = {
+      avatar: { 
+        margin: 0,
+        position: 'absolute', 
+        top: '10px',
+        left: '10px'
+      }
+    };
     return( 
       <Card className="UserMessage"> 
         { 
-          user && <UserAvatar item={user} />
+          user && <Figure img={user.photoURL} alt={user.displayName} style={style.avatar} avatar circle size="small" />
         }
         <div className="UserMessage__head"> 
           <CardTitle>{data.title}</CardTitle> 
