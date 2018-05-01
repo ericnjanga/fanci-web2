@@ -6,14 +6,9 @@ import Toast from './../../components__reusable/Toast/Toast.js';
 import { Alert } from 'reactstrap';
 
 
-class ViewHome extends ViewApp {
-  constructor(props) {
-    super(props); 
-  } 
-
+class ViewHome extends ViewApp { 
   render () {  
-    const p = {...this.props};
-    console.log('++++++p=', p);
+    const p = {...this.props}; 
     return(
       <div className="view__content ViewHome"> 
         {

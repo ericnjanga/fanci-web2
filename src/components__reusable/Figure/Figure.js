@@ -34,6 +34,9 @@ const Figure = (props)=>{
         width = '35px';
         height = '35px';
         break;
+      default: //Medium by default
+        width = '47px';
+        height = '47px';
     }
   }else{
     imgClassName = 'img-fluid';

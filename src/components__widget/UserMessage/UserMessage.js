@@ -37,6 +37,13 @@ class UserMessage extends React.Component {
         position: 'absolute', 
         top: '10px',
         left: '10px'
+      },
+      header: { 
+        padding: '10px 10px 10px 55px',
+        lineHeight: '0.5rem'
+      },
+      header_title: { 
+        marginBottom: '0.3rem' 
       }
     };
     return( 
@@ -44,8 +51,8 @@ class UserMessage extends React.Component {
         { 
           user && <Figure img={user.photoURL} alt={user.displayName} style={style.avatar} avatar circle size="small" />
         }
-        <div className="UserMessage__head"> 
-          <CardTitle>{data.title}</CardTitle> 
+        <div style={style.header}> 
+          <CardTitle style={style.header_title}>{data.title}</CardTitle> 
           <small className="UserMessage__date">{moment(data.date).format('MMMM Do, YYYY')}</small>
         </div>
         

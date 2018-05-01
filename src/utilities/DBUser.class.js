@@ -67,14 +67,14 @@ class DBUser {
         /** Note: 'photoURL', 'email', 'lat' and 'lng remains untouched and will always be updated **/
         //make sure user lat and lng hav at least a value
         if(!tpl_user.lat){
-          if(typeof userFromDB.lat==='number'){
+          if(userFromDB && typeof userFromDB.lat==='number'){
             tpl_user.lat = userFromDB.lat;
           }else{
             tpl_user.lat = '---'; 
           }
         }
         if(!tpl_user.lng){
-          if(typeof userFromDB.lng==='number'){
+          if(userFromDB && typeof userFromDB.lng==='number'){
             tpl_user.lng = userFromDB.lng;
           }else{
             tpl_user.lng = '---'; 
