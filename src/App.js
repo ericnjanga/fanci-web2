@@ -29,7 +29,12 @@ class App extends Component {
       searchPanelIsActive : false,
       currPathName        : null,
       origFanciList       : null,
-      fanciList           : null
+      fanciList           : null,
+      geolocation         : {
+        on        : null,
+        msg       : 'Loading your the map'
+      },
+      currLocation        : null
     }
     this.handleLogin          = this.handleLogin.bind(this);
     this.handleLogout         = this.handleLogout.bind(this);
@@ -113,7 +118,7 @@ class App extends Component {
       } else {
         this.setState({ userProfile: null });
       }   
-    }); 
+    });//[END] user sign-in + save
 
     /**
      * Fetch database records form 2 nodes (relationnal database style: listA and listB)
@@ -136,7 +141,37 @@ class App extends Component {
       //save array in state
       this.setState({ fanciList }); 
       this.setState({ origFanciList:fanciList }); 
-    });//[end] within nodeRef_A 
+    });//[end] Fetch Fancies ...
+
+
+    /**
+     * Get geolocation data:
+     * -> Keep setting off if feature is not available
+     * -> set setting on if: 
+     * --> current position is returned
+     * --> an error occurs while retriving data
+     * (Always update message in any case)
+     */
+    let geolocation = {...this.state.geolocation};
+    if (navigator.geolocation) {
+      geolocation.on = true; 
+      navigator.geolocation.getCurrentPosition((position)=>{
+          geolocation.on = true;
+          geolocation.currPosition = position; 
+          this.setState({ geolocation }); 
+        },
+        (err)=>{ 
+          geolocation.on = false;
+          geolocation.msg = `ERROR(${err.code}): ${err.message}`;
+          this.setState({ geolocation }); 
+        },
+        {timeout:10000}
+      );
+    } else {
+      geolocation.on = false;
+      geolocation.msg = 'Geolocation is not supported on your device... Map cannot work, sorry';
+      this.setState({ geolocation }); 
+    }
   }//[end]componentDidMount
   
   handleProfileUpdate(userProfile) {
@@ -150,7 +185,7 @@ class App extends Component {
   }
   
   render() {
-    const s = {...this.state}; 
+    const s = {...this.state};  
     return (
       <Router>
         <div className={'App '+s.currPathName}>  
@@ -171,9 +206,9 @@ class App extends Component {
             </VerticalNav>
           }
           
-          <section className="AppContent">
+          <section className="AppContent"> 
             {
-              s.userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll user={s.userProfile} fanciList={s.fanciList} toggleSearchPanel={this.toggleSearchPanel} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
+              s.userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll {...s} toggleSearchPanel={this.toggleSearchPanel} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
             }  
           </section>
 

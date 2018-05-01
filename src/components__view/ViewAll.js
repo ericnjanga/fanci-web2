@@ -16,57 +16,57 @@ const ViewAll = (props) => {
   const p = {...props};
   return( 
     <section>   
-      {/* Render login only (if p.user is "unauthenticated") */} 
+      {/* Render login only (if p.userProfile is "unauthenticated") */} 
       <Route exact path="/login" render={() => (
-        !p.user && <ViewLogin onRouteChange={p.onRouteChange} onLogin={p.onLogin} />
+        !p.userProfile && <ViewLogin onRouteChange={p.onRouteChange} onLogin={p.onLogin} />
       )}/>  
 
-      {/* login route doesn't work (if p.user is authenticated) */
-        p.user && <Route exact path="/login" render={() => (
+      {/* login route doesn't work (if p.userProfile is authenticated) */
+        p.userProfile && <Route exact path="/login" render={() => (
           <Redirect to="/"/>
         )}/>
       }
 
       {
-        /* Render views (if p.user is authenticated), otherwise 
-        (if p.user is unauthenticated) render login */
+        /* Render views (if p.userProfile is authenticated), otherwise 
+        (if p.userProfile is unauthenticated) render login */
       }
       {/* Home? */}
       <Route exact path="/" render={() => (
-        !p.user ? (
+        !p.userProfile ? (
           <div className="l1"><Redirect to="/login"/></div>
         ) : ( 
           <Route path="/" exact={true} render={() => (
-            <ViewHome onRouteChange={p.onRouteChange} />
+            <ViewHome geolocation={p.geolocation} onRouteChange={p.onRouteChange} />
           )}/>  
         )
       )}/>
 
       {/* Around Us? */}
       <Route exact path="/around-us" render={() => (
-        !p.user ? (
+        !p.userProfile ? (
           <Redirect to="/login"/>
         ) : (
           <Route path="/around-us" exact={true} render={() => (
-            <ViewAroundUs list={p.fanciList} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.user} />
+            <ViewAroundUs list={p.fanciList} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
           )}/>  
         )
       )}/>
 
       {/* Profile? */}
       <Route exact path="/profile" render={() => (
-        !p.user ? (
+        !p.userProfile ? (
           <Redirect to="/login"/>
         ) : (
           <Route path="/profile" exact={true} render={()=>{
-            return <ViewProfile user={p.user} onRouteChange={p.onRouteChange} onProfileChange={p.onProfileChange} />
+            return <ViewProfile user={p.userProfile} onRouteChange={p.onRouteChange} onProfileChange={p.onProfileChange} />
           }} /> 
         )
       )}/>
 
       {/* Settings? */}
       <Route exact path="/settings" render={() => (
-        !p.user ? (
+        !p.userProfile ? (
           <Redirect to="/login"/>
         ) : (
           <Route path="/settings" exact={true} render={() => (
