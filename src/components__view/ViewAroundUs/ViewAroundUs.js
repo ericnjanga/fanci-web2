@@ -8,6 +8,7 @@ import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import { Button, Container, Row, Col } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
+import DBUpload from './../../utilities/DBUpload.class.js';
 import './ViewAroundUs.css';  
  
 
@@ -28,19 +29,16 @@ class ViewAroundUs extends ViewApp {
     this.setState({
       timelineModal: !this.state.timelineModal
     });
-  } 
-  /**
-   * Uptimize the 2 functions when it works
-   */
+  }  
 
   componentDidMount() { 
-    super.componentDidMount(); //User ViewApp parent component 
+    super.componentDidMount(); //User ViewApp parent component  
   }//[edn] componentDidMount
  
   render() {
     const p = {...this.props};  
     return(
-      <Container className="view__content ViewAroundUs"> 
+      <Container className="view__content ViewAroundUs">
         <Row>
           <Col>   
             { /* Display a toast if the list of items is not yet ready */

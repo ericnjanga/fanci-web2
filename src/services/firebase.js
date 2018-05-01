@@ -2,7 +2,8 @@
  * Firebase service
  */
 import firebase from 'firebase';
-  // Initialize Firebase
+
+// Config file
 const config = {
   apiKey: "AIzaSyCxntwOBuRnLUn0W1I-CoK5JhzfPdy7x1E",
   authDomain: "fanci-1.firebaseapp.com",
@@ -12,8 +13,13 @@ const config = {
   messagingSenderId: "25676979886"
 };
 
+// Initialize Firebase
 firebase.initializeApp(config); 
 
-export const provider = new firebase.auth.GoogleAuthProvider();
-export const auth = firebase.auth();
+// Get a references ...
+export const provider = new firebase.auth.GoogleAuthProvider(); // provider
+export const auth = firebase.auth(); // auth 
+export const storage = firebase.storage(); //storage service (which is used to create references in your storage bucket)
+
+
 export default firebase;

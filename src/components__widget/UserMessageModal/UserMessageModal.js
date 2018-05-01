@@ -7,6 +7,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import MessageForm from '../MessageForm/MessageForm';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
 import DBPost from '../../utilities/DBPost.class.js';  
+import DBUpload from './../../utilities/DBUpload.class.js';
 import './UserMessageModal.css';
 
 
@@ -15,8 +16,11 @@ class UserMessageModal extends React.Component {
     super(props);
     this.state = {  
       title:'',
+      file: '',
       content: '',
-      location: ''
+      location: '',
+      duration: undefined,
+      places : undefined
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -24,12 +28,13 @@ class UserMessageModal extends React.Component {
 
   //Save info to post database, cleaniup state and hi demodal
   handleSubmit(event, user) {
-    event.preventDefault();  
+    event.preventDefault(); 
     DBPost.save(this.state, user.uid).then((ready) => { 
       //Cleanup form when post is successful ...
       this.setState((prevState, props) => {
         return {
           title: '',
+          file: '',
           content: '',
           location: '',
           duration: 0,
@@ -41,11 +46,24 @@ class UserMessageModal extends React.Component {
   }//[end] handleSubmit
 
   handleChange(event) { 
-		this.setState({
-			formDirty : true,
-			[event.target.name] : event.target.value
-		});
-  }
+    const name = event.target.name;
+    //Will be input value or new File object
+    let value = event.target.value;
+
+    //For 'file' upload it right away on the fire storage
+    //and save the name in the state for later use when post 
+    //will be created
+    if(name==='file') { 
+      let newFile = event.target.files[0];
+      value = 'timeline/'+newFile.name; 
+      DBUpload.save(newFile); 
+    } 
+    //....
+    this.setState({
+      formDirty : true,
+      [name] : value
+    }); 
+  }//[end] handleChange
 
   render() {
     const { user, isOpen, toggle } = this.props;

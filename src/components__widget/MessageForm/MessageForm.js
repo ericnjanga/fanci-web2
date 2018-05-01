@@ -15,11 +15,10 @@ const MessageForm = (props) => {
         <Input type="text" name="title" id="title" placeholder="Enter a title" onChange={handleChange} value={formProps.title} />
       </FormGroup> 
       <FormGroup>
-        <Label for="exampleFile">File</Label>
-        <Input type="file" name="file" id="exampleFile" />
+        <Label for="file">Fanci Image</Label>
+        <Input type="file" name="file" id="file" onChange={handleChange} />
         <FormText color="muted">
-          This is some placeholder block-level help text for the above input.
-          It's a bit lighter and easily wraps to a new line.
+          Max size: ...x...
         </FormText>
       </FormGroup>
       <FormGroup>
