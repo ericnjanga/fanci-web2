@@ -1,39 +1,5 @@
-.Toast {
-  position: fixed;
-  display: flex;
-  align-items: center; 
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.6);
-  z-index: 1000;
-}
-
-.Toast__toast {
-  position: relative; 
-  color: #333;
-  z-index: 1010; 
-  border-radius: 5px;
-}
-
-.Toast__content {
-  padding: 10px 10px 20px 10px;
-  margin-top: 45%;
-  background: #ddd;
-  font-size: 0.85rem;
-  display: flex; 
-  flex-direction: column;
-  align-items: center;
-  width: 200px;
-  text-align: center;
-}
-
-
-
-
-
+ 
+ 
 @keyframes lds-spinner {
   0% {
     opacity: 1;
@@ -50,11 +16,7 @@
     opacity: 0;
   }
 }
-.lds-spinner {
-  position: relative;
-  width:100%;
-  height:100%;
-}
+ 
 .lds-spinner div {
   left: 94px;
   top: 48px;

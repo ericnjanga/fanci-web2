@@ -33,7 +33,7 @@ class App extends Component {
       fanciList           : null,
       geolocation         : {
         on        : null,
-        msg       : 'Loading the map'
+        msg       : 'Loading map'
       },
       currLocation        : null
     }
