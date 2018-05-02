@@ -42,11 +42,12 @@ class UserMessage extends React.Component {
 
   handleEdit(postID) {
     const p = {...this.props};
-    const modal = {
+    const params = {
       mode: 'edit',
-      title: 'Edit Your Fanci'
+      title: 'Edit Your Fanci!',
+      btnYes: 'Update'
     };
-    p.toggleTimelineModal({ data:p.data });
+    p.toggleTimelineModal({ data:p.data, params });
   }
 
 

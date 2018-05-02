@@ -15,40 +15,36 @@ import './UserMessageModal.css';
 class UserMessageModal extends React.Component { 
   constructor(props) {
     super(props);
-    this.state = {
-      createMode : true
-    };
+    this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    console.log('[UserMessageModal]>>>>data=', this.props.data);
-
-    this.setState({
-      data: this.props.data
-    });
+    console.log('[UserMessageModal]>>>>=', this.props.post ); 
+    // this.setState({ data:  v });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){ 
-    console.log('>>>prevProps.data=', prevProps.data);
-    console.log('>>>prevState.data=', prevState.data);
-    if(prevState.data){ //must have a previous state
-      // console.log('[componentDidUpdate]>>>> prevProps=', prevProps, ' - prevState=', prevState );
+    console.log('>>>prevProps=', prevProps);
+    // console.log('>>>prevProps.data=', prevProps.data);
+    console.log('***prevState.data=', prevState);
+    // if(prevState.data){ //must have a previous state
+    //   // console.log('[componentDidUpdate]>>>> prevProps=', prevProps, ' - prevState=', prevState );
 
 
-      console.log('[componentDidUpdate]>>>> prevState.data.title!==prevProps.data.title=', prevState.data.title,'!==',prevProps.data.title, '----', (prevState.data.title!==prevProps.data.title) );
+    //   console.log('[componentDidUpdate]>>>> prevState.data.title!==prevProps.data.title=', prevState.data.title,'!==',prevProps.data.title, '----', (prevState.data.title!==prevProps.data.title) );
 
-      // console.log('[componentDidUpdate]>>>> prevState.data=', prevState.data); 
-      // console.log('[componentDidUpdate]>>>> prevProps.data=', prevProps.data);
+    //   // console.log('[componentDidUpdate]>>>> prevState.data=', prevState.data); 
+    //   // console.log('[componentDidUpdate]>>>> prevProps.data=', prevProps.data);
       
-      if(prevState.data.title!==prevProps.data.title || prevState.data.file!==prevProps.data.file || prevState.data.content!==prevProps.data.content || 
-        prevState.data.location!==prevProps.data.location || prevState.data.duration!==prevProps.data.duration || prevState.data.places!==prevProps.data.places){
-        this.setState((prevState, props)=>{
-          return { data: prevProps.data }
-        });
-      } 
-    }//must have a previous state
+    //   if(prevState.data.title!==prevProps.data.title || prevState.data.file!==prevProps.data.file || prevState.data.content!==prevProps.data.content || 
+    //     prevState.data.location!==prevProps.data.location || prevState.data.duration!==prevProps.data.duration || prevState.data.places!==prevProps.data.places){
+    //     this.setState((prevState, props)=>{
+    //       return { data: prevProps.data }
+    //     });
+    //   } 
+    // }//must have a previous state
   }//[end] componentDidUpdate
 
 
@@ -91,7 +87,7 @@ class UserMessageModal extends React.Component {
   }//[end] handleChange
 
   render() {
-    const { user, isOpen, toggle } = this.props;
+    const p = {...this.props};  
     const style = {
       avatar: { 
         margin: 0,
@@ -101,16 +97,20 @@ class UserMessageModal extends React.Component {
       }
     }; 
     return( 
-      <Modal isOpen={isOpen} toggle={toggle} className={'UserMessageModal'}> 
-        <Figure img={user.photoURL} alt={user.displayName} style={style.avatar} avatar circle size="med" />
-        <ModalHeader toggle={toggle} style={modalStyle.header}>Create your Fanci!</ModalHeader>
-        <ModalBody>
-          <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} {...this.state.data} />
-        </ModalBody>
-        <ModalFooter style={modalStyle.footer}>
-          <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={toggle}>Cancel</Button>{' '}
-          <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnYes}} color="primary" onClick={(event)=>this.handleSubmit(event, user)}>Post Your Fanci</Button>
-        </ModalFooter>
+      <Modal isOpen={p.data.active} toggle={p.toggle} className={'UserMessageModal'}> 
+        <Figure img={p.user.photoURL} alt={p.user.displayName} style={style.avatar} avatar circle size="med" />
+        {
+          p.data.params && <div>
+            <ModalHeader toggle={p.toggle} style={modalStyle.header}>{p.data.params.title}</ModalHeader>
+            <ModalBody>
+              <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} data={p.data.post} />
+            </ModalBody>
+            <ModalFooter style={modalStyle.footer}>
+              <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={p.toggle}>Cancel</Button>{' '}
+              <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnYes}} color="primary" onClick={(event)=>this.handleSubmit(event, p.user)}>{p.data.params.btnYes}</Button>
+            </ModalFooter> 
+          </div>
+        }
       </Modal>
     ); 
   }

@@ -9,7 +9,7 @@ const modalStyle = {
     borderTop: '0px solid'
   },
   ctaBtn: {
-    minWidth: '100px',
+    minWidth: '130px',
     textTransform: 'uppercase',
     fontWeight: 'bold'
   },

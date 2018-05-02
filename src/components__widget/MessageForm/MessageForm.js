@@ -7,12 +7,12 @@ import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 
 const MessageForm = (props) => {
-  const { handleSubmit, handleChange, ...formProps} = props; 
+  const { handleSubmit, handleChange, data} = props; 
   return(
     <Form onSubmit={handleSubmit}>
       <FormGroup>
         <Label for="title">Fanci Title:</Label>
-        <Input type="text" name="title" id="title" placeholder="Enter a title" onChange={handleChange} value={formProps.title} />
+        <Input type="text" name="title" id="title" placeholder="Enter a title" onChange={handleChange} value={data.title} />
       </FormGroup> 
       <FormGroup>
         <Label for="file">Fanci Image</Label>
@@ -23,7 +23,7 @@ const MessageForm = (props) => {
       </FormGroup>
       <FormGroup>
         <Label for="duration">Duration:</Label> 
-        <Input type="select" name="duration" id="duration" onChange={handleChange} value={formProps.duration}>
+        <Input type="select" name="duration" id="duration" onChange={handleChange} value={data.duration}>
           <option>How long this will be displayed?</option>
           <option>3 hr</option>
           <option>10 hr</option>
@@ -33,7 +33,7 @@ const MessageForm = (props) => {
       </FormGroup> 
       <FormGroup>
         <Label for="places">Places Available:</Label> 
-        <Input type="select" name="places" id="places" onChange={handleChange} value={formProps.places}>
+        <Input type="select" name="places" id="places" onChange={handleChange} value={data.places}>
           <option>How many people can participate?</option>
           <option>1</option>
           <option>2</option>
@@ -44,11 +44,11 @@ const MessageForm = (props) => {
       </FormGroup>
       <FormGroup>
         <Label for="location">Location:</Label>
-        <Input type="text" name="location" id="location" placeholder="Where this will take place?" onChange={handleChange} value={formProps.location} />
+        <Input type="text" name="location" id="location" placeholder="Where this will take place?" onChange={handleChange} value={data.location} />
       </FormGroup> 
       <FormGroup>
         <Label for="exampleText">Fanci Description</Label>
-        <Input type="textarea" name="content" id="content" placeholder="Describe what your fanci is all about!" onChange={handleChange} value={formProps.content} />
+        <Input type="textarea" name="content" id="content" placeholder="Describe what your fanci is all about!" onChange={handleChange} value={data.content} />
       </FormGroup>   
     </Form>
   );
