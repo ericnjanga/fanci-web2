@@ -1,7 +1,7 @@
 /**
  * Class dedicated to posts
  */
-import firebase from './../services/firebase.js';
+import { database } from './../services/firebase.js';
 
 
 class DBPost {
@@ -11,7 +11,7 @@ class DBPost {
   //(returns a promise which resolves when an iterator containing the posts is ready)
   //(NOTE: changes to the database wont be reflected on thwe UI because the promise would have been resolved already)
   static getAll() {
-    const odePosts = firebase.database().ref(this.nodeName);
+    const odePosts = database.ref(this.nodeName);
     return new Promise((resolve, reject) => {
       odePosts.on('value', (snapshot) => {
         const nodeVal     = snapshot.val(); 
@@ -24,7 +24,7 @@ class DBPost {
   
   //Return database node (for external use)
   static getNode() {
-    return firebase.database().ref(this.nodeName);
+    return database.ref(this.nodeName);
   }
 
   
@@ -32,7 +32,7 @@ class DBPost {
   //- copy info in new object and ogment it with new props (uid, date)
   //- return a promise that resolves with a success message
   static save(item, uid) {
-    const listRef = firebase.database().ref(this.nodeName);
+    const listRef = database.ref(this.nodeName);
     let post = Object.assign({}, item);
     post.uid = uid;
     post.date = Date.now();
@@ -47,6 +47,12 @@ class DBPost {
       });//[end] listRef.push
     });//[end] promise 
   }//[end] save
+
+
+  //Delete a post
+  static remove(id) {
+    return database.ref('timeline/'+id).remove();  
+  }
 }
 
 export default DBPost;

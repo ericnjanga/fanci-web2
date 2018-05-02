@@ -1,7 +1,7 @@
 /**
  * Class dedicated to users
  */
-import firebase from './../services/firebase.js';
+import { database, auth } from './../services/firebase.js';
 
 
 class DBUser { 
@@ -10,7 +10,7 @@ class DBUser {
   //(returns a promise which resolves when the snapshot is ready) 
   static get(uid) { 
     return new Promise((resolve, reject) => {
-      firebase.database().ref('/'+this.nodeName+'/' + uid).once('value').then(function(snapshot) {
+      database.ref('/'+this.nodeName+'/' + uid).once('value').then(function(snapshot) {
         resolve(snapshot.val()); 
       });
     }); 
@@ -84,7 +84,7 @@ class DBUser {
         //Create or update user record in the database
         let record = {};
         record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user; 
-        firebase.database().ref().update(record); 
+        database.ref().update(record); 
       });//get user from DB 
     });//[end] new Promise
   }
@@ -105,13 +105,13 @@ class DBUser {
     //Create or update user record in the database
     let record = {};
     record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user;
-    return firebase.database().ref().update(record);  
+    return database.ref().update(record);  
   }
 
   //return currently logged user info
   static getCurrentUser() {
-    return firebase.auth().currentUser;
-  }
+    return auth().currentUser;
+  } 
 }
 
 export default DBUser;

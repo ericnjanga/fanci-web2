@@ -48,7 +48,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/around-us" exact={true} render={() => (
-            <ViewAroundUs list={p.fanciList} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
+            <ViewAroundUs {...p} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
           )}/>  
         )
       )}/>

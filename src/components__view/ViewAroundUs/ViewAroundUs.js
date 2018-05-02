@@ -10,18 +10,18 @@ import { Button, Container, Row, Col } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
 import DBUpload from './../../utilities/DBUpload.class.js';
 import './ViewAroundUs.css';  
- 
+
 
 class ViewAroundUs extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {
-      timelineModal: false,
+      timelineModal: false
     }
-    this.toggleTimelineModal = this.toggleTimelineModal.bind(this);
+    this.toggleTimelineModal = this.toggleTimelineModal.bind(this); 
   }
 
-
+  
   /**
    * Uptimize the 2 functions when it works
    */
@@ -29,29 +29,32 @@ class ViewAroundUs extends ViewApp {
     this.setState({
       timelineModal: !this.state.timelineModal
     });
-  }  
+  } 
 
   componentDidMount() { 
     super.componentDidMount(); //User ViewApp parent component  
   }//[edn] componentDidMount
  
   render() {
-    const p = {...this.props};  
+    const p = {...this.props}; 
+    const s = {...this.state};  
+
     return(
       <Container className="view__content ViewAroundUs">
         <Row>
-          <Col>   
-            { /* Display a toast if the list of items is not yet ready */
-              !p.list ? <Toast msg={'Fetching data'} /> : <List items={p.list} item={UserMessage} /> 
+          <Col> 
+            { /* Display a toast if the list of items is not yet ready */  
+              !p.fanciList ? <Toast msg={'Fetching data'} /> : <List items={p.fanciList} itemComp={UserMessage} user={p.user} handleConfirmModal={p.handleConfirmModal} confirmModal={p.confirmModal} /> 
             } 
-            <UserMessageModal user={p.user} isOpen={this.state.timelineModal} toggle={this.toggleTimelineModal} 
+
+            <UserMessageModal user={p.user} isOpen={s.timelineModal} toggle={this.toggleTimelineModal} 
             className={this.props.className} />
-          
+
             <Button className="btn-search btn-fab" color="secondary" onClick={p.toggleSearchPanel}>
               <FontAwesomeIcon icon={faSearch} /> 
               <span className="sr-only">Search a Fanci</span> 
             </Button> 
-          
+
             <Button className="btn-post btn-fab" color="primary" onClick={this.toggleTimelineModal}>
               <FontAwesomeIcon icon={faPencil} /> 
               <span className="sr-only">Write a Message</span> 

@@ -10,7 +10,8 @@ import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
 import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';  
 import AppFooter from './components__global/AppFooter/AppFooter.js';
 import MenuPrimary from './components__global/MenuPrimary.js';
-import MenuSecondary from './components__global/MenuSecondary.js'; 
+import MenuSecondary from './components__global/MenuSecondary.js';
+import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';   
 import ViewAll from './components__view/ViewAll.js';  
 import Toast from './components__reusable/Toast/Toast.js';  
 import DBUser from './utilities/DBUser.class.js';   
@@ -31,6 +32,11 @@ class App extends Component {
       currPathName        : null,
       origFanciList       : null,
       fanciList           : null,
+      confirmModal        : {
+        active    : false,
+        confirmed : false,
+        content   : false
+      },
       geolocation         : {
         on        : null,
         msg       : 'Loading map'
@@ -44,7 +50,8 @@ class App extends Component {
     this.handleProfileUpdate  = this.handleProfileUpdate.bind(this);
     this.handleRouteChange    = this.handleRouteChange.bind(this);
     this.toggleSearchPanel    = this.toggleSearchPanel.bind(this);
-    this.handleFilterFanciList         = this.handleFilterFanciList.bind(this);
+    this.handleFilterFanciList    = this.handleFilterFanciList.bind(this);
+    this.handleConfirmModal       = this.handleConfirmModal.bind(this);
   }
 
   //Update state with current path name:
@@ -52,6 +59,40 @@ class App extends Component {
   handleRouteChange(currPathName){
     this.setState({ currPathName: AppDoc.getPathName()}); 
   }
+
+  //Handles a modal component which plays the role of a "confirm dialog"
+  //----------------------
+  //Handle confirmModal state object which:
+  //-> Toggles "modal" appearance
+  //-> Accepts additional params which allows the modal to be customized on reused anywhere else
+  handleConfirmModal(userAnswer, ...params) {    
+    let confirmModal = this.state.confirmModal; 
+    //update user answer ...
+    confirmModal.confirmed = (userAnswer!==undefined)?userAnswer:false;
+    //simply toggle modal is there is no specifications ...
+    if(!params.length){
+      confirmModal.active = !confirmModal.active;
+    }
+     
+    //Modal customization params
+    if(params.length){ 
+      let p = params[0];
+      if(p.hasOwnProperty('confirmed')){
+        confirmModal.confirmed = p.confirmed;
+      }
+      if(p.hasOwnProperty('content')){
+        confirmModal.content = p.content;
+      }
+      //modal can also be activated through here...
+      if(p.hasOwnProperty('active')){
+        confirmModal.active = p.active;
+      }
+      if(p.hasOwnProperty('title')){
+        confirmModal.title = p.title;
+      }
+    }
+    this.setState({ confirmModal }); 
+  }//[end] handleConfirmModal
 
   //Shell login method
   handleLogin() { 
@@ -182,6 +223,7 @@ class App extends Component {
       searchPanelIsActive: !this.state.searchPanelIsActive
     });
   }
+ 
   
   render() {
     const s = {...this.state};  
@@ -197,6 +239,15 @@ class App extends Component {
           <SearchPanel isActive={s.searchPanelIsActive} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
 
           {
+            s.confirmModal.content && 
+            <ModalConfirm isOpen={s.confirmModal.active} toggle={this.handleConfirmModal} 
+            title={s.confirmModal.title}> 
+              { s.confirmModal.content && s.confirmModal.content() } 
+            </ModalConfirm>
+          }
+          
+
+          {
             s.userProfile && <VerticalNav user={s.userProfile} isActive={s.vertNavIsActive} 
             onCloseVertNav={this.handleCloseVertNav}>
               <MenuPrimary />
@@ -207,7 +258,8 @@ class App extends Component {
           
           <section className="AppContent"> 
             {
-              s.userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll {...s} toggleSearchPanel={this.toggleSearchPanel} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
+              s.userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll {...s} toggleSearchPanel={this.toggleSearchPanel} 
+              handleConfirmModal={this.handleConfirmModal} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
             }  
           </section>
 

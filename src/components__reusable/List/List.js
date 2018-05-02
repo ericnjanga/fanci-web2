@@ -8,13 +8,14 @@ import './UserMessageList.css';
 
 const List = (props) => {
   const p = {...props},
-        Item = p.item;
+        Item = p.itemComp; 
+
   return(
     <section className="UserMessageList"> 
       { 
         p.items.length ?props.items.map((item) => {
           return (
-            <Item key={item.id} data={item} />
+            <Item key={item.id} loggedUserID={p.user.uid} data={item} handleConfirmModal={p.handleConfirmModal} confirmModal={p.confirmModal} />
           )
         }) : 
         <Alert color="info">No item found!</Alert>
