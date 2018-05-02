@@ -20,6 +20,7 @@ import AppDoc from './utilities/AppDoc.class.js';
 import Geoloc from './utilities/Geoloc.class.js'; 
 import './styles/App.css'; 
 import './styles/components/buttons.css'; 
+import './styles/components/dropdown.css'; 
 
 
 class App extends Component {

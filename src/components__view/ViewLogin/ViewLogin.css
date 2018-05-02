@@ -6,3 +6,8 @@
   margin-top: 20px;
   line-height: 1rem;
 }
+
+ 
+.view--login .btn .svg-inline--fa {
+  margin-right: 20px;
+}

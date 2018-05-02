@@ -1,0 +1,8 @@
+/* Adding a deeper dropshadow */
+.dropdown div[role="menu"] {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .3);
+}
+.dropdown a:hover,
+.dropdown button:hover {
+  background: #8ca3ad;
+}

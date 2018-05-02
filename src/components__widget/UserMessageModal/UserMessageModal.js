@@ -14,22 +14,47 @@ import './UserMessageModal.css';
 class UserMessageModal extends React.Component { 
   constructor(props) {
     super(props);
-    this.state = {  
-      title:'',
-      file: '',
-      content: '',
-      location: '',
-      duration: undefined,
-      places : undefined
-    }
+    this.state = {
+      createMode : true
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    console.log('[UserMessageModal]>>>>data=', this.props.data);
+
+    this.setState({
+      data: this.props.data
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){ 
+    console.log('>>>prevProps.data=', prevProps.data);
+    console.log('>>>prevState.data=', prevState.data);
+    if(prevState.data){ //must have a previous state
+      // console.log('[componentDidUpdate]>>>> prevProps=', prevProps, ' - prevState=', prevState );
+
+
+      console.log('[componentDidUpdate]>>>> prevState.data.title!==prevProps.data.title=', prevState.data.title,'!==',prevProps.data.title, '----', (prevState.data.title!==prevProps.data.title) );
+
+      // console.log('[componentDidUpdate]>>>> prevState.data=', prevState.data); 
+      // console.log('[componentDidUpdate]>>>> prevProps.data=', prevProps.data);
+      
+      if(prevState.data.title!==prevProps.data.title || prevState.data.file!==prevProps.data.file || prevState.data.content!==prevProps.data.content || 
+        prevState.data.location!==prevProps.data.location || prevState.data.duration!==prevProps.data.duration || prevState.data.places!==prevProps.data.places){
+        this.setState((prevState, props)=>{
+          return { data: prevProps.data }
+        });
+      } 
+    }//must have a previous state
+  }//[end] componentDidUpdate
+
+
   //Save info to post database, cleaniup state and hi demodal
   handleSubmit(event, user) {
     event.preventDefault(); 
-    DBPost.save(this.state, user.uid).then((ready) => { 
+    DBPost.save(this.state.data, user.uid).then((ready) => { 
       //Cleanup form when post is successful ...
       this.setState((prevState, props) => {
         return {
@@ -46,6 +71,7 @@ class UserMessageModal extends React.Component {
   }//[end] handleSubmit
 
   handleChange(event) { 
+    let data = this.state.data;
     const name = event.target.name;
     //Will be input value or new File object
     let value = event.target.value;
@@ -59,10 +85,8 @@ class UserMessageModal extends React.Component {
       DBUpload.save(newFile); 
     } 
     //....
-    this.setState({
-      formDirty : true,
-      [name] : value
-    }); 
+    data[name] = value;
+    this.setState({ data }); 
   }//[end] handleChange
 
   render() {
@@ -80,7 +104,7 @@ class UserMessageModal extends React.Component {
         <Figure img={user.photoURL} alt={user.displayName} style={style.avatar} avatar circle size="med" />
         <ModalHeader toggle={toggle}>Create your Fanci!</ModalHeader>
         <ModalBody>
-          <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} {...this.state} />
+          <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} {...this.state.data} />
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={(event)=>this.handleSubmit(event, user)}>Post Your Fanci</Button>{' '}

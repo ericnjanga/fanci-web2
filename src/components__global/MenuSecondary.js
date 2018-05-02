@@ -1,13 +1,20 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem, Button } from 'reactstrap';
+import menu, { dropdownSyles } from './../jsStyles/menu.styles.js';
 
 const MenuSecondary = (props) => {
   const { onLogout, onToggleDropdown } = props; 
 
   //Proveide shell of a function if there is nothing in props
   let toggleDropdown = props.onToggleDropdown?props.onToggleDropdown: ()=> {};
-
+  // const style = {
+  //   item : {
+  //     fontSize: '0.9rem',
+  //     padding: '6px 20px',
+  //     fontWeight: 'bold'
+  //   }
+  // };
   return( 
     <Nav>
       {props.children}
@@ -17,13 +24,13 @@ const MenuSecondary = (props) => {
       </NavItem>*/}
       
       <NavItem>
-        <NavLink to={`/settings`} onClick={ ()=>{ onToggleDropdown(); } }>Settings</NavLink>
+        <NavLink style={dropdownSyles.item} to={`/settings`} onClick={ ()=>{ onToggleDropdown(); } }>Settings</NavLink>
       </NavItem>
 
-      <hr className="hr-menu space" />
+      <hr style={menu.hr} className="hr-menu space" />
       
       <NavItem>
-        <Button onClick={ ()=>{onLogout(); toggleDropdown();} }  className="btn-logout">Sign Out</Button> 
+        <Button style={dropdownSyles.item} onClick={ ()=>{onLogout(); toggleDropdown();} }  className="btn-logout">Sign Out</Button> 
       </NavItem>  
     </Nav> 
   );

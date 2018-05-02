@@ -25,8 +25,7 @@
 }
 
 .AppHeader .btn-toggle-vertNav--sm,
-.AppHeader .btn-toggle-vertNav--lg button,
-.AppHeader .btn-toggle-vertNav--lg button:hover {
+.AppHeader .btn-toggle-vertNav--lg button {
   background: transparent;
   border: 0px solid;
 }

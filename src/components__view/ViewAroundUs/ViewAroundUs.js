@@ -2,6 +2,7 @@ import React from 'react';
 import List from './../../components__reusable/List/List.js';     
 import UserMessage from './../../components__widget/UserMessage/UserMessage.js';  
 import UserMessageModal from './../../components__widget/UserMessageModal/UserMessageModal.js'; 
+import buttonStyle from './../../jsStyles/button.styles.js';
 import Toast from './../../components__reusable/Toast/Toast.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
@@ -16,18 +17,37 @@ class ViewAroundUs extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {
-      timelineModal: false
+      timelineModal: false,
+      fanciData: { 
+        title:'',
+        file: '',
+        content: '',
+        location: '',
+        duration: undefined,
+        places : undefined
+      }
     }
     this.toggleTimelineModal = this.toggleTimelineModal.bind(this); 
   }
 
   
   /**
-   * Uptimize the 2 functions when it works
+   * Toggle "timeline" modal visibility and update fanciData either with : 
+   * -> Data coming from selected component (for editing purposes)
+   * -> Or data coming from default state (for creation purposes)
    */
-  toggleTimelineModal() {
-    this.setState({
-      timelineModal: !this.state.timelineModal
+  toggleTimelineModal(params) {
+    let fanciData;
+    console.log('>>>>toggleTimelineModal - data=',params)
+    if(params!==undefined && params.data){
+      fanciData = params.data; 
+    }else{
+      fanciData = this.state.fanciData;
+    }
+    this.setState({ fanciData }, 
+      ()=>{//toggle modal when data is updated
+      this.setState({ timelineModal: !this.state.timelineModal });
+      // console.log('[callback] -- state updated', this);
     });
   } 
 
@@ -44,19 +64,21 @@ class ViewAroundUs extends ViewApp {
         <Row>
           <Col> 
             { /* Display a toast if the list of items is not yet ready */  
-              !p.fanciList ? <Toast msg={'Fetching data'} /> : <List items={p.fanciList} itemComp={UserMessage} user={p.user} handleConfirmModal={p.handleConfirmModal} confirmModal={p.confirmModal} /> 
+              !p.fanciList ? <Toast msg={'Fetching data'} /> : <List items={p.fanciList} itemComp={UserMessage} 
+              user={p.user} handleConfirmModal={p.handleConfirmModal} confirmModal={p.confirmModal} 
+              toggleTimelineModal={this.toggleTimelineModal}/>
             } 
 
             <UserMessageModal user={p.user} isOpen={s.timelineModal} toggle={this.toggleTimelineModal} 
-            className={this.props.className} />
+            className={this.props.className} data={s.fanciData} />
 
-            <Button className="btn-search btn-fab" color="secondary" onClick={p.toggleSearchPanel}>
-              <FontAwesomeIcon icon={faSearch} /> 
+            <Button style={buttonStyle.fab} className="btn-search btn-fab" color="secondary" onClick={p.toggleSearchPanel}>
+              <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faSearch} /> 
               <span className="sr-only">Search a Fanci</span> 
             </Button> 
 
-            <Button className="btn-post btn-fab" color="primary" onClick={this.toggleTimelineModal}>
-              <FontAwesomeIcon icon={faPencil} /> 
+            <Button style={buttonStyle.fab} className="btn-post btn-fab" color="primary" onClick={this.toggleTimelineModal}>
+              <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faPencil} /> 
               <span className="sr-only">Write a Message</span> 
             </Button> 
           </Col>

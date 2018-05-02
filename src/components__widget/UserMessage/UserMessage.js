@@ -6,6 +6,8 @@ import React from 'react';
 import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Alert } from 'reactstrap';
+import { dropdownSyles } from './../../jsStyles/menu.styles.js';
+import userMessage from './../../jsStyles/userMessage.styles.js';
 import DBUser from '../../utilities/DBUser.class.js';  
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
@@ -39,7 +41,8 @@ class UserMessage extends React.Component {
   }
 
   handleEdit(postID) {
-
+    const p = {...this.props};
+    p.toggleTimelineModal({ data:p.data });
   }
 
 
@@ -95,60 +98,31 @@ class UserMessage extends React.Component {
 
   render() {
     const s = {...this.state}; 
-    const p = {...this.props}; 
-    const style = {
-      avatar: { 
-        margin: 0,
-        position: 'absolute', 
-        top: '10px',
-        left: '10px'
-      },
-      header: { 
-        padding: '10px 10px 10px 55px',
-        marginBottom: '1rem',
-        lineHeight: '0.5rem'
-      },
-      header_title: { 
-        marginBottom: '0.3rem' 
-      },
-      cardBody: {
-        paddingTop: 0
-      },
-      buttonEdit: {
-        position: 'absolute',
-        width: '40px',
-        right: '0', 
-        background: 'transparent',
-        color: '#6c757d',
-        border: '0px solid'
-      }
-    };
- 
-    
+    const p = {...this.props};  
     return( 
       <Card className="UserMessage">
 
-      { //Only post owner can modify it ...
-        p.loggedUserID===p.data.uid && 
-        <Dropdown direction="left" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
-          <DropdownToggle style={style.buttonEdit}> 
-            <span className="sr-only">Edit your post</span>
-            <FontAwesomeIcon icon={faEllipsisH} /> 
-          </DropdownToggle>
-          <DropdownMenu> 
-            <DropdownItem onClick={()=>this.handleEdit(p.data.id)}>Edit</DropdownItem> 
-            <DropdownItem onClick={()=>{ this.oPenConfirmRemoveModal(p.data.id) }}>Delete</DropdownItem>
-          </DropdownMenu>
-        </Dropdown> 
-      } 
+        { //Only post owner can modify it ...
+          p.loggedUserID===p.data.uid && 
+          <Dropdown direction="left" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+            <DropdownToggle style={userMessage.buttonEdit}> 
+              <span className="sr-only">Edit your post</span>
+              <FontAwesomeIcon icon={faEllipsisH} /> 
+            </DropdownToggle>
+            <DropdownMenu> 
+              <DropdownItem style={dropdownSyles} onClick={()=>this.handleEdit(p.data.id)}>Edit</DropdownItem> 
+              <DropdownItem style={dropdownSyles} onClick={()=>{ this.oPenConfirmRemoveModal(p.data.id) }}>Delete</DropdownItem>
+            </DropdownMenu>
+          </Dropdown> 
+        } 
 
 
 
         { 
-          s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="small" />
+          s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={userMessage.avatar} avatar circle size="small" />
         }
-        <div style={style.header}> 
-          <CardTitle style={style.header_title}>{p.data.title}</CardTitle> 
+        <div style={userMessage.header}> 
+          <CardTitle style={userMessage.header_title}>{p.data.title}</CardTitle> 
           <small className="UserMessage__date">{moment(p.data.date).format('MMMM Do, YYYY')}</small>
         </div>
  
@@ -158,7 +132,7 @@ class UserMessage extends React.Component {
         
                                   
 
-        <CardBody style={style.cardBody}>   
+        <CardBody style={userMessage.cardBody}>   
           <CardText>{p.data.content}</CardText> 
         </CardBody> 
 
