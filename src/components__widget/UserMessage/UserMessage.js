@@ -12,13 +12,13 @@ import DBUser from '../../utilities/DBUser.class.js';
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
+import DateFormat from './../../components__reusable/DateFormat.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH';
 import faExclamationTriangle from '@fortawesome/fontawesome-free-solid/faExclamationTriangle';
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
-import moment from 'moment';
 import './UserMessage.css';
 
 
@@ -96,7 +96,7 @@ class UserMessage extends React.Component {
   componentDidUpdate(){
     const s = this.state;
     const p = this.props;
-    if(s.removeAsked && p.confirmModal.confirmed){
+    if(s.removeAsked && p.confirmationModal.confirmed){
       this.handleDelete(p.data.id); 
     } 
   } 
@@ -128,7 +128,9 @@ class UserMessage extends React.Component {
         }
         <div style={userMessage.header}> 
           <CardTitle style={userMessage.header_title}>{p.data.title}</CardTitle> 
-          <small className="UserMessage__date">{moment(p.data.date).format('MMMM Do, YYYY')}</small>
+          <small className="UserMessage__date">
+            <DateFormat millisec={p.data.date} />
+          </small>
         </div>
  
         {

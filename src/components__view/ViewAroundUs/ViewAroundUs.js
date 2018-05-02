@@ -83,7 +83,7 @@ class ViewAroundUs extends ViewApp {
           <Col> 
             { /* Display a toast if the list of items is not yet ready */  
               !p.fanciList ? <Toast msg={'Fetching data'} /> : <List items={p.fanciList} itemComp={UserMessage} 
-              user={p.user} handleConfirmModal={p.handleConfirmModal} confirmModal={p.confirmModal} 
+              user={p.user} handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
               toggleTimelineModal={this.toggleModal}/>
             } 
 

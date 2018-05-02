@@ -62,7 +62,8 @@ class DBUser {
           tpl_user.phoneNumber  = tpl_user.phoneNumber ? tpl_user.phoneNumber : ''; //empty string if there is no value
         }
         //...
-        resolve(tpl_user);
+        tpl_user.lastSignin = Date.now(); //Record the last time user signed in
+        resolve(tpl_user);                //Expose user object now
 
         /** Note: 'photoURL', 'email', 'lat' and 'lng remains untouched and will always be updated **/
         //make sure user lat and lng hav at least a value

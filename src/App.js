@@ -33,7 +33,7 @@ class App extends Component {
       currPathName        : null,
       origFanciList       : null,
       fanciList           : null,
-      confirmModal        : {
+      confirmationModal        : {
         active    : false,
         confirmed : false,
         content   : false
@@ -41,8 +41,7 @@ class App extends Component {
       geolocation         : {
         on        : null,
         msg       : 'Loading map'
-      },
-      currLocation        : null
+      }
     }
     this.handleLogin          = this.handleLogin.bind(this);
     this.handleLogout         = this.handleLogout.bind(this);
@@ -63,36 +62,36 @@ class App extends Component {
 
   //Handles a modal component which plays the role of a "confirm dialog"
   //----------------------
-  //Handle confirmModal state object which:
+  //Handle confirmationModal state object which:
   //-> Toggles "modal" appearance
   //-> Accepts additional params which allows the modal to be customized on reused anywhere else
   handleConfirmModal(userAnswer, ...params) {    
-    let confirmModal = this.state.confirmModal; 
+    let confirmationModal = this.state.confirmationModal; 
     //update user answer ...
-    confirmModal.confirmed = (userAnswer!==undefined)?userAnswer:false;
+    confirmationModal.confirmed = (userAnswer!==undefined)?userAnswer:false;
     //simply toggle modal is there is no specifications ...
     if(!params.length){
-      confirmModal.active = !confirmModal.active;
+      confirmationModal.active = !confirmationModal.active;
     }
      
     //Modal customization params
     if(params.length){ 
       let p = params[0];
       if(p.hasOwnProperty('confirmed')){
-        confirmModal.confirmed = p.confirmed;
+        confirmationModal.confirmed = p.confirmed;
       }
       if(p.hasOwnProperty('content')){
-        confirmModal.content = p.content;
+        confirmationModal.content = p.content;
       }
       //modal can also be activated through here...
       if(p.hasOwnProperty('active')){
-        confirmModal.active = p.active;
+        confirmationModal.active = p.active;
       }
       if(p.hasOwnProperty('title')){
-        confirmModal.title = p.title;
+        confirmationModal.title = p.title;
       }
     }
-    this.setState({ confirmModal }); 
+    this.setState({ confirmationModal }); 
   }//[end] handleConfirmModal
 
   //Shell login method
@@ -240,10 +239,10 @@ class App extends Component {
           <SearchPanel isActive={s.searchPanelIsActive} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
 
           {
-            s.confirmModal.content && 
-            <ModalConfirm isOpen={s.confirmModal.active} toggle={this.handleConfirmModal} 
-            title={s.confirmModal.title}> 
-              { s.confirmModal.content && s.confirmModal.content() } 
+            s.confirmationModal.content && 
+            <ModalConfirm isOpen={s.confirmationModal.active} toggle={this.handleConfirmModal} 
+            title={s.confirmationModal.title}> 
+              { s.confirmationModal.content && s.confirmationModal.content() } 
             </ModalConfirm>
           }
           

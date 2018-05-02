@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reac
 import Figure from './../../components__reusable/Figure/Figure.js'; 
 import Toast from './../../components__reusable/Toast/Toast.js';  
 import DBUser from '../../utilities/DBUser.class.js'; 
+import DateFormat from './../../components__reusable/DateFormat.js'; 
 import ViewApp from './../ViewApp.js';
 import './ViewProfile.css';
 
@@ -54,7 +55,14 @@ class ViewProfile extends ViewApp {
         }
         <Row>
           <Col className="ViewProfile__maincol">
-            <Figure img={user.photoURL} alt={user.displayName} className="user-avatar" avatar circle size="xxl" />  
+            <div>
+              <Figure img={user.photoURL} alt={user.displayName} className="user-avatar" avatar circle size="xxl" /> 
+              { 
+                user.lastSignin && <p>Last Signin: 
+                  <DateFormat millisec={user.lastSignin} />
+                </p> 
+              }
+            </div>
       
             <Form onSubmit={this.handleSubmit}> 
               <FormGroup>
