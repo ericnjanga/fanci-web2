@@ -8,6 +8,7 @@ import MessageForm from '../MessageForm/MessageForm';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
 import DBPost from '../../utilities/DBPost.class.js';  
 import DBUpload from './../../utilities/DBUpload.class.js';
+import modalStyle from './../../jsStyles/modal.styles.js';
 import './UserMessageModal.css';
 
 
@@ -102,13 +103,13 @@ class UserMessageModal extends React.Component {
     return( 
       <Modal isOpen={isOpen} toggle={toggle} className={'UserMessageModal'}> 
         <Figure img={user.photoURL} alt={user.displayName} style={style.avatar} avatar circle size="med" />
-        <ModalHeader toggle={toggle}>Create your Fanci!</ModalHeader>
+        <ModalHeader toggle={toggle} style={modalStyle.header}>Create your Fanci!</ModalHeader>
         <ModalBody>
           <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} {...this.state.data} />
         </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={(event)=>this.handleSubmit(event, user)}>Post Your Fanci</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
+        <ModalFooter style={modalStyle.footer}>
+          <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={toggle}>Cancel</Button>{' '}
+          <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnYes}} color="primary" onClick={(event)=>this.handleSubmit(event, user)}>Post Your Fanci</Button>
         </ModalFooter>
       </Modal>
     ); 
