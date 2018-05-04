@@ -55,8 +55,8 @@ class App extends Component {
     this.handleProfileUpdate  = this.handleProfileUpdate.bind(this);
     this.handleRouteChange    = this.handleRouteChange.bind(this);
     this.toggleSearchPanel    = this.toggleSearchPanel.bind(this);
-    this.handleFilterFanciList    = this.handleFilterFanciList.bind(this);
-    this.handleConfirmModal       = this.handleConfirmModal.bind(this);
+    this.handlePostSearch     = this.handlePostSearch.bind(this);
+    this.handleConfirmModal   = this.handleConfirmModal.bind(this);
   }
 
   //Update state with current path name:
@@ -155,7 +155,7 @@ class App extends Component {
 
   //Filter the original list of fancies against user search input
   //and updatge the state with the resulting array
-  handleFilterFanciList(event) {
+  handlePostSearch(event) {
     let searchVal = event.target.value; 
     let list = this.state.postList; 
     let postList_runtime = list.filter((item)=>{  
@@ -225,6 +225,12 @@ class App extends Component {
     this.setState({ userProfile });
   }
 
+  /**
+   * - Toggle Search Panel visibility
+   * - If the panel is being closed and 
+   */
+  //
+  //
   toggleSearchPanel() {
     let searchPanel = this.state.searchPanel;
     searchPanel.active = !this.state.searchPanel.active;
@@ -245,7 +251,7 @@ class App extends Component {
 
           {
             /* Search panel appears only on the timeline*/
-            s.currPathName==='around-us' && <SearchPanel isActive={s.searchPanel.active} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
+            s.currPathName==='around-us' && <SearchPanel isActive={s.searchPanel.active} toggleSearchPanel={this.toggleSearchPanel} handleSearch={this.handlePostSearch} />
           }
 
           {
