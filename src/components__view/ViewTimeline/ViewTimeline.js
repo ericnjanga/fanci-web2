@@ -11,10 +11,10 @@ import { Button, Container, Row, Col } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
-import './ViewAroundUs.css';  
+import './ViewTimeline.css';  
 
 
-class ViewAroundUs extends ViewApp {
+class ViewTimeline extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {};
@@ -78,7 +78,7 @@ class ViewAroundUs extends ViewApp {
     const s = {...this.state};  
 
     return(
-      <Container className="view__content ViewAroundUs">
+      <Container className="view__content ViewTimeline">
         <Row>
           <Col> 
             { /* Display a toast if the list of items is not yet ready */  
@@ -108,4 +108,4 @@ class ViewAroundUs extends ViewApp {
   }
 }
 
-export default ViewAroundUs;
+export default ViewTimeline;

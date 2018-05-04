@@ -1,31 +1,31 @@
 
 
-.ViewAroundUs .btn-post,
-.ViewAroundUs .btn-search { 
+.ViewTimeline .btn-post,
+.ViewTimeline .btn-search { 
   position: fixed;
   z-index: 9; 
   right: 16px;
 }
 
-.ViewAroundUs .btn-search { 
+.ViewTimeline .btn-search { 
   bottom: 76px;
   background: rgb(137, 155, 255);
     border: 1px solid rgb(137, 155, 255);
     color: #fff;
 }
-.ViewAroundUs .btn-post {  
+.ViewTimeline .btn-post {  
   bottom: 16px;
   box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12), 0 1px 1px 0 rgba(0,0,0,.24);
 }
 
-.ViewAroundUs .btn-primary span { 
+.ViewTimeline .btn-primary span { 
   display: none;
 }
-.ViewAroundUs .btn-primary .svg-inline--fa {
+.ViewTimeline .btn-primary .svg-inline--fa {
   margin: 0;
 }
 
-.ViewAroundUs .frame-search {
+.ViewTimeline .frame-search {
   position: fixed;
   z-index: 10;
   width: 100%;
@@ -33,12 +33,12 @@
 }
 
 /*
-.ViewAroundUs {
+.ViewTimeline {
   display: flex;
   flex-direction: column;
   align-items: center;
 } 
-.ViewAroundUs .btn-primary {
+.ViewTimeline .btn-primary {
   position: fixed; 
   z-index: 10;
 }
@@ -49,18 +49,18 @@
 /*-- small screens --*/
 /*
 @media(max-width: 765px) { 
-  .ViewAroundUs { 
+  .ViewTimeline { 
    background: #939496;
   }
-  .ViewAroundUs__fig {
+  .ViewTimeline__fig {
     position: absolute;
     top:0;
     left: 0;
   }
-  .ViewAroundUs .btn-primary .svg-inline--fa { 
+  .ViewTimeline .btn-primary .svg-inline--fa { 
     margin: 0;
   }
-  .ViewAroundUs .btn-primary span { 
+  .ViewTimeline .btn-primary span { 
     display: none;
   }
   .UserMessageList {
@@ -77,7 +77,7 @@
 /*-- larger screens --*/
 /*
 @media(min-width: 766px) {  
-  .ViewAroundUs .btn-primary { 
+  .ViewTimeline .btn-primary { 
     left: calc(50% - 150px);
     width: 300px;
     bottom: 300px; 

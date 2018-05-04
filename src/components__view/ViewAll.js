@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'; 
-import ViewAroundUs from './ViewAroundUs/ViewAroundUs.js';
+import ViewTimeline from './ViewTimeline/ViewTimeline.js';
 import ViewMap from './ViewMap/ViewMap.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
 import ViewProfile from './ViewProfile/ViewProfile.js'; 
@@ -48,7 +48,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/around-us" exact={true} render={() => (
-            <ViewAroundUs {...p} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
+            <ViewTimeline {...p} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
           )}/>  
         )
       )}/>
