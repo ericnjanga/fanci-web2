@@ -238,7 +238,10 @@ class App extends Component {
             <MenuPrimary />
           </AppHeader>
 
-          <SearchPanel isActive={s.searchPanel.active} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
+          {
+            /* Search panel appears only on the timeline*/
+            s.currPathName==='around-us' && <SearchPanel isActive={s.searchPanel.active} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
+          }
 
           {
             s.confirmationModal.content && 
