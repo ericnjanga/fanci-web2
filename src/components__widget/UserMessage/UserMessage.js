@@ -56,7 +56,7 @@ class UserMessage extends React.Component {
     DBPost.remove(postID).then(()=>{ 
       let meta = {
         active: false,
-        confirmed:false
+        user_pick:false
       };
       this.props.handleConfirmModal(null, meta);
     }); 
@@ -96,7 +96,7 @@ class UserMessage extends React.Component {
   componentDidUpdate(){
     const s = this.state;
     const p = this.props;
-    if(s.removeAsked && p.confirmationModal.confirmed){
+    if(s.removeAsked && p.confirmationModal.user_pick){
       this.handleDelete(p.data.id); 
     } 
   } 

@@ -29,15 +29,18 @@ class App extends Component {
     this.state = {
       userProfile         : undefined, 
       vertNavIsActive     : false,
+      drawer              : {
+        active    : false
+      },
       searchPanel         : {
         active: false,
       }, 
       currPathName        : null,
-      origFanciList       : null,
-      fanciList           : null,
-      confirmationModal        : {
+      postList            : null,
+      postList_runtime    : null,
+      confirmationModal   : {
         active    : false,
-        confirmed : false,
+        user_pick : false,
         content   : false
       },
       geolocation         : {
@@ -70,7 +73,7 @@ class App extends Component {
   handleConfirmModal(userAnswer, ...params) {    
     let confirmationModal = this.state.confirmationModal; 
     //update user answer ...
-    confirmationModal.confirmed = (userAnswer!==undefined)?userAnswer:false;
+    confirmationModal.user_pick = (userAnswer!==undefined)?userAnswer:false;
     //simply toggle modal is there is no specifications ...
     if(!params.length){
       confirmationModal.active = !confirmationModal.active;
@@ -79,8 +82,8 @@ class App extends Component {
     //Modal customization params
     if(params.length){ 
       let p = params[0];
-      if(p.hasOwnProperty('confirmed')){
-        confirmationModal.confirmed = p.confirmed;
+      if(p.hasOwnProperty('user_pick')){
+        confirmationModal.user_pick = p.user_pick;
       }
       if(p.hasOwnProperty('content')){
         confirmationModal.content = p.content;
@@ -124,27 +127,29 @@ class App extends Component {
 
   //Shell logout method
   handleLogout() {
+    let drawer = this.state.drawer;
+    drawer.active = false;
     auth.signOut().then(() => {
       this.setState({
         userProfile     : null,
-        vertNavIsActive : false
+        drawer
       }); 
     });  
   } 
 
   //Toggling vertical navigation visibility
   handleToggleVertNav(){  
-    this.setState({
-      vertNavIsActive: !this.state.vertNavIsActive
-    });
+    let drawer = this.state.drawer;
+    drawer.active = !this.state.drawer.active;
+    this.setState({ drawer });
   }
 
   //When we want the nav to be explicitely closed
   handleCloseVertNav(){
-    if(this.state.vertNavIsActive){
-      this.setState({
-        vertNavIsActive: false
-      });
+    let drawer = this.state.drawer; 
+    if(drawer.active){
+      drawer.active = !drawer.active;
+      this.setState({ drawer });
     } 
   }
 
@@ -152,11 +157,11 @@ class App extends Component {
   //and updatge the state with the resulting array
   handleFilterFanciList(event) {
     let searchVal = event.target.value; 
-    let list = this.state.origFanciList; 
-    let fanciList = list.filter((item)=>{  
+    let list = this.state.postList; 
+    let postList_runtime = list.filter((item)=>{  
       return item.title.toLowerCase().search(searchVal) > -1;
     }); 
-    this.setState({ fanciList });
+    this.setState({ postList_runtime });
   }
 
   componentDidMount(){
@@ -196,20 +201,20 @@ class App extends Component {
      */
     DBPost.getNode().on('value', (snapshot) => { 
       const nodeVal = snapshot.val(); 
-      let fanciList = []; 
+      let postList_runtime = []; 
       if(nodeVal){ //Avoid error if there is no DB objects
         const postMap = new Map(Object.entries(nodeVal)); 
         postMap.forEach((value, key)=>{
           let post = Object.assign({}, value);
           post.id = key;
           //push values in a regular array 
-          fanciList.push(post); 
-          fanciList = fanciList.reverse(); //Reverse array (most recent posts first) 
+          postList_runtime.push(post); 
+          postList_runtime = postList_runtime.reverse(); //Reverse array (most recent posts first) 
         });
       } 
       //save array in state
-      this.setState({ fanciList }); 
-      this.setState({ origFanciList:fanciList }); 
+      this.setState({ postList_runtime }); 
+      this.setState({ postList:postList_runtime }); 
     });//[end] Fetch Fancies ...
 
 
@@ -253,7 +258,7 @@ class App extends Component {
           
 
           {
-            s.userProfile && <VerticalNav user={s.userProfile} isActive={s.vertNavIsActive} 
+            s.userProfile && <VerticalNav user={s.userProfile} isActive={s.drawer.active} 
             onCloseVertNav={this.handleCloseVertNav}>
               <MenuPrimary />
               <hr className="hr-menu" />
