@@ -1,7 +1,7 @@
-.ViewHome {
+.ViewMap {
   padding: 0;
 }
-.ViewHome .Figure {
+.ViewMap .Figure {
   margin: 0;
   display: flex;
 }

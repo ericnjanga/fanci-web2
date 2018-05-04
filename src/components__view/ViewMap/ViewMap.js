@@ -1,16 +1,16 @@
 import React from 'react'; 
 import ViewApp from './../ViewApp.js';
-import './ViewHome.css';   
+import './ViewMap.css';   
 import Map from './../../components__reusable/Map/Map.js'; 
 import Toast from './../../components__reusable/Toast/Toast.js';  
 import { Alert } from 'reactstrap';
 
 
-class ViewHome extends ViewApp { 
+class ViewMap extends ViewApp { 
   render () {  
     const p = {...this.props}; 
     return(
-      <div className="view__content ViewHome"> 
+      <div className="view__content ViewMap"> 
         {
           p.geolocation.on===null && <Toast msg={p.geolocation.msg} />
         }
@@ -25,4 +25,4 @@ class ViewHome extends ViewApp {
   }
 }//[end] Home
 
-export default ViewHome;
+export default ViewMap;

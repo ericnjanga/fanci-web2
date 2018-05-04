@@ -65,7 +65,7 @@
   margin-bottom: 0;
 }
 .App.home .AppContent > section,
-.App.home .AppContent > section .ViewHome {
+.App.home .AppContent > section .ViewMap {
   display: flex;
   height: 100%;
   width: 100%;

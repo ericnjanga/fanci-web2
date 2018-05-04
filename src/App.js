@@ -29,7 +29,9 @@ class App extends Component {
     this.state = {
       userProfile         : undefined, 
       vertNavIsActive     : false,
-      searchPanelIsActive : false,
+      searchPanel         : {
+        active: false,
+      }, 
       currPathName        : null,
       origFanciList       : null,
       fanciList           : null,
@@ -219,9 +221,9 @@ class App extends Component {
   }
 
   toggleSearchPanel() {
-    this.setState({
-      searchPanelIsActive: !this.state.searchPanelIsActive
-    });
+    let searchPanel = this.state.searchPanel;
+    searchPanel.active = !this.state.searchPanel.active;
+    this.setState({ searchPanel });
   }
  
   
@@ -236,7 +238,7 @@ class App extends Component {
             <MenuPrimary />
           </AppHeader>
 
-          <SearchPanel isActive={s.searchPanelIsActive} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
+          <SearchPanel isActive={s.searchPanel.active} toggleSearchPanel={this.toggleSearchPanel} handleFilter={this.handleFilterFanciList} />
 
           {
             s.confirmationModal.content && 

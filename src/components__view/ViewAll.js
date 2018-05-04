@@ -4,7 +4,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'; 
 import ViewAroundUs from './ViewAroundUs/ViewAroundUs.js';
-import ViewHome from './ViewHome/ViewHome.js';
+import ViewMap from './ViewMap/ViewMap.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
 import ViewProfile from './ViewProfile/ViewProfile.js'; 
 import ViewSettings from './ViewSettings/ViewSettings.js';
@@ -37,7 +37,7 @@ const ViewAll = (props) => {
           <div className="l1"><Redirect to="/login"/></div>
         ) : ( 
           <Route path="/" exact={true} render={() => (
-            <ViewHome userProfile={p.userProfile} geolocation={p.geolocation} onRouteChange={p.onRouteChange} />
+            <ViewMap userProfile={p.userProfile} geolocation={p.geolocation} onRouteChange={p.onRouteChange} />
           )}/>  
         )
       )}/>
