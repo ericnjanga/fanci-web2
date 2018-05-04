@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';   
+import ReactDOM from 'react-dom'; 
+import AppDoc from './../../utilities/AppDoc.class.js';   
 import Figure from './../../components__reusable/Figure/Figure.js';
 import './../../styles/menus.css';
 import './VerticalNav.css';
@@ -7,16 +8,10 @@ import './VerticalNav.css';
 
 class VerticalNav extends React.Component {  
   componentDidMount(){   
-    //Close navigation only is certain nodes are targetted
-    const this_node = ReactDOM.findDOMNode(this);
-    this_node.addEventListener('click', (event) => { 
-      const nodeList = document.querySelectorAll('.VerticalNav__obstructor, .VerticalNav__navs .nav-item, .VerticalNav__navs .user-avatar'); 
-      for (let node of nodeList) { 
-        if(event.path.indexOf(node) > -1){
-          this.props.onCloseVertNav();
-          break;
-        } 
-      }  
+    //Toggle component if select DOM elt is targetted 
+    ReactDOM.findDOMNode(this).addEventListener('click', (event) => { 
+      event.preventDefault(); 
+      AppDoc.actIfNodeIs('.VerticalNav__obstructor, .VerticalNav__navs .nav-item, .VerticalNav__navs .user-avatar', 'is targetted', event, this.props.onCloseVertNav);
     });
   }
 
