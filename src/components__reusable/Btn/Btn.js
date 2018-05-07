@@ -3,8 +3,7 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
 
-const Btn = (props)=> {
-  console.log('>>>Button=', Button);
+const Btn = (props)=> { 
   const p = props;
   return(
     <Button {...p}>

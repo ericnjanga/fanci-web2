@@ -3,14 +3,13 @@ import List from './../../components__reusable/List/List.js';
 import PostItem from './../../components__widget/PostItem/PostItem.js'; 
 import PostItemPlaceholder from './../../components__widget/PostItemPlaceholder/PostItemPlaceholder.js';  
 import UserMessageModal from './../../components__widget/UserMessageModal/UserMessageModal.js'; 
-import buttonStyle from './../../jsStyles/button.styles.js';
-import Toast from './../../components__reusable/Toast/Toast.js'; 
+import buttonStyle from './../../jsStyles/button.styles.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import { Button, Container, Row, Col } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
-import DBUpload from './../../utilities/DBUpload.class.js';
+// import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import './ViewTimeline.css';  
 
@@ -81,15 +80,15 @@ class ViewTimeline extends ViewApp {
     return(
       <Container className="view__content ViewTimeline">
         <Row>
-          <Col style={{ paddingTop:'20px' }} > 
+          <Col style={{ paddingTop:'20px' }}> 
             
 
             { /* Display a toast if the list of items is not yet ready */  
               !p.postList_runtime ? 
               <div>
-                <PostItemPlaceholder />
-                <PostItemPlaceholder />
-                <PostItemPlaceholder />
+                <PostItemPlaceholder style={{ marginTop:'20px' }} />
+                <PostItemPlaceholder style={{ marginTop:'20px' }} />
+                <PostItemPlaceholder style={{ marginTop:'20px' }} />
                 <PostItemPlaceholder />
               </div>
               : 

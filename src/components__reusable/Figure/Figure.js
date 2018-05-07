@@ -14,8 +14,7 @@ const Figure = (props)=>{
   const p = {...props};
 
   // console.log('xxxxx', p);
-  let borderRadius, sizes,  imgClassName = 'animated-background',
-      _size = p.size?p.size:'med';
+  let borderRadius, sizes,  imgClassName = 'animated-background';
 
   const avatar = { 
     size: {

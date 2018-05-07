@@ -5,6 +5,7 @@
 import React, { Component } from 'react'; 
 import { BrowserRouter as Router } from 'react-router-dom'; 
 import { auth, provider } from './services/firebase.js'; 
+import './utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
 import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
 import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';  
@@ -100,8 +101,14 @@ class App extends Component {
 
   //Shell login method
   handleLogin() { 
-    auth.signInWithPopup(provider) 
+    // auth.signInWithPopup(provider) 
+    // .then((userAuthObject) => { 
+
+
+    auth.signInWithRedirect(provider);
+    auth.getRedirectResult()
     .then((userAuthObject) => { 
+      console.log('************************userAuthObject=', userAuthObject) /*
       //Save fresh user records in database and save a local version to the state
       //(state version might contains some info from the database)
       let userProfile;
@@ -120,8 +127,18 @@ class App extends Component {
           //save goelocation object anyway
           this.setState({ geolocation });
         });//[end] Get gelolocation object 
-      });//[end] DBUser.saveBasicInfo
-    });//[end] user successful login
+      });//[end] DBUser.saveBasicInfo */
+    }).catch(function(error) {//[end] user successful login
+      // Handle Errors here.
+      var errorCode = error.code;
+      console.log('>>>errorCode=', errorCode);
+      // var errorMessage = error.message;
+      // // The email of the user's account used.
+      // var email = error.email;
+      // // The firebase.auth.AuthCredential type that was used.
+      // var credential = error.credential;
+      // // ...
+    });
   }
 
   //Shell logout method
@@ -166,13 +183,19 @@ class App extends Component {
   componentDidMount(){
     //Signs users back-in everytime application loads 
     //(FirebaseAuth service remembers their credentials)
-    auth.onAuthStateChanged((userAuthObject) => { 
+    
+    console.log('A**--firebase.auth().onAuthStateChanged', auth.onAuthStateChanged)
+    let unsubscribe_function = auth.onAuthStateChanged((userAuthObject) => { 
       //Save fresh user records in database and save a local version to the state
       //(state version might contains some info from the database)
       let userProfile;
+      console.log('1**userAuthObject')
       if(userAuthObject){  
-        DBUser.saveBasicInfo(userAuthObject).then((currUserInfo)=>{
+        console.log('2**userAuthObject')
+        DBUser.saveBasicInfo(userAuthObject)
+        .then((currUserInfo)=>{
           userProfile = currUserInfo; 
+          console.log('3**userProfile')
           this.setState({ userProfile });
 
           //Get gelolocation object ...
@@ -189,9 +212,17 @@ class App extends Component {
           });//[end] Get gelolocation object 
         });//[end] DBUser.saveBasicInfo
       } else {
+        console.log('4**userProfile')
         this.setState({ userProfile: null });
       }   
+      console.log('5**userProfile')
+    }, (error) => {
+      console.log('>>>error=', error)
+    }, (completed) => {
+      console.log('>>>completed=', completed)
     });//[END] user sign-in + save
+
+    console.log('**--unsubscribe_function=', unsubscribe_function)
 
     /**
      * Fetch database records form 2 nodes (relationnal database style: listA and listB)
@@ -242,6 +273,9 @@ class App extends Component {
     return (
       <Router>
         <div className={'App '+s.currPathName}>  
+          {
+            console.log('[[R]] s.userProfile=', s.userProfile)
+          }
 
           { //Display toast when user profile is not loaded yet
             s.userProfile===undefined && <Toast msg={'Fetching your preferences'} />

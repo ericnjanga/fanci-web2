@@ -31,7 +31,7 @@ class Geoloc {
             geolocation.msg = `ERROR(${err.code}): ${err.message}`;
             resolve(geolocation); 
           },
-          {timeout:10000}
+          {timeout:30000}
         );
       } else {
         geolocation.on = false;

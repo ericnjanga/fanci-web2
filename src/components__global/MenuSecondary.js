@@ -7,14 +7,8 @@ const MenuSecondary = (props) => {
   const { onLogout, onToggleDropdown } = props; 
 
   //Proveide shell of a function if there is nothing in props
-  let toggleDropdown = props.onToggleDropdown?props.onToggleDropdown: ()=> {};
-  // const style = {
-  //   item : {
-  //     fontSize: '0.9rem',
-  //     padding: '6px 20px',
-  //     fontWeight: 'bold'
-  //   }
-  // };
+  let toggleDropdown = onToggleDropdown ? onToggleDropdown: ()=> {};
+
   return( 
     <Nav>
       {props.children}

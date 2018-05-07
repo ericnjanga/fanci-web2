@@ -3,9 +3,9 @@ import ViewApp from './../ViewApp.js';
 import './ViewMap.css';   
 import AppDoc from './../../utilities/AppDoc.class.js'; 
 import Map from './../../components__reusable/Map/Map.js'; 
-import Toast from './../../components__reusable/Toast/Toast.js';  
 import MapPHStyles from './../../jsStyles/MapPlaceholder.styles.js';
-import { Alert } from 'reactstrap';
+// import Toast from './../../components__reusable/Toast/Toast.js';  
+// import { Alert } from 'reactstrap';
 
 
 class ViewMap extends ViewApp { 

@@ -1,4 +1,4 @@
-import firebase, { storage } from './../services/firebase.js';
+import { storage } from './../services/firebase.js';
 
 class DBUpload {
   static nodeName = 'timeline';

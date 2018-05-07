@@ -3,10 +3,10 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react'; 
-import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
+import { Card, CardTitle } from 'reactstrap'; 
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
-import PostItemPlaceholderStyle from './../../jsStyles/PostItemPlaceholder.styles.js';
+// import PostItemPlaceholderStyle from './../../jsStyles/PostItemPlaceholder.styles.js';
 
 
 
