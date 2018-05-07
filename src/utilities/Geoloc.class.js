@@ -10,8 +10,8 @@ class Geoloc {
 
   /**
    * Get geolocation data:
-   * -> Keep setting off if feature is not available
-   * -> set setting on if: 
+   * -> Keep setting OFF if feature is not available
+   * -> set setting ON if: 
    * --> current position is returned
    * --> an error occurs while retriving data
    * (Always update message in any case)

@@ -2,8 +2,7 @@
  * Component rendering a list of all messages 
  */ 
 import React from 'react';
-import { Alert } from 'reactstrap';
-import './UserMessageList.css';
+import { Alert } from 'reactstrap'; 
 
 
 const List = (props) => {
@@ -11,12 +10,12 @@ const List = (props) => {
         Item = p.itemComp; 
 
   return(
-    <section className="UserMessageList"> 
+    <section style={p.style}> 
       { 
         p.items.length ?props.items.map((item) => {
           return (
             <Item key={item.id} loggedUserID={p.user.uid} data={item} handleConfirmModal={p.handleConfirmModal} 
-            toggleTimelineModal={p.toggleTimelineModal} confirmationModal={p.confirmationModal} />
+            toggleTimelineModal={p.toggleTimelineModal} confirmationModal={p.confirmationModal} style={p.itemStyle} />
           )
         }) : 
         <Alert color="info">No item found!</Alert>

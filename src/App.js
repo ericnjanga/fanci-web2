@@ -27,8 +27,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userProfile         : undefined, 
-      vertNavIsActive     : false,
+      userProfile         : undefined,  
       drawer              : {
         active    : false
       },
@@ -243,6 +242,12 @@ class App extends Component {
     return (
       <Router>
         <div className={'App '+s.currPathName}>  
+
+          { //Display toast when user profile is not loaded yet
+            s.userProfile===undefined && <Toast msg={'Fetching your preferences'} />
+          }
+ 
+          
           <AppHeader user={s.userProfile} onLogout={this.handleLogout} 
           onToggleVertNav={this.handleToggleVertNav}
           onCloseVertNav={this.handleCloseVertNav}>
@@ -274,8 +279,8 @@ class App extends Component {
           
           <section className="AppContent"> 
             {
-              s.userProfile===undefined ? <Toast msg={'Loading your preferences'} /> : <ViewAll {...s} toggleSearchPanel={this.toggleSearchPanel} 
-              handleConfirmModal={this.handleConfirmModal} onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
+              <ViewAll {...s} toggleSearchPanel={this.toggleSearchPanel} handleConfirmModal={this.handleConfirmModal} 
+              onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
             }  
           </section>
 

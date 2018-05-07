@@ -9,8 +9,7 @@ import './VerticalNav.css';
 class VerticalNav extends React.Component {  
   componentDidMount(){   
     //Toggle component if select DOM elt is targetted 
-    ReactDOM.findDOMNode(this).addEventListener('click', (event) => { 
-      event.preventDefault(); 
+    ReactDOM.findDOMNode(this).addEventListener('click', (event) => {  
       AppDoc.actIfNodeIs('.VerticalNav__obstructor, .VerticalNav__navs .nav-item, .VerticalNav__navs .user-avatar', 'is targetted', event, this.props.onCloseVertNav);
     });
   }

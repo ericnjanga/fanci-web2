@@ -3,6 +3,8 @@
  * - component isn't rendered if img.props is undefined
  * - empty string is displayed if props.alt is undefined
  * - <figcaption /> isn't rendered if img.caption is undefined
+ * *-------- NOTE --------
+ * If "img" property is not provided, this component renders a placeholder
  */
 import React from 'react';
 import './Figure.css';
@@ -12,43 +14,78 @@ const Figure = (props)=>{
   const p = {...props};
 
   // console.log('xxxxx', p);
-  let borderRadius, width, height, imgClassName;
+  let borderRadius, sizes,  imgClassName = 'animated-background',
+      _size = p.size?p.size:'med';
+
+  const avatar = { 
+    size: {
+      'xxl' : {
+        width : '100px',
+        height : '100px',
+      },
+      'large' : {
+        width : '60px',
+        height : '60px',
+      },
+      'med' : {
+        width : '47px',
+        height : '47px',
+      },
+      'small' : {
+        width : '35px',
+        height : '35px',
+      }
+    }
+  };
+
   if(p.circle){
     borderRadius = '100%';
   }
   if(p.avatar){
-    switch(p.size){
-      case 'xxl' :  
-        width = '100px';
-        height = '100px';
-        break;
-      case 'large' :  
-        width = '60px';
-        height = '60px';
-        break;
-      case 'med' :  
-        width = '47px';
-        height = '47px';
-        break;
-      case 'small' :  
-        width = '35px';
-        height = '35px';
-        break;
-      default: //Medium by default
-        width = '47px';
-        height = '47px';
-    }
+    sizes = avatar.size[p.size];
   }else{
-    imgClassName = 'img-fluid';
+    imgClassName += ' img-fluid';
+    sizes = { width:'100%', height:'200px' };
   }
+
+  let { width, height } = sizes;
   let imgStyle = { borderRadius, width, height }; 
   let figStyle = p.style;
-  return( 
-    p.img && <figure className={p.className} style={figStyle}>
-      <img className={imgClassName} src={p.img} alt={ p.alt?p.alt:''} style={imgStyle} />
+  return(  
+    <figure className={p.className} style={figStyle}>
+      {
+        p.img ? 
+        <img className={imgClassName} src={p.img} alt={ p.alt?p.alt:''} style={imgStyle} />
+        :
+        <div className={imgClassName} style={imgStyle} />
+      } 
       { p.caption && <figcaption>{p.caption}</figcaption> }
-    </figure>  
+    </figure>   
   );
 }
 
 export default Figure;
+
+
+
+    // switch(p.size){
+    //   case 'xxl' :  
+    //     width = '100px';
+    //     height = '100px';
+    //     break;
+    //   case 'large' :  
+    //     width = '60px';
+    //     height = '60px';
+    //     break;
+    //   case 'med' :  
+    //     width = '47px';
+    //     height = '47px';
+    //     break;
+    //   case 'small' :  
+    //     width = '35px';
+    //     height = '35px';
+    //     break;
+    //   default: //Medium by default
+    //     width = '47px';
+    //     height = '47px';
+    // }

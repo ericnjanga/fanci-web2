@@ -1,6 +1,7 @@
 import React from 'react';
 import List from './../../components__reusable/List/List.js';     
-import UserMessage from './../../components__widget/UserMessage/UserMessage.js';  
+import PostItem from './../../components__widget/PostItem/PostItem.js'; 
+import PostItemPlaceholder from './../../components__widget/PostItemPlaceholder/PostItemPlaceholder.js';  
 import UserMessageModal from './../../components__widget/UserMessageModal/UserMessageModal.js'; 
 import buttonStyle from './../../jsStyles/button.styles.js';
 import Toast from './../../components__reusable/Toast/Toast.js'; 
@@ -31,7 +32,7 @@ class ViewTimeline extends ViewApp {
    */
   toggleModal(ppt) {
     let timeline; //fanciData, params;
-    console.log('>>>>toggleModal *** data=',ppt.data, '----', ppt.params)
+    // console.log('>>>>toggleModal *** data=',ppt.data, '----', ppt.params)
     if(ppt!==undefined && ppt.data && ppt.params){
       timeline = {};
       timeline.post = ppt.data;
@@ -80,11 +81,22 @@ class ViewTimeline extends ViewApp {
     return(
       <Container className="view__content ViewTimeline">
         <Row>
-          <Col> 
+          <Col style={{ paddingTop:'20px' }} > 
+            
+
             { /* Display a toast if the list of items is not yet ready */  
-              !p.postList_runtime ? <Toast msg={'Fetching data'} /> : <List items={p.postList_runtime} itemComp={UserMessage} 
+              !p.postList_runtime ? 
+              <div>
+                <PostItemPlaceholder />
+                <PostItemPlaceholder />
+                <PostItemPlaceholder />
+                <PostItemPlaceholder />
+              </div>
+              : 
+              <List items={p.postList_runtime} itemComp={PostItem} 
               user={p.user} handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
-              toggleTimelineModal={this.toggleModal}/>
+              toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />
+               
             } 
 
             { //data={s.fanciData} params={s.timeline.params}

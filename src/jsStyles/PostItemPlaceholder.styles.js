@@ -1,4 +1,7 @@
-const userMessage = { 
+const PostItemPlaceholder = { 
+  body : { 
+    background: '#fff',
+  },
   avatar: { 
     margin: 0,
     position: 'absolute', 
@@ -27,4 +30,4 @@ const userMessage = {
 };
 
 
-export default userMessage;
+export default PostItemPlaceholder;

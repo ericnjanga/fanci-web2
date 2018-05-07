@@ -7,7 +7,7 @@ import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactst
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Alert } from 'reactstrap';
 import { dropdownSyles } from './../../jsStyles/menu.styles.js';
-import userMessage from './../../jsStyles/userMessage.styles.js';
+import PostItemStyle from './../../jsStyles/PostItem.styles.js';
 import DBUser from '../../utilities/DBUser.class.js';  
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
@@ -19,10 +19,10 @@ import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH';
 import faExclamationTriangle from '@fortawesome/fontawesome-free-solid/faExclamationTriangle';
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
-import './UserMessage.css';
+import './PostItem.css';
 
 
-class UserMessage extends React.Component {
+class PostItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,12 +105,12 @@ class UserMessage extends React.Component {
     const s = {...this.state}; 
     const p = {...this.props};  
     return( 
-      <Card className="UserMessage">
+      <Card className="PostItem" style={p.style}>
 
         { //Only post owner can modify it ...
           p.loggedUserID===p.data.uid && 
           <Dropdown direction="left" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
-            <DropdownToggle style={userMessage.buttonEdit}> 
+            <DropdownToggle style={PostItemStyle.buttonEdit}> 
               <span className="sr-only">Edit your post</span>
               <FontAwesomeIcon icon={faEllipsisH} /> 
             </DropdownToggle>
@@ -124,14 +124,14 @@ class UserMessage extends React.Component {
 
 
         { 
-          s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={userMessage.avatar} avatar circle size="small" />
+          s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={PostItemStyle.avatar} avatar circle size="small" />
         }
-        <div style={userMessage.header}> 
-          <CardTitle style={userMessage.header_title}>{p.data.title}</CardTitle> 
-          <small className="UserMessage__date">
+        <header style={PostItemStyle.header}> 
+          <CardTitle style={PostItemStyle.header_title}>{p.data.title}</CardTitle> 
+          <small className="PostItem__date">
             <DateFormat millisec={p.data.date} />
           </small>
-        </div>
+        </header>
  
         {
           s.imgUrl && <Figure img={s.imgUrl.url} alt={p.data.title} /> 
@@ -139,25 +139,25 @@ class UserMessage extends React.Component {
         
                                   
 
-        <CardBody style={userMessage.cardBody}>   
+        <CardBody style={PostItemStyle.cardBody}>   
           <CardText>{p.data.content}</CardText> 
         </CardBody> 
 
-        <CardFooter className="UserMessage__footer">
-          <div className="UserMessage__footer-info"> 
+        <CardFooter className="PostItem__footer">
+          <div className="PostItem__footer-info"> 
             {
-              p.data.location && <small className="UserMessage__date">
+              p.data.location && <small className="PostItem__date">
                                 <FontAwesomeIcon icon={faMapMarker} />{p.data.location}
                               </small>
             }  
             {
-              p.data.places && <small className="UserMessage__date">
+              p.data.places && <small className="PostItem__date">
                                 <FontAwesomeIcon icon={faUsers} />{p.data.places}
                               </small>
             }  
           </div>
-          <div className="UserMessage__footer-action"> 
-            <Button className="UserMessage__btn-action" block>
+          <div className="PostItem__footer-action"> 
+            <Button className="PostItem__btn-action" block>
               <span className="sr-only">Contact</span>
               <FontAwesomeIcon icon={faCheck} />
             </Button>
@@ -168,4 +168,4 @@ class UserMessage extends React.Component {
   }
 }
 
-export default UserMessage;
+export default PostItem;
