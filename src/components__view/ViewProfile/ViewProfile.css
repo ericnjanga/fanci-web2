@@ -12,25 +12,25 @@
 }
 
 /* smaller screen */
-@media(max-width: 765px) {  
+/* @media(max-width: 765px) {   */
   .ViewProfile__maincol {
     flex-direction: column;
     align-items: center;
   }
   .ViewProfile__maincol .user-avatar { 
-    margin: 0 0 20px 0;
+    margin: 0;
   }
-}
+/* } */
 
 /* large screen */
-@media(min-width: 766px) {  
+/* @media(min-width: 766px) {  
   .ViewProfile__maincol {
     flex-direction: row-reverse;
   }
   .ViewProfile__maincol .user-avatar { 
     margin: 0 0 0 20px;
   }
-}
+} */
 
 .ViewProfile__maincol .user-avatar {
   width: 100px;

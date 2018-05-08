@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
 import Toast from './../../components__reusable/Toast/Toast.js';  
 import DBUser from '../../utilities/DBUser.class.js'; 
@@ -49,84 +49,85 @@ class ViewProfile extends ViewApp {
     const { user } = this.props;
     const { userProfile, overlayActive } = this.state;
     return(
-      <Container className="view__content ViewProfile"> 
+      <div className="view__content ViewProfile"> 
         { /* Display a toast if the list of items is not yet ready */
           overlayActive && <Toast msg={'Saving data'} /> 
         }
-        <Row>
-          <Col className="ViewProfile__maincol">
-            <div>
-              <Figure img={user.photoURL} alt={user.displayName} className="user-avatar" avatar circle size="xxl" /> 
-              { 
-                user.lastSignin && <p>Last Signin: 
-                  <DateFormat millisec={user.lastSignin} />
-                </p> 
-              }
-            </div>
-      
-            <Form onSubmit={this.handleSubmit}> 
-              <FormGroup>
-                <Label for="name">User Name</Label>
+         
+        <div className="ViewProfile__maincol">
+          <div>
+            <Figure img={user.photoURL} alt={user.displayName} className="user-avatar" avatar circle size="xxl" /> 
+            { 
+              user.lastSignin && 
+              <p style={{ display:'flex', marginTop:'5px', flexDirection:'column', textAlign:'center' }}>
+                <small style={{ color:'rgba(0,0,0,0.5)' }}>Last Signin</small> 
+                <DateFormat millisec={user.lastSignin} />
+              </p> 
+            }
+          </div>
+    
+          <Form onSubmit={this.handleSubmit}> 
+            <FormGroup>
+              <Label for="name">User Name</Label>
+              {
+                !userProfile ? (
+                  <Input type="text" name="displayName" id="displayName" placeholder="Enter your username" />
+                ) : (
+                  <Input type="text" name="displayName" id="displayName" value={userProfile.displayName} onChange={this.handleInputChange} placeholder="Enter your username" />
+                )
+              }  
+            </FormGroup>
+
+            <FormGroup>
+              <Label for="biography">Biography</Label>
+              {
+                !userProfile ? ( 
+                  <Input type="textarea" name="biography" id="biography" placeholder="Enter a short biographie" /> 
+                ) : (
+                  <Input type="textarea" name="biography" id="biography" value={userProfile.biography} onChange={this.handleInputChange} placeholder="Enter a short biographie" /> 
+                )
+              }  
+            </FormGroup>
+
+            <FormGroup>
+              <Label for="email">Email</Label> 
+              {
+                !userProfile ? (
+                  <Input type="email" name="email" id="email" placeholder="Enter your email" />
+                ) : (
+                  <Input type="email" name="email" id="email" placeholder={userProfile.email} readOnly/>
+                )
+              }  
+            </FormGroup>   
+
+            <FormGroup>
+              <Label for="phoneNumber">Phone Number</Label> 
+              {
+                !userProfile ? (
+                  <Input type="text" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number" /> 
+                ) : (
+                  <Input type="text" name="phoneNumber" id="phoneNumber" value={userProfile.phoneNumber} onChange={this.handleInputChange} placeholder="Enter your phone number" /> 
+                )
+              }  
+            </FormGroup>
+  
+            <FormGroup className="form-group" check> 
+              <Label for="visible">
                 {
                   !userProfile ? (
-                    <Input type="text" name="displayName" id="displayName" placeholder="Enter your username" />
+                    <Input type="checkbox" name="visible" id="visible" />
                   ) : (
-                    <Input type="text" name="displayName" id="displayName" value={userProfile.displayName} onChange={this.handleInputChange} placeholder="Enter your username" />
+                    <Input type="checkbox" name="visible" id="visible" checked={userProfile.visible} onChange={this.handleInputChange} />
                   )
                 }  
-              </FormGroup>
-  
-              <FormGroup>
-                <Label for="biography">Biography</Label>
-                {
-                  !userProfile ? ( 
-                    <Input type="textarea" name="biography" id="biography" placeholder="Enter a short biographie" /> 
-                  ) : (
-                    <Input type="textarea" name="biography" id="biography" value={userProfile.biography} onChange={this.handleInputChange} placeholder="Enter a short biographie" /> 
-                  )
-                }  
-              </FormGroup>
-  
-              <FormGroup>
-                <Label for="email">Email</Label> 
-                {
-                  !userProfile ? (
-                    <Input type="email" name="email" id="email" placeholder="Enter your email" />
-                  ) : (
-                    <Input type="email" name="email" id="email" placeholder={userProfile.email} readOnly/>
-                  )
-                }  
-              </FormGroup>   
-  
-              <FormGroup>
-                <Label for="phoneNumber">Phone Number</Label> 
-                {
-                  !userProfile ? (
-                    <Input type="text" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number" /> 
-                  ) : (
-                    <Input type="text" name="phoneNumber" id="phoneNumber" value={userProfile.phoneNumber} onChange={this.handleInputChange} placeholder="Enter your phone number" /> 
-                  )
-                }  
-              </FormGroup>
-   
-              <FormGroup className="form-group" check> 
-                <Label for="visible">
-                  {
-                    !userProfile ? (
-                      <Input type="checkbox" name="visible" id="visible" />
-                    ) : (
-                      <Input type="checkbox" name="visible" id="visible" checked={userProfile.visible} onChange={this.handleInputChange} />
-                    )
-                  }  
-                  {' '}Visible to everyone
-                </Label>
-              </FormGroup>
-          
-              <Button color="primary" block>Submit</Button> 
-            </Form> 
-          </Col>
-        </Row>
-      </Container>
+                {' '}Visible to everyone
+              </Label>
+            </FormGroup>
+        
+            <Button color="primary" block>Submit</Button> 
+          </Form> 
+        </div> 
+      </div>
     ); 
   }//[end] render
 }//[end] Profile

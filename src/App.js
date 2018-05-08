@@ -19,6 +19,7 @@ import DBUser from './utilities/DBUser.class.js';
 import DBPost from './utilities/DBPost.class.js'; 
 import AppDoc from './utilities/AppDoc.class.js'; 
 import Geoloc from './utilities/Geoloc.class.js'; 
+import { Container, Row, Col } from 'reactstrap';
 import './styles/App.css'; 
 import './styles/components/buttons.css'; 
 import './styles/components/dropdown.css'; 
@@ -185,7 +186,7 @@ class App extends Component {
     //(FirebaseAuth service remembers their credentials)
     
     // console.log('A**--firebase.auth().onAuthStateChanged', auth.onAuthStateChanged)
-    let unsubscribe_function = auth.onAuthStateChanged((userAuthObject) => { 
+    auth.onAuthStateChanged((userAuthObject) => { 
       //Save fresh user records in database and save a local version to the state
       //(state version might contains some info from the database)
       let userProfile;
@@ -309,8 +310,14 @@ class App extends Component {
           
           <section className="AppContent"> 
             {
-              <ViewAll {...s} toggleSearchPanel={this.toggleSearchPanel} handleConfirmModal={this.handleConfirmModal} 
-              onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
+              <Container>
+                <Row>
+                  <Col>
+                    <ViewAll {...s} toggleSearchPanel={this.toggleSearchPanel} handleConfirmModal={this.handleConfirmModal} 
+                    onRouteChange={this.handleRouteChange} onProfileChange={this.handleProfileUpdate} onLogin={this.handleLogin} />
+                  </Col>
+                </Row>
+              </Container>
             }  
           </section>
 

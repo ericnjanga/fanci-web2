@@ -16,7 +16,7 @@ class Map extends React.Component {
     const p = {...this.props};
 
     return (
-      <div style={{ height: '100vh', width: '100%' }}>
+      <div style={p.style}>
         <GoogleMapReact
           bootstrapURLKeys={{ key:'AIzaSyACIFpmGqxK8mmy65nY9eKrufxdpea3muo' }}
           defaultCenter={[p.lat, p.lng]} defaultZoom={11}>
@@ -29,3 +29,4 @@ class Map extends React.Component {
 }
 
 export default Map;
+

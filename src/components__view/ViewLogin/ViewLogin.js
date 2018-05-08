@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import React from 'react'; 
 import { Button } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faGoogle from '@fortawesome/fontawesome-free-brands/faGoogle';
@@ -10,23 +9,31 @@ import './ViewLogin.css';
 class ViewLogin extends ViewApp {
   // constructor(props)
   render() {
+    const styles = {
+      body: {
+        marginTop: '30%',
+        textAlign: 'center'
+      },
+      p: {
+        marginTop: '20px',
+        lineHeight: '1rem' 
+      }
+    };
     return( 
-      <Container className="view--login">
-        <Row>
-          <Col>  
-            <Button color="primary" onClick={this.props.onLogin}>
-              <FontAwesomeIcon icon={faGoogle} />
-              Login with Google
-            </Button> 
-            <p>
-              <small>Chocolate cake danish chocolate lemon drops icing muffin fruitcake. 
-                Toffee marshmallow oat cake chocolate cake cheesecake. Chocolate bar biscuit sesame snaps.</small>
-            </p>
-          </Col>
-        </Row>
-      </Container>  
+      <div className="view--login" style={styles.body}> 
+        <Button color="primary" onClick={this.props.onLogin}>
+          <FontAwesomeIcon icon={faGoogle} />
+          Login with Google
+        </Button> 
+        <p style={styles.p}> 
+          <small>Chocolate cake danish chocolate lemon drops icing muffin fruitcake. 
+            Toffee marshmallow oat cake chocolate cake cheesecake.</small>
+        </p>
+      </div>  
     );
   }
 }//[end] Login
+
+
 
 export default ViewLogin;

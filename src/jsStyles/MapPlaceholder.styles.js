@@ -2,7 +2,7 @@
 let MapPHStyles = { 
   body : { 
     position: 'relative',
-    background: 'transparent',
+    background: '#EEE5E0',
     width: '100%',
     height: '100%'
   },
@@ -11,7 +11,8 @@ let MapPHStyles = {
     display: 'block',
     borderRadius: '100%',
     width: '35px',
-    height: '35px'
+    height: '35px',
+    border: '5px solid #999'
   },
   mainUser : {
     top:'50%',

@@ -5,18 +5,7 @@
 .App.login .AppHeader .AppBrand a {
   color: #446675;
 }
-
-
-
-.view--login {
-  margin-top: 30%;
-  text-align: center;
-}
-.view--login p {
-  margin-top: 20px;
-  line-height: 1rem;
-}
-
+ 
  
 .view--login .btn .svg-inline--fa {
   margin-right: 20px;

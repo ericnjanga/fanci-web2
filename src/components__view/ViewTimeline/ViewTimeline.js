@@ -7,7 +7,7 @@ import buttonStyle from './../../jsStyles/button.styles.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
 // import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
@@ -78,43 +78,37 @@ class ViewTimeline extends ViewApp {
     const s = {...this.state};  
 
     return(
-      <Container className="view__content ViewTimeline">
-        <Row>
-          <Col style={{ paddingTop:'20px' }}> 
+      <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}>  
+        { /* Display a toast if the list of items is not yet ready */  
+          !p.postList_runtime ? 
+          <div>
+            <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+            <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+            <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+            <PostItemPlaceholder />
+          </div>
+          : 
+          <List items={p.postList_runtime} itemComp={PostItem} 
+          user={p.user} handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
+          toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />
             
+        } 
 
-            { /* Display a toast if the list of items is not yet ready */  
-              !p.postList_runtime ? 
-              <div>
-                <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-                <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-                <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-                <PostItemPlaceholder />
-              </div>
-              : 
-              <List items={p.postList_runtime} itemComp={PostItem} 
-              user={p.user} handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
-              toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />
-               
-            } 
+        { //data={s.fanciData} params={s.timeline.params}
+          s.timeline && <UserMessageModal user={p.user} data={s.timeline} toggle={this.toggleModal} 
+          className={this.props.className} />
+        }
+        
+        <Button style={buttonStyle.fab} className="btn-search btn-fab" color="secondary" onClick={p.toggleSearchPanel}>
+          <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faSearch} /> 
+          <span className="sr-only">Search a Fanci</span> 
+        </Button> 
 
-            { //data={s.fanciData} params={s.timeline.params}
-              s.timeline && <UserMessageModal user={p.user} data={s.timeline} toggle={this.toggleModal} 
-              className={this.props.className} />
-            }
-            
-            <Button style={buttonStyle.fab} className="btn-search btn-fab" color="secondary" onClick={p.toggleSearchPanel}>
-              <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faSearch} /> 
-              <span className="sr-only">Search a Fanci</span> 
-            </Button> 
-
-            <Button style={buttonStyle.fab} className="btn-post btn-fab" color="primary" onClick={this.toggleModal}>
-              <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faPencil} /> 
-              <span className="sr-only">Write a Message</span> 
-            </Button> 
-          </Col>
-        </Row>
-      </Container>
+        <Button style={buttonStyle.fab} className="btn-post btn-fab" color="primary" onClick={this.toggleModal}>
+          <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faPencil} /> 
+          <span className="sr-only">Write a Message</span> 
+        </Button>  
+      </div>
     ); 
   }
 }

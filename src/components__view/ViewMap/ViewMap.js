@@ -12,14 +12,23 @@ class ViewMap extends ViewApp {
   render () {  
     const p = {...this.props}; 
     const nbU = Array(15).fill(0);
+    const style = {
+      body : { 
+        height:'85vh', 
+        marginLeft:'-15px', 
+        marginRight:'-15px' 
+      }
+    };
+    const psStyle_body = {...MapPHStyles.body, ...style.body};
     return(
       <div className="view__content ViewMap"> 
-        {
+        {  
           p.geolocation.on===true 
           ? 
-          <Map points={p.userProfile} lat={p.geolocation.currPosition.coords.latitude} lng={p.geolocation.currPosition.coords.longitude} />
+          <Map points={p.userProfile} lat={p.geolocation.currPosition.coords.latitude} lng={p.geolocation.currPosition.coords.longitude} 
+          style={style.body}/>
           :
-          <div style={MapPHStyles.body}>
+          <div style={psStyle_body}>
             {
               nbU.map((item, index)=>{  
                 let coord = {}, style;

@@ -6,7 +6,7 @@ class DBUpload {
   static getFile(name) {  
     return new Promise((resolve)=>{
       storage.ref(name).getDownloadURL().then(function(url) { 
-        console.log('>>>>url=', url);
+        // console.log('>>>>url=', url);
         resolve({url});
       }).catch(function(error) {
         resolve({error}); 

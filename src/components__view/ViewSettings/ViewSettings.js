@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap'; 
+import React from 'react'; 
 import ViewApp from './../ViewApp.js';
 // import './ViewSettings.css';  
 // import img1 from './../../images/therock-5.jpeg'; 
@@ -8,14 +7,10 @@ import ViewApp from './../ViewApp.js';
 class ViewSettings extends ViewApp {
   render () {
     return(
-      <Container className="view__content">
-        <Row>
-          <Col>
-            <h2>Settings</h2>  
-            <p>Settings coming soon.</p>
-          </Col>
-        </Row>
-      </Container>
+      <div className="view__content"> 
+        <h2>Settings</h2>  
+        <p>Settings coming soon.</p> 
+      </div>
     );
   }
 }//[end] About
