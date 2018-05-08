@@ -221,10 +221,30 @@ class App extends Component {
     }, (completed) => {
       // console.log('>>>completed=', completed)
     });//[END] user sign-in + save
- 
 
-  
-    /**** Geoloxc  */
+    /**
+     * Fetch database records form 2 nodes (relationnal database style: listA and listB)
+     * Fetch all elements of listA and for each element of listA:
+     * -> find the corresponding element in list B, join it to A and save it into a final list
+     */
+    DBPost.getNode().on('value', (snapshot) => { 
+      const nodeVal = snapshot.val(); 
+      let postList_runtime = []; 
+      if(nodeVal){ //Avoid error if there is no DB objects
+        const postMap = new Map(Object.entries(nodeVal)); 
+        postMap.forEach((value, key)=>{
+          let post = Object.assign({}, value);
+          post.id = key;
+          //push values in a regular array 
+          postList_runtime.push(post); 
+          postList_runtime = postList_runtime.reverse(); //Reverse array (most recent posts first) 
+        });
+      } 
+      //save array in state
+      this.setState({ postList_runtime }); 
+      this.setState({ postList:postList_runtime }); 
+    });//[end] Fetch Fancies ...
+    
   }//[end]componentDidMount
   
   handleProfileUpdate(userProfile) {
