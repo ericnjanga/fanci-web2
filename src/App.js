@@ -184,70 +184,46 @@ class App extends Component {
     //Signs users back-in everytime application loads 
     //(FirebaseAuth service remembers their credentials)
     
-    console.log('A**--firebase.auth().onAuthStateChanged', auth.onAuthStateChanged)
-    let unsubscribe_function = auth.onAuthStateChanged((userAuthObject) => { 
-      //Save fresh user records in database and save a local version to the state
-      //(state version might contains some info from the database)
-      let userProfile;
-      console.log('1**userAuthObject')
-      if(userAuthObject){  
-        console.log('2**userAuthObject')
-        DBUser.saveBasicInfo(userAuthObject)
-        .then((currUserInfo)=>{
-          userProfile = currUserInfo; 
-          console.log('3**userProfile')
-          this.setState({ userProfile });
+    // console.log('A**--firebase.auth().onAuthStateChanged', auth.onAuthStateChanged)
+    // let unsubscribe_function = auth.onAuthStateChanged((userAuthObject) => { 
+    //   //Save fresh user records in database and save a local version to the state
+    //   //(state version might contains some info from the database)
+    //   let userProfile;
+    //   console.log('1**userAuthObject')
+    //   if(userAuthObject){  
+    //     console.log('2**userAuthObject')
+    //     DBUser.saveBasicInfo(userAuthObject)
+    //     .then((currUserInfo)=>{
+    //       userProfile = currUserInfo; 
+    //       console.log('3**userProfile')
+    //       this.setState({ userProfile });
 
-          //Get gelolocation object ...
-          //save user position in the database and object geolocation state
-          Geoloc.getValue().then((geolocation)=>{ 
-            if(geolocation.on) { 
-              let {userProfile} = this.state;
-              let latLong = Geoloc.getPosition(geolocation);
-              userProfile = {...userProfile, ...latLong}; 
-              DBUser.saveBasicInfo(userProfile);
-            }
-            //save goelocation object anyway
-            this.setState({ geolocation });
-          });//[end] Get gelolocation object 
-        });//[end] DBUser.saveBasicInfo
-      } else {
-        console.log('4**userProfile')
-        this.setState({ userProfile: null });
-      }   
-      console.log('5**userProfile')
-    }, (error) => {
-      console.log('>>>error=', error)
-    }, (completed) => {
-      console.log('>>>completed=', completed)
-    });//[END] user sign-in + save
+    //       //Get gelolocation object ...
+    //       //save user position in the database and object geolocation state
+    //       Geoloc.getValue().then((geolocation)=>{ 
+    //         if(geolocation.on) { 
+    //           let {userProfile} = this.state;
+    //           let latLong = Geoloc.getPosition(geolocation);
+    //           userProfile = {...userProfile, ...latLong}; 
+    //           DBUser.saveBasicInfo(userProfile);
+    //         }
+    //         //save goelocation object anyway
+    //         this.setState({ geolocation });
+    //       });//[end] Get gelolocation object 
+    //     });//[end] DBUser.saveBasicInfo
+    //   } else {
+    //     console.log('4**userProfile')
+    //     this.setState({ userProfile: null });
+    //   }   
+    //   console.log('5**userProfile')
+    // }, (error) => {
+    //   console.log('>>>error=', error)
+    // }, (completed) => {
+    //   console.log('>>>completed=', completed)
+    // });//[END] user sign-in + save
+ 
 
-    console.log('**--unsubscribe_function=', unsubscribe_function)
-
-    /**
-     * Fetch database records form 2 nodes (relationnal database style: listA and listB)
-     * Fetch all elements of listA and for each element of listA:
-     * -> find the corresponding element in list B, join it to A and save it into a final list
-     */
-    DBPost.getNode().on('value', (snapshot) => { 
-      const nodeVal = snapshot.val(); 
-      let postList_runtime = []; 
-      if(nodeVal){ //Avoid error if there is no DB objects
-        const postMap = new Map(Object.entries(nodeVal)); 
-        postMap.forEach((value, key)=>{
-          let post = Object.assign({}, value);
-          post.id = key;
-          //push values in a regular array 
-          postList_runtime.push(post); 
-          postList_runtime = postList_runtime.reverse(); //Reverse array (most recent posts first) 
-        });
-      } 
-      //save array in state
-      this.setState({ postList_runtime }); 
-      this.setState({ postList:postList_runtime }); 
-    });//[end] Fetch Fancies ...
-
-
+  
     /**** Geoloxc  */
   }//[end]componentDidMount
   
