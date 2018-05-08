@@ -12,6 +12,7 @@ import Figure from './../../components__reusable/Figure/Figure.js';
 
 
 const PostItemPlaceholder = (props) => {
+  let phs = {};
   const ph = { //placeholder 
     text : {
       width: '100%',
@@ -22,8 +23,10 @@ const PostItemPlaceholder = (props) => {
   const s1 = PostItemPlaceholder;
   const s2 = PostItemStyle,
         s_header_title = {...s2.header_title, ...ph.text};
+  //...
+  phs.body = {...s1.body, ...props.style};
   return( 
-    <Card style={s1.body}> 
+    <Card style={phs.body }> 
       { 
         <Figure style={s2.avatar} avatar circle size="small" />
       }

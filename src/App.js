@@ -185,42 +185,42 @@ class App extends Component {
     //(FirebaseAuth service remembers their credentials)
     
     // console.log('A**--firebase.auth().onAuthStateChanged', auth.onAuthStateChanged)
-    // let unsubscribe_function = auth.onAuthStateChanged((userAuthObject) => { 
-    //   //Save fresh user records in database and save a local version to the state
-    //   //(state version might contains some info from the database)
-    //   let userProfile;
-    //   console.log('1**userAuthObject')
-    //   if(userAuthObject){  
-    //     console.log('2**userAuthObject')
-    //     DBUser.saveBasicInfo(userAuthObject)
-    //     .then((currUserInfo)=>{
-    //       userProfile = currUserInfo; 
-    //       console.log('3**userProfile')
-    //       this.setState({ userProfile });
+    let unsubscribe_function = auth.onAuthStateChanged((userAuthObject) => { 
+      //Save fresh user records in database and save a local version to the state
+      //(state version might contains some info from the database)
+      let userProfile;
+      // console.log('1**userAuthObject')
+      if(userAuthObject){  
+        // console.log('2**userAuthObject')
+        DBUser.saveBasicInfo(userAuthObject)
+        .then((currUserInfo)=>{
+          userProfile = currUserInfo; 
+          // console.log('3**userProfile')
+          this.setState({ userProfile });
 
-    //       //Get gelolocation object ...
-    //       //save user position in the database and object geolocation state
-    //       Geoloc.getValue().then((geolocation)=>{ 
-    //         if(geolocation.on) { 
-    //           let {userProfile} = this.state;
-    //           let latLong = Geoloc.getPosition(geolocation);
-    //           userProfile = {...userProfile, ...latLong}; 
-    //           DBUser.saveBasicInfo(userProfile);
-    //         }
-    //         //save goelocation object anyway
-    //         this.setState({ geolocation });
-    //       });//[end] Get gelolocation object 
-    //     });//[end] DBUser.saveBasicInfo
-    //   } else {
-    //     console.log('4**userProfile')
-    //     this.setState({ userProfile: null });
-    //   }   
-    //   console.log('5**userProfile')
-    // }, (error) => {
-    //   console.log('>>>error=', error)
-    // }, (completed) => {
-    //   console.log('>>>completed=', completed)
-    // });//[END] user sign-in + save
+          //Get gelolocation object ...
+          //save user position in the database and object geolocation state
+          Geoloc.getValue().then((geolocation)=>{ 
+            if(geolocation.on) { 
+              let {userProfile} = this.state;
+              let latLong = Geoloc.getPosition(geolocation);
+              userProfile = {...userProfile, ...latLong}; 
+              DBUser.saveBasicInfo(userProfile);
+            }
+            //save goelocation object anyway
+            this.setState({ geolocation });
+          });//[end] Get gelolocation object 
+        });//[end] DBUser.saveBasicInfo
+      } else {
+        // console.log('4**userProfile')
+        this.setState({ userProfile: null });
+      }   
+      // console.log('5**userProfile')
+    }, (error) => {
+      // console.log('>>>error=', error)
+    }, (completed) => {
+      // console.log('>>>completed=', completed)
+    });//[END] user sign-in + save
  
 
   
@@ -250,7 +250,7 @@ class App extends Component {
       <Router>
         <div className={'App '+s.currPathName}>  
           {
-            console.log('[[R]] s.userProfile=', s.userProfile)
+            //console.log('[[R]] s.userProfile=', s.userProfile)
           }
 
           { //Display toast when user profile is not loaded yet

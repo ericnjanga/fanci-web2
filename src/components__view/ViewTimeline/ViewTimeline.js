@@ -86,9 +86,9 @@ class ViewTimeline extends ViewApp {
             { /* Display a toast if the list of items is not yet ready */  
               !p.postList_runtime ? 
               <div>
-                <PostItemPlaceholder style={{ marginTop:'20px' }} />
-                <PostItemPlaceholder style={{ marginTop:'20px' }} />
-                <PostItemPlaceholder style={{ marginTop:'20px' }} />
+                <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+                <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+                <PostItemPlaceholder style={{ marginBottom:'20px' }} />
                 <PostItemPlaceholder />
               </div>
               : 
