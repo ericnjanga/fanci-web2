@@ -70,7 +70,7 @@ class UserMessageModal extends React.Component {
   handleChange(event) { 
     let data = this.state.data;
     const name = event.target.name;
-    //Will be input value or new File object
+    //Will be input value or new File object  
     let value = event.target.value;
 
     //For 'file' upload it right away on the fire storage

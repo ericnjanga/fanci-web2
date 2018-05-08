@@ -14,7 +14,7 @@ const MessageForm = (props) => {
         <Label for="title">Fanci Title:</Label>
         <Input type="text" name="title" id="title" placeholder="Enter a title" onChange={handleChange} value={data.title} />
       </FormGroup> 
-      <FormGroup>
+      <FormGroup>  
         <Label for="file">Fanci Image</Label>
         <Input type="file" name="file" id="file" onChange={handleChange} />
         <FormText color="muted">
@@ -25,21 +25,21 @@ const MessageForm = (props) => {
         <Label for="duration">Duration:</Label> 
         <Input type="select" name="duration" id="duration" onChange={handleChange} value={data.duration}>
           <option>How long this will be displayed?</option>
-          <option>3 hr</option>
-          <option>10 hr</option>
-          <option>1 day</option>
-          <option>1 week</option> 
+          <option value="1">3 hr</option>
+          <option value="2">10 hr</option>
+          <option value="3">1 day</option>
+          <option value="4">1 week</option> 
         </Input>
       </FormGroup> 
       <FormGroup>
         <Label for="places">Places Available:</Label> 
         <Input type="select" name="places" id="places" onChange={handleChange} value={data.places}>
           <option>How many people can participate?</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option> 
-          <option>5</option> 
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option> 
+          <option value="5">5</option> 
         </Input>
       </FormGroup>
       <FormGroup>

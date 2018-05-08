@@ -6,13 +6,13 @@ import { database } from './../services/firebase.js';
 
 class DBPost {
   static nodeName = 'timeline';
-  static data = {
+  static data = {   
     title:'',
     file: '',
     content: '',
     location: '',
-    duration: null,
-    places : null
+    duration: '3',
+    places : '1',
   };
 
   //Get all posts from the database

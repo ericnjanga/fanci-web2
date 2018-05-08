@@ -77,7 +77,7 @@ class ViewTimeline extends ViewApp {
     const p = {...this.props}; 
     const s = {...this.state};  
 
-    return(
+    return(  
       <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}>  
         { /* Display a toast if the list of items is not yet ready */  
           !p.postList_runtime ? 
