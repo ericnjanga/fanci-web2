@@ -8,6 +8,7 @@ import MessageForm from '../MessageForm/MessageForm';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
 import DBPost from '../../utilities/DBPost.class.js';  
 import DBUpload from './../../utilities/DBUpload.class.js';
+import AppDoc from './../../utilities/AppDoc.class.js';
 import modalStyle from './../../jsStyles/modal.styles.js';
 import './UserMessageModal.css';
 
@@ -16,24 +17,27 @@ class UserMessageModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      post : {
-        file: ''
-      }
+      postFormFields : {
+        ...DBPost.getPostObject()
+      },
+      // post : {
+      //   file: ''
+      // }
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    console.log('[UserMessageModal]>>>>=', this.props.post ); 
+    console.log('[UserMessageModal]>>>>componentDidMount' ); 
     // this.setState({ data:  v });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){ 
-    console.log('>>>prevProps=', prevProps.data.post);
-    // console.log('>>>prevProps.data=', prevProps.data);
-    console.log('***prevState.data=', prevState);
-    let post = prevProps.data.post;
+    console.log('[UserMessageModal]>>>>componentDidUpdate');
+    // // console.log('>>>prevProps.data=', prevProps.data);
+    // console.log('***prevState.data=', prevState);
+    // let post = prevProps.data.post;
 
     // if(prevState.post){ //must have a previous state
       
@@ -58,16 +62,16 @@ class UserMessageModal extends React.Component {
   //Save info to post database, cleaniup state and hi demodal
   handleSubmit(event, user) {
     event.preventDefault(); 
-    DBPost.save(this.state.post, user.uid).then((ready) => { 
+    //transfert post data to temporary object and cleanup file path
+    let finalPost = { ...this.state.postFormFields };
+    finalPost.file = finalPost.file.replace(/C:\\fakepath\\/, ''); 
+    finalPost.file = 'timeline/'+finalPost.file;
+    //Save post
+    DBPost.save(finalPost, user.uid).then((ready) => { 
       //Cleanup form when post is successful ...
       this.setState((prevState, props) => {
         return {
-          title: '',
-          file: '',
-          content: '',
-          location: '',
-          duration: 0,
-          places : 0
+          ...DBPost.getPostObject()
         }
       }); 
     });
@@ -75,7 +79,7 @@ class UserMessageModal extends React.Component {
   }//[end] handleSubmit
 
   handleChange(event) { 
-    let post = this.state.post;
+    let postFormFields = this.state.postFormFields;
     const name = event.target.name;
     //Will be input value or new File object  
     let value = event.target.value;
@@ -86,12 +90,14 @@ class UserMessageModal extends React.Component {
     //will be created
     if(name==='file') { 
       let newFile = event.target.files[0];
-      value = 'timeline/'+newFile.name; 
+      console.log('>>>>>>>newFile=', newFile);
+      // value = 'timeline/'+newFile.name; 
+      // value = newFile.name; 
       DBUpload.save(newFile); 
     } 
     //....
-    post[name] = value;
-    this.setState({ post }); 
+    postFormFields[name] = value;
+    this.setState({ postFormFields }); 
   }//[end] handleChange
 
   render() {
@@ -112,8 +118,8 @@ class UserMessageModal extends React.Component {
         {
           p.data.params && <div>
             <ModalHeader toggle={p.toggle} style={modalStyle.header}>{p.data.params.title}</ModalHeader>
-            <ModalBody> {/* post={p.data.postFormFields} */}
-              <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} post={s.post} file={s.post.file} />
+            <ModalBody> {/* post={p.data.postFormFields} file={s.post.file} */}
+              <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} post={s.postFormFields} />
             </ModalBody>
             <ModalFooter style={modalStyle.footer}>
               <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={p.toggle}>Cancel</Button>{' '}

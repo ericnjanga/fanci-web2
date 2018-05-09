@@ -31,7 +31,9 @@ class PostItem extends React.Component {
       removeAsked  : false,
       canBeEdited   : false
     }
+    this.handleEdit = this.handleEdit.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }
 
   toggleDropdown() {
@@ -79,14 +81,20 @@ class PostItem extends React.Component {
     this.setState({ removeAsked:true }); 
   }
 
+  /**
+   * 1) Fetch user data
+   * 2) Fetch post image information
+   */
   componentDidMount() {
     const { uid, file } = this.props.data; 
     DBUser.get(uid).then((user) => {
       this.setState({ user });
     });
+    console.log('.....', this.props.data)
     if(file) {  
       DBUpload.getFile(file).then((imgUrl) => { 
-        this.setState({ imgUrl });
+        console.log('*********imgUrl=', imgUrl);
+        this.setState({ imgUrl:imgUrl });
       });
     }
   } 
@@ -106,26 +114,11 @@ class PostItem extends React.Component {
     const p = {...this.props};  
     return( 
       <Card className="PostItem" style={p.style}>
+        <DisplayUserMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
+        handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
 
-        { //Only post owner can modify it ...
-          p.loggedUserID===p.data.uid && 
-          <Dropdown direction="left" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
-            <DropdownToggle style={PostItemStyle.buttonEdit}> 
-              <span className="sr-only">Edit your post</span>
-              <FontAwesomeIcon icon={faEllipsisH} /> 
-            </DropdownToggle>
-            <DropdownMenu> 
-              <DropdownItem style={dropdownSyles} onClick={()=>this.handleEdit(p.data.id)}>Edit</DropdownItem> 
-              <DropdownItem style={dropdownSyles} onClick={()=>{ this.oPenConfirmRemoveModal(p.data.id) }}>Delete</DropdownItem>
-            </DropdownMenu>
-          </Dropdown> 
-        } 
+        <DisplayUserAvatar data={s.user} style={PostItemStyle.avatar} />
 
-
-
-        { 
-          s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={PostItemStyle.avatar} avatar circle size="small" />
-        }
         <header style={PostItemStyle.header}> 
           <CardTitle style={PostItemStyle.header_title}>{p.data.title}</CardTitle> 
           <small className="PostItem__date">
@@ -133,39 +126,89 @@ class PostItem extends React.Component {
           </small>
         </header>
  
-        {
-          s.imgUrl && <Figure img={s.imgUrl.url} alt={p.data.title} /> 
-        } 
+        <DisplayPostIMage src={s.imgUrl} alt={p.data.title} />
         
-                                  
-
         <CardBody style={PostItemStyle.cardBody}>   
           <CardText>{p.data.content}</CardText> 
         </CardBody> 
 
-        <CardFooter className="PostItem__footer">
-          <div className="PostItem__footer-info"> 
-            {
-              p.data.location && <small className="PostItem__date">
-                                <FontAwesomeIcon icon={faMapMarker} />{p.data.location}
-                              </small>
-            }  
-            {
-              p.data.places && <small className="PostItem__date">
-                                <FontAwesomeIcon icon={faUsers} />{p.data.places}
-                              </small>
-            }  
-          </div>
-          <div className="PostItem__footer-action"> 
-            <Button className="PostItem__btn-action" block>
-              <span className="sr-only">Contact</span>
-              <FontAwesomeIcon icon={faCheck} />
-            </Button>
-          </div>
-        </CardFooter>
+        <DisplayFooter data={p.data} />
       </Card> 
     );
   }
 }
 
 export default PostItem;
+
+
+
+
+
+
+/**
+ * Component only local to this file (not exported)
+ * -------------------------------------------------
+ */
+const DisplayPostIMage = (props) => {
+  if(!props.src) return false;
+  return(
+    <Figure img={props.src.url} alt={props.alt} /> 
+  )
+}; 
+
+const DisplayUserMenu = (props) => {
+  const { userID, data, isActive, handleToggle, handleEdit, openConfirm, style } = props;
+  if(userID!==data.uid) return false;
+  return(
+    //Only post owner can modify it ... 
+    <Dropdown direction="left" isOpen={isActive} toggle={handleToggle}>
+      <DropdownToggle style={PostItemStyle.buttonEdit}> 
+        <span className="sr-only">Edit your post</span>
+        <FontAwesomeIcon icon={faEllipsisH} /> 
+      </DropdownToggle>
+      <DropdownMenu> 
+        <DropdownItem style={style} onClick={()=>handleEdit(data.id)}>Edit</DropdownItem> 
+        <DropdownItem style={style} onClick={()=>{ openConfirm(data.id) }}>Delete</DropdownItem>
+      </DropdownMenu>
+    </Dropdown> 
+  );
+}
+
+const DisplayUserAvatar = (props) => {//data={s.user} style={PostItemStyle.avatar}
+  const { data, style } = props;
+  if(!data) return false;
+  return(
+    <Figure img={data.photoURL} alt={data.displayName} style={style} avatar circle size="small" />
+  )
+}; 
+
+const DisplayFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
+  const { data } = props;
+  if(!data) return false;
+  return(
+    <CardFooter className="PostItem__footer">
+      <div className="PostItem__footer-info"> 
+        {
+          data.location && <small className="PostItem__date">
+                            <FontAwesomeIcon icon={faMapMarker} />{data.location}
+                          </small>
+        }  
+        {
+          data.places && <small className="PostItem__date">
+                            <FontAwesomeIcon icon={faUsers} />{data.places}
+                          </small>
+        }  
+      </div>
+      <div className="PostItem__footer-action"> 
+        <Button className="PostItem__btn-action" block>
+          <span className="sr-only">Contact</span>
+          <FontAwesomeIcon icon={faCheck} />
+        </Button>
+      </div>
+    </CardFooter>
+  )
+}; 
+/**
+ * Component only local to this file (not exported)
+ * -------------------------------------------------
+ */

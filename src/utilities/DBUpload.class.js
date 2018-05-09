@@ -9,7 +9,7 @@ class DBUpload {
         // console.log('>>>>url=', url);
         resolve({url});
       }).catch(function(error) {
-        resolve({error}); 
+        resolve(null); 
       }); 
     }); 
   }

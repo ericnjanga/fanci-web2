@@ -64,7 +64,7 @@ class ViewTimeline extends ViewApp {
           title: 'Create Your Fanci!',
           btnYes: 'Create'
         },
-        post : {
+        postFormFields : {
           ...DBPost.data
         }
       }
@@ -77,20 +77,12 @@ class ViewTimeline extends ViewApp {
     const s = {...this.state};  
 
     return(  
-      <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}>  
-        { /* Display a toast if the list of items is not yet ready */  
-          !p.postList_runtime ? 
-          <div>
-            <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-            <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-            <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-            <PostItemPlaceholder />
-          </div>
-          : 
-          <List items={p.postList_runtime} itemComp={PostItem} 
-          user={p.user} handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
+      <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 
+        <Placeholders isVisible={!p.postList_runtime} />
+
+        <List items={p.postList_runtime} itemComp={PostItem} user={p.user} 
+          handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
           toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />    
-        } 
 
         { //data={s.fanciData} params={s.timeline.params}
           s.timeline && <UserMessageModal user={p.user} data={s.timeline} toggle={this.toggleModal} 
@@ -112,3 +104,28 @@ class ViewTimeline extends ViewApp {
 }
 
 export default ViewTimeline;
+
+
+
+
+
+
+/**
+ * Component only local to this file (not exported)
+ * -------------------------------------------------
+ */
+const Placeholders = (props) => {
+  if(!props.isVisible) return false;
+  return(
+    <div>
+      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+      <PostItemPlaceholder />
+    </div>
+  )
+}
+/**
+ * Component only local to this file (not exported)
+ * -------------------------------------------------
+ */
