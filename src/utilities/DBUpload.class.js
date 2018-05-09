@@ -28,6 +28,16 @@ class DBUpload {
       // console.log('Uploaded a blob or file!');
     });
   }
+
+  static remove(fileLocation) {
+    // Create a root reference
+    let storageRef = storage.ref(fileLocation); 
+    storageRef.delete().then(function(snapshot) {
+      //--> Need to count bytes and feed progress bar here ...
+      // console.log('Uploaded a blob or file!');
+    });
+
+  }
 }
 
 export default DBUpload;

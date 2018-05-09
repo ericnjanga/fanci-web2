@@ -64,15 +64,20 @@ class UserMessageModal extends React.Component {
     event.preventDefault(); 
     //transfert post data to temporary object and cleanup file path
     let finalPost = { ...this.state.postFormFields };
-    finalPost.file = finalPost.file.replace(/C:\\fakepath\\/, ''); 
-    finalPost.file = 'timeline/'+finalPost.file;
+    //Make sure file is saved in "timeline" folder ...
+    //(only if "file" has been provided)
+    if(finalPost.file){ 
+      finalPost.file = finalPost.file.replace(/C:\\fakepath\\/, ''); 
+      finalPost.file = 'timeline/'+finalPost.file;
+    }
     //Save post
-    DBPost.save(finalPost, user.uid).then((ready) => { 
+    DBPost.save(finalPost, user.uid)
+    //Reset "postFormFields" state object once its done
+    .then((ready) => {  
+      let postFormFields = { ...DBPost.getPostObject() };
       //Cleanup form when post is successful ...
       this.setState((prevState, props) => {
-        return {
-          ...DBPost.getPostObject()
-        }
+        return { postFormFields }
       }); 
     });
     this.props.toggle();

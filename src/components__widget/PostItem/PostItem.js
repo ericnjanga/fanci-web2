@@ -52,8 +52,9 @@ class PostItem extends React.Component {
     p.toggleTimelineModal({ data:p.data, params });
   }
 
-
-  handleDelete(postID) { 
+  handleDelete(postID, fileLocation) { 
+    console.log('......postID=',postID);
+    console.log('......fileLocation=',fileLocation);
     //Once the post is deleted, hide confirm dialog and cancel user pick
     DBPost.remove(postID).then(()=>{ 
       let meta = {
@@ -61,8 +62,12 @@ class PostItem extends React.Component {
         user_pick:false
       };
       this.props.handleConfirmModal(null, meta);
-    }); 
+    });
+    if(fileLocation){
+      DBUpload.remove(fileLocation);
+    }
   }
+
   //Open confirmation modal to see if this post can be deleted
   oPenConfirmRemoveModal(postID) {
     let meta = {
@@ -105,8 +110,8 @@ class PostItem extends React.Component {
     const s = this.state;
     const p = this.props;
     if(s.removeAsked && p.confirmationModal.user_pick){
-      this.handleDelete(p.data.id); 
-    } 
+      this.handleDelete(p.data.id, p.data.file); 
+    }
   } 
 
   render() {
