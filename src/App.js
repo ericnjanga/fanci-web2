@@ -231,7 +231,7 @@ class App extends Component {
     DBPost.getNode().on('value', (snapshot) => { 
       const nodeVal = snapshot.val(); 
       let postList_runtime = []; 
-      if(nodeVal){ //Avoid error if there is no DB objects
+      if(nodeVal){ //Avoid error if there is no DB objects 
         const postMap = new Map(Object.entries(nodeVal)); 
         postMap.forEach((value, key)=>{
           let post = Object.assign({}, value);

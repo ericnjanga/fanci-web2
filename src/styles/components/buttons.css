@@ -11,4 +11,6 @@
 .btn-primary:not(:disabled):not(.disabled):focus { 
   box-shadow: 0 0 0 0.2rem rgba(255, 164, 26, 0.5);
 }
- 
+.btn-info {
+  color: #fff!important;
+}

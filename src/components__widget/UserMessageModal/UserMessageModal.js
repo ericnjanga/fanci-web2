@@ -15,7 +15,11 @@ import './UserMessageModal.css';
 class UserMessageModal extends React.Component { 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      post : {
+        file: ''
+      }
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -26,10 +30,13 @@ class UserMessageModal extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){ 
-    console.log('>>>prevProps=', prevProps);
+    console.log('>>>prevProps=', prevProps.data.post);
     // console.log('>>>prevProps.data=', prevProps.data);
     console.log('***prevState.data=', prevState);
-    // if(prevState.data){ //must have a previous state
+    let post = prevProps.data.post;
+
+    // if(prevState.post){ //must have a previous state
+      
     //   // console.log('[componentDidUpdate]>>>> prevProps=', prevProps, ' - prevState=', prevState );
 
 
@@ -51,7 +58,7 @@ class UserMessageModal extends React.Component {
   //Save info to post database, cleaniup state and hi demodal
   handleSubmit(event, user) {
     event.preventDefault(); 
-    DBPost.save(this.state.data, user.uid).then((ready) => { 
+    DBPost.save(this.state.post, user.uid).then((ready) => { 
       //Cleanup form when post is successful ...
       this.setState((prevState, props) => {
         return {
@@ -68,10 +75,11 @@ class UserMessageModal extends React.Component {
   }//[end] handleSubmit
 
   handleChange(event) { 
-    let data = this.state.data;
+    let post = this.state.post;
     const name = event.target.name;
     //Will be input value or new File object  
     let value = event.target.value;
+    console.log(name+' - '+value);
 
     //For 'file' upload it right away on the fire storage
     //and save the name in the state for later use when post 
@@ -82,12 +90,13 @@ class UserMessageModal extends React.Component {
       DBUpload.save(newFile); 
     } 
     //....
-    data[name] = value;
-    this.setState({ data }); 
+    post[name] = value;
+    this.setState({ post }); 
   }//[end] handleChange
 
   render() {
     const p = {...this.props};  
+    const s = {...this.state};
     const style = {
       avatar: { 
         margin: 0,
@@ -96,14 +105,15 @@ class UserMessageModal extends React.Component {
         left: '15px'
       }
     }; 
+    
     return( 
       <Modal isOpen={p.data.active} toggle={p.toggle} className={'UserMessageModal'}> 
         <Figure img={p.user.photoURL} alt={p.user.displayName} style={style.avatar} avatar circle size="med" />
         {
           p.data.params && <div>
             <ModalHeader toggle={p.toggle} style={modalStyle.header}>{p.data.params.title}</ModalHeader>
-            <ModalBody>
-              <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} data={p.data.post} />
+            <ModalBody> {/* post={p.data.postFormFields} */}
+              <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} post={s.post} file={s.post.file} />
             </ModalBody>
             <ModalFooter style={modalStyle.footer}>
               <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={p.toggle}>Cancel</Button>{' '}

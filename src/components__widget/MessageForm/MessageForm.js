@@ -3,54 +3,48 @@
  */
 import React from 'react';
 import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import DBPost from './../../utilities/DBPost.class.js';
+import formStyle from './../../jsStyles/form.styles.js';
 // import './MessageForm.css'; 
 
 
 const MessageForm = (props) => {
-  const { handleSubmit, handleChange, data} = props; 
+  const { handleSubmit, handleChange, post} = props; 
+  const s = formStyle;
+  const fields = new Map(Object.entries(DBPost.formFields)); 
+  let formFields = []; 
+
+  fields.forEach((value, key)=>{ 
+    formFields.push(
+      <FormGroup key={key}>
+        <Label className={s[key]?s[key].className:''} for={key} style={s.label}>
+          {value.label.icon && value.label.icon} 
+          {
+            key==='file'?
+            (props.file!==''?' '+props.file.replace('timeline/',''):' '+value.label.text)
+            :
+            value.label.text
+          } 
+        </Label>
+        {
+          value.formField.type!=='select' ?
+          <Input style={s[key]?s[key].input:{}} type={value.formField.type} name={key} id={key} placeholder={value.formField.placeholder} onChange={handleChange} value={post[key]} />
+          : 
+          <Input style={s[key]?s[key].input:{}} type={value.formField.type} name={key} id={key} placeholder={value.formField.placeholder} onChange={handleChange} value={post[key]}>
+            <option>{value.formField.placeholder}</option>
+            {
+              value.formField.options.map((option)=>{
+                return <option key={option.val} value={option.val}>{option.label}</option>
+              })
+            }
+          </Input>
+        } 
+      </FormGroup> 
+    ); 
+  });
+
   return(
-    <Form onSubmit={handleSubmit}>
-      <FormGroup>
-        <Label for="title">Fanci Title:</Label>
-        <Input type="text" name="title" id="title" placeholder="Enter a title" onChange={handleChange} value={data.title} />
-      </FormGroup> 
-      <FormGroup>  
-        <Label for="file">Fanci Image</Label>
-        <Input type="file" name="file" id="file" onChange={handleChange} />
-        <FormText color="muted">
-          Max size: ...x...
-        </FormText>
-      </FormGroup>
-      <FormGroup>
-        <Label for="duration">Duration:</Label> 
-        <Input type="select" name="duration" id="duration" onChange={handleChange} value={data.duration}>
-          <option>How long this will be displayed?</option>
-          <option value="1">3 hr</option>
-          <option value="2">10 hr</option>
-          <option value="3">1 day</option>
-          <option value="4">1 week</option> 
-        </Input>
-      </FormGroup> 
-      <FormGroup>
-        <Label for="places">Places Available:</Label> 
-        <Input type="select" name="places" id="places" onChange={handleChange} value={data.places}>
-          <option>How many people can participate?</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option> 
-          <option value="5">5</option> 
-        </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="location">Location:</Label>
-        <Input type="text" name="location" id="location" placeholder="Where this will take place?" onChange={handleChange} value={data.location} />
-      </FormGroup> 
-      <FormGroup>
-        <Label for="exampleText">Fanci Description</Label>
-        <Input type="textarea" name="content" id="content" placeholder="Describe what your fanci is all about!" onChange={handleChange} value={data.content} />
-      </FormGroup>   
-    </Form>
+    formFields .map((field)=> field)
   );
 }
 

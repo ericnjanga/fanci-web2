@@ -30,11 +30,10 @@ class ViewTimeline extends ViewApp {
    * -> Or data coming from default state (for creation purposes)
    */
   toggleModal(ppt) {
-    let timeline; //fanciData, params;
-    // console.log('>>>>toggleModal *** data=',ppt.data, '----', ppt.params)
+    let timeline; //fanciData, params; 
     if(ppt!==undefined && ppt.data && ppt.params){
       timeline = {};
-      timeline.post = ppt.data;
+      timeline.postFormFields = ppt.data;
       timeline.params = ppt.params; 
     }
     else{
@@ -44,9 +43,9 @@ class ViewTimeline extends ViewApp {
         title: 'Create Your Fanci!',
         btnYes: 'Create'
       };
-      timeline.post = {
-        ...DBPost.data
-      }; 
+      timeline.postFormFields = {
+        ...DBPost.getPostObject()
+      };  
     }
     this.setState({ timeline }, ()=>{//toggle modal when data is updated
         let timeline = this.state.timeline;
@@ -90,8 +89,7 @@ class ViewTimeline extends ViewApp {
           : 
           <List items={p.postList_runtime} itemComp={PostItem} 
           user={p.user} handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
-          toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />
-            
+          toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />    
         } 
 
         { //data={s.fanciData} params={s.timeline.params}
