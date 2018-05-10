@@ -23,6 +23,7 @@ import { Container, Row, Col } from 'reactstrap';
 import './styles/App.css'; 
 import './styles/components/buttons.css'; 
 import './styles/components/dropdown.css'; 
+import './styles/components/form.css'; 
 
 
 class App extends Component {

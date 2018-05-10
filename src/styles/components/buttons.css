@@ -14,3 +14,10 @@
 .btn-info {
   color: #fff!important;
 }
+
+
+.btn-primary.disabled, .btn-primary:disabled {
+  background-color: #d47e00;
+  border-color: #d47e00;
+  opacity: 0.4;
+}
