@@ -52,9 +52,7 @@ class PostItem extends React.Component {
     p.toggleTimelineModal({ data:p.data, params });
   }
 
-  handleDelete(postID, fileLocation) { 
-    console.log('......postID=',postID);
-    console.log('......fileLocation=',fileLocation);
+  handleDelete(postID, fileLocation) {  
     //Once the post is deleted, hide confirm dialog and cancel user pick
     DBPost.remove(postID).then(()=>{ 
       let meta = {
@@ -94,11 +92,9 @@ class PostItem extends React.Component {
     const { uid, file } = this.props.data; 
     DBUser.get(uid).then((user) => {
       this.setState({ user });
-    });
-    console.log('.....', this.props.data)
+    }); 
     if(file) {  
-      DBUpload.getFile(file).then((imgUrl) => { 
-        console.log('*********imgUrl=', imgUrl);
+      DBUpload.getFile(file).then((imgUrl) => {  
         this.setState({ imgUrl:imgUrl });
       });
     }

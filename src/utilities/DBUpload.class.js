@@ -23,9 +23,10 @@ class DBUpload {
     // Create a root reference
     let storageRef = storage.ref('timeline/'+file.name);  
     //Upload from a Blob or File
+      console.log('**START ........... Uploaded a blob or file!');
     storageRef.put(file, metadata).then(function(snapshot) {
       //--> Need to count bytes and feed progress bar here ...
-      // console.log('Uploaded a blob or file!');
+      console.log('FINISHED ........... Uploaded a blob or file!');
     });
   }
 

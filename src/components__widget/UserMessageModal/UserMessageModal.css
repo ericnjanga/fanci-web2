@@ -9,3 +9,6 @@
 .UserMessageModal form label {
   margin-bottom: .1rem;
 }
+.UserMessageModal .modal-header .close {
+  display: none;
+}
