@@ -50,9 +50,9 @@ class ViewProfile extends ViewApp {
     const { userProfile, overlayActive } = this.state;
     return(
       <div className="view__content ViewProfile"> 
-        { /* Display a toast if the list of items is not yet ready */
-          overlayActive && <Toast msg={'Saving data'} /> 
-        }
+
+        { /* Display a toast if the list of items is not yet ready */ }
+        <Toast active={overlayActive}>Saving data</Toast>
          
         <div className="ViewProfile__maincol">
           <div>

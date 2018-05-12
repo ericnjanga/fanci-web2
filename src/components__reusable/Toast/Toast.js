@@ -6,8 +6,9 @@ import React from 'react';
 import './Toast.css';
 
 
-const Toast = (props) => {
-  const { msg } = props;
+const Toast = (props) => { 
+  if(!props.active) return false;
+
   const style = {
     toast : {
       position: 'fixed',
@@ -68,8 +69,10 @@ const Toast = (props) => {
               ) 
             }
           </div>
+        </div> 
+        <div className="Toast__toast" style={style.msg}>
+          {props.children}
         </div>
-        { msg && <div className="Toast__toast" style={style.msg}>{msg}</div>}
       </div>
     </section>
   );

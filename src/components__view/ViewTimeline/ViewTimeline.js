@@ -1,8 +1,8 @@
 import React from 'react';
 import List from './../../components__reusable/List/List.js';     
+import ModalPost from './../../components__reusable/ModalPost/ModalPost.js'; 
 import PostItem from './../../components__widget/PostItem/PostItem.js'; 
 import PostItemPlaceholder from './../../components__widget/PostItemPlaceholder/PostItemPlaceholder.js';  
-import UserMessageModal from './../../components__widget/UserMessageModal/UserMessageModal.js'; 
 import buttonStyle from './../../jsStyles/button.styles.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
@@ -21,60 +21,68 @@ class ViewTimeline extends ViewApp {
     this.toggleModal = this.toggleModal.bind(this); 
   }
 
- 
- 
-  
+
   /**
    * Toggle "timeline" modal visibility and update fanciData either with : 
    * -> Data coming from selected component (for editing purposes)
    * -> Or data coming from default state (for creation purposes)
    */
   toggleModal(ppt) {
-    let timeline; //fanciData, params; 
+    let modal = {...this.state.modal}, formFields={}; 
     if(ppt!==undefined && ppt.data && ppt.params){
-      timeline = {};
-      timeline.postFormFields = ppt.data;
-      timeline.params = ppt.params; 
+      modal.params = {...ppt.params}; 
+      formFields = {...ppt.data};
     }
     else{
-      timeline = this.state.timeline;
-      timeline.params = {
-        mode: 'create',
-        title: 'Create Your Fanci!',
-        btnYes: 'Create'
-      };
-      timeline.postFormFields = {
+      modal.params = {
+        ...this.getModalParams('create') 
+      }; 
+      formFields = {
         ...DBPost.getPostObject()
-      };  
+      }; 
     }
-    this.setState({ timeline }, ()=>{//toggle modal when data is updated
-        let timeline = this.state.timeline;
-        timeline.active = !timeline.active;
-      this.setState({ timeline }); 
+    
+    this.setState({ modal, formFields }, ()=>{//toggle modal when data is updated
+      let modal = {...this.state.modal};
+      modal.active = !this.state.modal.active;
+      this.setState({ modal }); 
     }); 
-  } 
+  }//[end] toggleModal
+
+
+  getModalParams(arg) {
+    let params = {}; 
+    let cta = arg[0].toUpperCase() + arg.substring(1);
+    params.mode = arg;
+    params.title = `${cta} Your Fanci!`;
+    params.btnYes = `${cta}`;
+    return params;
+  }//end] getModalParams
+
 
   componentDidMount() { 
     super.componentDidMount(); //User ViewApp parent component 
     this.setState({
-      timeline: {
-        active: false,
+      modal: {
+        active: false, 
         params : {//Create mode by default
-          mode: 'create',
-          title: 'Create Your Fanci!',
-          btnYes: 'Create'
+          ...this.getModalParams('create') 
         },
-        postFormFields : {
-          ...DBPost.data
-        }
+      },
+      formFields : {
+        ...DBPost.data
       }
-    });
-    // this.initState(); 
-  }//[edn] componentDidMount
+    }); 
+  }//[end] componentDidMount
  
+
   render() {
     const p = {...this.props}; 
     const s = {...this.state};  
+    const modalData = {
+      ...s.modal,
+      formFields: this.state.formFields
+    };
 
     return(  
       <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 
@@ -84,8 +92,8 @@ class ViewTimeline extends ViewApp {
           handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
           toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />    
 
-        { //data={s.fanciData} params={s.timeline.params}
-          s.timeline && <UserMessageModal user={p.user} data={s.timeline} toggle={this.toggleModal} 
+        {
+          s.modal && <ModalPost user={p.user} data={modalData} toggle={this.toggleModal} 
           className={this.props.className} />
         }
         
@@ -100,8 +108,8 @@ class ViewTimeline extends ViewApp {
         </Button>  
       </div>
     ); 
-  }
-}
+  }//[end] render
+}//[end] ViewTimeline
 
 export default ViewTimeline;
 

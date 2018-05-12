@@ -42,9 +42,7 @@ class ViewMap extends ViewApp {
           </div>
         }
         
-        {
-          //p.geolocation.on===null && <Toast msg={p.geolocation.msg} />
-        }
+        
         {
           //p.geolocation.on===false && <Alert color="danger" style={{ margin:'50px 20px 0 20px', width:'100%', height:'min-content' }}>{p.geolocation.msg}</Alert>
         }

@@ -1,0 +1,14 @@
+
+ 
+.ModalPost .modal-title {
+  margin-left: 55px;
+}
+.ModalPost textarea {
+  height: 100px;
+} 
+.ModalPost form label {
+  margin-bottom: .1rem;
+}
+.ModalPost .modal-header .close {
+  display: none;
+}

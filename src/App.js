@@ -275,10 +275,8 @@ class App extends Component {
             //console.log('[[R]] s.userProfile=', s.userProfile)
           }
 
-          { //Display toast when user profile is not loaded yet
-            s.userProfile===undefined && <Toast msg={'Fetching your preferences'} />
-          }
- 
+          { /* Display toast when user profile is not loaded yet*/ }
+          <Toast active={s.userProfile===undefined}>Fetching your preferences</Toast>
           
           <AppHeader user={s.userProfile} onLogout={this.handleLogout} 
           onToggleVertNav={this.handleToggleVertNav}
