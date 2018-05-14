@@ -23,11 +23,12 @@ class ViewTimeline extends ViewApp {
 
 
   /**
-   * Toggle "timeline" modal visibility and update fanciData either with : 
-   * -> Data coming from selected component (for editing purposes)
-   * -> Or data coming from default state (for creation purposes)
+   * Customize 'timeline modal' (edit/delete), initialie for fields (default/existing data)
+   * Toggle modal
+   * @param {*} ppt 
    */
   toggleModal(ppt) {
+    console.log('ppt=', ppt)
     let modal = {...this.state.modal}, formFields={}; 
     if(ppt!==undefined && ppt.data && ppt.params){
       modal.params = {...ppt.params}; 
@@ -46,6 +47,7 @@ class ViewTimeline extends ViewApp {
       let modal = {...this.state.modal};
       modal.active = !this.state.modal.active;
       this.setState({ modal }); 
+      // console.log('this.state=', this.state);
     }); 
   }//[end] toggleModal
 
@@ -83,6 +85,7 @@ class ViewTimeline extends ViewApp {
       ...s.modal,
       formFields: this.state.formFields
     };
+    // console.log('>>modalData=', modalData);
 
     return(  
       <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 

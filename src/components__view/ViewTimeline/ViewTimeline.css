@@ -8,13 +8,13 @@
 }
 
 .ViewTimeline .btn-search { 
-  bottom: 76px;
+  bottom: 86px;
   background: rgb(137, 155, 255);
     border: 1px solid rgb(137, 155, 255);
     color: #fff;
 }
 .ViewTimeline .btn-post {  
-  bottom: 16px;
+  bottom: 26px;
   box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12), 0 1px 1px 0 rgba(0,0,0,.24);
 }
 

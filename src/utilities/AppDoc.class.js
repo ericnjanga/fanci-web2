@@ -39,6 +39,21 @@ class AppDoc {
   static getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
+  
+  /**
+   * Compare two JSON objects 1 level deep
+   * @param {*} obj1 
+   * @param {*} obj2 
+   */
+  static objAreEqual(obj1, obj2) {
+    for(let ppt1 in obj1){
+      if(obj1.hasOwnProperty(ppt1) && obj1[ppt1]!==obj2[ppt1]){
+        return false;
+      }
+    }
+    return true;
+  } 
 }
+
 
 export default AppDoc;

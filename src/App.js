@@ -42,7 +42,7 @@ class App extends Component {
       postList_runtime    : null,
       confirmationModal   : {
         active    : false,
-        user_pick : false,
+        agreed : false,
         content   : false
       },
       geolocation         : {
@@ -75,7 +75,7 @@ class App extends Component {
   handleConfirmModal(userAnswer, ...params) {    
     let confirmationModal = this.state.confirmationModal; 
     //update user answer ...
-    confirmationModal.user_pick = (userAnswer!==undefined)?userAnswer:false;
+    confirmationModal.agreed = (userAnswer!==undefined)?userAnswer:false;
     //simply toggle modal is there is no specifications ...
     if(!params.length){
       confirmationModal.active = !confirmationModal.active;
@@ -84,8 +84,8 @@ class App extends Component {
     //Modal customization params
     if(params.length){ 
       let p = params[0];
-      if(p.hasOwnProperty('user_pick')){
-        confirmationModal.user_pick = p.user_pick;
+      if(p.hasOwnProperty('agreed')){
+        confirmationModal.agreed = p.agreed;
       }
       if(p.hasOwnProperty('content')){
         confirmationModal.content = p.content;

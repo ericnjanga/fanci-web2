@@ -28,7 +28,7 @@ class PostItem extends React.Component {
     this.state = {
       user          : null,
       dropdownOpen  : false,
-      removeAsked  : false,
+      postDeleteRequested  : false,
       canBeEdited   : false
     }
     this.handleEdit = this.handleEdit.bind(this);
@@ -42,6 +42,10 @@ class PostItem extends React.Component {
     });
   }
 
+  /**
+   * Define 'timeline modal' parameters before toggling it
+   * @param {*} postID 
+   */
   handleEdit(postID) {
     const p = {...this.props};
     const params = {
@@ -52,19 +56,6 @@ class PostItem extends React.Component {
     p.toggleTimelineModal({ data:p.data, params });
   }
 
-  handleDelete(postID, fileLocation) {  
-    //Once the post is deleted, hide confirm dialog and cancel user pick
-    DBPost.remove(postID).then(()=>{ 
-      let meta = {
-        active: false,
-        user_pick:false
-      };
-      this.props.handleConfirmModal(null, meta);
-    });
-    if(fileLocation){
-      DBUpload.remove(fileLocation);
-    }
-  }
 
   //Open confirmation modal to see if this post can be deleted
   oPenConfirmRemoveModal(postID) {
@@ -81,9 +72,10 @@ class PostItem extends React.Component {
       }
     };
     this.props.handleConfirmModal(null, meta);
-    this.setState({ removeAsked:true }); 
-  }
+    this.setState({ postDeleteRequested:true }); 
+  }//[end] oPenConfirmRemoveModal
 
+  
   /**
    * 1) Fetch user data
    * 2) Fetch post image information
@@ -100,15 +92,37 @@ class PostItem extends React.Component {
     }
   } 
 
-  //Figure Out what to do when component updates
-  //Edit? Delete?
+  
   componentDidUpdate(){
     const s = this.state;
     const p = this.props;
-    if(s.removeAsked && p.confirmationModal.user_pick){
+    //Trigger 'post deletion process' if request has been made and confirmed
+    if(s.postDeleteRequested && p.confirmationModal.agreed){
       this.handleDelete(p.data.id, p.data.file); 
     }
   } 
+
+
+  /**
+   * Delete post and related image
+   * @param {*} postID 
+   * @param {*} fileLocation 
+   */
+  handleDelete(postID, fileLocation) {  
+    DBPost.remove(postID)//Delete post
+    .then(()=>{//then set confirm modal with new params
+      let meta = {
+        active: false, //inactive
+        agreed:false //consent to 'NO'
+      };
+      //Apply params
+      this.props.handleConfirmModal(null, meta);
+    });
+    if(fileLocation){
+      DBUpload.remove(fileLocation);
+    }
+  }//[end] handleDelete
+
 
   render() {
     const s = {...this.state}; 

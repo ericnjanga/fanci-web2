@@ -40,6 +40,9 @@ class ModalPost extends React.Component {
       postFormFields : {
         ...DBPost.getPostObject()
       },
+      postFormHiddenFields : {
+        file: ''
+      },
       postFormValidity : {
         title : false,
         location : false,
@@ -69,29 +72,89 @@ class ModalPost extends React.Component {
     // this.setState({ data:  v });
   }
 
+  shouldComponentUpdate(nextProps, nextState) { 
+    // console.log('[ModalPost]???????cshouldComponentUpdate?????????????' ); 
+    // console.log('???????nextProps.data.formFields=', nextProps.data.formFields); 
+    // console.log('???????nextState.postFormFields=', nextState.postFormFields ); 
+    // let prevFormFields = DBPost.getPostObj(nextState.postFormFields);
+    // let nextFormFields = nextProps.data.formFields;
+    // return !AppDoc.objAreEqual(prevFormFields, nextFormFields); 
+    return true;
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){ 
-    // console.log('[ModalPost]>>>>componentDidUpdate');
-    // // console.log('>>>prevProps.data=', prevProps.data);
-    // console.log('***prevState.data=', prevState);
-    // let post = prevProps.data.post;
+    console.log('[ModalPost]>>>>componentDidUpdate****************' ); 
+   
+    if(prevProps.data.params.mode==='edit'){
+       /*
+      let flagUpdateState = false;
+      let newFormFields = {};
+      for (let p in prevProps.data.formFields){
+        // console.log('>>>p=', p);
+        if(prevState.postFormFields.hasOwnProperty(p)){
+          if(prevProps.data.formFields[p]===prevState.postFormFields[p]){
+            flagUpdateState = true;
+          }
+          
+          newFormFields[p] = prevProps.data.formFields[p];
+          console.log('>>>flagUpdateState=', flagUpdateState);
+          // break;
+          // newFormFields[p] = prevProps.data.formFields[p];
+          // flagUpdateState = (prevProps.data.formFields[p]===prevState.postFormFields[p])
+        } 
+      }
+      if(flagUpdateState){ 
+        console.log('>>>prevProps.data.params.mode=', prevProps.data.params.mode);
+        console.log('>>>prevProps.data.formFields=', prevProps.data.formFields);
+        let postFormFields = {...newFormFields},
+            postFormHiddenFields = {};
+            postFormHiddenFields.file = prevProps.data.formFields.file;
+            postFormFields.file = '';
+        this.setState({ postFormFields, postFormHiddenFields });
+        console.log('>>>postFormFields=', postFormFields);
+        console.log('>>>postFormHiddenFields=', postFormHiddenFields);
+        flagUpdateState = false;
+      }
+      */
 
-    // if(prevState.post){ //must have a previous state
-      
-    //   // console.log('[componentDidUpdate]>>>> prevProps=', prevProps, ' - prevState=', prevState );
 
 
-    //   console.log('[componentDidUpdate]>>>> prevState.data.title!==prevProps.data.title=', prevState.data.title,'!==',prevProps.data.title, '----', (prevState.data.title!==prevProps.data.title) );
 
-    //   // console.log('[componentDidUpdate]>>>> prevState.data=', prevState.data); 
-    //   // console.log('[componentDidUpdate]>>>> prevProps.data=', prevProps.data);
-      
-    //   if(prevState.data.title!==prevProps.data.title || prevState.data.file!==prevProps.data.file || prevState.data.content!==prevProps.data.content || 
-    //     prevState.data.location!==prevProps.data.location || prevState.data.duration!==prevProps.data.duration || prevState.data.places!==prevProps.data.places){
-    //     this.setState((prevState, props)=>{
-    //       return { data: prevProps.data }
-    //     });
-    //   } 
-    // }//must have a previous state
+      /*
+      postFormFields : {
+        ...DBPost.getPostObject()
+      },
+      postFormHiddenFields : {
+        file: ''
+      },
+      */
+
+
+
+      // console.log('[ModalPost]>>>>componentDidUpdate=', prevProps, ' ||| ', prevState);
+      // console.log('[ModalPost]>>>>componentDidUpdate=', prevProps, ' ||| ', prevState);
+      // // console.log('>>>prevProps.data=', prevProps.data);
+      // console.log('***prevState.data=', prevState);
+      // let post = prevProps.data.post;
+  
+      // if(prevState.post){ //must have a previous state
+        
+      //   // console.log('[componentDidUpdate]>>>> prevProps=', prevProps, ' - prevState=', prevState );
+  
+  
+      //   console.log('[componentDidUpdate]>>>> prevState.data.title!==prevProps.data.title=', prevState.data.title,'!==',prevProps.data.title, '----', (prevState.data.title!==prevProps.data.title) );
+  
+      //   // console.log('[componentDidUpdate]>>>> prevState.data=', prevState.data); 
+      //   // console.log('[componentDidUpdate]>>>> prevProps.data=', prevProps.data);
+        
+      //   if(prevState.data.title!==prevProps.data.title || prevState.data.file!==prevProps.data.file || prevState.data.content!==prevProps.data.content || 
+      //     prevState.data.location!==prevProps.data.location || prevState.data.duration!==prevProps.data.duration || prevState.data.places!==prevProps.data.places){
+      //     this.setState((prevState, props)=>{
+      //       return { data: prevProps.data }
+      //     });
+      //   } 
+      // }//must have a previous state
+    }
   }//[end] componentDidUpdate
 
   clearModal(){ 
@@ -245,8 +308,8 @@ class ModalPost extends React.Component {
               <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} state={s}/>
             </ModalBody>
             <ModalFooter style={modalStyle.footer}>
-              <Button style={style.btnCancel} color="secondary" onClick={p.toggle}>Cancel</Button>{' '}
-              <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.user)} disabled={!s.postFormIsValid || s.postFormIsFrozen} >{p.data.params.btnYes}</Button>
+              <Button style={style.btnCancel} color="secondary" onClick={p.toggle}>Cancel</Button>{' '} 
+              <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.user)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>{p.data.params.btnYes}</Button>
             </ModalFooter> 
           </div>
         }
@@ -269,11 +332,13 @@ const MessageForm = (props) => {
   let formFields = []; 
 
   fields.forEach((value, key)=>{ 
-    let inputStyle = stl[key]?stl[key].input:{},
+    let inputStyle = stl[key]?stl[key].input:stl.inputField,
+        labelStyle = stl[key]?stl[key].label:stl.label, 
+        formGroupStyle = stl[key]?stl[key].formGroup:stl.formGroup, 
         tmpVal = value.formField.placeholder;
     formFields.push(
-      <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key}>
-        <Label className={stl[key]?stl[key].className:''} for={key} style={stl.label}>
+      <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
+        <Label className={stl[key]?stl[key].className:''} for={key} style={labelStyle}>
           <IconLabel value={value} /> {' '}
           <TexTLabelFileInput type={key} value={postFormFields.file} tmpText={value.label.text} />
           <TexTLabelOtherInput type={key} value={value.label.text} /> 
@@ -382,7 +447,7 @@ const OtherInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, error, disabled } = props; 
   if(type==='select') return false;
   return(
-    <div><span>....{disabled}...</span>
+    <div>
       <Input type={type} name={ident} id={ident} style={style} onChange={onChange} value={value} 
       placeholder={placeholder} disabled={disabled} />
       <FormFieldError data={error[ident]} />

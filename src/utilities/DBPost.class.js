@@ -7,90 +7,106 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faUpload from '@fortawesome/fontawesome-free-solid/faUpload';
 
 
-class DBPost {
-  static nodeName = 'timeline'; 
-
-  static formFields = { 
-    title: {
-      label: {
-        text:'Fanci Title'
-      },
-      formField : {
-        value:'',
-        type:'text',
-        placeholder: 'Enter a title'
-      }   
-    }, 
-    expiry: {
-      label: {
-        text:'Expiry'
-      }, 
-      formField : {
-        value:null,
-        options: [
-          { val:0, label:'3 hr' },
-          { val:1, label:'10 hr' },
-          { val:2, label:'1 day' },
-          { val:3, label:'1 week' }
-        ],
-        type:'select',
-        placeholder: 'How long this will be displayed?'
-      }   
-    }, 
-    places: {
-      label:  {
-        text:'Places Available'
-      }, 
-      formField : {
-        value:null,
-        options: [
-          { val:0, label:'1 to 5' },
-          { val:1, label:'5 to 10' },
-          { val:2, label:'10 to 15' },
-          { val:3, label:'15 up' }
-        ],
-        type:'select',
-        placeholder: 'How many people can participate?'
-      }   
+const nodeName = 'timeline';
+const formFields = { 
+  title: {
+    label: {
+      text:'Fanci Title'
     },
-    location: {
-      label:  {
-        text:'Location'
-      },  
-      formField : {
-        value:'',
-        type:'text',
-        placeholder: 'Where this will take place?'
-      }   
+    formField : {
+      value:'',
+      type:'text',
+      placeholder: 'Enter a title'
+    }   
+  }, 
+  expiry: {
+    label: {
+      text:'Expiry'
     }, 
-    content: {
-      label:  {
-        text:'Fanci Description'
-      },   
-      formField : {
-        value:'',
-        type:'textarea',
-        placeholder: 'Describe what your fanci is all about!'
-      }   
+    formField : {
+      value:null,
+      options: [
+        { val:0, label:'3 hr' },
+        { val:1, label:'10 hr' },
+        { val:2, label:'1 day' },
+        { val:3, label:'1 week' }
+      ],
+      type:'select',
+      placeholder: 'How long this will be displayed?'
+    }   
+  }, 
+  places: {
+    label:  {
+      text:'Places Available'
     }, 
-    file: {
-      label: {
-        text:'Upload an image',
-        icon: <FontAwesomeIcon icon={faUpload} />
-      },
-      formField : {
-        value:'',
-        type:'file',
-        placeholder: 'Pick a file'
-      }   
+    formField : {
+      value:null,
+      options: [
+        { val:0, label:'1 to 5' },
+        { val:1, label:'5 to 10' },
+        { val:2, label:'10 to 15' },
+        { val:3, label:'15 up' }
+      ],
+      type:'select',
+      placeholder: 'How many people can participate?'
+    }   
+  },
+  location: {
+    label:  {
+      text:'Location'
+    },  
+    formField : {
+      value:'',
+      type:'text',
+      placeholder: 'Where this will take place?'
+    }   
+  }, 
+  content: {
+    label:  {
+      text:'Fanci Description'
+    },   
+    formField : {
+      value:'',
+      type:'textarea',
+      placeholder: 'Describe what your fanci is all about!'
+    }   
+  }, 
+  file: {
+    label: {
+      text:'Upload an image',
+      icon: <FontAwesomeIcon icon={faUpload} />
+    },
+    formField : {
+      value:'',
+      type:'file',
+      placeholder: 'Pick a file'
+    }   
+  }
+};
+
+
+class DBPost { 
+  static formFields = formFields;  
+
+  /**
+   * Returns an obj which properties are only these of "formFields"
+   * @param {*} obj 
+   */
+  static getPostObj(obj) {
+    let newObj = {};
+    for(let ppt in obj){
+      if(formFields.hasOwnProperty(ppt)){
+        newObj[ppt] = obj[ppt]; 
+      }
     }
-  };
+    return newObj;
+  }
 
   /**
    * Extract and return post object from 'formFields
    */
   static getPostObject() {
-    const list = new Map(Object.entries(this.formFields)); 
+    const list = new Map(Object.entries(formFields)); 
     let data = {};
 
     list.forEach((value, key)=>{ 
@@ -106,7 +122,7 @@ class DBPost {
   //(returns a promise which resolves when an iterator containing the posts is ready)
   //(NOTE: changes to the database wont be reflected on thwe UI because the promise would have been resolved already)
   static getAll() {
-    const odePosts = database.ref(this.nodeName);
+    const odePosts = database.ref(nodeName);
     return new Promise((resolve, reject) => {
       odePosts.on('value', (snapshot) => {
         const nodeVal     = snapshot.val(); 
@@ -119,7 +135,7 @@ class DBPost {
   
   //Return database node (for external use)
   static getNode() {
-    return database.ref(this.nodeName);
+    return database.ref(nodeName);
   }
 
   
@@ -127,7 +143,7 @@ class DBPost {
   //- copy info in new object and ogment it with new props (uid, date)
   //- return a promise that resolves with a success message
   static save(item, uid) {
-    const listRef = database.ref(this.nodeName);
+    const listRef = database.ref(nodeName);
     let newPost = Object.assign({}, item);
     newPost.uid = uid;
     newPost.date = Date.now();
