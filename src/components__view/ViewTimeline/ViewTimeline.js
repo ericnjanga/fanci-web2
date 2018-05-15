@@ -1,6 +1,6 @@
 import React from 'react';
 import List from './../../components__reusable/List/List.js';     
-import ModalPost from './../../components__reusable/ModalPost/ModalPost.js'; 
+import ModalPostCreate from './../../components__widget/ModalPostCreate/ModalPostCreate.js'; 
 import PostItem from './../../components__widget/PostItem/PostItem.js'; 
 import PostItemPlaceholder from './../../components__widget/PostItemPlaceholder/PostItemPlaceholder.js';  
 import buttonStyle from './../../jsStyles/button.styles.js'; 
@@ -96,8 +96,13 @@ class ViewTimeline extends ViewApp {
           toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} />    
 
         {
-          s.modal && <ModalPost user={p.user} data={modalData} toggle={this.toggleModal} 
-          className={this.props.className} />
+          s.modal && <div>
+            <ModalPostCreate user={p.user} data={modalData} toggle={this.toggleModal} 
+            className={this.props.className} />
+            {/*
+            <ModalPostEdit user={p.user} data={modalData} toggle={this.toggleModal} 
+            className={this.props.className} />*/}
+          </div>
         }
         
         <Button style={buttonStyle.fab} className="btn-search btn-fab" color="secondary" onClick={p.toggleSearchPanel}>

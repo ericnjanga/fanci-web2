@@ -4,14 +4,20 @@
  */ 
 import React from 'react'; 
 import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
+import {  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Alert } from 'reactstrap';
-import { dropdownSyles } from './../../jsStyles/menu.styles.js';
+import { dropdownSyles } from './../../jsStyles/menu.styles.js';  
+import Toast from './../../components__reusable/Toast/Toast.js';  
+import ModalPostEdit from './../../components__widget/ModalPostEdit/ModalPostEdit.js'; 
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
 import DBUser from '../../utilities/DBUser.class.js';  
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
+import modalStyle from './../../jsStyles/modal.styles.js';
+import formStyle from './../../jsStyles/form.styles.js';
 import DateFormat from './../../components__reusable/DateFormat.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
@@ -29,16 +35,84 @@ class PostItem extends React.Component {
       user          : null,
       dropdownOpen  : false,
       postDeleteRequested  : false,
-      canBeEdited   : false
+      canBeEdited   : false,
+      modalEM       : false, 
+      postFormFields : {},
+      postFormHiddenFields : {
+        file: ''
+      },
+      postFormValidity : {
+        title : false,
+        location : false,
+        content : false,
+      },
+      postFormErrors : {
+        title : null,
+        location : null,
+        content : null,
+        expiry : null,
+        places : null
+      },
+      postFormMinCars : {
+        title : 10,
+        location : 4,
+        content : 30,
+      },
+      postFormIsValid : false,
+      postFormIsFrozen : false 
     }
     this.handleEdit = this.handleEdit.bind(this);
+    this.toggleEM = this.toggleEM.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }
+
+
+
+
+  /**
+   * - Unfreeze all fields
+   * - Display overlay (z-index higher than everything inside modal except 'cancel' button)
+   */ 
+  freezeForm(bool){
+    this.setState({ postFormIsFrozen:bool });
+  }
+
+  /**
+   * Use event.target to update the form property name and value
+   * If target is a 'file' input, save value in "Firebase Storage"
+   * @param {*} event 
+   */
+  handleChange(event) { 
+    let postFormFields = this.state.postFormFields;
+    const name = event.target.name;
+    //Will be input value or new File object  
+    let value = event.target.value;
+
+    //For 'file' upload it right away on "Firebase Storage"
+    //and save the name in the state for later use when post 
+    //will be created
+    if(name==='file') { 
+      let newFile = event.target.files[0]; 
+      DBUpload.save(newFile); 
+    } 
+    //....
+    postFormFields[name] = value;
+    this.setState({ postFormFields }, ()=>{
+      this.validateField(name, value);
+    }); 
+  }//[end] handleChange
 
   toggleDropdown() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  toggleEM() {
+    this.setState({
+      modalEM: !this.state.modalEM
     });
   }
 
@@ -53,7 +127,20 @@ class PostItem extends React.Component {
       title: 'Edit Your Fanci!',
       btnYes: 'Update'
     };
-    p.toggleTimelineModal({ data:p.data, params });
+    this.toggleEM();
+
+    let postFormFields = {...p.data}; 
+    //Save file value in a hidden field for now (non-empty value cannpt be saved in the "file" input)
+    let postFormHiddenFields = {
+      file: p.data.file
+    };
+    postFormFields.file = '';
+
+
+    console.log('postFormFields=',postFormFields);
+    this.setState({ postFormFields, postFormHiddenFields });
+
+    // p.toggleTimelineModal({ data:p.data, params });
   }
 
 
@@ -127,28 +214,68 @@ class PostItem extends React.Component {
   render() {
     const s = {...this.state}; 
     const p = {...this.props};  
-    return( 
-      <Card className="PostItem" style={p.style}>
-        <DisplayUserMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
-        handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
+    let style = {
+      avatar: { 
+        margin: 0,
+        position: 'absolute', 
+        top: '10px',
+        left: '15px'
+      },
+      btnCancel: {
+        ...modalStyle.ctaBtn,
+        ...modalStyle.btnNo,
+        //Make sure cancel button is always supperior than inner <Toast />
+        position: 'relative',
+        zIndex: '1100' 
+      },
+      btnSubmit: {
+        ...modalStyle.ctaBtn, 
+        ...modalStyle.btnYes
+      }
+    }; 
 
-        <DisplayUserAvatar data={s.user} style={PostItemStyle.avatar} />
+    return(  
+      <div>
+        <Card className="PostItem" style={p.style}>
+          <DisplayUserMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
+          handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
 
-        <header style={PostItemStyle.header}> 
-          <CardTitle style={PostItemStyle.header_title}>{p.data.title}</CardTitle> 
-          <small className="PostItem__date">
-            <DateFormat millisec={p.data.date} />
-          </small>
-        </header>
- 
-        <DisplayPostIMage src={s.imgUrl} alt={p.data.title} />
-        
-        <CardBody style={PostItemStyle.cardBody}>   
-          <CardText>{p.data.content}</CardText> 
-        </CardBody> 
+          <DisplayUserAvatar data={s.user} style={PostItemStyle.avatar} />
 
-        <DisplayFooter data={p.data} />
-      </Card> 
+          <header style={PostItemStyle.header}> 
+            <CardTitle style={PostItemStyle.header_title}>{p.data.title}</CardTitle> 
+            <small className="PostItem__date">
+              <DateFormat millisec={p.data.date} />
+            </small>
+          </header>
+  
+          <DisplayPostIMage src={s.imgUrl} alt={p.data.title} />
+          
+          <CardBody style={PostItemStyle.cardBody}>   
+            <CardText>{p.data.content}</CardText> 
+          </CardBody> 
+
+          <DisplayFooter data={p.data} />
+        </Card>   
+
+        { 
+          <div>
+            <Modal isOpen={this.state.modalEM} toggle={this.toggleEM} className={'ModalPost'} backdrop={'static'}> 
+              { console.log('>>>>>>>>>>',s.user) }
+              { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
+              <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
+              <ModalBody>
+                <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} state={s}/>
+              </ModalBody>
+              <ModalFooter style={modalStyle.footer}>
+                <Button style={style.btnCancel} color="secondary" onClick={p.toggle}>Cancel</Button>{' '} 
+                <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.user)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>Update</Button>
+              </ModalFooter> 
+            </Modal>
+          </div>
+        }
+            
+      </div>
     );
   }
 }
@@ -164,6 +291,144 @@ export default PostItem;
  * Component only local to this file (not exported)
  * -------------------------------------------------
  */
+
+/**
+ * Utility components: Only local to this file (not exported)
+ * -------------------------------------------------
+ */
+const MessageForm = (props) => {
+  const { handleSubmit, handleChange, state } = props; 
+  const stl = formStyle;
+  const {postFormFields, postFormErrors, postFormIsFrozen} = state; 
+  const fields = new Map(Object.entries(DBPost.formFields)); 
+  let formFields = []; 
+
+  fields.forEach((value, key)=>{ 
+    let inputStyle = stl[key]?stl[key].input:stl.inputField,
+        labelStyle = stl[key]?stl[key].label:stl.label, 
+        formGroupStyle = stl[key]?stl[key].formGroup:stl.formGroup, 
+        tmpVal = value.formField.placeholder;
+    formFields.push(
+      <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
+        <Label className={stl[key]?stl[key].className:''} for={key} style={labelStyle}>
+          <IconLabel value={value} /> {' '}
+          <TexTLabelFileInput type={key} value={postFormFields.file} tmpText={value.label.text} />
+          <TexTLabelOtherInput type={key} value={value.label.text} /> 
+        </Label>
+
+        <SelectInput type={value.formField.type} ident={key} style={inputStyle} 
+        placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]} options={value.formField.options} 
+        disabled={postFormIsFrozen} />
+
+        <OtherInput type={value.formField.type} ident={key} style={inputStyle} 
+        placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]}
+        error={postFormErrors} disabled={postFormIsFrozen}  /> 
+      </FormGroup> 
+    ); 
+  });
+
+  return(
+    <div style={{position:'relative'}}>
+      <Toast active={postFormIsFrozen}>Wait a moment...</Toast> 
+      <Form onSubmit={handleSubmit}>
+        { formFields.map((field)=> field) }
+      </Form>
+    </div>
+  );
+}//[end] MessageForm
+
+
+
+
+const Overlay = (props) => {
+  if(!props.active) return false;
+  let style={
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    position: 'absolute',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
+  };
+  return(
+    <section style={style}>{props.children}</section>
+  );
+};
+
+
+
+const FormFieldError = (props) => {
+  const data = props.data;
+  if(!data){ return false; }
+  return(
+    <div className="invalid-feedback" style={{display:'block', fontSize:'90%'}}>
+      {data}
+    </div>
+  );
+};
+
+
+
+const IconLabel = (props) => {
+  let icon = props.value.label.icon;
+  if(!icon) return false;
+  return icon;
+}
+
+
+
+const TexTLabelFileInput = (props) => {
+  let type = props.type, 
+    value = props.value,
+    placeholder = props.tmpText;
+  if(type!=='file') return false;
+  //Display only filename or placeholder   
+  return (value==='')?placeholder:value.replace(/C:\\fakepath\\/, '');
+}
+
+
+
+const TexTLabelOtherInput = (props) => {
+  let type = props.type, value = props.value;
+  if(type=='file') return false;
+  return value;
+}
+
+
+
+const SelectInput = (props) => {
+  let {type, value, ident, style, placeholder, onChange, options, disabled } = props; 
+  if(type!=='select') return false;
+  return(
+    <Input type={type} name={ident} id={ident} style={style} onChange={onChange} value={value} disabled={disabled}>
+      <option>{placeholder}</option>
+      {
+        options.map((option)=>{
+          return <option key={option.val} value={option.val}>{option.label}</option>
+        })
+      }
+    </Input>
+  );
+}
+
+
+
+const OtherInput = (props) => {
+  let {type, value, ident, style, placeholder, onChange, options, error, disabled } = props; 
+  if(type==='select') return false;
+  return(
+    <div>
+      <Input type={type} name={ident} id={ident} style={style} onChange={onChange} value={value} 
+      placeholder={placeholder} disabled={disabled} />
+      <FormFieldError data={error[ident]} />
+    </div>
+  );
+}
+
+
 const DisplayPostIMage = (props) => {
   if(!props.src) return false;
   return(

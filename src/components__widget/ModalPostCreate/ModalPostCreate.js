@@ -33,16 +33,13 @@ import formStyle from './../../jsStyles/form.styles.js';
 import './ModalPost.css';
 
 
-class ModalPost extends React.Component { 
+class ModalPostCreate extends React.Component { 
   constructor(props) {
     super(props);
     this.state = {
       postFormFields : {
         ...DBPost.getPostObject()
-      },
-      postFormHiddenFields : {
-        file: ''
-      },
+      }, 
       postFormValidity : {
         title : false,
         location : false,
@@ -318,7 +315,7 @@ class ModalPost extends React.Component {
   }
 }
 
-export default ModalPost;
+export default ModalPostCreate;
 
 /**
  * Utility components: Only local to this file (not exported)
