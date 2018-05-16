@@ -30,6 +30,8 @@ import DBUpload from './../../utilities/DBUpload.class.js';
 import AppDoc from './../../utilities/AppDoc.class.js';
 import modalStyle from './../../jsStyles/modal.styles.js';
 import formStyle from './../../jsStyles/form.styles.js';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
+import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './ModalPost.css';
 
 
@@ -40,6 +42,9 @@ class ModalPostCreate extends React.Component {
       postFormFields : {
         ...DBPost.getPostObject()
       }, 
+      postFileUpload: { 
+        downloadURLs: null
+      },
       postFormValidity : {
         title : false,
         location : false,
@@ -156,10 +161,11 @@ class ModalPostCreate extends React.Component {
 
   clearModal(){ 
     //Cleanup form when post is successful ...
-    let postFormFields = { ...DBPost.getPostObject() },
+    let postFormFields = { ...DBPost.getPostObject() }, 
+        postFileUpload = { downloadURLs: null },
         postFormIsFrozen = false;
     this.setState((prevState, props) => {
-      return { postFormFields, postFormIsFrozen }
+      return { postFormFields, postFileUpload, postFormIsFrozen }
     });  
   }
 
@@ -226,8 +232,26 @@ class ModalPostCreate extends React.Component {
     //and save the name in the state for later use when post 
     //will be created
     if(name==='file') { 
-      let newFile = event.target.files[0]; 
-      DBUpload.save(newFile); 
+      let newFile = event.target.files[0],
+          env = this,
+          postFileUpload = {}; 
+      //Upload from a Blob or File
+ 
+      //   downloadURLs: null
+      // },
+      this.setState({ postFormIsFrozen:true });
+      console.log('++++START ........... Uploaded a blob or file!');
+      
+      DBUpload.save(newFile).then(function(snapshot) {
+        //--> Need to count bytes and feed progress bar here ...
+        // console.log('++++FINISHED ........... Uploaded a blob or file!', snapshot);
+        // console.log('++++FINISHED ........... Uploaded a blob or file!', snapshot.metadata.downloadURLs[0]);
+        // console.log('++++FINISHED ........... Uploaded a blob or file!', snapshot.metadata.fullPath);
+
+        // postFileUpload.inProcess = false;
+        postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
+        env.setState({ postFileUpload, postFormIsFrozen:false });
+      });
     } 
     //....
     postFormFields[name] = value;
@@ -271,6 +295,12 @@ class ModalPostCreate extends React.Component {
     this.setState({ postFormIsValid }); 
   } 
 
+  handleCancel() { 
+    this.clearModal();
+    this.freezeForm(false);
+    this.props.toggle();
+  }
+
   render() {
     const p = {...this.props};  
     const s = {...this.state};
@@ -304,8 +334,8 @@ class ModalPostCreate extends React.Component {
             <ModalBody>
               <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} state={s}/>
             </ModalBody>
-            <ModalFooter style={modalStyle.footer}>
-              <Button style={style.btnCancel} color="secondary" onClick={p.toggle}>Cancel</Button>{' '} 
+            <ModalFooter style={modalStyle.footer}>  
+              <Button style={style.btnCancel} color="secondary" onClick={()=>this.handleCancel()}>Cancel</Button>{' '} 
               <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.user)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>{p.data.params.btnYes}</Button>
             </ModalFooter> 
           </div>
@@ -321,10 +351,53 @@ export default ModalPostCreate;
  * Utility components: Only local to this file (not exported)
  * -------------------------------------------------
  */
+
+
+const DisplayLabel = (props) => {
+  if(props.type==='file') return false;
+  const {type, formStyle, value} = props;
+  const stl = formStyle;
+
+  return(
+    <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+      <IconLabel value={value} /> {' '}
+      {/*<TexTLabelFileInput type={type} value={postFormFields.file} tmpText={value.label.text} />*/}
+      <TexTLabelOtherInput type={type} value={value.label.text} /> 
+    </Label>
+  );
+};
+
+
+const DisplayFileUpload = (props) => {
+  if(props.type!=='file') return false;
+  const {type, formStyle, value, control, imgUrl} = props;
+  const stl = formStyle;
+
+  return(
+    <div style={{border:'4px solid red'}}> 
+      <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+        <IconLabel value={value} /> {' '}
+        <TexTLabelFileInput type={type} value={control.file} tmpText={value.label.text} />
+        <TexTLabelOtherInput type={type} value={value.label.text} /> 
+      </Label>
+ 
+      { 
+        imgUrl && <div style={{position:'relative'}}> 
+          <Button style={{position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'}} >
+            <FontAwesomeIcon icon={faTimesCircle} style={{ background:'#fff', borderRadius:'30px'}} />
+          </Button>
+          <img className="img-fluid" src={imgUrl} /> 
+        </div>
+      }
+    </div>
+  );
+};
+
+
 const MessageForm = (props) => {
   const { handleSubmit, handleChange, state } = props; 
   const stl = formStyle;
-  const {postFormFields, postFormErrors, postFormIsFrozen} = state; 
+  const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
   const fields = new Map(Object.entries(DBPost.formFields)); 
   let formFields = []; 
 
@@ -335,11 +408,11 @@ const MessageForm = (props) => {
         tmpVal = value.formField.placeholder;
     formFields.push(
       <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
-        <Label className={stl[key]?stl[key].className:''} for={key} style={labelStyle}>
-          <IconLabel value={value} /> {' '}
-          <TexTLabelFileInput type={key} value={postFormFields.file} tmpText={value.label.text} />
-          <TexTLabelOtherInput type={key} value={value.label.text} /> 
-        </Label>
+        <DisplayLabel type={key} formStyle={stl} style={labelStyle} value={value}/>
+
+        <DisplayFileUpload type={key} formStyle={stl} style={labelStyle} value={value} control={postFormFields} imgUrl={postFileUpload.downloadURLs} />
+ 
+        {/*<ImgUpload type={key} active={state.postFileUploadInProcess} />*/}
 
         <SelectInput type={value.formField.type} ident={key} style={inputStyle} 
         placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]} options={value.formField.options} 

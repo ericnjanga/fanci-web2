@@ -32,41 +32,65 @@ class PostItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user          : null,
-      dropdownOpen  : false,
+      user            : null,
+      dropdownOpen    : false,
       postDeleteRequested  : false,
-      canBeEdited   : false,
-      modalEM       : false, 
-      postFormFields : {},
+      canBeEdited     : false,
+      modalEM         : false, 
+      postFormFields  : {},
       postFormHiddenFields : {
-        file: ''
+        file : ''
       },
       postFormValidity : {
-        title : false,
-        location : false,
-        content : false,
+        title     : true,
+        location  : true,
+        content   : true,
       },
       postFormErrors : {
-        title : null,
-        location : null,
-        content : null,
-        expiry : null,
-        places : null
+        title     : null,
+        location  : null,
+        content   : null,
+        expiry    : null,
+        places    : null
       },
       postFormMinCars : {
-        title : 10,
-        location : 4,
-        content : 30,
+        title     : 10,
+        location  : 4,
+        content   : 30,
       },
-      postFormIsValid : false,
-      postFormIsFrozen : false 
+      postFormIsValid   : true, //Post is valid by default because data is coming from a post
+      postFormIsFrozen  : false 
     }
-    this.handleEdit = this.handleEdit.bind(this);
-    this.toggleEM = this.toggleEM.bind(this);
+    this.handleEdit     = this.handleEdit.bind(this);
+    this.toggleEM       = this.toggleEM.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange   = this.handleChange.bind(this);
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }
+
+  
+  /**
+   * Save form data in the database
+   * Cleanup form and modal
+   * Dismiss modal
+   * @param {*} event 
+   * @param {*} user 
+   */
+  handleSubmit(event, postID) {
+    event.preventDefault();
+    this.freezeForm(true);  
+    // let finalPost = this.getReadyPostObject(this.state.postFormFields); //No need to get the post ready
+    console.log('+++++=this.state.postFormFields=', this.state.postFormFields);
+    //Update post
+    // DBPost.save(finalPost, user.uid)
+    // DBPost.update(postID, finalPost)
+    // //Reset "postFormFields" state object once its done
+    // .then((ready) => {  
+    //   this.clearModal();
+    //   this.freezeForm(false);
+    //   this.props.toggle();
+    // });
+  }//[end] handleSubmit
 
 
 
@@ -103,6 +127,44 @@ class PostItem extends React.Component {
       this.validateField(name, value);
     }); 
   }//[end] handleChange
+
+  /**
+   * Validate any form field (only title, location and content for now).
+   * Update state on field 'error status' and 'validity'
+   * @param {*} name 
+   * @param {*} value 
+   */
+  validateField(name, value) { 
+    if(name==='title' || name==='location' || name==='content'){
+      let postFormErrors = {...this.state.postFormErrors},
+      postFormValidity = {...this.state.postFormValidity},
+      postFormMinCars = {...this.state.postFormMinCars};
+
+      let minCars = postFormMinCars[name],
+          fieldValue = value.trim();
+      postFormValidity[name] = fieldValue.length >= minCars;
+      postFormErrors[name] = postFormValidity[name] ? null : `${name} is too short, ${(minCars - fieldValue.length)} chars left`; 
+    
+      this.setState({postFormErrors, postFormValidity}, ()=>{
+        this.validateForm(postFormValidity);
+      });
+    }//[end]...
+  }
+
+  /**
+   * Find-out if all fields are valid and update the state property on form validity status
+   * @param {*} postFormValidity 
+   */
+  validateForm(postFormValidity) { 
+    const validObj = new Map(Object.entries(postFormValidity)); 
+    const validValues = Array.from(validObj.values()); 
+    let postFormIsValid = validValues.find((item)=>{ return item===false}); 
+    postFormIsValid = (postFormIsValid===undefined)?true:false;
+
+    // console.log('postFormFields=',postFormFields);
+
+    this.setState({ postFormIsValid }); 
+  } 
 
   toggleDropdown() {
     this.setState({
@@ -173,6 +235,7 @@ class PostItem extends React.Component {
       this.setState({ user });
     }); 
     if(file) {  
+      console.log('>>>>file=',file);
       DBUpload.getFile(file).then((imgUrl) => {  
         this.setState({ imgUrl:imgUrl });
       });
@@ -237,6 +300,7 @@ class PostItem extends React.Component {
     return(  
       <div>
         <Card className="PostItem" style={p.style}>
+              { /*console.log('>>>>>>>>>>p.data=',p.data)*/ }
           <DisplayUserMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
           handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
 
@@ -261,15 +325,15 @@ class PostItem extends React.Component {
         { 
           <div>
             <Modal isOpen={this.state.modalEM} toggle={this.toggleEM} className={'ModalPost'} backdrop={'static'}> 
-              { console.log('>>>>>>>>>>',s.user) }
+              { /*console.log('>>>>>>>>>>',s.user)*/ }
               { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
               <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
               <ModalBody>
                 <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} state={s}/>
               </ModalBody>
               <ModalFooter style={modalStyle.footer}>
-                <Button style={style.btnCancel} color="secondary" onClick={p.toggle}>Cancel</Button>{' '} 
-                <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.user)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>Update</Button>
+                <Button style={style.btnCancel} color="secondary" onClick={this.toggleEM}>Cancel</Button>{' '} 
+                <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.data.id)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>Update</Button>
               </ModalFooter> 
             </Modal>
           </div>
@@ -316,6 +380,8 @@ const MessageForm = (props) => {
           <TexTLabelOtherInput type={key} value={value.label.text} /> 
         </Label>
 
+        <ImgUpload ype={key} />
+
         <SelectInput type={value.formField.type} ident={key} style={inputStyle} 
         placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]} options={value.formField.options} 
         disabled={postFormIsFrozen} />
@@ -331,11 +397,23 @@ const MessageForm = (props) => {
     <div style={{position:'relative'}}>
       <Toast active={postFormIsFrozen}>Wait a moment...</Toast> 
       <Form onSubmit={handleSubmit}>
-        { formFields.map((field)=> field) }
+        { formFields.map((field)=> field) } 
+        {/* <DisplayPostIMage src={state.user.imgUrl} alt={p.data.title} /> */}
       </Form>
     </div>
   );
 }//[end] MessageForm
+
+
+const ImgUpload = (props) => {
+  if(props.type!=='file') return false;
+
+  return(
+    <div>
+      <img className="img-fluid" />
+    </div>
+  );
+};
 
 
 

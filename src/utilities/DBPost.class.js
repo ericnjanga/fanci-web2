@@ -9,6 +9,18 @@ import faUpload from '@fortawesome/fontawesome-free-solid/faUpload';
 
 const nodeName = 'timeline';
 const formFields = { 
+
+  file: {
+    label: {
+      text:'Upload an image',
+      icon: <FontAwesomeIcon icon={faUpload} />
+    },
+    formField : {
+      value:'',
+      type:'file',
+      placeholder: 'Pick a file'
+    }   
+  },
   title: {
     label: {
       text:'Fanci Title'
@@ -70,17 +82,6 @@ const formFields = {
       type:'textarea',
       placeholder: 'Describe what your fanci is all about!'
     }   
-  }, 
-  file: {
-    label: {
-      text:'Upload an image',
-      icon: <FontAwesomeIcon icon={faUpload} />
-    },
-    formField : {
-      value:'',
-      type:'file',
-      placeholder: 'Pick a file'
-    }   
   }
 };
 
@@ -117,10 +118,11 @@ class DBPost {
     return data;
   }//[end] getPostObject
 
-
-  //Get all posts from the database
-  //(returns a promise which resolves when an iterator containing the posts is ready)
-  //(NOTE: changes to the database wont be reflected on thwe UI because the promise would have been resolved already)
+  /**
+   * Get all posts from the database
+   * (returns a promise which resolves when an iterator containing the posts is ready)
+   * (NOTE: changes to the database wont be reflected on thwe UI because the promise would have been resolved already)
+   */
   static getAll() {
     const odePosts = database.ref(nodeName);
     return new Promise((resolve, reject) => {
@@ -133,15 +135,19 @@ class DBPost {
   }//[end] getAll
 
   
-  //Return database node (for external use)
+  /**
+   * Return database node (for external use)
+   */ 
   static getNode() {
     return database.ref(nodeName);
   }
 
   
-  //Save info in the database
-  //- copy info in new object and ogment it with new props (uid, date)
-  //- return a promise that resolves with a success message
+  /**
+   * Save info in the database
+   * - copy info in new object and ogment it with new props (uid, date)
+   * - return a promise that resolves with a success message
+   */
   static save(item, uid) {
     const listRef = database.ref(nodeName);
     let newPost = Object.assign({}, item);
@@ -160,9 +166,24 @@ class DBPost {
   }//[end] save
 
 
+  static update(postID, postObj) {
+    // let uptate = {};
+    // update[nodeName+'/'+postID] = postObj;
+    /*
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+  var updates = {};
+  updates['/posts/' + newPostKey] = postData;
+  updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+  return firebase.database().ref().update(updates);
+  */
+    return database.ref(nodeName+'/'+postID).update(postObj);
+  }
+
+
   //Delete a post
   static remove(id) {
-    return database.ref('timeline/'+id).remove();  
+    return database.ref(nodeName+'/'+id).remove();  
   }
 }
 
