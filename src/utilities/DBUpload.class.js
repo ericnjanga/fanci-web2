@@ -1,3 +1,6 @@
+/**
+ * Class managing file upload/download from Firebase
+ */
 import { storage } from './../services/firebase.js';
 
 class DBUpload {
@@ -13,7 +16,7 @@ class DBUpload {
       }); 
     }); 
   }
- 
+  
   static save(file) { 
     let metadata = {
       //more info here...
@@ -25,10 +28,18 @@ class DBUpload {
     return storageRef.put(file, metadata);
   }
 
-  static remove(fileLocation) {
+  static remove(filePath, mustCleanFilePath) {
+    let path = filePath;
+
+    //Clean up the filephath if necessary
+    if(mustCleanFilePath){ 
+      path = path.replace(/C:\\fakepath\\/, ''); 
+      path = 'timeline/'+path;
+    }
+
     // Create a root reference
-    let storageRef = storage.ref(fileLocation); 
-    storageRef.delete().then(function(snapshot) {
+    let storageRef = storage.ref(path); 
+    return storageRef.delete().then(function(snapshot) {
       //--> Need to count bytes and feed progress bar here ...
       // console.log('Uploaded a blob or file!');
     });

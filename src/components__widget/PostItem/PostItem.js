@@ -25,6 +25,7 @@ import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH';
 import faExclamationTriangle from '@fortawesome/fontawesome-free-solid/faExclamationTriangle';
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
+import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './PostItem.css';
 
 
@@ -40,6 +41,9 @@ class PostItem extends React.Component {
       postFormFields  : {},
       postFormHiddenFields : {
         file : ''
+      },
+      postFileUpload: { 
+        downloadURLs: null
       },
       postFormValidity : {
         title     : true,
@@ -65,8 +69,32 @@ class PostItem extends React.Component {
     this.toggleEM       = this.toggleEM.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.handleChange   = this.handleChange.bind(this);
+    this.handleRemoveImage = this.handleRemoveImage.bind(this);
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
-  }
+  }//[end] constructor
+
+  handleRemoveImage(event) {
+    console.log('+++++++++++event=',event);
+    event.preventDefault();
+    this.setState({ postFormIsFrozen:!this.state.postFormIsFrozen });
+    let postFormFields = {...this.state.postFormFields};
+    postFormFields.file = '';
+
+    DBUpload.remove(this.state.postFormFields.file, true).then((result)=>{
+      let postFileUpload = { downloadURLs: null };
+      this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields });
+    });
+  }//[end] handleRemoveImage
+
+  clearModal(){ 
+    //Cleanup form when post is successful ...
+    let postFormFields = { ...DBPost.getPostObject() }, 
+        postFileUpload = { downloadURLs: null },
+        postFormIsFrozen = false;
+    this.setState((prevState, props) => {
+      return { postFormFields, postFileUpload, postFormIsFrozen }
+    });  
+  }//[end] clearModal
 
   
   /**
@@ -79,17 +107,16 @@ class PostItem extends React.Component {
   handleSubmit(event, postID) {
     event.preventDefault();
     this.freezeForm(true);  
-    // let finalPost = this.getReadyPostObject(this.state.postFormFields); //No need to get the post ready
+    let finalPost = this.getReadyPostObject(this.state.postFormFields); //No need to get the post ready
     console.log('+++++=this.state.postFormFields=', this.state.postFormFields);
-    //Update post
-    // DBPost.save(finalPost, user.uid)
-    // DBPost.update(postID, finalPost)
-    // //Reset "postFormFields" state object once its done
-    // .then((ready) => {  
-    //   this.clearModal();
-    //   this.freezeForm(false);
-    //   this.props.toggle();
-    // });
+    //Update post 
+    DBPost.update(postID, finalPost)
+    //Reset "postFormFields" state object once its done
+    .then((ready) => {  
+      this.clearModal();
+      this.freezeForm(false);
+      this.props.toggle();
+    });
   }//[end] handleSubmit
 
 
@@ -118,9 +145,18 @@ class PostItem extends React.Component {
     //and save the name in the state for later use when post 
     //will be created
     if(name==='file') { 
-      let newFile = event.target.files[0]; 
-      DBUpload.save(newFile); 
-    } 
+      let newFile = event.target.files[0],
+          env = this,
+          postFileUpload = {}; 
+       
+      this.setState({ postFormIsFrozen:true });
+      console.log('++++START ........... Uploaded a blob or file!');
+      
+      DBUpload.save(newFile).then(function(snapshot) { 
+        postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
+        env.setState({ postFileUpload, postFormIsFrozen:false });
+      }); 
+    }//[end] file  
     //....
     postFormFields[name] = value;
     this.setState({ postFormFields }, ()=>{
@@ -183,26 +219,19 @@ class PostItem extends React.Component {
    * @param {*} postID 
    */
   handleEdit(postID) {
-    const p = {...this.props};
-    const params = {
-      mode: 'edit',
-      title: 'Edit Your Fanci!',
-      btnYes: 'Update'
-    };
+    const p = {...this.props}; 
     this.toggleEM();
 
     let postFormFields = {...p.data}; 
     //Save file value in a hidden field for now (non-empty value cannpt be saved in the "file" input)
-    let postFormHiddenFields = {
-      file: p.data.file
-    };
-    postFormFields.file = '';
+    // let postFormHiddenFields = {
+    //   file: p.data.file
+    // };
+    // postFormFields.file = '';
 
 
-    console.log('postFormFields=',postFormFields);
-    this.setState({ postFormFields, postFormHiddenFields });
-
-    // p.toggleTimelineModal({ data:p.data, params });
+    // console.log('postFormFields=',postFormFields);
+    // this.setState({ postFormFields, postFormHiddenFields }); 
   }
 
 
@@ -269,7 +298,7 @@ class PostItem extends React.Component {
       this.props.handleConfirmModal(null, meta);
     });
     if(fileLocation){
-      DBUpload.remove(fileLocation);
+      DBUpload.remove(fileLocation, false);
     }
   }//[end] handleDelete
 
@@ -301,10 +330,10 @@ class PostItem extends React.Component {
       <div>
         <Card className="PostItem" style={p.style}>
               { /*console.log('>>>>>>>>>>p.data=',p.data)*/ }
-          <DisplayUserMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
+          <DisplayPostMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
           handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
 
-          <DisplayUserAvatar data={s.user} style={PostItemStyle.avatar} />
+          <DisplayPostAvatar data={s.user} style={PostItemStyle.avatar} />
 
           <header style={PostItemStyle.header}> 
             <CardTitle style={PostItemStyle.header_title}>{p.data.title}</CardTitle> 
@@ -313,13 +342,13 @@ class PostItem extends React.Component {
             </small>
           </header>
   
-          <DisplayPostIMage src={s.imgUrl} alt={p.data.title} />
+          <DisplayPostImage src={s.imgUrl} alt={p.data.title} />
           
           <CardBody style={PostItemStyle.cardBody}>   
             <CardText>{p.data.content}</CardText> 
           </CardBody> 
 
-          <DisplayFooter data={p.data} />
+          <DisplayPostFooter data={p.data} />
         </Card>   
 
         { 
@@ -329,7 +358,7 @@ class PostItem extends React.Component {
               { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
               <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
               <ModalBody>
-                <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} state={s}/>
+                <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} removeImage={this.handleRemoveImage} state={s}/>
               </ModalBody>
               <ModalFooter style={modalStyle.footer}>
                 <Button style={style.btnCancel} color="secondary" onClick={this.toggleEM}>Cancel</Button>{' '} 
@@ -360,10 +389,51 @@ export default PostItem;
  * Utility components: Only local to this file (not exported)
  * -------------------------------------------------
  */
-const MessageForm = (props) => {
-  const { handleSubmit, handleChange, state } = props; 
+const DisplayLabel = (props) => {
+  if(props.type==='file') return false;
+  const {type, formStyle, value} = props;
   const stl = formStyle;
-  const {postFormFields, postFormErrors, postFormIsFrozen} = state; 
+
+  return(
+    <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+      <IconLabel value={value} /> {' '} 
+      <TexTLabelOtherInput type={type} value={value.label.text} /> 
+    </Label>
+  );
+};
+
+
+const DisplayFileUpload = (props) => {
+  if(props.type!=='file') return false;
+  const {type, formStyle, value, control, imgUrl, removeImage} = props;
+  const stl = formStyle;
+  const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'};
+
+  return(
+    <div style={{border:'4px solid red'}}> 
+      <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+        <IconLabel value={value} /> {' '}
+        <TexTLabelFileInput type={type} value={control.file} tmpText={value.label.text} />
+        <TexTLabelOtherInput type={type} value={value.label.text} /> 
+      </Label>
+ 
+      { 
+        imgUrl && <div style={{position:'relative'}}> 
+          <Button style={btnDelStyle} onClick={removeImage}>
+            <FontAwesomeIcon icon={faTimesCircle} style={{ background:'#fff', borderRadius:'30px'}} />
+          </Button>
+          <img className="img-fluid" src={imgUrl} /> 
+        </div>
+      }
+    </div>
+  );
+};
+
+
+const MessageForm = (props) => {
+  const { handleSubmit, handleChange, removeImage, state } = props; 
+  const stl = formStyle;
+  const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
   const fields = new Map(Object.entries(DBPost.formFields)); 
   let formFields = []; 
 
@@ -374,13 +444,15 @@ const MessageForm = (props) => {
         tmpVal = value.formField.placeholder;
     formFields.push(
       <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
-        <Label className={stl[key]?stl[key].className:''} for={key} style={labelStyle}>
+        {/*<Label className={stl[key]?stl[key].className:''} for={key} style={labelStyle}>
           <IconLabel value={value} /> {' '}
           <TexTLabelFileInput type={key} value={postFormFields.file} tmpText={value.label.text} />
           <TexTLabelOtherInput type={key} value={value.label.text} /> 
-        </Label>
+        </Label>*/}
 
-        <ImgUpload ype={key} />
+        <DisplayLabel type={key} formStyle={stl} style={labelStyle} value={value}/>
+
+        <DisplayFileUpload type={key} formStyle={stl} style={labelStyle} value={value} control={postFormFields} imgUrl={postFileUpload.downloadURLs} removeImage={removeImage} />
 
         <SelectInput type={value.formField.type} ident={key} style={inputStyle} 
         placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]} options={value.formField.options} 
@@ -397,25 +469,11 @@ const MessageForm = (props) => {
     <div style={{position:'relative'}}>
       <Toast active={postFormIsFrozen}>Wait a moment...</Toast> 
       <Form onSubmit={handleSubmit}>
-        { formFields.map((field)=> field) } 
-        {/* <DisplayPostIMage src={state.user.imgUrl} alt={p.data.title} /> */}
+        { formFields.map((field)=> field) }  
       </Form>
     </div>
   );
 }//[end] MessageForm
-
-
-const ImgUpload = (props) => {
-  if(props.type!=='file') return false;
-
-  return(
-    <div>
-      <img className="img-fluid" />
-    </div>
-  );
-};
-
-
 
 
 const Overlay = (props) => {
@@ -437,7 +495,6 @@ const Overlay = (props) => {
 };
 
 
-
 const FormFieldError = (props) => {
   const data = props.data;
   if(!data){ return false; }
@@ -449,13 +506,11 @@ const FormFieldError = (props) => {
 };
 
 
-
 const IconLabel = (props) => {
   let icon = props.value.label.icon;
   if(!icon) return false;
   return icon;
 }
-
 
 
 const TexTLabelFileInput = (props) => {
@@ -468,13 +523,11 @@ const TexTLabelFileInput = (props) => {
 }
 
 
-
 const TexTLabelOtherInput = (props) => {
   let type = props.type, value = props.value;
   if(type=='file') return false;
   return value;
 }
-
 
 
 const SelectInput = (props) => {
@@ -493,7 +546,6 @@ const SelectInput = (props) => {
 }
 
 
-
 const OtherInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, error, disabled } = props; 
   if(type==='select') return false;
@@ -506,15 +558,18 @@ const OtherInput = (props) => {
   );
 }
 
-
-const DisplayPostIMage = (props) => {
+/**
+ * POST METHODS
+ * -----------------------
+ */
+const DisplayPostImage = (props) => {
   if(!props.src) return false;
   return(
     <Figure img={props.src.url} alt={props.alt} /> 
   )
 }; 
 
-const DisplayUserMenu = (props) => {
+const DisplayPostMenu = (props) => {
   const { userID, data, isActive, handleToggle, handleEdit, openConfirm, style } = props;
   if(userID!==data.uid) return false;
   return(
@@ -532,7 +587,7 @@ const DisplayUserMenu = (props) => {
   );
 }
 
-const DisplayUserAvatar = (props) => {//data={s.user} style={PostItemStyle.avatar}
+const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avatar}
   const { data, style } = props;
   if(!data) return false;
   return(
@@ -540,7 +595,7 @@ const DisplayUserAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
   )
 }; 
 
-const DisplayFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
+const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
   const { data } = props;
   if(!data) return false;
   return(
@@ -566,6 +621,11 @@ const DisplayFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
     </CardFooter>
   )
 }; 
+
+/**
+ * POST METHODS
+ * -----------------------
+ */
 /**
  * Component only local to this file (not exported)
  * -------------------------------------------------
