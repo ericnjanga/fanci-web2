@@ -6,7 +6,7 @@ const PostItemStyle = {
     left: '10px'
   },
   header: { 
-    padding: '10px 10px 10px 55px',
+    padding: '10px 35px 10px 55px',
     marginBottom: '0.3rem',
     lineHeight: '0.5rem'
   },

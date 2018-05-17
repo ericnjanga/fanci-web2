@@ -79,6 +79,7 @@ class PostItem extends React.Component {
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }//[end] constructor
 
+
   handleRemoveImage(event, postID) {
     console.log('+++++++++++event=',event);
     event.preventDefault();
@@ -94,14 +95,14 @@ class PostItem extends React.Component {
     DBUpload.remove(filePath, true).then((result)=>{
       postFileUpload.file = null;
       postFileUpload.downloadURLs = null;
-      postFormFields.file = '';
- 
+      postFormFields.file = ''; 
       console.log('1+++++++++++postID=',postID);
       DBPost.updateField(postID, 'file', '').then((result)=>{
         this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields }); 
       });
     });
   }//[end] handleRemoveImage
+
 
   clearModal(){ 
     //Cleanup form when post is successful ...
@@ -127,7 +128,7 @@ class PostItem extends React.Component {
     if(postID){
       this.freezeForm(true);  
       let finalPost = this.getReadyPostObject(this.state.postFormFields); 
-      console.log('+++++=this.state.postFormFields=', this.state.postFormFields);
+      console.log('+++++=this.state.postFormFields=', finalPost);
       //Update post 
       DBPost.update(postID, finalPost)
       //Reset "postFormFields" state object once its done
@@ -157,7 +158,14 @@ class PostItem extends React.Component {
    */
   getReadyPostObject(postFormFields) { 
     //No need to get the post ready
-    return postFormFields;
+    let formFields = {...postFormFields};
+
+
+    formFields.file = formFields.file.replace(/C:\\fakepath\\/, ''); 
+    formFields.file = 'timeline/'+formFields.file;
+
+
+    return formFields;
   }
 
   /**
@@ -165,11 +173,12 @@ class PostItem extends React.Component {
    * If target is a 'file' input, save value in "Firebase Storage"
    * @param {*} event 
    */
-  handleChange(event) { 
+  handleChange(event, postID) { 
     let postFormFields = this.state.postFormFields;
     const name = event.target.name;
     //Will be input value or new File object  
     let value = event.target.value;
+    let env = this;
 
     //For 'file' upload it right away on "Firebase Storage"
     //and save the name in the state for later use when post 
@@ -179,12 +188,36 @@ class PostItem extends React.Component {
           env = this,
           postFileUpload = {}; 
        
-      this.setState({ postFormIsFrozen:true });
+      env.setState({ postFormIsFrozen:true });
       console.log('++++START ........... Uploaded a blob or file!');
       
       DBUpload.save(newFile).then(function(snapshot) { 
         postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
-        env.setState({ postFileUpload, postFormIsFrozen:false });
+        postFileUpload.file = newFile.name;
+
+      console.log('++++postFileUpload.file=', postFileUpload.file.name);
+
+        let filePath = postFileUpload.file.replace(/C:\\fakepath\\/, ''); 
+        filePath = 'timeline/'+filePath;
+
+
+        // env.setState({ postFileUpload, postFormIsFrozen:false });
+        DBPost.updateField(postID, 'file', filePath).then((result)=>{
+
+        console.log('*************postFileUpload=', postFileUpload);
+        console.log('*************postFormFields=', postFormFields);
+
+          env.setState({ 
+            postFormIsFrozen:false, 
+            postFileUpload, 
+            postFormFields }); 
+        }); 
+        /*
+          postFileUpload.file = null;
+          postFileUpload.downloadURLs = null;
+          postFormFields.file = ''; 
+          console.log('1+++++++++++postID=',postID);
+        */
       }); 
     }//[end] file  
     //....
@@ -193,6 +226,25 @@ class PostItem extends React.Component {
       this.validateField(name, value);
     }); 
   }//[end] handleChange
+
+
+  /**
+   * Define 'timeline modal' parameters before toggling it
+   * @param {*} postID 
+   */
+  handleEdit(postID) {
+    const p = {...this.props}; 
+    this.toggleEM(()=>{
+      let postFormFields = {...p.data},
+        postFileUpload = {...this.state.postFileUpload};
+      //Save file value in a temporary field for now (non-empty value cannpt be saved in the "file" input)
+      postFileUpload.file = postFormFields.file;
+      postFormFields.file = '';
+      console.log('postFormFields=',postFormFields);
+      this.setState({ postFormFields, postFileUpload }); 
+    });//[end] toggleEM
+  }//[end] handleEdit
+
 
   /**
    * Validate any form field (only title, location and content for now).
@@ -217,6 +269,7 @@ class PostItem extends React.Component {
     }//[end]...
   }
 
+
   /**
    * Find-out if all fields are valid and update the state property on form validity status
    * @param {*} postFormValidity 
@@ -232,11 +285,13 @@ class PostItem extends React.Component {
     this.setState({ postFormIsValid }); 
   } 
 
+
   toggleDropdown() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
   }
+
 
   toggleEM(callBack) {
     if(typeof callBack === 'function'){
@@ -246,23 +301,6 @@ class PostItem extends React.Component {
       modalEM: !this.state.modalEM
     });
   }
-
-  /**
-   * Define 'timeline modal' parameters before toggling it
-   * @param {*} postID 
-   */
-  handleEdit(postID) {
-    const p = {...this.props}; 
-    this.toggleEM(()=>{
-      let postFormFields = {...p.data},
-        postFileUpload = {...this.state.postFileUpload};
-      //Save file value in a temporary field for now (non-empty value cannpt be saved in the "file" input)
-      postFileUpload.file = postFormFields.file;
-      postFormFields.file = '';
-      console.log('postFormFields=',postFormFields);
-      this.setState({ postFormFields, postFileUpload }); 
-    });//[end] toggleEM
-  }//[end] handleEdit
 
 
   //Open confirmation modal to see if this post can be deleted
@@ -393,7 +431,14 @@ class PostItem extends React.Component {
               { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
               <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
               <ModalBody>
-                <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} removeImage={(event)=>this.handleRemoveImage(event, p.data.id)} state={s}/>
+                <MessageForm handleSubmit={this.handleSubmit} 
+                handleChange={
+                  (event)=>this.handleChange(event, p.data.id)
+                } 
+                removeImage={
+                  (event)=>this.handleRemoveImage(event, p.data.id)
+                } 
+                state={s}/>
               </ModalBody>
               <ModalFooter style={modalStyle.footer}>
                 <Button style={style.btnCancel} color="secondary" onClick={this.toggleEM}>Cancel</Button>{' '} 
