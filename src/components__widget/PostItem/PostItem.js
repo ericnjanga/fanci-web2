@@ -27,6 +27,14 @@ import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './PostItem.css';
+import { callbackify } from 'util';
+
+
+
+/**
+ * TODO:
+ * set file:null
+ */
 
 
 class PostItem extends React.Component {
@@ -38,12 +46,10 @@ class PostItem extends React.Component {
       postDeleteRequested  : false,
       canBeEdited     : false,
       modalEM         : false, 
-      postFormFields  : {},
-      postFormHiddenFields : {
-        file : ''
-      },
+      postFormFields  : {}, 
       postFileUpload: { 
-        downloadURLs: null
+        downloadURLs: null,
+        file    : null
       },
       postFormValidity : {
         title     : true,
@@ -73,16 +79,27 @@ class PostItem extends React.Component {
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }//[end] constructor
 
-  handleRemoveImage(event) {
+  handleRemoveImage(event, postID) {
     console.log('+++++++++++event=',event);
     event.preventDefault();
     this.setState({ postFormIsFrozen:!this.state.postFormIsFrozen });
-    let postFormFields = {...this.state.postFormFields};
-    postFormFields.file = '';
+    let postFormFields = {...this.state.postFormFields},
+        postFileUpload = {...this.state.postFileUpload},
+        filePath = this.state.postFormFields.file;  
+        filePath = filePath?filePath:postFileUpload.file;
+        filePath = filePath.replace('timeline/','');
+ 
+    console.log('1+++++++++++postID=',postID);
 
-    DBUpload.remove(this.state.postFormFields.file, true).then((result)=>{
-      let postFileUpload = { downloadURLs: null };
-      this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields });
+    DBUpload.remove(filePath, true).then((result)=>{
+      postFileUpload.file = null;
+      postFileUpload.downloadURLs = null;
+      postFormFields.file = '';
+ 
+      console.log('1+++++++++++postID=',postID);
+      DBPost.updateField(postID, 'file', '').then((result)=>{
+        this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields }); 
+      });
     });
   }//[end] handleRemoveImage
 
@@ -106,17 +123,20 @@ class PostItem extends React.Component {
    */
   handleSubmit(event, postID) {
     event.preventDefault();
-    this.freezeForm(true);  
-    let finalPost = this.getReadyPostObject(this.state.postFormFields); //No need to get the post ready
-    console.log('+++++=this.state.postFormFields=', this.state.postFormFields);
-    //Update post 
-    DBPost.update(postID, finalPost)
-    //Reset "postFormFields" state object once its done
-    .then((ready) => {  
-      this.clearModal();
-      this.freezeForm(false);
-      this.props.toggle();
-    });
+    let toggleModal = this.toggleEM;
+    if(postID){
+      this.freezeForm(true);  
+      let finalPost = this.getReadyPostObject(this.state.postFormFields); 
+      console.log('+++++=this.state.postFormFields=', this.state.postFormFields);
+      //Update post 
+      DBPost.update(postID, finalPost)
+      //Reset "postFormFields" state object once its done
+      .then((ready) => {  
+        this.clearModal();
+        this.freezeForm(false);
+        toggleModal();
+      });
+    }//postID
   }//[end] handleSubmit
 
 
@@ -128,6 +148,16 @@ class PostItem extends React.Component {
    */ 
   freezeForm(bool){
     this.setState({ postFormIsFrozen:bool });
+  }
+
+
+  /**
+   * 
+   * @param {*} postFormFields 
+   */
+  getReadyPostObject(postFormFields) { 
+    //No need to get the post ready
+    return postFormFields;
   }
 
   /**
@@ -208,7 +238,10 @@ class PostItem extends React.Component {
     });
   }
 
-  toggleEM() {
+  toggleEM(callBack) {
+    if(typeof callBack === 'function'){
+      callBack();
+    }
     this.setState({
       modalEM: !this.state.modalEM
     });
@@ -220,19 +253,16 @@ class PostItem extends React.Component {
    */
   handleEdit(postID) {
     const p = {...this.props}; 
-    this.toggleEM();
-
-    let postFormFields = {...p.data}; 
-    //Save file value in a hidden field for now (non-empty value cannpt be saved in the "file" input)
-    // let postFormHiddenFields = {
-    //   file: p.data.file
-    // };
-    // postFormFields.file = '';
-
-
-    // console.log('postFormFields=',postFormFields);
-    // this.setState({ postFormFields, postFormHiddenFields }); 
-  }
+    this.toggleEM(()=>{
+      let postFormFields = {...p.data},
+        postFileUpload = {...this.state.postFileUpload};
+      //Save file value in a temporary field for now (non-empty value cannpt be saved in the "file" input)
+      postFileUpload.file = postFormFields.file;
+      postFormFields.file = '';
+      console.log('postFormFields=',postFormFields);
+      this.setState({ postFormFields, postFileUpload }); 
+    });//[end] toggleEM
+  }//[end] handleEdit
 
 
   //Open confirmation modal to see if this post can be deleted
@@ -265,8 +295,12 @@ class PostItem extends React.Component {
     }); 
     if(file) {  
       console.log('>>>>file=',file);
-      DBUpload.getFile(file).then((imgUrl) => {  
-        this.setState({ imgUrl:imgUrl });
+      let postFileUpload = {...this.state.postFileUpload};
+      DBUpload.getFile(file).then((imgUrl) => { 
+        if(imgUrl){ 
+          postFileUpload.downloadURLs = imgUrl.url;
+          this.setState({ postFileUpload });
+        }  
       });
     }
   } 
@@ -306,6 +340,7 @@ class PostItem extends React.Component {
   render() {
     const s = {...this.state}; 
     const p = {...this.props};  
+    const imgURL = s.postFileUpload.downloadURLs;
     let style = {
       avatar: { 
         margin: 0,
@@ -342,7 +377,7 @@ class PostItem extends React.Component {
             </small>
           </header>
   
-          <DisplayPostImage src={s.imgUrl} alt={p.data.title} />
+          <DisplayPostImage src={imgURL} alt={p.data.title} />
           
           <CardBody style={PostItemStyle.cardBody}>   
             <CardText>{p.data.content}</CardText> 
@@ -358,7 +393,7 @@ class PostItem extends React.Component {
               { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
               <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
               <ModalBody>
-                <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} removeImage={this.handleRemoveImage} state={s}/>
+                <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} removeImage={(event)=>this.handleRemoveImage(event, p.data.id)} state={s}/>
               </ModalBody>
               <ModalFooter style={modalStyle.footer}>
                 <Button style={style.btnCancel} color="secondary" onClick={this.toggleEM}>Cancel</Button>{' '} 
@@ -409,6 +444,8 @@ const DisplayFileUpload = (props) => {
   const stl = formStyle;
   const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'};
 
+  console.log('[DisplayFileUpload]imgUrl=',imgUrl);
+
   return(
     <div style={{border:'4px solid red'}}> 
       <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
@@ -436,6 +473,7 @@ const MessageForm = (props) => {
   const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
   const fields = new Map(Object.entries(DBPost.formFields)); 
   let formFields = []; 
+  console.log('[MessageForm]postFileUpload=', postFileUpload);
 
   fields.forEach((value, key)=>{ 
     let inputStyle = stl[key]?stl[key].input:stl.inputField,
@@ -444,12 +482,6 @@ const MessageForm = (props) => {
         tmpVal = value.formField.placeholder;
     formFields.push(
       <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
-        {/*<Label className={stl[key]?stl[key].className:''} for={key} style={labelStyle}>
-          <IconLabel value={value} /> {' '}
-          <TexTLabelFileInput type={key} value={postFormFields.file} tmpText={value.label.text} />
-          <TexTLabelOtherInput type={key} value={value.label.text} /> 
-        </Label>*/}
-
         <DisplayLabel type={key} formStyle={stl} style={labelStyle} value={value}/>
 
         <DisplayFileUpload type={key} formStyle={stl} style={labelStyle} value={value} control={postFormFields} imgUrl={postFileUpload.downloadURLs} removeImage={removeImage} />
@@ -514,6 +546,7 @@ const IconLabel = (props) => {
 
 
 const TexTLabelFileInput = (props) => {
+  console.log('[TexTLabelFileInput]=props', props);
   let type = props.type, 
     value = props.value,
     placeholder = props.tmpText;
@@ -565,7 +598,7 @@ const OtherInput = (props) => {
 const DisplayPostImage = (props) => {
   if(!props.src) return false;
   return(
-    <Figure img={props.src.url} alt={props.alt} /> 
+    <Figure img={props.src} alt={props.alt} /> 
   )
 }; 
 

@@ -74,11 +74,21 @@ class ModalPostCreate extends React.Component {
     console.log('+++++++++++event=',event);
     event.preventDefault();
     this.setState({ postFormIsFrozen:!this.state.postFormIsFrozen });
-    let postFormFields = {...this.state.postFormFields};
-    postFormFields.file = '';
+    let postFormFields = {...this.state.postFormFields},
+        postFileUpload = {...this.state.postFileUpload},
+        filePath = this.state.postFormFields.file;
 
-    DBUpload.remove(this.state.postFormFields.file, true).then((result)=>{
-      let postFileUpload = { downloadURLs: null };
+    console.log('1+++++++++++filePath=',filePath);
+
+        filePath = filePath?filePath:postFileUpload.file;
+        filePath = filePath.replace('timeline/','');
+ 
+    console.log('2+++++++++++filePath=',filePath);
+
+    DBUpload.remove(filePath, true).then((result)=>{
+      postFileUpload.file = null;
+      postFileUpload.downloadURLs = null;
+      postFormFields.file = '';
       this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields });
     });
   }//[end] handleRemoveImage
@@ -219,6 +229,7 @@ class ModalPostCreate extends React.Component {
    */
   handleSubmit(event, user) {
     event.preventDefault();
+    let toggleModal = this.props.toggle;
     if(user){
       this.freezeForm(true);  
       let finalPost = this.getReadyPostObject(this.state.postFormFields); 
@@ -228,9 +239,9 @@ class ModalPostCreate extends React.Component {
       .then((ready) => {  
         this.clearModal();
         this.freezeForm(false);
-        this.props.toggle();
+        toggleModal();
       }); 
-    }
+    }//user
   }//[end] handleSubmit
 
   /**

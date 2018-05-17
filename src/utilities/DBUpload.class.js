@@ -3,8 +3,10 @@
  */
 import { storage } from './../services/firebase.js';
 
-class DBUpload {
-  static nodeName = 'timeline';
+
+const nodeName = 'timeline';
+
+class DBUpload { 
 
   static getFile(name) {  
     return new Promise((resolve)=>{
@@ -24,7 +26,7 @@ class DBUpload {
     };
 
     // Create a root reference
-    let storageRef = storage.ref('timeline/'+file.name);  
+    let storageRef = storage.ref(nodeName+'/'+file.name);  
     return storageRef.put(file, metadata);
   }
 

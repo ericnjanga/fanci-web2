@@ -166,18 +166,15 @@ class DBPost {
   }//[end] save
 
 
-  static update(postID, postObj) {
-    // let uptate = {};
-    // update[nodeName+'/'+postID] = postObj;
-    /*
-      // Write the new post's data simultaneously in the posts list and the user's post list.
-  var updates = {};
-  updates['/posts/' + newPostKey] = postData;
-  updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-
-  return firebase.database().ref().update(updates);
-  */
+  static update(postID, postObj) { 
     return database.ref(nodeName+'/'+postID).update(postObj);
+  }
+
+
+  static updateField(postID, key, value) { 
+    let obj = {};
+    obj[key] = value;
+    return database.ref(nodeName+'/'+postID).update(obj);
   }
 
 
