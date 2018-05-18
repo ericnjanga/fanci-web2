@@ -33,7 +33,10 @@ import { callbackify } from 'util';
 
 /**
  * TODO:
- * set file:null
+ * 1) SET EMPTY PROPERTY TO NULL: obj.ppt = null
+ * 2) ADD UNIQUE PREFIX FOR EACH NEWLY POSTED IMAGE (timeline/datetime-imagename)
+ * ---- think inheritance ----
+ * 3) MERGE "PostItem" AND "ModalPostCreate" methods into one (start from the small methods)
  */
 
 
@@ -591,13 +594,12 @@ const IconLabel = (props) => {
 
 
 const TexTLabelFileInput = (props) => {
-  console.log('[TexTLabelFileInput]=props', props);
   let type = props.type, 
     value = props.value,
-    placeholder = props.tmpText;
+    placeholder = props.tmpText; 
   if(type!=='file') return false;
   //Display only filename or placeholder   
-  return (value==='')?placeholder:value.replace(/C:\\fakepath\\/, '');
+  return (!value)?placeholder:value.replace(/C:\\fakepath\\/, '');
 }
 
 

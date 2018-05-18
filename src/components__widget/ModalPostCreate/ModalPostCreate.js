@@ -35,6 +35,9 @@ import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './ModalPost.css';
 
 
+
+
+
 class ModalPostCreate extends React.Component { 
   constructor(props) {
     super(props);
@@ -70,9 +73,11 @@ class ModalPostCreate extends React.Component {
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
   }//[end] constructor
 
-  handleRemoveImage(event) {
+  handleRemoveImage(event, callback) {
     console.log('+++++++++++event=',event);
-    event.preventDefault();
+    if(event){
+      event.preventDefault(); 
+    }
     this.setState({ postFormIsFrozen:!this.state.postFormIsFrozen });
     let postFormFields = {...this.state.postFormFields},
         postFileUpload = {...this.state.postFileUpload},
@@ -80,23 +85,33 @@ class ModalPostCreate extends React.Component {
 
     console.log('1+++++++++++filePath=',filePath);
 
-        filePath = filePath?filePath:postFileUpload.file;
-        filePath = filePath.replace('timeline/','');
+    //Only remove the image if there is a value
+    if(filePath){
+      //...
+      filePath = filePath?filePath:postFileUpload.file;
+      filePath = filePath.replace('timeline/','');
+      console.log('2+++++++++++filePath=',filePath);
+      //Delete image in storage
+      //then clear related fields
+      DBUpload.remove(filePath, true).then((result)=>{
+        //file field cannot have 'null' for value
+        postFileUpload.file = '';
+        postFormFields.file = '';
+        //No image will be displayed
+        postFileUpload.downloadURLs = null; 
+        this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields });
+      }); 
+    } 
  
-    console.log('2+++++++++++filePath=',filePath);
-
-    DBUpload.remove(filePath, true).then((result)=>{
-      postFileUpload.file = null;
-      postFileUpload.downloadURLs = null;
-      postFormFields.file = '';
-      this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields });
-    });
+    if(typeof callback==='function'){
+      callback();
+    }
   }//[end] handleRemoveImage
 
   clearModal(){ 
     //Cleanup form when post is successful ...
     let postFormFields = { ...DBPost.getPostObject() }, 
-        postFileUpload = { downloadURLs: null },
+        postFileUpload = { downloadURLs: null, file:'' },
         postFormIsFrozen = false;
     this.setState((prevState, props) => {
       return { postFormFields, postFileUpload, postFormIsFrozen }
@@ -104,94 +119,8 @@ class ModalPostCreate extends React.Component {
   }//[end] clearModal
 
   componentDidMount() {
-    console.log('[ModalPost]>>>>componentDidMount' ); 
-    // this.setState({ data:  v });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) { 
-    // console.log('[ModalPost]???????cshouldComponentUpdate?????????????' ); 
-    // console.log('???????nextProps.data.formFields=', nextProps.data.formFields); 
-    // console.log('???????nextState.postFormFields=', nextState.postFormFields ); 
-    // let prevFormFields = DBPost.getPostObj(nextState.postFormFields);
-    // let nextFormFields = nextProps.data.formFields;
-    // return !AppDoc.objAreEqual(prevFormFields, nextFormFields); 
-    return true;
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot){ 
-    console.log('[ModalPost]>>>>componentDidUpdate****************' ); 
-   
-    if(prevProps.data.params.mode==='edit'){
-       /*
-      let flagUpdateState = false;
-      let newFormFields = {};
-      for (let p in prevProps.data.formFields){
-        // console.log('>>>p=', p);
-        if(prevState.postFormFields.hasOwnProperty(p)){
-          if(prevProps.data.formFields[p]===prevState.postFormFields[p]){
-            flagUpdateState = true;
-          }
-          
-          newFormFields[p] = prevProps.data.formFields[p];
-          console.log('>>>flagUpdateState=', flagUpdateState);
-          // break;
-          // newFormFields[p] = prevProps.data.formFields[p];
-          // flagUpdateState = (prevProps.data.formFields[p]===prevState.postFormFields[p])
-        } 
-      }
-      if(flagUpdateState){ 
-        console.log('>>>prevProps.data.params.mode=', prevProps.data.params.mode);
-        console.log('>>>prevProps.data.formFields=', prevProps.data.formFields);
-        let postFormFields = {...newFormFields},
-            postFormHiddenFields = {};
-            postFormHiddenFields.file = prevProps.data.formFields.file;
-            postFormFields.file = '';
-        this.setState({ postFormFields, postFormHiddenFields });
-        console.log('>>>postFormFields=', postFormFields);
-        console.log('>>>postFormHiddenFields=', postFormHiddenFields);
-        flagUpdateState = false;
-      }
-      */
-
-
-
-
-      /*
-      postFormFields : {
-        ...DBPost.getPostObject()
-      },
-      postFormHiddenFields : {
-        file: ''
-      },
-      */
-
-
-
-      // console.log('[ModalPost]>>>>componentDidUpdate=', prevProps, ' ||| ', prevState);
-      // console.log('[ModalPost]>>>>componentDidUpdate=', prevProps, ' ||| ', prevState);
-      // // console.log('>>>prevProps.data=', prevProps.data);
-      // console.log('***prevState.data=', prevState);
-      // let post = prevProps.data.post;
-  
-      // if(prevState.post){ //must have a previous state
-        
-      //   // console.log('[componentDidUpdate]>>>> prevProps=', prevProps, ' - prevState=', prevState );
-  
-  
-      //   console.log('[componentDidUpdate]>>>> prevState.data.title!==prevProps.data.title=', prevState.data.title,'!==',prevProps.data.title, '----', (prevState.data.title!==prevProps.data.title) );
-  
-      //   // console.log('[componentDidUpdate]>>>> prevState.data=', prevState.data); 
-      //   // console.log('[componentDidUpdate]>>>> prevProps.data=', prevProps.data);
-        
-      //   if(prevState.data.title!==prevProps.data.title || prevState.data.file!==prevProps.data.file || prevState.data.content!==prevProps.data.content || 
-      //     prevState.data.location!==prevProps.data.location || prevState.data.duration!==prevProps.data.duration || prevState.data.places!==prevProps.data.places){
-      //     this.setState((prevState, props)=>{
-      //       return { data: prevProps.data }
-      //     });
-      //   } 
-      // }//must have a previous state
-    }
-  }//[end] componentDidUpdate
+    console.log('[ModalPost]>>>>componentDidMount' );  
+  } 
 
 
   /**
@@ -313,10 +242,18 @@ class ModalPostCreate extends React.Component {
     this.setState({ postFormIsValid }); 
   } 
 
+  /**
+   * Delete any previously saved image (become the post creation is neing cancelled)
+   * Trigger form fields cleaning method
+   * Unfreeze modal
+   * Toggle modal visibility
+   */
   handleCancel() { 
-    this.clearModal();
-    this.freezeForm(false);
-    this.props.toggle();
+    this.handleRemoveImage(null, ()=>{ 
+      this.clearModal();
+      this.freezeForm(false);
+      this.props.toggle();
+    });
   }
 
   render() {
@@ -490,10 +427,10 @@ const IconLabel = (props) => {
 const TexTLabelFileInput = (props) => {
   let type = props.type, 
     value = props.value,
-    placeholder = props.tmpText;
+    placeholder = props.tmpText; 
   if(type!=='file') return false;
   //Display only filename or placeholder   
-  return (value==='')?placeholder:value.replace(/C:\\fakepath\\/, '');
+  return (!value)?placeholder:value.replace(/C:\\fakepath\\/, '');
 }
 
 
