@@ -33,12 +33,13 @@ import { callbackify } from 'util';
 
 /**
  * TODO:
- * 1) SET EMPTY PROPERTY TO NULL: obj.ppt = null
+ * 1) SET EMPTY PROPERTY TO NULL: obj.ppt = null (except file, will through an error if value is null. place empty string instead)
  * 2) ADD UNIQUE PREFIX FOR EACH NEWLY POSTED IMAGE (timeline/datetime-imagename)
  * ---- think inheritance ----
  * 3) MERGE "PostItem" AND "ModalPostCreate" methods into one (start from the small methods)
+ * 4) Let DBPost handle 'timeline/' prefix
  */
-
+ 
 
 class PostItem extends React.Component {
   constructor(props) {
@@ -86,7 +87,7 @@ class PostItem extends React.Component {
   handleRemoveImage(event, postID) {
     console.log('+++++++++++event=',event);
     event.preventDefault();
-    this.setState({ postFormIsFrozen:!this.state.postFormIsFrozen });
+    this.setState({ postFormIsFrozen:true });
     let postFormFields = {...this.state.postFormFields},
         postFileUpload = {...this.state.postFileUpload},
         filePath = this.state.postFormFields.file;  
@@ -110,10 +111,10 @@ class PostItem extends React.Component {
   clearModal(){ 
     //Cleanup form when post is successful ...
     let postFormFields = { ...DBPost.getPostObject() }, 
-        postFileUpload = { downloadURLs: null },
+        //We don't clear "postFileUpload" property here because this object still need it to display the image
         postFormIsFrozen = false;
     this.setState((prevState, props) => {
-      return { postFormFields, postFileUpload, postFormIsFrozen }
+      return { postFormFields, postFormIsFrozen }
     });  
   }//[end] clearModal
 
@@ -130,7 +131,7 @@ class PostItem extends React.Component {
     let toggleModal = this.toggleEM;
     if(postID){
       this.freezeForm(true);  
-      let finalPost = this.getReadyPostObject(this.state.postFormFields); 
+      let finalPost = this.getReadyPostObject(this.state.postFormFields, this.state.postFileUpload); 
       console.log('+++++=this.state.postFormFields=', finalPost);
       //Update post 
       DBPost.update(postID, finalPost)
@@ -159,14 +160,16 @@ class PostItem extends React.Component {
    * 
    * @param {*} postFormFields 
    */
-  getReadyPostObject(postFormFields) { 
+  getReadyPostObject(postFormFields, postFileUpload) { 
     //No need to get the post ready
-    let formFields = {...postFormFields};
+    let formFields = {...postFormFields},
+        file = (formFields.file)?formFields.file:postFileUpload.file;
 
-
-    formFields.file = formFields.file.replace(/C:\\fakepath\\/, ''); 
-    formFields.file = 'timeline/'+formFields.file;
-
+    if(file){
+      console.log('1+++++formFields.file=', formFields.file); 
+      formFields.file = file.replace(/C:\\fakepath\\/, '');  
+      console.log('2+++++formFields.file=', formFields.file);  
+    }
 
     return formFields;
   }
@@ -177,7 +180,7 @@ class PostItem extends React.Component {
    * @param {*} event 
    */
   handleChange(event, postID) { 
-    let postFormFields = this.state.postFormFields;
+    let { postFormFields } = this.state;
     const name = event.target.name;
     //Will be input value or new File object  
     let value = event.target.value;
@@ -193,35 +196,29 @@ class PostItem extends React.Component {
        
       env.setState({ postFormIsFrozen:true });
       console.log('++++START ........... Uploaded a blob or file!');
+
+      //Remove any preexisting image before uploading a new one
+      if(this.state.postFileUpload.downloadURLs){
+        this.handleRemoveImage(event, postID);
+      }
       
+      //...
       DBUpload.save(newFile).then(function(snapshot) { 
         postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
         postFileUpload.file = newFile.name;
 
-      console.log('++++postFileUpload.file=', postFileUpload.file.name);
+        console.log('++++postFileUpload.file=', postFileUpload.file.name);
 
         let filePath = postFileUpload.file.replace(/C:\\fakepath\\/, ''); 
         filePath = 'timeline/'+filePath;
 
-
         // env.setState({ postFileUpload, postFormIsFrozen:false });
-        DBPost.updateField(postID, 'file', filePath).then((result)=>{
-
-        console.log('*************postFileUpload=', postFileUpload);
-        console.log('*************postFormFields=', postFormFields);
-
-          env.setState({ 
-            postFormIsFrozen:false, 
-            postFileUpload, 
-            postFormFields }); 
-        }); 
-        /*
-          postFileUpload.file = null;
-          postFileUpload.downloadURLs = null;
-          postFormFields.file = ''; 
-          console.log('1+++++++++++postID=',postID);
-        */
-      }); 
+        DBPost.updateField(postID, 'file', filePath).then((result)=>{ 
+          console.log('*************postFileUpload=', postFileUpload);
+          console.log('*************postFormFields=', postFormFields); 
+          env.setState({ postFormIsFrozen:false, postFileUpload }); 
+        });//[end] DBPost.updateField 
+      });//[end] DBUpload.save
     }//[end] file  
     //....
     postFormFields[name] = value;
@@ -495,7 +492,7 @@ const DisplayFileUpload = (props) => {
   console.log('[DisplayFileUpload]imgUrl=',imgUrl);
 
   return(
-    <div style={{border:'4px solid red'}}> 
+    <div style={{border:'0px solid red'}}> 
       <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
         <IconLabel value={value} /> {' '}
         <TexTLabelFileInput type={type} value={control.file} tmpText={value.label.text} />

@@ -36,6 +36,17 @@ import './ModalPost.css';
 
 
 
+/**
+ * TODO:
+ * 1) SET EMPTY PROPERTY TO NULL: obj.ppt = null (except file, will through an error if value is null. place empty string instead)
+ * 2) ADD UNIQUE PREFIX FOR EACH NEWLY POSTED IMAGE (timeline/datetime-imagename)
+ * ---- think inheritance ----
+ * 3) MERGE "PostItem" AND "ModalPostCreate" methods into one (start from the small methods)
+ * 4) Let DBPost handle 'timeline/' prefix
+ */
+
+
+
 
 
 class ModalPostCreate extends React.Component { 
@@ -327,7 +338,7 @@ const DisplayFileUpload = (props) => {
   const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'};
 
   return(
-    <div style={{border:'4px solid red'}}> 
+    <div style={{border:'0px solid red'}}> 
       <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
         <IconLabel value={value} /> {' '}
         <TexTLabelFileInput type={type} value={control.file} tmpText={value.label.text} />
