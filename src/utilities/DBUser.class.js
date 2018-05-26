@@ -111,7 +111,7 @@ class DBUser {
 
   //return currently logged user info
   static getCurrentUser() {
-    return auth().currentUser;
+    return auth.currentUser;
   } 
 }
 

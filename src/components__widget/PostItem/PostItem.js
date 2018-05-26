@@ -5,19 +5,18 @@
 import React from 'react'; 
 import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
 import {  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Alert } from 'reactstrap';
 import { dropdownSyles } from './../../jsStyles/menu.styles.js';  
-import Toast from './../../components__reusable/Toast/Toast.js';  
-import ModalPostEdit from './../../components__widget/ModalPostEdit/ModalPostEdit.js'; 
+import Toast from './../../components__reusable/Toast/Toast.js';   
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
 import DBUser from '../../utilities/DBUser.class.js';  
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
-import modalStyle from './../../jsStyles/modal.styles.js';
-import formStyle from './../../jsStyles/form.styles.js';
+import modalStyle from './../../jsStyles/modal.styles.js'; 
+import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
 import DateFormat from './../../components__reusable/DateFormat.js'; 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
@@ -26,8 +25,7 @@ import faExclamationTriangle from '@fortawesome/fontawesome-free-solid/faExclama
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
-import './PostItem.css';
-import { callbackify } from 'util';
+import './PostItem.css'; 
 
 
 
@@ -84,23 +82,19 @@ class PostItem extends React.Component {
   }//[end] constructor
 
 
-  handleRemoveImage(event, postID) {
-    console.log('+++++++++++event=',event);
+  handleRemoveImage(event, postID) { 
     event.preventDefault();
     this.setState({ postFormIsFrozen:true });
     let postFormFields = {...this.state.postFormFields},
         postFileUpload = {...this.state.postFileUpload},
         filePath = this.state.postFormFields.file;  
         filePath = filePath?filePath:postFileUpload.file;
-        filePath = filePath.replace('timeline/','');
- 
-    console.log('1+++++++++++postID=',postID);
+        filePath = filePath.replace('timeline/',''); 
 
     DBUpload.remove(filePath, true).then((result)=>{
       postFileUpload.file = null;
       postFileUpload.downloadURLs = null;
-      postFormFields.file = ''; 
-      console.log('1+++++++++++postID=',postID);
+      postFormFields.file = '';  
       DBPost.updateField(postID, 'file', '').then((result)=>{
         this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields }); 
       });
@@ -131,8 +125,7 @@ class PostItem extends React.Component {
     let toggleModal = this.toggleEM;
     if(postID){
       this.freezeForm(true);  
-      let finalPost = this.getReadyPostObject(this.state.postFormFields, this.state.postFileUpload); 
-      console.log('+++++=this.state.postFormFields=', finalPost);
+      let finalPost = this.getReadyPostObject(this.state.postFormFields, this.state.postFileUpload);  
       //Update post 
       DBPost.update(postID, finalPost)
       //Reset "postFormFields" state object once its done
@@ -165,12 +158,9 @@ class PostItem extends React.Component {
     let formFields = {...postFormFields},
         file = (formFields.file)?formFields.file:postFileUpload.file;
 
-    if(file){
-      console.log('1+++++formFields.file=', formFields.file); 
-      formFields.file = file.replace(/C:\\fakepath\\/, '');  
-      console.log('2+++++formFields.file=', formFields.file);  
+    if(file){ 
+      formFields.file = file.replace(/C:\\fakepath\\/, '');   
     }
-
     return formFields;
   }
 
@@ -183,8 +173,7 @@ class PostItem extends React.Component {
     let { postFormFields } = this.state;
     const name = event.target.name;
     //Will be input value or new File object  
-    let value = event.target.value;
-    let env = this;
+    let value = event.target.value; 
 
     //For 'file' upload it right away on "Firebase Storage"
     //and save the name in the state for later use when post 
@@ -194,8 +183,7 @@ class PostItem extends React.Component {
           env = this,
           postFileUpload = {}; 
        
-      env.setState({ postFormIsFrozen:true });
-      console.log('++++START ........... Uploaded a blob or file!');
+      env.setState({ postFormIsFrozen:true }); 
 
       //Remove any preexisting image before uploading a new one
       if(this.state.postFileUpload.downloadURLs){
@@ -205,17 +193,13 @@ class PostItem extends React.Component {
       //...
       DBUpload.save(newFile).then(function(snapshot) { 
         postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
-        postFileUpload.file = newFile.name;
-
-        console.log('++++postFileUpload.file=', postFileUpload.file.name);
+        postFileUpload.file = newFile.name; 
 
         let filePath = postFileUpload.file.replace(/C:\\fakepath\\/, ''); 
         filePath = 'timeline/'+filePath;
 
         // env.setState({ postFileUpload, postFormIsFrozen:false });
-        DBPost.updateField(postID, 'file', filePath).then((result)=>{ 
-          console.log('*************postFileUpload=', postFileUpload);
-          console.log('*************postFormFields=', postFormFields); 
+        DBPost.updateField(postID, 'file', filePath).then((result)=>{  
           env.setState({ postFormIsFrozen:false, postFileUpload }); 
         });//[end] DBPost.updateField 
       });//[end] DBUpload.save
@@ -239,8 +223,7 @@ class PostItem extends React.Component {
         postFileUpload = {...this.state.postFileUpload};
       //Save file value in a temporary field for now (non-empty value cannpt be saved in the "file" input)
       postFileUpload.file = postFormFields.file;
-      postFormFields.file = '';
-      console.log('postFormFields=',postFormFields);
+      postFormFields.file = ''; 
       this.setState({ postFormFields, postFileUpload }); 
     });//[end] toggleEM
   }//[end] handleEdit
@@ -278,10 +261,7 @@ class PostItem extends React.Component {
     const validObj = new Map(Object.entries(postFormValidity)); 
     const validValues = Array.from(validObj.values()); 
     let postFormIsValid = validValues.find((item)=>{ return item===false}); 
-    postFormIsValid = (postFormIsValid===undefined)?true:false;
-
-    // console.log('postFormFields=',postFormFields);
-
+    postFormIsValid = (postFormIsValid===undefined)?true:false;  
     this.setState({ postFormIsValid }); 
   } 
 
@@ -331,8 +311,7 @@ class PostItem extends React.Component {
     DBUser.get(uid).then((user) => {
       this.setState({ user });
     }); 
-    if(file) {  
-      console.log('>>>>file=',file);
+    if(file) {   
       let postFileUpload = {...this.state.postFileUpload};
       DBUpload.getFile(file).then((imgUrl) => { 
         if(imgUrl){ 
@@ -401,8 +380,7 @@ class PostItem extends React.Component {
 
     return(  
       <div>
-        <Card className="PostItem" style={p.style}>
-              { /*console.log('>>>>>>>>>>p.data=',p.data)*/ }
+        <Card className="PostItem" style={p.style}> 
           <DisplayPostMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
           handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
 
@@ -426,11 +404,10 @@ class PostItem extends React.Component {
 
         { 
           <div>
-            <Modal isOpen={this.state.modalEM} toggle={this.toggleEM} className={'ModalPost'} backdrop={'static'}> 
-              { /*console.log('>>>>>>>>>>',s.user)*/ }
+            <Modal isOpen={this.state.modalEM} toggle={this.toggleEM} className={'ModalPost'} backdrop={'static'}>  
               { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
               <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
-              <ModalBody>
+              <ModalBody style={modalStyle.body}>
                 <MessageForm handleSubmit={this.handleSubmit} 
                 handleChange={
                   (event)=>this.handleChange(event, p.data.id)
@@ -487,15 +464,13 @@ const DisplayFileUpload = (props) => {
   if(props.type!=='file') return false;
   const {type, formStyle, value, control, imgUrl, removeImage} = props;
   const stl = formStyle;
-  const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'};
-
-  console.log('[DisplayFileUpload]imgUrl=',imgUrl);
+  const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'}; 
 
   return(
-    <div style={{border:'0px solid red'}}> 
-      <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+    <div> 
+      <Label className={stl.file?stl.file.className:''} for={type} style={props.style}>
         <IconLabel value={value} /> {' '}
-        <TexTLabelFileInput type={type} value={control.file} tmpText={value.label.text} />
+        <TextLabelFileInput type={type} value={control.file} tmpText={value.label.text} />
         <TexTLabelOtherInput type={type} value={value.label.text} /> 
       </Label>
  
@@ -504,7 +479,7 @@ const DisplayFileUpload = (props) => {
           <Button style={btnDelStyle} onClick={removeImage}>
             <FontAwesomeIcon icon={faTimesCircle} style={{ background:'#fff', borderRadius:'30px'}} />
           </Button>
-          <img className="img-fluid" src={imgUrl} /> 
+          <img className="img-fluid" src={imgUrl} alt={imgUrl} /> 
         </div>
       }
     </div>
@@ -514,17 +489,16 @@ const DisplayFileUpload = (props) => {
 
 const MessageForm = (props) => {
   const { handleSubmit, handleChange, removeImage, state } = props; 
-  const stl = formStyle;
+  const stl = formStyleLightTheme;
   const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
   const fields = new Map(Object.entries(DBPost.formFields)); 
-  let formFields = []; 
-  console.log('[MessageForm]postFileUpload=', postFileUpload);
+  let formFields = [];  
 
   fields.forEach((value, key)=>{ 
-    let inputStyle = stl[key]?stl[key].input:stl.inputField,
-        labelStyle = stl[key]?stl[key].label:stl.label, 
-        formGroupStyle = stl[key]?stl[key].formGroup:stl.formGroup, 
-        tmpVal = value.formField.placeholder;
+    let inputStyle      = stl[key]?stl[key].input:stl.inputField,
+        labelStyle      = stl[key]?stl[key].label:stl.label, 
+        formGroupStyle  = stl[key]?stl[key].formGroup:stl.formGroup, 
+        tmpVal          = value.formField.placeholder;
     formFields.push(
       <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
         <DisplayLabel type={key} formStyle={stl} style={labelStyle} value={value}/>
@@ -550,26 +524,7 @@ const MessageForm = (props) => {
       </Form>
     </div>
   );
-}//[end] MessageForm
-
-
-const Overlay = (props) => {
-  if(!props.active) return false;
-  let style={
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    position: 'absolute',
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center'
-  };
-  return(
-    <section style={style}>{props.children}</section>
-  );
-};
+}//[end] MessageForm 
 
 
 const FormFieldError = (props) => {
@@ -590,7 +545,7 @@ const IconLabel = (props) => {
 }
 
 
-const TexTLabelFileInput = (props) => {
+const TextLabelFileInput = (props) => {
   let type = props.type, 
     value = props.value,
     placeholder = props.tmpText; 
@@ -602,7 +557,7 @@ const TexTLabelFileInput = (props) => {
 
 const TexTLabelOtherInput = (props) => {
   let type = props.type, value = props.value;
-  if(type=='file') return false;
+  if(type==='file') return false;
   return value;
 }
 
@@ -624,7 +579,7 @@ const SelectInput = (props) => {
 
 
 const OtherInput = (props) => {
-  let {type, value, ident, style, placeholder, onChange, options, error, disabled } = props; 
+  let {type, value, ident, style, placeholder, onChange, error, disabled } = props; 
   if(type==='select') return false;
   return(
     <div>

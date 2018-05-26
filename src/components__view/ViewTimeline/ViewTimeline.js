@@ -8,8 +8,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import { Button } from 'reactstrap';
-import ViewApp from './../ViewApp.js';
-// import DBUpload from './../../utilities/DBUpload.class.js';
+import ViewApp from './../ViewApp.js'; 
 import DBPost from './../../utilities/DBPost.class.js';
 import './ViewTimeline.css';  
 
@@ -27,8 +26,7 @@ class ViewTimeline extends ViewApp {
    * Toggle modal
    * @param {*} ppt 
    */
-  toggleModal(ppt) {
-    console.log('ppt=', ppt)
+  toggleModal(ppt) { 
     let modal = {...this.state.modal}, formFields={}; 
     if(ppt!==undefined && ppt.data && ppt.params){
       modal.params = {...ppt.params}; 
@@ -46,8 +44,7 @@ class ViewTimeline extends ViewApp {
     this.setState({ modal, formFields }, ()=>{//toggle modal when data is updated
       let modal = {...this.state.modal};
       modal.active = !this.state.modal.active;
-      this.setState({ modal }); 
-      // console.log('this.state=', this.state);
+      this.setState({ modal });  
     }); 
   }//[end] toggleModal
 
@@ -84,8 +81,7 @@ class ViewTimeline extends ViewApp {
     const modalData = {
       ...s.modal,
       formFields: this.state.formFields
-    };
-    // console.log('>>modalData=', modalData);
+    }; 
 
     return(  
       <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 
@@ -98,10 +94,7 @@ class ViewTimeline extends ViewApp {
         {
           s.modal && <div>
             <ModalPostCreate user={p.user} data={modalData} toggle={this.toggleModal} 
-            className={this.props.className} />
-            {/*
-            <ModalPostEdit user={p.user} data={modalData} toggle={this.toggleModal} 
-            className={this.props.className} />*/}
+            className={this.props.className} /> 
           </div>
         }
         

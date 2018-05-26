@@ -10,8 +10,7 @@ class DBUpload {
 
   static getFile(name) {  
     return new Promise((resolve)=>{
-      storage.ref(name).getDownloadURL().then(function(url) { 
-        // console.log('>>>>url=', url);
+      storage.ref(name).getDownloadURL().then(function(url) {  
         resolve({url});
       }).catch(function(error) {
         resolve(null); 
@@ -42,8 +41,7 @@ class DBUpload {
     // Create a root reference
     let storageRef = storage.ref(path); 
     return storageRef.delete().then(function(snapshot) {
-      //--> Need to count bytes and feed progress bar here ...
-      // console.log('Uploaded a blob or file!');
+      //--> Need to count bytes and feed progress bar here ... 
     });
 
   }

@@ -1,11 +1,13 @@
-
-
 const modalStyle = {
   header: {
     borderBottom: '0px solid',
     paddingBottom: '0'
   },
+  body : {
+    paddingBottom:'0'
+  },
   footer: {
+    paddingTop: '0',
     borderTop: '0px solid'
   },
   ctaBtn: {
@@ -22,7 +24,6 @@ const modalStyle = {
     boxShadow: '0 2px 5px 0 rgba(0,0,0,0.26)'
   }
 };
-
 
 
 export default modalStyle;

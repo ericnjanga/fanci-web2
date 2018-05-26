@@ -16,8 +16,7 @@ const Figure = (props)=>{
   }
 
   const p = {...props};
-
-  // console.log('xxxxx', p);
+ 
   let borderRadius, sizes,  imgClassName = 'animated-background';
 
   const avatar = { 
@@ -67,28 +66,4 @@ const Figure = (props)=>{
   );
 }
 
-export default Figure;
-
-
-
-    // switch(p.size){
-    //   case 'xxl' :  
-    //     width = '100px';
-    //     height = '100px';
-    //     break;
-    //   case 'large' :  
-    //     width = '60px';
-    //     height = '60px';
-    //     break;
-    //   case 'med' :  
-    //     width = '47px';
-    //     height = '47px';
-    //     break;
-    //   case 'small' :  
-    //     width = '35px';
-    //     height = '35px';
-    //     break;
-    //   default: //Medium by default
-    //     width = '47px';
-    //     height = '47px';
-    // }
+export default Figure;   

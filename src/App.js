@@ -102,44 +102,14 @@ class App extends Component {
   }//[end] handleConfirmModal
 
   //Shell login method
-  handleLogin() { 
-    // auth.signInWithPopup(provider) 
-    // .then((userAuthObject) => { 
-
-
+  handleLogin() {   
     auth.signInWithRedirect(provider);
     auth.getRedirectResult()
     .then((userAuthObject) => { 
-      console.log('************************userAuthObject=', userAuthObject) /*
-      //Save fresh user records in database and save a local version to the state
-      //(state version might contains some info from the database)
-      let userProfile;
-      DBUser.saveBasicInfo(userAuthObject.user).then((currUserInfo)=>{
-        userProfile = currUserInfo; 
-        this.setState({ userProfile }); 
-        //Get gelolocation object ...
-        //save user position in the database and object geolocation state
-        Geoloc.getValue().then((geolocation)=>{ 
-          if(geolocation.on) { 
-            let {userProfile} = this.state;
-            let latLong = Geoloc.getPosition(geolocation);
-            userProfile = {...userProfile, ...latLong}; 
-            DBUser.saveBasicInfo(userProfile);
-          }
-          //save goelocation object anyway
-          this.setState({ geolocation });
-        });//[end] Get gelolocation object 
-      });//[end] DBUser.saveBasicInfo */
-    }).catch(function(error) {//[end] user successful login
-      // Handle Errors here.
+      //...
+    }).catch(function(error) {//[end] user successful login 
       var errorCode = error.code;
-      console.log('>>>errorCode=', errorCode);
-      // var errorMessage = error.message;
-      // // The email of the user's account used.
-      // var email = error.email;
-      // // The firebase.auth.AuthCredential type that was used.
-      // var credential = error.credential;
-      // // ...
+      error.log('>>>errorCode=', errorCode); 
     });
   }
 
@@ -184,20 +154,15 @@ class App extends Component {
 
   componentDidMount(){
     //Signs users back-in everytime application loads 
-    //(FirebaseAuth service remembers their credentials)
-    
-    // console.log('A**--firebase.auth().onAuthStateChanged', auth.onAuthStateChanged)
+    //(FirebaseAuth service remembers their credentials) 
     auth.onAuthStateChanged((userAuthObject) => { 
       //Save fresh user records in database and save a local version to the state
       //(state version might contains some info from the database)
-      let userProfile;
-      // console.log('1**userAuthObject')
-      if(userAuthObject){  
-        // console.log('2**userAuthObject')
+      let userProfile; 
+      if(userAuthObject){   
         DBUser.saveBasicInfo(userAuthObject)
         .then((currUserInfo)=>{
-          userProfile = currUserInfo; 
-          // console.log('3**userProfile')
+          userProfile = currUserInfo;  
           this.setState({ userProfile });
 
           //Get gelolocation object ...
@@ -213,15 +178,13 @@ class App extends Component {
             this.setState({ geolocation });
           });//[end] Get gelolocation object 
         });//[end] DBUser.saveBasicInfo
-      } else {
-        // console.log('4**userProfile')
+      } else { 
         this.setState({ userProfile: null });
-      }   
-      // console.log('5**userProfile')
+      }    
     }, (error) => {
-      // console.log('>>>error=', error)
+      error.log('>>>error=', error);
     }, (completed) => {
-      // console.log('>>>completed=', completed)
+      //...
     });//[END] user sign-in + save
 
     /**
@@ -256,9 +219,7 @@ class App extends Component {
   /**
    * - Toggle Search Panel visibility
    * - If the panel is being closed and 
-   */
-  //
-  //
+   */ 
   toggleSearchPanel() {
     let searchPanel = this.state.searchPanel;
     searchPanel.active = !this.state.searchPanel.active;
@@ -270,11 +231,7 @@ class App extends Component {
     const s = {...this.state};  
     return (
       <Router>
-        <div className={'App '+s.currPathName}>  
-          {
-            //console.log('[[R]] s.userProfile=', s.userProfile)
-          }
-
+        <div className={'App '+s.currPathName}>    
           { /* Display toast when user profile is not loaded yet*/ }
           <Toast active={s.userProfile===undefined}>Fetching your preferences</Toast>
           
@@ -295,8 +252,7 @@ class App extends Component {
             title={s.confirmationModal.title}> 
               { s.confirmationModal.content && s.confirmationModal.content() } 
             </ModalConfirm>
-          }
-          
+          } 
 
           {
             s.userProfile && <VerticalNav user={s.userProfile} isActive={s.drawer.active} 

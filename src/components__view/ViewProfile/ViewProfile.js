@@ -4,7 +4,8 @@ import Figure from './../../components__reusable/Figure/Figure.js';
 import Toast from './../../components__reusable/Toast/Toast.js';  
 import DBUser from '../../utilities/DBUser.class.js'; 
 import DateFormat from './../../components__reusable/DateFormat.js'; 
-import ViewApp from './../ViewApp.js';
+import ViewApp from './../ViewApp.js'; 
+import { formStyleDarkTheme } from './../../jsStyles/form.styles.js';
 import './ViewProfile.css';
 
 
@@ -48,9 +49,11 @@ class ViewProfile extends ViewApp {
   render() {
     const { user } = this.props;
     const { userProfile, overlayActive } = this.state;
-    return(
-      <div className="view__content ViewProfile"> 
+    const theme = formStyleDarkTheme;
+    const checkboxFormGroup = {...theme.formGroup, ...theme.checkBox.formGroup}; 
 
+    return(
+      <div className="view__content ViewProfile">  
         { /* Display a toast if the list of items is not yet ready */ }
         <Toast active={overlayActive}>Saving data</Toast>
          
@@ -67,57 +70,57 @@ class ViewProfile extends ViewApp {
           </div>
     
           <Form onSubmit={this.handleSubmit}> 
-            <FormGroup>
-              <Label for="name">User Name</Label>
+            <FormGroup style={theme.formGroup}>
+              <Label for="name" style={theme.label}>User Name</Label>
               {
                 !userProfile ? (
-                  <Input type="text" name="displayName" id="displayName" placeholder="Enter your username" />
+                  <Input style={theme.inputField} type="text" name="displayName" id="displayName" placeholder="Enter your username" />
                 ) : (
-                  <Input type="text" name="displayName" id="displayName" value={userProfile.displayName} onChange={this.handleInputChange} placeholder="Enter your username" />
+                  <Input style={theme.inputField} type="text" name="displayName" id="displayName" value={userProfile.displayName} onChange={this.handleInputChange} placeholder="Enter your username" />
                 )
               }  
             </FormGroup>
 
-            <FormGroup>
-              <Label for="biography">Biography</Label>
+            <FormGroup style={theme.formGroup}>
+              <Label for="biography" style={theme.label}>Biography</Label>
               {
                 !userProfile ? ( 
-                  <Input type="textarea" name="biography" id="biography" placeholder="Enter a short biographie" /> 
+                  <Input style={theme.inputField} type="textarea" name="biography" id="biography" placeholder="Enter a short biographie" /> 
                 ) : (
-                  <Input type="textarea" name="biography" id="biography" value={userProfile.biography} onChange={this.handleInputChange} placeholder="Enter a short biographie" /> 
+                  <Input style={theme.inputField} type="textarea" name="biography" id="biography" value={userProfile.biography} onChange={this.handleInputChange} placeholder="Enter a short biographie" /> 
                 )
               }  
             </FormGroup>
 
-            <FormGroup>
-              <Label for="email">Email</Label> 
+            <FormGroup style={theme.formGroup}>
+              <Label for="email" style={theme.label}>Email</Label> 
               {
                 !userProfile ? (
-                  <Input type="email" name="email" id="email" placeholder="Enter your email" />
+                  <Input style={theme.inputField} type="email" name="email" id="email" placeholder="Enter your email" />
                 ) : (
-                  <Input type="email" name="email" id="email" placeholder={userProfile.email} readOnly/>
+                  <Input style={theme.inputField} type="email" name="email" id="email" placeholder={userProfile.email} readOnly/>
                 )
               }  
             </FormGroup>   
 
-            <FormGroup>
-              <Label for="phoneNumber">Phone Number</Label> 
+            <FormGroup style={theme.formGroup}>
+              <Label for="phoneNumber" style={theme.label}>Phone Number</Label> 
               {
                 !userProfile ? (
-                  <Input type="text" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number" /> 
+                  <Input style={theme.inputField} type="text" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number" /> 
                 ) : (
-                  <Input type="text" name="phoneNumber" id="phoneNumber" value={userProfile.phoneNumber} onChange={this.handleInputChange} placeholder="Enter your phone number" /> 
+                  <Input style={theme.inputField} type="text" name="phoneNumber" id="phoneNumber" value={userProfile.phoneNumber} onChange={this.handleInputChange} placeholder="Enter your phone number" /> 
                 )
               }  
             </FormGroup>
   
-            <FormGroup className="form-group" check> 
-              <Label for="visible">
+            <FormGroup className="form-group" check style={checkboxFormGroup}> 
+              <Label for="visible" style={theme.label}>
                 {
                   !userProfile ? (
-                    <Input type="checkbox" name="visible" id="visible" />
+                    <Input style={theme.checkBox.input} type="checkbox" name="visible" id="visible" />
                   ) : (
-                    <Input type="checkbox" name="visible" id="visible" checked={userProfile.visible} onChange={this.handleInputChange} />
+                    <Input style={theme.checkBox.input} type="checkbox" name="visible" id="visible" checked={userProfile.visible} onChange={this.handleInputChange} />
                   )
                 }  
                 {' '}Visible to everyone

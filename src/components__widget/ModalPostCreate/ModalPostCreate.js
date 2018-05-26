@@ -1,35 +1,15 @@
 /**
- * Renders a modal which allows user to "create/update" a post
- * Rules:
- * -- [√] Modal can only be dismissed by cancel button
- * -- [√] Validation happens on input change (submit button is disabled as long as form is invalid)
- * -- [√] When image file is picked by user:
- * ---- [√] Image is uploaded to "Firebase Storage" ahead of the post
- * ---- [---?---] Progress bar is displayed until the image is fully uploaded
- * -- [---?---] When user clicks [CANCEL]:
- * ---- [---?---] Clear form
- * ---- [---?---] Delete image related to the current post on "Firebase Storage"
- * -- [√] When user clicks [CREATE]:
- * ---- [√] Validate form
- * ---- [√] If form is valid:
- * ------ [√] Freeze all fields (will trigger the display of a toast. Only "CANCEL" button will be available for clicking)
- * ------ [√] submit form
- * ------ [√] When form submission is successful:
- * -------- [√] Clear form
- * -------- [√] Unfreeze fields (which removes the toast too)
- * -------- [√] Dismiss modal   
+ * Renders a modal which allows user to "create" a post 
  */ 
 import React from 'react'; 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-// import MessageForm from '../MessageForm/MessageForm';
+import { Form, FormGroup, Label, Input } from 'reactstrap'; 
 import Figure from './../../components__reusable/Figure/Figure.js'; 
 import Toast from './../../components__reusable/Toast/Toast.js';  
 import DBPost from '../../utilities/DBPost.class.js';  
-import DBUpload from './../../utilities/DBUpload.class.js';
-import AppDoc from './../../utilities/AppDoc.class.js';
-import modalStyle from './../../jsStyles/modal.styles.js';
-import formStyle from './../../jsStyles/form.styles.js';
+import DBUpload from './../../utilities/DBUpload.class.js'; 
+import modalStyle from './../../jsStyles/modal.styles.js'; 
+import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './ModalPost.css';
@@ -44,6 +24,26 @@ import './ModalPost.css';
  * 3) MERGE "PostItem" AND "ModalPostCreate" methods into one (start from the small methods)
  * 4) Let DBPost handle 'timeline/' prefix
  */
+
+
+ //DELETE IF NOTHING YET...
+// const Overlay = (props) => {
+//   if(!props.active) return false;
+//   let style={
+//     top: '0',
+//     left: '0',
+//     width: '100%',
+//     height: '100%',
+//     backgroundColor: 'rgba(255, 255, 255, 0.6)',
+//     position: 'absolute',
+//     display:'flex',
+//     alignItems:'center',
+//     justifyContent:'center'
+//   };
+//   return(
+//     <section style={style}>{props.children}</section>
+//   );
+// };
 
 
 
@@ -84,24 +84,20 @@ class ModalPostCreate extends React.Component {
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
   }//[end] constructor
 
-  handleRemoveImage(event, callback) {
-    console.log('+++++++++++event=',event);
+  handleRemoveImage(event, callback) { 
     if(event){
       event.preventDefault(); 
     }
     this.setState({ postFormIsFrozen:!this.state.postFormIsFrozen });
     let postFormFields = {...this.state.postFormFields},
         postFileUpload = {...this.state.postFileUpload},
-        filePath = this.state.postFormFields.file;
-
-    console.log('1+++++++++++filePath=',filePath);
+        filePath = this.state.postFormFields.file; 
 
     //Only remove the image if there is a value
     if(filePath){
       //...
       filePath = filePath?filePath:postFileUpload.file;
-      filePath = filePath.replace('timeline/','');
-      console.log('2+++++++++++filePath=',filePath);
+      filePath = filePath.replace('timeline/',''); 
       //Delete image in storage
       //then clear related fields
       DBUpload.remove(filePath, true).then((result)=>{
@@ -127,11 +123,7 @@ class ModalPostCreate extends React.Component {
     this.setState((prevState, props) => {
       return { postFormFields, postFileUpload, postFormIsFrozen }
     });  
-  }//[end] clearModal
-
-  componentDidMount() {
-    console.log('[ModalPost]>>>>componentDidMount' );  
-  } 
+  }//[end] clearModal 
 
 
   /**
@@ -203,8 +195,7 @@ class ModalPostCreate extends React.Component {
           env = this,
           postFileUpload = {}; 
        
-      this.setState({ postFormIsFrozen:true });
-      console.log('++++START ........... Uploaded a blob or file!');
+      this.setState({ postFormIsFrozen:true }); 
       
       DBUpload.save(newFile).then(function(snapshot) { 
         postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
@@ -297,7 +288,7 @@ class ModalPostCreate extends React.Component {
         {
           p.data.params && <div>
             <ModalHeader toggle={p.toggle} style={modalStyle.header}>{p.data.params.title}</ModalHeader>
-            <ModalBody>
+            <ModalBody style={modalStyle.body}>
               <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} removeImage={this.handleRemoveImage} state={s}/>
             </ModalBody>
             <ModalFooter style={modalStyle.footer}>  
@@ -350,7 +341,7 @@ const DisplayFileUpload = (props) => {
           <Button style={btnDelStyle} onClick={removeImage}>
             <FontAwesomeIcon icon={faTimesCircle} style={{ background:'#fff', borderRadius:'30px'}} />
           </Button>
-          <img className="img-fluid" src={imgUrl} /> 
+          <img className="img-fluid" src={imgUrl} alt={imgUrl} /> 
         </div>
       }
     </div>
@@ -360,7 +351,7 @@ const DisplayFileUpload = (props) => {
 
 const MessageForm = (props) => {
   const { handleSubmit, handleChange, removeImage, state } = props; 
-  const stl = formStyle;
+  const stl = formStyleLightTheme;
   const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
   const fields = new Map(Object.entries(DBPost.formFields)); 
   let formFields = []; 
@@ -398,25 +389,6 @@ const MessageForm = (props) => {
 }//[end] MessageForm
 
 
-const Overlay = (props) => {
-  if(!props.active) return false;
-  let style={
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    position: 'absolute',
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center'
-  };
-  return(
-    <section style={style}>{props.children}</section>
-  );
-};
-
-
 const FormFieldError = (props) => {
   const data = props.data;
   if(!data){ return false; }
@@ -447,7 +419,7 @@ const TexTLabelFileInput = (props) => {
 
 const TexTLabelOtherInput = (props) => {
   let type = props.type, value = props.value;
-  if(type=='file') return false;
+  if(type==='file') return false;
   return value;
 }
 
@@ -469,7 +441,7 @@ const SelectInput = (props) => {
 
 
 const OtherInput = (props) => {
-  let {type, value, ident, style, placeholder, onChange, options, error, disabled } = props; 
+  let {type, value, ident, style, placeholder, onChange, error, disabled } = props; 
   if(type==='select') return false;
   return(
     <div>

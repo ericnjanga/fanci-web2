@@ -12,8 +12,7 @@ const List = (props) => {
   return(
     <section style={p.style}> 
       { 
-        p.items.length ?props.items.map((item) => {
-          //console.log('*********item=', item);
+        p.items.length ?props.items.map((item) => { 
           return (
             <Item key={item.id} loggedUserID={p.user.uid} data={item} handleConfirmModal={p.handleConfirmModal} 
             toggleTimelineModal={p.toggleTimelineModal} confirmationModal={p.confirmationModal} style={p.itemStyle} />

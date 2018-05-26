@@ -3,7 +3,7 @@ let MapPHStyles = {
   body : { 
     position: 'relative',
     background: '#EEE5E0',
-    width: '100%',
+    width: 'calc(100% + 30px)',
     height: '100%'
   },
   user : {  
