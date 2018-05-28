@@ -14,6 +14,7 @@ import './ViewAll.css';
 
 const ViewAll = (props) => {
   const p = {...props};
+ 
   return( 
     <section>   
       {/* Render login only (if p.userProfile is "unauthenticated") */} 
@@ -48,7 +49,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/around-us" exact={true} render={() => (
-            <ViewTimeline {...p} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
+            <ViewTimeline {...p} displayExpiredItems={false} postList={p.postList_runtime} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
           )}/>  
         )
       )}/>
@@ -71,6 +72,17 @@ const ViewAll = (props) => {
         ) : (
           <Route path="/settings" exact={true} render={() => (
             <ViewSettings onRouteChange={p.onRouteChange} />
+          )}/>  
+        )
+      )}/>
+
+      {/* My fancies? */}
+      <Route exact path="/my-fancies" render={() => (
+        !p.userProfile ? (
+          <Redirect to="/login"/>
+        ) : (
+          <Route path="/my-fancies" exact={true} render={() => (
+            <ViewTimeline {...p} postList={p.upList_runtime} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
           )}/>  
         )
       )}/>

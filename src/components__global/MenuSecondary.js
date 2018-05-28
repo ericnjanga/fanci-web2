@@ -18,6 +18,10 @@ const MenuSecondary = (props) => {
       </NavItem>*/} 
       
       <NavItem>
+        <NavLink style={dropdownSyles.item} to={`/my-fancies`} onClick={ ()=>{ toggleDropdown(); } }>My Fancies</NavLink>
+      </NavItem>
+      
+      <NavItem>
         <NavLink style={dropdownSyles.item} to={`/settings`} onClick={ ()=>{ toggleDropdown(); } }>Settings</NavLink>
       </NavItem>
 

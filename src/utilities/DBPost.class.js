@@ -9,7 +9,6 @@ import faUpload from '@fortawesome/fontawesome-free-solid/faUpload';
 
 const nodeName = 'timeline';
 const formFields = { 
-
   file: {
     label: {
       text:'Upload an image',
@@ -86,6 +85,35 @@ const formFields = {
 };
 
 
+
+
+function getExpiryDate(val) {
+  let _val
+  switch(val) {
+    case 0: //3hrs
+      _val = hourToMillsec(3);
+    break;
+    case 1: //10hrs
+      _val = hourToMillsec(10);
+    break;
+    case 2: //1 day
+      _val = dayToMillsec(1);
+    break;
+    default: //1 week
+      _val = dayToMillsec(7);
+  }
+
+  function hourToMillsec(hr){
+    return hr * 60 * 60 * 1000;
+  }
+  function dayToMillsec(day){
+    return day * 24 * 60 * 60 * 1000;
+  }
+
+  return Date.now() + _val;
+}
+
+
 class DBPost { 
   static formFields = formFields;  
 
@@ -150,9 +178,10 @@ class DBPost {
    */
   static save(item, uid) {
     const listRef = database.ref(nodeName);
-    let newPost = Object.assign({}, item);
-    newPost.uid = uid;
-    newPost.date = Date.now();
+    let newPost   = Object.assign({}, item);
+    newPost.uid   = uid;
+    newPost.date  = Date.now();
+    newPost.expiryDate = getExpiryDate(newPost.expiry);
     //...
     return new Promise((resolve, reject) => {
       listRef.push(newPost, (error)=>{  
@@ -167,7 +196,10 @@ class DBPost {
 
 
   static update(postID, postObj) { 
-    return database.ref(nodeName+'/'+postID).update(postObj);
+    let newPost = {...postObj};
+    newPost.date  = Date.now();
+    newPost.expiryDate = getExpiryDate(newPost.expiry);
+    return database.ref(nodeName+'/'+postID).update(newPost);
   }
 
 

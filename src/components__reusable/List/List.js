@@ -15,7 +15,8 @@ const List = (props) => {
         p.items.length ?props.items.map((item) => { 
           return (
             <Item key={item.id} loggedUserID={p.user.uid} data={item} handleConfirmModal={p.handleConfirmModal} 
-            toggleTimelineModal={p.toggleTimelineModal} confirmationModal={p.confirmationModal} style={p.itemStyle} />
+            toggleTimelineModal={p.toggleTimelineModal} confirmationModal={p.confirmationModal} 
+            displayIfExpired={p.displayExpiredItems} style={p.itemStyle} />
           )
         }) : 
         <Alert color="info">No item found!</Alert>

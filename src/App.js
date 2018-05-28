@@ -188,13 +188,18 @@ class App extends Component {
     });//[END] user sign-in + save
 
     /**
-     * Fetch database records form 2 nodes (relationnal database style: listA and listB)
-     * Fetch all elements of listA and for each element of listA:
-     * -> find the corresponding element in list B, join it to A and save it into a final list
+     * Fetch post list from database:
+     * 1) For everyone's timeline: (AROUND US)
+     * 1-a) postList_runtime: used for display
+     * 1-b) postList: used to filter search
+     * 2) For user private timeline: (MY FANCIES)
+     * 2-a) upList_runtime: used for display
+     * 2-b) upList: used to filter search
      */
     DBPost.getNode().on('value', (snapshot) => { 
       const nodeVal = snapshot.val(); 
-      let postList_runtime = []; 
+      let postList_runtime = [],
+      upList_runtime = []; 
       if(nodeVal){ //Avoid error if there is no DB objects 
         const postMap = new Map(Object.entries(nodeVal)); 
         postMap.forEach((value, key)=>{
@@ -202,12 +207,17 @@ class App extends Component {
           post.id = key;
           //push values in a regular array 
           postList_runtime.push(post); 
-          postList_runtime = postList_runtime.reverse(); //Reverse array (most recent posts first) 
-        });
-      } 
+          postList_runtime = postList_runtime.reverse(); //Reverse array (most recent posts first)
+          //generate user private list
+          const currUserUID = auth.currentUser.uid;
+          upList_runtime = postList_runtime.filter((post)=>{  
+            return post.uid===currUserUID;
+          }); 
+        });//postMap
+      }//nodeVal
       //save array in state
-      this.setState({ postList_runtime }); 
-      this.setState({ postList:postList_runtime }); 
+      this.setState({ postList_runtime, upList_runtime }); 
+      this.setState({ postList:postList_runtime, upList:upList_runtime }); 
     });//[end] Fetch Fancies ...
     
   }//[end]componentDidMount

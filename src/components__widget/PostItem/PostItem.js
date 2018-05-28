@@ -204,6 +204,11 @@ class PostItem extends React.Component {
         });//[end] DBPost.updateField 
       });//[end] DBUpload.save
     }//[end] file  
+
+
+    // if(name==='expiry') {
+    //   console.log('>>>>>', postFormFields[name]);
+    // }
     //....
     postFormFields[name] = value;
     this.setState({ postFormFields }, ()=>{
@@ -353,6 +358,16 @@ class PostItem extends React.Component {
     }
   }//[end] handleDelete
 
+  /**
+   * 
+   */
+  isExpired() {
+    if(!this.props.data.expiryDate){
+      return false;
+    }  
+    return this.props.data.expiryDate < Date.now();
+  }
+
 
   render() {
     const s = {...this.state}; 
@@ -377,6 +392,19 @@ class PostItem extends React.Component {
         ...modalStyle.btnYes
       }
     }; 
+    let headerStyle = {};
+    headerStyle.header = {...PostItemStyle.header};
+    headerStyle.title = {...PostItemStyle.header_title};
+
+    //Give the header a different background color if post is expired
+    if(this.isExpired()) {
+      headerStyle.header.backgroundColor = '#8ca3ad';
+    }
+
+    //Don't display if item is expired and not allowed to be displayed
+    if(this.isExpired() && !p.displayIfExpired){
+      return false;
+    }
 
     return(  
       <div>
@@ -386,45 +414,34 @@ class PostItem extends React.Component {
 
           <DisplayPostAvatar data={s.user} style={PostItemStyle.avatar} />
 
-          <header style={PostItemStyle.header}> 
-            <CardTitle style={PostItemStyle.header_title}>{p.data.title}</CardTitle> 
-            <small className="PostItem__date">
-              <DateFormat millisec={p.data.date} />
-            </small>
-          </header>
+          <DisplayHeader data={p.data} style={headerStyle} /> 
   
-          <DisplayPostImage src={imgURL} alt={p.data.title} />
-          
-          <CardBody style={PostItemStyle.cardBody}>   
-            <CardText>{p.data.content}</CardText> 
-          </CardBody> 
+          <DisplayPostImage src={imgURL} alt={p.data.title} display={()=>this.isExpired()} />
 
-          <DisplayPostFooter data={p.data} />
+          <DisplayBody data={p.data} style={PostItemStyle.cardBody} display={()=>this.isExpired()} />
+
+          <DisplayPostFooter data={p.data} display={()=>this.isExpired()} />
         </Card>   
 
-        { 
-          <div>
-            <Modal isOpen={this.state.modalEM} toggle={this.toggleEM} className={'ModalPost'} backdrop={'static'}>  
-              { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
-              <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
-              <ModalBody style={modalStyle.body}>
-                <MessageForm handleSubmit={this.handleSubmit} 
-                handleChange={
-                  (event)=>this.handleChange(event, p.data.id)
-                } 
-                removeImage={
-                  (event)=>this.handleRemoveImage(event, p.data.id)
-                } 
-                state={s}/>
-              </ModalBody>
-              <ModalFooter style={modalStyle.footer}>
-                <Button style={style.btnCancel} color="secondary" onClick={this.toggleEM}>Cancel</Button>{' '} 
-                <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.data.id)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>Update</Button>
-              </ModalFooter> 
-            </Modal>
-          </div>
-        }
-            
+         
+        <Modal isOpen={this.state.modalEM} toggle={this.toggleEM} className={'ModalPost'} backdrop={'static'}>  
+          { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
+          <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
+          <ModalBody style={modalStyle.body}>
+            <MessageForm handleSubmit={this.handleSubmit} 
+            handleChange={
+              (event)=>this.handleChange(event, p.data.id)
+            } 
+            removeImage={
+              (event)=>this.handleRemoveImage(event, p.data.id)
+            } 
+            state={s}/>
+          </ModalBody>
+          <ModalFooter style={modalStyle.footer}>
+            <Button style={style.btnCancel} color="secondary" onClick={this.toggleEM}>Cancel</Button>{' '} 
+            <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.data.id)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>Update</Button>
+          </ModalFooter> 
+        </Modal>    
       </div>
     );
   }
@@ -594,8 +611,21 @@ const OtherInput = (props) => {
  * POST METHODS
  * -----------------------
  */
+const DisplayHeader = (props) => {
+  if(!props.data) return false;
+  return(
+    <header style={props.style.header}> 
+      <CardTitle style={props.style.title}>{props.data.title}</CardTitle> 
+      <small className="PostItem__date">
+        <DateFormat millisec={props.data.date} />
+      </small>
+    </header>
+  );
+}
+
+//Display image
 const DisplayPostImage = (props) => {
-  if(!props.src) return false;
+  if(!props.src || !props.display) return false;
   return(
     <Figure img={props.src} alt={props.alt} /> 
   )
@@ -629,7 +659,7 @@ const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
 
 const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
   const { data } = props;
-  if(!data) return false;
+  if(!data || !props.display) return false;
   return(
     <CardFooter className="PostItem__footer">
       <div className="PostItem__footer-info"> 
@@ -653,6 +683,16 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
     </CardFooter>
   )
 }; 
+
+const DisplayBody = (props) => {
+  if(!props.data || !props.display) return false;
+  return(
+    <CardBody style={props.style}>   
+      <CardText>{props.data.content}</CardText> 
+    </CardBody>
+  )
+}
+
 
 /**
  * POST METHODS
