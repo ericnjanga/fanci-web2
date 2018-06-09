@@ -397,6 +397,9 @@ class PostItem extends React.Component {
     headerStyle.header = {...PostItemStyle.header};
     headerStyle.title = {...PostItemStyle.header_title};
 
+    //Check if this is the current user
+    let isOwner = (p.loggedUserID===p.data.uid);
+
     //Give the header a different background color if post is expired
     if(this.isExpired()) { 
       headerStyle.header.backgroundColor = '#8ca3ad';
@@ -410,7 +413,7 @@ class PostItem extends React.Component {
     return(  
       <div>
         <Card className="PostItem" style={p.style}> 
-          <DisplayPostMenu userID={p.loggedUserID} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
+          <DisplayPostMenu isOwner={isOwner} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
           handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
 
           <DisplayPostAvatar data={s.user} style={PostItemStyle.avatar} />
@@ -421,7 +424,7 @@ class PostItem extends React.Component {
 
           <DisplayBody data={p.data} style={PostItemStyle.cardBody} display={()=>this.isExpired()} />
 
-          <DisplayPostFooter data={p.data} display={()=>this.isExpired()} />
+          <DisplayPostFooter isOwner={isOwner} data={p.data} display={()=>this.isExpired()} />
         </Card>   
 
          
@@ -632,9 +635,13 @@ const DisplayPostImage = (props) => {
   )
 }; 
 
+/**
+ * Only owners of this posts can use this menu
+ * @param {*} props 
+ */ 
 const DisplayPostMenu = (props) => {
-  const { userID, data, isActive, handleToggle, handleEdit, openConfirm, style } = props;
-  if(userID!==data.uid) return false;
+  const { isOwner, data, isActive, handleToggle, handleEdit, openConfirm, style } = props;
+  if(!isOwner) return false;
   return(
     //Only post owner can modify it ... 
     <Dropdown direction="left" isOpen={isActive} toggle={handleToggle}>
@@ -658,9 +665,14 @@ const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
   )
 }; 
 
+/**
+ * Only non owners of this posts can opt-in
+ * @param {*} props 
+ */
 const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
   const { data } = props;
-  if(!data || !props.display) return false;
+  if(!data || !props.display) return false; 
+
   return(
     <CardFooter className="PostItem__footer">
       <div className="PostItem__footer-info"> 
@@ -675,8 +687,8 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
                           </small>
         }  
       </div>
-      <div className="PostItem__footer-action"> 
-        <Button className="PostItem__btn-action" block>
+      <div className="PostItem__footer-action">  
+        <Button className="PostItem__btn-action" disabled={props.isOwner} block>
           <span className="sr-only">Contact</span>
           <FontAwesomeIcon icon={faCheck} />
         </Button>

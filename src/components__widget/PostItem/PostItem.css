@@ -23,6 +23,16 @@
   margin: 0!important;
 }
 
+/* Disabled action button */
+.PostItem__btn-action.disabled,
+.PostItem__btn-action:disabled {
+  background: transparent;
+}
+.PostItem__btn-action.disabled .svg-inline--fa,
+.PostItem__btn-action:disabled .svg-inline--fa {
+  color: #ccc;
+}
+
 .PostItem__footer {
   display: flex; 
   padding: 0;
