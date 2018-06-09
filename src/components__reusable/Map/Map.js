@@ -2,6 +2,7 @@
  * Component rendering a <GoogleMapReact /> and needs:
  * - @lat: Latitude  
  * - @lng: Longitude 
+ * (Displays current user's avatar on the center)
  */
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
@@ -9,9 +10,6 @@ import Figure from './../Figure/Figure.js';
 
 
 class Map extends React.Component {
-  // static defaultProps = { 
-  //   zoom: 11
-  // }
   render() {
     const p = {...this.props};
 

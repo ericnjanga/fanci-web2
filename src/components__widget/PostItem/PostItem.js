@@ -359,11 +359,12 @@ class PostItem extends React.Component {
   }//[end] handleDelete
 
   /**
-   * 
+   * Returns a boolean expressing the post's expiry state
+   * (Consider post expired if "expiryDate" property is missing)
    */
   isExpired() {
     if(!this.props.data.expiryDate){
-      return false;
+      return true;
     }  
     return this.props.data.expiryDate < Date.now();
   }
@@ -397,7 +398,7 @@ class PostItem extends React.Component {
     headerStyle.title = {...PostItemStyle.header_title};
 
     //Give the header a different background color if post is expired
-    if(this.isExpired()) {
+    if(this.isExpired()) { 
       headerStyle.header.backgroundColor = '#8ca3ad';
     }
 
