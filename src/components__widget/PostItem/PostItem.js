@@ -6,7 +6,7 @@ import React from 'react';
 import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
 import {  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
 import { Alert } from 'reactstrap';
 import { dropdownSyles } from './../../jsStyles/menu.styles.js';  
 import Toast from './../../components__reusable/Toast/Toast.js';   
@@ -14,6 +14,7 @@ import PostItemStyle from './../../jsStyles/PostItem.styles.js';
 import DBUser from '../../utilities/DBUser.class.js';  
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
+import DBOptin from './../../utilities/DBOptin.class.js';
 import Figure from './../../components__reusable/Figure/Figure.js'; 
 import modalStyle from './../../jsStyles/modal.styles.js'; 
 import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
@@ -23,6 +24,7 @@ import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH';
 import faExclamationTriangle from '@fortawesome/fontawesome-free-solid/faExclamationTriangle';
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
+import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './PostItem.css'; 
@@ -48,6 +50,7 @@ class PostItem extends React.Component {
       postDeleteRequested  : false,
       canBeEdited     : false,
       modalEM         : false, 
+      userOptin       : false, //By default, owner is not opted-in
       postFormFields  : {}, 
       postFileUpload: { 
         downloadURLs: null,
@@ -72,14 +75,37 @@ class PostItem extends React.Component {
       },
       postFormIsValid   : true, //Post is valid by default because data is coming from a post
       postFormIsFrozen  : false 
-    }
+    }//[end] state
     this.handleEdit     = this.handleEdit.bind(this);
     this.toggleEM       = this.toggleEM.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.handleOptin    = this.handleOptin.bind(this);
     this.handleChange   = this.handleChange.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }//[end] constructor
+
+  /**
+   * 
+   * @param {*} optinBool 
+   * @param {*} participantID 
+   * @param {*} ownerID 
+   */
+  handleOptin(optinBool, ownerID, participantID) {
+    let fanciID = this.props.data.id;
+    let env = this;
+    this.setState({ postFormIsFrozen:true });
+
+    if(!optinBool){
+      DBOptin.save(fanciID, ownerID, participantID).then(()=>{
+        env.setState({ userOptin:true, postFormIsFrozen:false });
+      });
+    } else {
+      DBOptin.remove(fanciID, participantID).then(()=>{
+        env.setState({ userOptin:false, postFormIsFrozen:false });
+      });
+    }
+  }
 
 
   handleRemoveImage(event, postID) { 
@@ -138,8 +164,6 @@ class PostItem extends React.Component {
   }//[end] handleSubmit
 
 
-
-
   /**
    * - Unfreeze all fields
    * - Display overlay (z-index higher than everything inside modal except 'cancel' button)
@@ -163,6 +187,7 @@ class PostItem extends React.Component {
     }
     return formFields;
   }
+
 
   /**
    * Use event.target to update the form property name and value
@@ -205,10 +230,7 @@ class PostItem extends React.Component {
       });//[end] DBUpload.save
     }//[end] file  
 
-
-    // if(name==='expiry') {
-    //   console.log('>>>>>', postFormFields[name]);
-    // }
+ 
     //....
     postFormFields[name] = value;
     this.setState({ postFormFields }, ()=>{
@@ -325,6 +347,16 @@ class PostItem extends React.Component {
         }  
       });
     }
+
+    //Check if current user has "opted-in"
+    let fanciID = this.props.data.id,
+        currUID = this.props.loggedUserID,
+        env = this; 
+    DBOptin.findUser(fanciID, currUID).once('value', function(snapshot) { 
+      if (snapshot.hasChild(currUID)) {
+        env.setState({ userOptin: true }); 
+      }
+    });
   } 
 
   
@@ -352,6 +384,8 @@ class PostItem extends React.Component {
       };
       //Apply params
       this.props.handleConfirmModal(null, meta);
+      //delete related "opt-in record" (if fanci is deleted user won't need to attend it)
+      DBOptin.remove(postID);
     });
     if(fileLocation){
       DBUpload.remove(fileLocation, false);
@@ -423,8 +457,9 @@ class PostItem extends React.Component {
           <DisplayPostImage src={imgURL} alt={p.data.title} display={()=>this.isExpired()} />
 
           <DisplayBody data={p.data} style={PostItemStyle.cardBody} display={()=>this.isExpired()} />
-
-          <DisplayPostFooter isOwner={isOwner} data={p.data} display={()=>this.isExpired()} />
+          
+          <DisplayPostFooter isOwner={isOwner} state={s} ppt={p} display={()=>this.isExpired()} 
+          handleOptin={this.handleOptin} />
         </Card>   
 
          
@@ -524,7 +559,8 @@ const MessageForm = (props) => {
       <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
         <DisplayLabel type={key} formStyle={stl} style={labelStyle} value={value}/>
 
-        <DisplayFileUpload type={key} formStyle={stl} style={labelStyle} value={value} control={postFormFields} imgUrl={postFileUpload.downloadURLs} removeImage={removeImage} />
+        <DisplayFileUpload type={key} formStyle={stl} style={labelStyle} value={value} 
+        control={postFormFields} imgUrl={postFileUpload.downloadURLs} removeImage={removeImage} />
 
         <SelectInput type={value.formField.type} ident={key} style={inputStyle} 
         placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]} options={value.formField.options} 
@@ -670,28 +706,44 @@ const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
  * @param {*} props 
  */
 const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
-  const { data } = props;
-  if(!data || !props.display) return false; 
+  const { ppt, state } = props; 
+  if(!ppt.data || !props.display) return false; 
 
   return(
     <CardFooter className="PostItem__footer">
       <div className="PostItem__footer-info"> 
         {
-          data.location && <small className="PostItem__date">
-                            <FontAwesomeIcon icon={faMapMarker} />{data.location}
+          ppt.data.location && <small className="PostItem__date">
+                            <FontAwesomeIcon icon={faMapMarker} />{ppt.data.location}
                           </small>
         }  
         {
-          data.places && <small className="PostItem__date">
-                            <FontAwesomeIcon icon={faUsers} />{data.places}
+          ppt.data.places && <small className="PostItem__date">
+                            <FontAwesomeIcon icon={faUsers} />{ppt.data.places}
                           </small>
-        }  
+        }
       </div>
       <div className="PostItem__footer-action">  
-        <Button className="PostItem__btn-action" disabled={props.isOwner} block>
-          <span className="sr-only">Contact</span>
-          <FontAwesomeIcon icon={faCheck} />
-        </Button>
+
+        <Tooltip placement="top" isOpen={state.postFormIsFrozen} target={"btn-action--"+ppt.data.id}>
+          { !state.userOptin && <span>You are being <b>added</b> to this fanci ...</span>}
+          { state.userOptin && <span>You are being <b>removed</b> to this fanci ...</span>}
+        </Tooltip>
+        <Button id={"btn-action--"+ppt.data.id} className="PostItem__btn-action" disabled={props.isOwner} 
+        onClick={()=>props.handleOptin(state.userOptin, ppt.data.uid, ppt.loggedUserID)} block>
+          {
+            !state.userOptin && <span>
+              <span className="sr-only">Subscribe</span>
+              <FontAwesomeIcon icon={faCheck} /> 
+            </span>
+          }
+          {
+            state.userOptin && <span>
+            <span className="sr-only">Unsubscribe</span>
+            <FontAwesomeIcon icon={faTimes} /> 
+            </span>
+          }
+        </Button> 
       </div>
     </CardFooter>
   )

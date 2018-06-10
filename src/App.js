@@ -243,7 +243,7 @@ class App extends Component {
       <Router>
         <div className={'App '+s.currPathName}>    
           { /* Display toast when user profile is not loaded yet*/ }
-          <Toast active={s.userProfile===undefined}>Fetching your preferences</Toast>
+          <Toast active={s.userProfile===undefined}>Connecting to database</Toast>
           
           <AppHeader user={s.userProfile} onLogout={this.handleLogout} 
           onToggleVertNav={this.handleToggleVertNav}
