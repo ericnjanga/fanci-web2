@@ -82,7 +82,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/my-fancies" exact={true} render={() => (
-            <ViewTimeline {...p} postList={p.upList_runtime} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
+            <ViewTimeline {...p} />
           )}/>  
         )
       )}/>
@@ -91,7 +91,7 @@ const ViewAll = (props) => {
 
       {/* Render [terms & conditions view] at anytime */}
       <Route path="/terms-and-cnditions" exact={true} render={() => (
-        <ViewTermsAndConditions onRouteChange={p.onRouteChange} />
+        <ViewTermsAndConditions {...p} />
       )}/>  
     </section> 
   );
