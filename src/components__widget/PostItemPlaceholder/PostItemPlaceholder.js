@@ -31,43 +31,18 @@ const PostItemPlaceholder = (props) => {
         <Figure style={s2.avatar} avatar circle size="small" />
       }
       <header style={s2.header}> 
-        <CardTitle className="animated-background" style={s_header_title}></CardTitle> 
-        <small className="PostItem__date animated-background" style={{display:'block', width:'70px', height:'16px'}}></small>
+        <CardTitle 
+          className="animated-background" 
+          style={s_header_title} /> 
+        <small 
+          className="PostItem__date animated-background" 
+          style={{display:'block', width:'70px', height:'16px'}}
+        />
       </header>
-
-      {
-        /*<div style={s2.header}> 
-        <CardTitle style={s2.header_title}>{p.data.title}</CardTitle> 
-        <small className="PostItem__date">
-          <DateFormat millisec={p.data.date} />
-        </small>
-      </div>*/
-      }
-      
-
+  
       {
         <Figure /> 
-      } 
-      
-      {
-        /*<CardBody style={s2.cardBody}>   
-        <CardText>{p.data.content}</CardText> 
-      </CardBody> */
-      }
-
-      {
-      /*
-      <CardFooter className="PostItem__footer"> 
-        <div className="PostItem__footer-action"> 
-          <Button className="PostItem__btn-action" block>
-            <span className="sr-only">Contact</span>
-            <FontAwesomeIcon icon={faCheck} />
-          </Button>
-        </div>
-      </CardFooter>
-      */
-
-      }
+      }  
     </Card> 
   ); 
 }

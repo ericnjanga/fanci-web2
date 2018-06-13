@@ -23,10 +23,19 @@ class ViewMap extends ViewApp {
         {  
           p.geolocation.on===true 
           ? 
-          <Map points={p.userProfile} lat={p.geolocation.currPosition.coords.latitude} lng={p.geolocation.currPosition.coords.longitude} 
-          style={style.body}/>
+          <Map 
+            points={p.userProfile} 
+            lat={p.geolocation.currPosition.coords.latitude} 
+            lng={p.geolocation.currPosition.coords.longitude} 
+            style={style.body}
+          />
           :
-          <DisplayMapPlaceholder bodyStyle={psStyle_body} mainPostStyle={MapPHStyles.mainUser} pointsStyle={MapPHStyles.user} list={nbU} />
+          <DisplayMapPlaceholder 
+            bodyStyle={psStyle_body} 
+            mainPostStyle={MapPHStyles.mainUser} 
+            pointsStyle={MapPHStyles.user} 
+            list={nbU}
+          />
         } 
       </div> 
     );
@@ -49,7 +58,10 @@ const DisplayMapPlaceholder = (props) => {
           return <span key={index} style={style} className="animated-background" />
         }) 
       } 
-      <span style={props.mainPostStyle} className="animated-background" />
+      <span 
+        style={props.mainPostStyle} 
+        className="animated-background" 
+      />
     </div>
   );
 }

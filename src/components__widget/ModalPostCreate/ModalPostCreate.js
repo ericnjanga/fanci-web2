@@ -289,11 +289,26 @@ class ModalPostCreate extends React.Component {
           p.data.params && <div>
             <ModalHeader toggle={p.toggle} style={modalStyle.header}>{p.data.params.title}</ModalHeader>
             <ModalBody style={modalStyle.body}>
-              <MessageForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} removeImage={this.handleRemoveImage} state={s}/>
+              <MessageForm 
+                handleSubmit={this.handleSubmit} 
+                handleChange={this.handleChange} 
+                removeImage={this.handleRemoveImage} 
+                state={s}
+              />
             </ModalBody>
             <ModalFooter style={modalStyle.footer}>  
-              <Button style={style.btnCancel} color="secondary" onClick={()=>this.handleCancel()}>Cancel</Button>{' '} 
-              <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.user)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>{p.data.params.btnYes}</Button>
+              <Button 
+                style={style.btnCancel} 
+                color="secondary" 
+                onClick={()=>this.handleCancel()}>Cancel</Button>{' '} 
+              <Button 
+                style={style.btnSubmit} 
+                color="primary" 
+                onClick={(event)=>this.handleSubmit(event, p.user)} 
+                disabled={!s.postFormIsValid || s.postFormIsFrozen}
+                >
+                  {p.data.params.btnYes}
+              </Button>
             </ModalFooter> 
           </div>
         }

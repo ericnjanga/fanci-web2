@@ -49,18 +49,28 @@ class SearchPanel extends React.Component {
     let style_runtime = SearchPanelStyle.computeStyles(p);
 
     return(  
-      <section style={style_runtime.panel} className={'SearchPanel ' +(p.isActive?'active':'')}> 
+      <section 
+        style={style_runtime.panel} 
+        className={'SearchPanel ' +(p.isActive?'active':'')}> 
         <form className="SearchPanel__form"> 
           {
             false && <div>
-              <Button style={style_runtime.btnExit} className="btn-post btn-fab" color="primary" onClick={this.toggleModal}>
-                  <FontAwesomeIcon icon={faArrowLeft} />  
-                </Button> 
+              <Button 
+                style={style_runtime.btnExit} 
+                className="btn-post btn-fab" 
+                color="primary" 
+                onClick={this.toggleModal}>
+                <FontAwesomeIcon icon={faArrowLeft} />  
+              </Button> 
 
-              <Button style={style_runtime.btnReset} className="btn-post btn-fab" color="primary" onClick={this.toggleModal}>
-              <FontAwesomeIcon icon={faTimes} /> 
-              <span className="sr-only">Write a Message</span> 
-            </Button> 
+              <Button 
+                style={style_runtime.btnReset} 
+                className="btn-post btn-fab" 
+                color="primary" 
+                onClick={this.toggleModal}>
+                <FontAwesomeIcon icon={faTimes} /> 
+                <span className="sr-only">Write a Message</span> 
+              </Button> 
             </div>
           } 
 
@@ -68,14 +78,30 @@ class SearchPanel extends React.Component {
 
 
           <section style={style_runtime.inputFrame}> 
-            <Btn className="SearchPanel__btnExit" style={style_runtime.btnExit} icon={faArrowLeft} text='Exit search'>
+            <Btn 
+              className="SearchPanel__btnExit" 
+              style={style_runtime.btnExit} 
+              icon={faArrowLeft} 
+              text='Exit search'>
               <span className="sr-only">Write a Message</span> 
             </Btn>
-            <Btn className="SearchPanel__btnReset" style={style_runtime.btnReset} icon={faTimes} text='Clear Search'>
+            <Btn 
+              className="SearchPanel__btnReset" 
+              style={style_runtime.btnReset} 
+              icon={faTimes} 
+              text='Clear Search'>
               <span className="sr-only">Reset Your Search</span> 
             </Btn>
-            <input style={style_runtime.input} ref={this.searchInput} name="fanci-search" id="fanci-search" 
-          placeholder="Search a Fanci" type="text" className="form-control" onChange={p.handleSearch}  />
+            <input 
+              style={style_runtime.input} 
+              ref={this.searchInput} 
+              name="fanci-search" 
+              id="fanci-search" 
+              placeholder="Search a Fanci" 
+              type="text" 
+              className="form-control" 
+              onChange={p.handleSearch}  
+            />
           </section>
 
 

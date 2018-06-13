@@ -20,8 +20,12 @@ class ViewLogin extends ViewApp {
       }
     };
     return( 
-      <div className="view--login" style={styles.body}> 
-        <Button color="primary" onClick={this.props.onLogin}>
+      <div 
+        className="view--login" 
+        style={styles.body}> 
+        <Button 
+          color="primary" 
+          onClick={this.props.onLogin}>
           <FontAwesomeIcon icon={faGoogle} />
           Login with Google
         </Button> 

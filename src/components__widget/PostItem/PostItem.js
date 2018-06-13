@@ -447,23 +447,52 @@ class PostItem extends React.Component {
     return(  
       <div>
         <Card className="PostItem" style={p.style}> 
-          <DisplayPostMenu isOwner={isOwner} data={p.data} isActive={this.state.dropdownOpen} style={dropdownSyles}
-          handleToggle={this.toggleDropdown} handleEdit={this.handleEdit} openConfirm={this.oPenConfirmRemoveModal} />
+          <DisplayPostMenu 
+            isOwner={isOwner} 
+            data={p.data} 
+            isActive={this.state.dropdownOpen} 
+            style={dropdownSyles}
+            handleToggle={this.toggleDropdown} 
+            handleEdit={this.handleEdit} 
+            openConfirm={this.oPenConfirmRemoveModal} 
+          />
 
-          <DisplayPostAvatar data={s.user} style={PostItemStyle.avatar} />
+          <DisplayPostAvatar 
+            data={s.user} 
+            style={PostItemStyle.avatar} 
+          />
 
-          <DisplayHeader data={p.data} style={headerStyle} /> 
+          <DisplayHeader 
+            data={p.data} 
+            style={headerStyle} 
+          /> 
   
-          <DisplayPostImage src={imgURL} alt={p.data.title} display={()=>this.isExpired()} />
+          <DisplayPostImage 
+            src={imgURL} 
+            alt={p.data.title} 
+            display={()=>this.isExpired()} 
+          />
 
-          <DisplayBody data={p.data} style={PostItemStyle.cardBody} display={()=>this.isExpired()} />
+          <DisplayBody 
+            data={p.data} 
+            style={PostItemStyle.cardBody} 
+            display={()=>this.isExpired()} 
+          />
           
-          <DisplayPostFooter isOwner={isOwner} state={s} ppt={p} display={()=>this.isExpired()} 
-          handleOptin={this.handleOptin} />
+          <DisplayPostFooter 
+            isOwner={isOwner} 
+            state={s} ppt={p} 
+            display={()=>this.isExpired()} 
+            handleOptin={this.handleOptin} 
+          />
         </Card>   
 
          
-        <Modal isOpen={this.state.modalEM} toggle={this.toggleEM} className={'ModalPost'} backdrop={'static'}>  
+        <Modal 
+          isOpen={this.state.modalEM} 
+          toggle={this.toggleEM} 
+          className={'ModalPost'} 
+          backdrop={'static'}>  
           { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
           <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
           <ModalBody style={modalStyle.body}>
