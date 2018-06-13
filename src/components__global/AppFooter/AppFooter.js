@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; 
 import './AppFooter.css';
 
-const AppFooter = (props) => {
+const AppFooter = () => {
   return(
     <footer className="AppFooter"> 
       <p>
