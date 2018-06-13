@@ -18,14 +18,22 @@ const ViewAll = (props) => {
   return( 
     <section>   
       {/* Render login only (if p.userProfile is "unauthenticated") */} 
-      <Route exact path="/login" render={() => (
-        !p.userProfile && <ViewLogin {...p} />
-      )}/>  
+      <Route 
+        exact 
+        path="/login" 
+        render={() => (
+          !p.userProfile && <ViewLogin {...p} />
+        )}
+      />  
 
       {/* login route doesn't work (if p.userProfile is authenticated) */
-        p.userProfile && <Route exact path="/login" render={() => (
-          <Redirect to="/"/>
-        )}/>
+        p.userProfile && <Route 
+          exact 
+          path="/login" 
+          render={() => (
+            <Redirect to="/"/>
+          )}
+        />
       }
 
       {
@@ -33,66 +41,110 @@ const ViewAll = (props) => {
         (if p.userProfile is unauthenticated) render login */
       }
       {/* Home? */}
-      <Route exact path="/" render={() => (
-        !p.userProfile ? (
-          <div className="l1"><Redirect to="/login"/></div>
-        ) : ( 
-          <Route path="/" exact={true} render={() => (
-            <ViewMap {...p} />
-          )}/>  
-        )
-      )}/>
+      <Route 
+        exact 
+        path="/" 
+        render={() => (
+          !p.userProfile ? (
+            <div className="l1"><Redirect to="/login"/></div>
+          ) : ( 
+            <Route 
+              path="/" 
+              exact={true} 
+              render={() => (
+                <ViewMap {...p} />
+              )}
+            />  
+          )
+        )}
+      />
 
       {/* Around Us? */}
-      <Route exact path="/around-us" render={() => (
-        !p.userProfile ? (
-          <Redirect to="/login"/>
-        ) : (
-          <Route path="/around-us" exact={true} render={() => (
-            <ViewTimeline {...p} displayExpiredItems={false} />
-          )}/>  
-        )
-      )}/>
+      <Route 
+        exact 
+        path="/around-us" 
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/around-us" 
+              exact={true} 
+              render={() => (
+                <ViewTimeline {...p} displayExpiredItems={false} />
+              )}
+            />  
+          )
+        )}
+      />
 
       {/* Profile? */}
-      <Route exact path="/profile" render={() => (
-        !p.userProfile ? (
-          <Redirect to="/login"/>
-        ) : (
-          <Route path="/profile" exact={true} render={()=>{
-            return <ViewProfile {...p} />
-          }} /> 
-        )
-      )}/>
+      <Route 
+        exact 
+        path="/profile" 
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/profile" 
+              exact={true} 
+              render={()=>{
+                return <ViewProfile {...p} />
+              }} 
+            />
+          )
+        )}
+      />
 
       {/* Settings? */}
-      <Route exact path="/settings" render={() => (
-        !p.userProfile ? (
-          <Redirect to="/login"/>
-        ) : (
-          <Route path="/settings" exact={true} render={() => (
-            <ViewSettings {...p} />
-          )}/>  
-        )
-      )}/>
+      <Route 
+        exact 
+        path="/settings" 
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/settings" 
+              exact={true} 
+              render={() => (
+                <ViewSettings {...p} />
+              )}
+            />  
+          )
+        )}
+      />
 
       {/* My fancies? */}
-      <Route exact path="/my-fancies" render={() => (
-        !p.userProfile ? (
-          <Redirect to="/login"/>
-        ) : (
-          <Route path="/my-fancies" exact={true} render={() => (
-            <ViewTimeline {...p} />
-          )}/>  
-        )
-      )}/>
+      <Route 
+        exact 
+        path="/my-fancies" 
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/my-fancies" 
+              exact={true} 
+              render={() => (
+                <ViewTimeline {...p} />
+              )}
+            />  
+          )
+        )}
+      />
       {/* Render views (if logged in) / [login view] (if logged out) */}
 
 
       {/* Render [terms & conditions view] at anytime */}
-      <Route path="/terms-and-cnditions" exact={true} render={() => (
-        <ViewTermsAndConditions {...p} />
-      )}/>  
+      <Route 
+        path="/terms-and-cnditions" 
+        exact={true} 
+        render={() => (
+          <ViewTermsAndConditions {...p} />
+        )}
+      />  
     </section> 
   );
 };

@@ -54,12 +54,22 @@ const Figure = (props)=>{
   let imgStyle = { borderRadius, width, height }; 
   let figStyle = p.style;
   return(  
-    <figure className={p.className} style={figStyle}>
+    <figure 
+      className={p.className} 
+      style={figStyle}>
       {
         p.img ? 
-        <img className={imgClassName} src={p.img} alt={ p.alt?p.alt:''} style={imgStyle} />
+        <img 
+          className={imgClassName} 
+          src={p.img} 
+          alt={ p.alt?p.alt:''} 
+          style={imgStyle} 
+        />
         :
-        <div className={imgClassName} style={imgStyle} />
+        <div 
+          className={imgClassName} 
+          style={imgStyle} 
+        />
       } 
       { p.caption && <figcaption>{p.caption}</figcaption> }
     </figure>   

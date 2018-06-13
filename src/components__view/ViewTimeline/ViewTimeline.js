@@ -87,25 +87,48 @@ class ViewTimeline extends ViewApp {
       <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 
         <Placeholders isVisible={!p.postList_runtime} />
 
-        <List items={p.postList_runtime} itemComp={PostItem} user={p.userProfile} 
-          handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
-          toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} 
-          displayExpiredItems={p.displayExpiredItems} />    
-
+        <List 
+          items={p.postList_runtime} 
+          itemComp={PostItem} 
+          user={p.userProfile} 
+          handleConfirmModal={p.handleConfirmModal} 
+          confirmationModal={p.confirmationModal} 
+          toggleTimelineModal={this.toggleModal} 
+          itemStyle={{ marginBottom:'20px' }} 
+          displayExpiredItems={p.displayExpiredItems} 
+        />  
         {
           s.modal && <div>
-            <ModalPostCreate user={p.userProfile} data={modalData} toggle={this.toggleModal} 
-            className={this.props.className} /> 
+            <ModalPostCreate 
+              user={p.userProfile} 
+              data={modalData} 
+              toggle={this.toggleModal} 
+              className={this.props.className} 
+            /> 
           </div>
         }
         
-        <Button style={buttonStyle.fab} className="btn-search btn-fab" color="secondary" onClick={p.toggleSearchPanel}>
-          <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faSearch} /> 
+        <Button 
+          style={buttonStyle.fab} 
+          className="btn-search btn-fab" 
+          color="secondary" 
+          onClick={p.toggleSearchPanel}>
+          <FontAwesomeIcon 
+            style={buttonStyle.fabIcon} 
+            icon={faSearch} 
+          /> 
           <span className="sr-only">Search a Fanci</span> 
         </Button> 
 
-        <Button style={buttonStyle.fab} className="btn-post btn-fab" color="primary" onClick={this.toggleModal}>
-          <FontAwesomeIcon style={buttonStyle.fabIcon} icon={faPencil} /> 
+        <Button 
+          style={buttonStyle.fab} 
+          className="btn-post btn-fab" 
+          color="primary" 
+          onClick={this.toggleModal}>
+          <FontAwesomeIcon 
+            style={buttonStyle.fabIcon} 
+            icon={faPencil} 
+          /> 
           <span className="sr-only">Write a Message</span> 
         </Button>  
       </div>

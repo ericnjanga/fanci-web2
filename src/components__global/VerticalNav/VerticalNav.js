@@ -27,7 +27,14 @@ class VerticalNav extends React.Component {
           <div className="VerticalNav__navs">
             { 
               user && <div style={styles.avatarFrame}>
-                        <Figure img={user.photoURL} alt={user.displayName} avatar circle size="large" style={{ margin:'0' }} />
+                        <Figure 
+                          img={user.photoURL} 
+                          alt={user.displayName} 
+                          avatar 
+                          circle 
+                          size="large" 
+                          style={{ margin:'0' }} 
+                        />
                         <p style={styles.avatarTitle}>{user.displayName}</p>
               </div> 
             } 

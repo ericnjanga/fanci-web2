@@ -493,21 +493,48 @@ class PostItem extends React.Component {
           toggle={this.toggleEM} 
           className={'ModalPost'} 
           backdrop={'static'}>  
-          { s.user && <Figure img={s.user.photoURL} alt={s.user.displayName} style={style.avatar} avatar circle size="med" /> }
-          <ModalHeader style={modalStyle.header} toggle={this.toggleEM}>Edit Your Fanci!</ModalHeader>
+          { 
+            s.user && <Figure 
+              img={s.user.photoURL} 
+              alt={s.user.displayName} 
+              style={style.avatar} 
+              avatar 
+              circle 
+              size="med" 
+            /> 
+          }
+          <ModalHeader 
+            style={modalStyle.header} 
+            toggle={this.toggleEM}>
+            Edit Your Fanci!
+          </ModalHeader>
           <ModalBody style={modalStyle.body}>
-            <MessageForm handleSubmit={this.handleSubmit} 
-            handleChange={
-              (event)=>this.handleChange(event, p.data.id)
-            } 
-            removeImage={
-              (event)=>this.handleRemoveImage(event, p.data.id)
-            } 
-            state={s}/>
+            <MessageForm 
+              handleSubmit={this.handleSubmit} 
+              handleChange={
+                (event)=>this.handleChange(event, p.data.id)
+              } 
+              removeImage={
+                (event)=>this.handleRemoveImage(event, p.data.id)
+              } 
+              state={s}
+            />
           </ModalBody>
           <ModalFooter style={modalStyle.footer}>
-            <Button style={style.btnCancel} color="secondary" onClick={this.toggleEM}>Cancel</Button>{' '} 
-            <Button style={style.btnSubmit} color="primary" onClick={(event)=>this.handleSubmit(event, p.data.id)} disabled={!s.postFormIsValid || s.postFormIsFrozen}>Update</Button>
+            <Button 
+              style={style.btnCancel} 
+              color="secondary" 
+              onClick={this.toggleEM}>
+              Cancel
+            </Button>{' '} 
+            <Button 
+              style={style.btnSubmit} 
+              color="primary" 
+              onClick={
+                (event)=>this.handleSubmit(event, p.data.id)} disabled={!s.postFormIsValid || s.postFormIsFrozen
+              }>
+              Update
+            </Button>
           </ModalFooter> 
         </Modal>    
       </div>
@@ -537,9 +564,15 @@ const DisplayLabel = (props) => {
   const stl = formStyle;
 
   return(
-    <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+    <Label 
+      className={stl[type]?stl[type].className:''} 
+      for={type} 
+      style={props.style}>
       <IconLabel value={value} /> {' '} 
-      <TexTLabelOtherInput type={type} value={value.label.text} /> 
+      <TexTLabelOtherInput 
+        type={type} 
+        value={value.label.text} 
+      /> 
     </Label>
   );
 };
@@ -553,18 +586,37 @@ const DisplayFileUpload = (props) => {
 
   return(
     <div> 
-      <Label className={stl.file?stl.file.className:''} for={type} style={props.style}>
+      <Label 
+        className={stl.file?stl.file.className:''} 
+        for={type} 
+        style={props.style}>
         <IconLabel value={value} /> {' '}
-        <TextLabelFileInput type={type} value={control.file} tmpText={value.label.text} />
-        <TexTLabelOtherInput type={type} value={value.label.text} /> 
+        <TextLabelFileInput 
+          type={type} 
+          value={control.file} 
+          tmpText={value.label.text} 
+        />
+        <TexTLabelOtherInput 
+          type={type} 
+          value={value.label.text} 
+        /> 
       </Label>
  
       { 
         imgUrl && <div style={{position:'relative'}}> 
-          <Button style={btnDelStyle} onClick={removeImage}>
-            <FontAwesomeIcon icon={faTimesCircle} style={{ background:'#fff', borderRadius:'30px'}} />
+          <Button 
+            style={btnDelStyle} 
+            onClick={removeImage}>
+            <FontAwesomeIcon 
+              icon={faTimesCircle} 
+              style={{ background:'#fff', borderRadius:'30px'}} 
+            />
           </Button>
-          <img className="img-fluid" src={imgUrl} alt={imgUrl} /> 
+          <img 
+            className="img-fluid" 
+            src={imgUrl} 
+            alt={imgUrl} 
+          /> 
         </div>
       }
     </div>
@@ -585,19 +637,48 @@ const MessageForm = (props) => {
         formGroupStyle  = stl[key]?stl[key].formGroup:stl.formGroup, 
         tmpVal          = value.formField.placeholder;
     formFields.push(
-      <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
-        <DisplayLabel type={key} formStyle={stl} style={labelStyle} value={value}/>
+      <FormGroup 
+        className={postFormErrors[key]?'is-invalid':''} 
+        key={key} 
+        style={formGroupStyle}>
+        <DisplayLabel 
+          type={key} 
+          formStyle={stl} 
+          style={labelStyle} 
+          value={value}
+        />
 
-        <DisplayFileUpload type={key} formStyle={stl} style={labelStyle} value={value} 
-        control={postFormFields} imgUrl={postFileUpload.downloadURLs} removeImage={removeImage} />
+        <DisplayFileUpload 
+          type={key} 
+          formStyle={stl} 
+          style={labelStyle} 
+          value={value} 
+          control={postFormFields} 
+          imgUrl={postFileUpload.downloadURLs} 
+          removeImage={removeImage} 
+        />
 
-        <SelectInput type={value.formField.type} ident={key} style={inputStyle} 
-        placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]} options={value.formField.options} 
-        disabled={postFormIsFrozen} />
+        <SelectInput 
+          type={value.formField.type} 
+          ident={key} 
+          style={inputStyle} 
+          placeholder={tmpVal} 
+          onChange={handleChange} 
+          value={postFormFields[key]} 
+          options={value.formField.options} 
+          disabled={postFormIsFrozen} 
+        />
 
-        <OtherInput type={value.formField.type} ident={key} style={inputStyle} 
-        placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]}
-        error={postFormErrors} disabled={postFormIsFrozen}  /> 
+        <OtherInput 
+          type={value.formField.type} 
+          ident={key} 
+          style={inputStyle} 
+          placeholder={tmpVal} 
+          onChange={handleChange} 
+          value={postFormFields[key]}
+          error={postFormErrors} 
+          disabled={postFormIsFrozen}  
+        /> 
       </FormGroup> 
     ); 
   });
@@ -617,7 +698,10 @@ const FormFieldError = (props) => {
   const data = props.data;
   if(!data){ return false; }
   return(
-    <div className="invalid-feedback" style={{display:'block', fontSize:'90%'}}>
+    <div 
+      className="invalid-feedback" 
+      style={{display:'block', fontSize:'90%'}}
+      >
       {data}
     </div>
   );
@@ -652,11 +736,24 @@ const SelectInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, disabled } = props; 
   if(type!=='select') return false;
   return(
-    <Input type={type} name={ident} id={ident} style={style} onChange={onChange} value={value} disabled={disabled}>
+    <Input 
+      type={type} 
+      name={ident} 
+      id={ident} 
+      style={style} 
+      onChange={onChange} 
+      value={value} 
+      disabled={disabled}>
       <option>{placeholder}</option>
       {
         options.map((option)=>{
-          return <option key={option.val} value={option.val}>{option.label}</option>
+          return (
+            <option 
+              key={option.val} 
+              value={option.val}>
+              {option.label}
+            </option>
+          );
         })
       }
     </Input>
@@ -669,8 +766,16 @@ const OtherInput = (props) => {
   if(type==='select') return false;
   return(
     <div>
-      <Input type={type} name={ident} id={ident} style={style} onChange={onChange} value={value} 
-      placeholder={placeholder} disabled={disabled} />
+      <Input 
+        type={type} 
+        name={ident} 
+        id={ident} 
+        style={style} 
+        onChange={onChange} 
+        value={value} 
+        placeholder={placeholder} 
+        disabled={disabled} 
+      />
       <FormFieldError data={error[ident]} />
     </div>
   );
@@ -709,14 +814,25 @@ const DisplayPostMenu = (props) => {
   if(!isOwner) return false;
   return(
     //Only post owner can modify it ... 
-    <Dropdown direction="left" isOpen={isActive} toggle={handleToggle}>
+    <Dropdown 
+      direction="left" 
+      isOpen={isActive} 
+      toggle={handleToggle}>
       <DropdownToggle style={PostItemStyle.buttonEdit}> 
         <span className="sr-only">Edit your post</span>
         <FontAwesomeIcon icon={faEllipsisH} /> 
       </DropdownToggle>
       <DropdownMenu> 
-        <DropdownItem style={style} onClick={()=>handleEdit(data.id)}>Edit</DropdownItem> 
-        <DropdownItem style={style} onClick={()=>{ openConfirm(data.id) }}>Delete</DropdownItem>
+        <DropdownItem 
+          style={style} 
+          onClick={()=>handleEdit(data.id)}
+          >Edit
+        </DropdownItem> 
+        <DropdownItem 
+          style={style} 
+          onClick={()=>{ openConfirm(data.id) }}
+          >Delete
+        </DropdownItem>
       </DropdownMenu>
     </Dropdown> 
   );
@@ -726,7 +842,14 @@ const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
   const { data, style } = props;
   if(!data) return false;
   return(
-    <Figure img={data.photoURL} alt={data.displayName} style={style} avatar circle size="small" />
+    <Figure 
+      img={data.photoURL} 
+      alt={data.displayName} 
+      style={style} 
+      avatar 
+      circle 
+      size="small" 
+    />
   )
 }; 
 
@@ -754,12 +877,20 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
       </div>
       <div className="PostItem__footer-action">  
 
-        <Tooltip placement="top" isOpen={state.postFormIsFrozen} target={"btn-action--"+ppt.data.id}>
+        <Tooltip 
+          placement="top" 
+          isOpen={state.postFormIsFrozen} 
+          target={"btn-action--"+ppt.data.id}>
           { !state.userOptin && <span>You are being <b>added</b> to this fanci ...</span>}
           { state.userOptin && <span>You are being <b>removed</b> to this fanci ...</span>}
         </Tooltip>
-        <Button id={"btn-action--"+ppt.data.id} className="PostItem__btn-action" disabled={props.isOwner} 
-        onClick={()=>props.handleOptin(state.userOptin, ppt.data.uid, ppt.loggedUserID)} block>
+        <Button 
+          id={"btn-action--"+ppt.data.id} 
+          className="PostItem__btn-action" 
+          disabled={props.isOwner} 
+          onClick={
+            ()=>props.handleOptin(state.userOptin, ppt.data.uid, ppt.loggedUserID)
+          } block>
           {
             !state.userOptin && <span>
               <span className="sr-only">Subscribe</span>

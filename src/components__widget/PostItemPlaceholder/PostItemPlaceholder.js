@@ -28,7 +28,12 @@ const PostItemPlaceholder = (props) => {
   return( 
     <Card style={phs.body }> 
       { 
-        <Figure style={s2.avatar} avatar circle size="small" />
+        <Figure 
+          style={s2.avatar} 
+          avatar 
+          circle 
+          size="small" 
+        />
       }
       <header style={s2.header}> 
         <CardTitle 

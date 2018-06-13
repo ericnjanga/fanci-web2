@@ -5,7 +5,9 @@ import './AppFooter.css';
 const AppFooter = (props) => {
   return(
     <footer className="AppFooter"> 
-      <p><Link to={`/terms-and-cnditions`}>Terms &amp; Conditions</Link></p>  
+      <p>
+        <Link to={`/terms-and-cnditions`}>Terms &amp; Conditions</Link>
+      </p>  
     </footer>
   );
 }

@@ -17,9 +17,17 @@ class Map extends React.Component {
       <div style={p.style}>
         <GoogleMapReact
           bootstrapURLKeys={{ key:'AIzaSyACIFpmGqxK8mmy65nY9eKrufxdpea3muo' }}
-          defaultCenter={[p.lat, p.lng]} defaultZoom={11}>
+          defaultCenter={[p.lat, p.lng]} 
+          defaultZoom={11}>
           {/* just adding "lat" and "lng" properties to a child component position it on the map */}
-          <Figure lat={p.lat} lng={p.lng} img={p.points.photoURL} alt={p.points.displayName} avatar circle size="large" />
+          <Figure 
+            lat={p.lat} 
+            lng={p.lng} 
+            img={p.points.photoURL} 
+            alt={p.points.displayName} 
+            avatar 
+            circle size="large" 
+          />
         </GoogleMapReact>
       </div>
     )

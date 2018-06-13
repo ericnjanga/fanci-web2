@@ -31,23 +31,48 @@ class AppHeader extends React.Component {
       <header className="AppHeader"> 
         <div className="AppHeader__top">
           <h1 className="AppBrand">
-            <Link onClick={onCloseVertNav} to={`/`}>
+            <Link 
+              onClick={onCloseVertNav} 
+              to={`/`}>
               Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
             </Link> 
           </h1> 
           { 
             user && (
               <div>
-                <Button className="btn-toggle-vertNav--sm" onClick={onToggleVertNav}>
-                  <Figure img={user.photoURL} alt={user.displayName} avatar circle size="small" style={{ margin:'0 10px 0 0' }} /> 
+                <Button 
+                  className="btn-toggle-vertNav--sm" 
+                  onClick={onToggleVertNav}>
+                  <Figure 
+                    img={user.photoURL} 
+                    alt={user.displayName} 
+                    avatar 
+                    circle 
+                    size="small" 
+                    style={{ margin:'0 10px 0 0' }} 
+                  /> 
                 </Button>
                 
-                <Dropdown direction="left" isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} className="btn-toggle-vertNav--lg">
+                <Dropdown 
+                  direction="left" 
+                  isOpen={this.state.dropdownOpen} 
+                  toggle={this.toggleDropdown} 
+                  className="btn-toggle-vertNav--lg">
                   <DropdownToggle>
-                    <Figure img={user.photoURL} alt={user.displayName} avatar circle size="small" style={{ margin:'0' }} /> 
+                    <Figure 
+                      img={user.photoURL} 
+                      alt={user.displayName} 
+                      avatar 
+                      circle 
+                      size="small" 
+                      style={{ margin:'0' }} 
+                    /> 
                   </DropdownToggle>
                   <DropdownMenu>
-                    <MenuSecondary onLogout={onLogout} onToggleDropdown={this.toggleDropdown} /> 
+                    <MenuSecondary 
+                      onLogout={onLogout} 
+                      onToggleDropdown={this.toggleDropdown} 
+                    /> 
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -56,7 +81,11 @@ class AppHeader extends React.Component {
         </div> 
 
         {
-          user && <HorizontalNav navIsActive={navIsActive} onLogout={onLogout} onCloseVertNav={onCloseVertNav}>
+          user && <HorizontalNav 
+                    navIsActive={navIsActive} 
+                    onLogout={onLogout} 
+                    onCloseVertNav={onCloseVertNav}
+                  >
             <MenuPrimary />
           </HorizontalNav>
         } 

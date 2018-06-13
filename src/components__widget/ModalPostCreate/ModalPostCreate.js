@@ -283,11 +283,26 @@ class ModalPostCreate extends React.Component {
 
     
     return( 
-      <Modal isOpen={p.data.active} toggle={p.toggle} className={'ModalPost'} backdrop={'static'}>
-        <Figure img={p.user.photoURL} alt={p.user.displayName} style={style.avatar} avatar circle size="med" />
+      <Modal 
+        isOpen={p.data.active} 
+        toggle={p.toggle} 
+        className={'ModalPost'} 
+        backdrop={'static'}>
+        <Figure 
+          img={p.user.photoURL} 
+          alt={p.user.displayName} 
+          style={style.avatar} 
+          avatar 
+          circle 
+          size="med" 
+        />
         {
           p.data.params && <div>
-            <ModalHeader toggle={p.toggle} style={modalStyle.header}>{p.data.params.title}</ModalHeader>
+            <ModalHeader 
+              toggle={p.toggle} 
+              style={modalStyle.header}>
+              {p.data.params.title}
+            </ModalHeader>
             <ModalBody style={modalStyle.body}>
               <MessageForm 
                 handleSubmit={this.handleSubmit} 
@@ -329,9 +344,15 @@ const DisplayLabel = (props) => {
   const stl = formStyle;
 
   return(
-    <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+    <Label 
+      className={stl[type]?stl[type].className:''} 
+      for={type} 
+      style={props.style}>
       <IconLabel value={value} /> {' '} 
-      <TexTLabelOtherInput type={type} value={value.label.text} /> 
+      <TexTLabelOtherInput 
+        type={type} 
+        value={value.label.text} 
+      /> 
     </Label>
   );
 };
@@ -345,18 +366,37 @@ const DisplayFileUpload = (props) => {
 
   return(
     <div style={{border:'0px solid red'}}> 
-      <Label className={stl[type]?stl[type].className:''} for={type} style={props.style}>
+      <Label 
+        className={stl[type]?stl[type].className:''} 
+        for={type} 
+        style={props.style}>
         <IconLabel value={value} /> {' '}
-        <TexTLabelFileInput type={type} value={control.file} tmpText={value.label.text} />
-        <TexTLabelOtherInput type={type} value={value.label.text} /> 
+        <TexTLabelFileInput 
+          type={type} 
+          value={control.file} 
+          tmpText={value.label.text} 
+        />
+        <TexTLabelOtherInput 
+          type={type} 
+          value={value.label.text} 
+        /> 
       </Label>
  
       { 
         imgUrl && <div style={{position:'relative'}}> 
-          <Button style={btnDelStyle} onClick={removeImage}>
-            <FontAwesomeIcon icon={faTimesCircle} style={{ background:'#fff', borderRadius:'30px'}} />
+          <Button 
+            style={btnDelStyle} 
+            onClick={removeImage}>
+            <FontAwesomeIcon 
+              icon={faTimesCircle} 
+              style={{ background:'#fff', borderRadius:'30px'}} 
+            />
           </Button>
-          <img className="img-fluid" src={imgUrl} alt={imgUrl} /> 
+          <img 
+            className="img-fluid" 
+            src={imgUrl} 
+            alt={imgUrl} 
+          /> 
         </div>
       }
     </div>
@@ -377,18 +417,48 @@ const MessageForm = (props) => {
         formGroupStyle = stl[key]?stl[key].formGroup:stl.formGroup, 
         tmpVal = value.formField.placeholder;
     formFields.push(
-      <FormGroup className={postFormErrors[key]?'is-invalid':''} key={key} style={formGroupStyle}>
-        <DisplayLabel type={key} formStyle={stl} style={labelStyle} value={value}/>
+      <FormGroup 
+        className={postFormErrors[key]?'is-invalid':''} 
+        key={key} 
+        style={formGroupStyle}>
+        <DisplayLabel 
+          type={key} 
+          formStyle={stl} 
+          style={labelStyle} 
+          value={value}
+        />
 
-        <DisplayFileUpload type={key} formStyle={stl} style={labelStyle} value={value} control={postFormFields} imgUrl={postFileUpload.downloadURLs} removeImage={removeImage} />
+        <DisplayFileUpload 
+          type={key} 
+          formStyle={stl} 
+          style={labelStyle} 
+          value={value} 
+          control={postFormFields} 
+          imgUrl={postFileUpload.downloadURLs} 
+          removeImage={removeImage} 
+        />
 
-        <SelectInput type={value.formField.type} ident={key} style={inputStyle} 
-        placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]} options={value.formField.options} 
-        disabled={postFormIsFrozen} />
+        <SelectInput 
+          type={value.formField.type} 
+          ident={key} 
+          style={inputStyle} 
+          placeholder={tmpVal} 
+          onChange={handleChange} 
+          value={postFormFields[key]} 
+          options={value.formField.options} 
+          disabled={postFormIsFrozen} 
+        />
 
-        <OtherInput type={value.formField.type} ident={key} style={inputStyle} 
-        placeholder={tmpVal} onChange={handleChange} value={postFormFields[key]}
-        error={postFormErrors} disabled={postFormIsFrozen}  /> 
+        <OtherInput 
+          type={value.formField.type} 
+          ident={key} 
+          style={inputStyle} 
+          placeholder={tmpVal} 
+          onChange={handleChange} 
+          value={postFormFields[key]}
+          error={postFormErrors} 
+          disabled={postFormIsFrozen}  
+        /> 
       </FormGroup> 
     ); 
   });
@@ -408,7 +478,9 @@ const FormFieldError = (props) => {
   const data = props.data;
   if(!data){ return false; }
   return(
-    <div className="invalid-feedback" style={{display:'block', fontSize:'90%'}}>
+    <div 
+      className="invalid-feedback" 
+      style={{display:'block', fontSize:'90%'}}>
       {data}
     </div>
   );
@@ -443,7 +515,14 @@ const SelectInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, disabled } = props; 
   if(type!=='select') return false;
   return(
-    <Input type={type} name={ident} id={ident} style={style} onChange={onChange} value={value} disabled={disabled}>
+    <Input 
+      type={type} 
+      name={ident} 
+      id={ident} 
+      style={style} 
+      onChange={onChange} 
+      value={value} 
+      disabled={disabled}>
       <option>{placeholder}</option>
       {
         options.map((option)=>{
@@ -460,8 +539,16 @@ const OtherInput = (props) => {
   if(type==='select') return false;
   return(
     <div>
-      <Input type={type} name={ident} id={ident} style={style} onChange={onChange} value={value} 
-      placeholder={placeholder} disabled={disabled} />
+      <Input 
+        type={type} 
+        name={ident} 
+        id={ident} 
+        style={style} 
+        onChange={onChange} 
+        value={value} 
+        placeholder={placeholder} 
+        disabled={disabled} 
+      />
       <FormFieldError data={error[ident]} />
     </div>
   );
