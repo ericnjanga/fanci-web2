@@ -85,16 +85,16 @@ class ViewTimeline extends ViewApp {
 
     return(  
       <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 
-        <Placeholders isVisible={!p.postList} />
+        <Placeholders isVisible={!p.postList_runtime} />
 
-        <List items={p.postList} itemComp={PostItem} user={p.user} 
+        <List items={p.postList_runtime} itemComp={PostItem} user={p.userProfile} 
           handleConfirmModal={p.handleConfirmModal} confirmationModal={p.confirmationModal} 
           toggleTimelineModal={this.toggleModal} itemStyle={{ marginBottom:'20px' }} 
           displayExpiredItems={p.displayExpiredItems} />    
 
         {
           s.modal && <div>
-            <ModalPostCreate user={p.user} data={modalData} toggle={this.toggleModal} 
+            <ModalPostCreate user={p.userProfile} data={modalData} toggle={this.toggleModal} 
             className={this.props.className} /> 
           </div>
         }

@@ -49,7 +49,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/around-us" exact={true} render={() => (
-            <ViewTimeline {...p} displayExpiredItems={false} postList={p.postList_runtime} toggleSearchPanel={p.toggleSearchPanel} onRouteChange={p.onRouteChange} user={p.userProfile} />
+            <ViewTimeline {...p} displayExpiredItems={false} />
           )}/>  
         )
       )}/>
@@ -60,7 +60,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/profile" exact={true} render={()=>{
-            return <ViewProfile user={p.userProfile} onRouteChange={p.onRouteChange} onProfileChange={p.onProfileChange} />
+            return <ViewProfile {...p} />
           }} /> 
         )
       )}/>
@@ -71,7 +71,7 @@ const ViewAll = (props) => {
           <Redirect to="/login"/>
         ) : (
           <Route path="/settings" exact={true} render={() => (
-            <ViewSettings onRouteChange={p.onRouteChange} />
+            <ViewSettings {...p} />
           )}/>  
         )
       )}/>

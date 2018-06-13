@@ -13,7 +13,7 @@ class ViewProfile extends ViewApp {
   constructor(props) {
     super(props); 
     this.state = { 
-      userProfile   : this.props.user,  
+      userProfile   : this.props.userProfile,  
       overlayActive : false
     }
     this.handleInputChange  = this.handleInputChange.bind(this); 
@@ -47,7 +47,6 @@ class ViewProfile extends ViewApp {
   }//[end] handleSubmit
 
   render() {
-    const { user } = this.props;
     const { userProfile, overlayActive } = this.state;
     const theme = formStyleDarkTheme;
     const checkboxFormGroup = {...theme.formGroup, ...theme.checkBox.formGroup}; 
@@ -59,12 +58,12 @@ class ViewProfile extends ViewApp {
          
         <div className="ViewProfile__maincol">
           <div>
-            <Figure img={user.photoURL} alt={user.displayName} className="user-avatar" avatar circle size="xxl" /> 
+            <Figure img={userProfile.photoURL} alt={userProfile.displayName} className="user-avatar" avatar circle size="xxl" /> 
             { 
-              user.lastSignin && 
+              userProfile.lastSignin && 
               <p style={{ display:'flex', marginTop:'5px', flexDirection:'column', textAlign:'center' }}>
                 <small style={{ color:'rgba(0,0,0,0.5)' }}>Last Signin</small> 
-                <DateFormat millisec={user.lastSignin} />
+                <DateFormat millisec={userProfile.lastSignin} />
               </p> 
             }
           </div>
