@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom'; 
+import PropTypes from 'prop-types';
 import AppDoc from './../../utilities/AppDoc.class.js';   
 import Figure from './../../components__reusable/Figure/Figure.js';
 import './../../styles/menus.css';
@@ -9,7 +9,7 @@ import './VerticalNav.css';
 class VerticalNav extends React.Component {  
   componentDidMount(){   
     //Toggle component if select DOM elt is targetted 
-    ReactDOM.findDOMNode(this).addEventListener('click', (event) => {  
+    this.node.addEventListener('click', (event) => {  
       AppDoc.actIfNodeIs('.VerticalNav__obstructor, .VerticalNav__navs .nav-item, .VerticalNav__navs .user-avatar', 'is targetted', event, this.props.onCloseVertNav);
     });
   }
@@ -22,20 +22,20 @@ class VerticalNav extends React.Component {
       avatarTitle : { fontWeight:'bold', fontSize:'1.2rem', marginBottom:'0' }
     };
     return( 
-      <section className={'VerticalNav' +(isActive?' is-active':'')}>
+      <section ref={node => this.node = node} className={'VerticalNav' +(isActive?' is-active':'')}>
         <nav> 
           <div className="VerticalNav__navs">
             { 
               user && <div style={styles.avatarFrame}>
-                        <Figure 
-                          img={user.photoURL} 
-                          alt={user.displayName} 
-                          avatar 
-                          circle 
-                          size="large" 
-                          style={{ margin:'0' }} 
-                        />
-                        <p style={styles.avatarTitle}>{user.displayName}</p>
+                <Figure 
+                  img={user.photoURL} 
+                  alt={user.displayName} 
+                  avatar 
+                  circle 
+                  size="large" 
+                  style={{ margin:'0' }} 
+                />
+                <p style={styles.avatarTitle}>{user.displayName}</p>
               </div> 
             } 
             <hr className="hr-menu" /> 
@@ -46,6 +46,19 @@ class VerticalNav extends React.Component {
       </section>
     ); 
   }
-}
+}//[end] VerticalNav
+
+
+/**
+ * Type checking to make sure data received is valid
+ * (will throw an error if data received doesn't match the type or is not listed here)
+ */
+VerticalNav.propTypes = {
+  isActive: PropTypes.bool,
+  children: PropTypes.array,
+  user: PropTypes.object
+};
+
+
 
 export default VerticalNav;

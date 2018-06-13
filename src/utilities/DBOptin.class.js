@@ -31,7 +31,7 @@ class DBOptin {
     const listRef_optins = database.ref(nodeName);
     let recordExists = false; //determine wheather the record is already existing in the database
 
-    return new Promise(((resolve, reject) => {
+    return new Promise(((resolve) => {
       //1) check if post exists in node ...
       listRef_optins.once('value', function(snapshot) {
         if (snapshot.hasChild(fanciID)) { 

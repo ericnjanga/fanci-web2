@@ -3,6 +3,7 @@
  * - message isn't rendered if img.msg is undefined
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Toast.css';
 
 
@@ -76,6 +77,16 @@ const Toast = (props) => {
       </div>
     </section>
   );
-}
+}//[end] Toast
+
+
+/**
+ * Type checking to make sure data received is valid
+ * (will throw an error if data received doesn't match the type or is not listed here)
+ */
+Toast.propTypes = {
+  active: PropTypes.bool,
+  children: PropTypes.any
+};
 
 export default Toast;

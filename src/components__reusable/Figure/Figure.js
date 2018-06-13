@@ -15,7 +15,7 @@ const Figure = (props)=>{
     return false;
   }
 
-  const p = {...props};
+  const p = { ...props};
  
   let borderRadius, sizes,  imgClassName = 'animated-background';
 

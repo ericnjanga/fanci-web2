@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'; 
 import { Dropdown, DropdownToggle, DropdownMenu, Button } from 'reactstrap';
 import HorizontalNav from './../HorizontalNav/HorizontalNav.js';
@@ -8,8 +9,11 @@ import Figure from './../../components__reusable/Figure/Figure.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import './AppHeader.css';
+
+
  
 class AppHeader extends React.Component { 
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +27,6 @@ class AppHeader extends React.Component {
       dropdownOpen: !this.state.dropdownOpen
     });
   }
- 
 
   render() {
     const { user, onLogout, navIsActive, onToggleVertNav, onCloseVertNav } = this.props;
@@ -93,6 +96,22 @@ class AppHeader extends React.Component {
     ); 
 
   }//[end] render
-}
+}//[end] AppHeader
+
+
+/**
+ * Type checking to make sure data received is valid
+ * (will throw an error if data received doesn't match the type or is not listed here)
+ */
+AppHeader.propTypes = {
+  user: PropTypes.object,
+  onLogout: PropTypes.func,
+  navIsActive: PropTypes.bool,
+  onToggleVertNav: PropTypes.func,
+  onCloseVertNav: PropTypes.func
+};
+
 
 export default AppHeader;
+
+

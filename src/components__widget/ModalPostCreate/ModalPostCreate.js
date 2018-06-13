@@ -26,28 +26,6 @@ import './ModalPost.css';
  */
 
 
- //DELETE IF NOTHING YET...
-// const Overlay = (props) => {
-//   if(!props.active) return false;
-//   let style={
-//     top: '0',
-//     left: '0',
-//     width: '100%',
-//     height: '100%',
-//     backgroundColor: 'rgba(255, 255, 255, 0.6)',
-//     position: 'absolute',
-//     display:'flex',
-//     alignItems:'center',
-//     justifyContent:'center'
-//   };
-//   return(
-//     <section style={style}>{props.children}</section>
-//   );
-// };
-
-
-
-
 
 class ModalPostCreate extends React.Component { 
   constructor(props) {

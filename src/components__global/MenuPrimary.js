@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
@@ -30,6 +31,17 @@ const MenuPrimary = (props) => {
       </NavItem> 
     </Nav> 
   );
-}
+}//[end] MenuPrimary
+
+
+/**
+ * Type checking to make sure data received is valid
+ * (will throw an error if data received doesn't match the type or is not listed here)
+ */
+MenuPrimary.propTypes = { 
+  children: PropTypes.array
+};
+
+
 
 export default MenuPrimary; 

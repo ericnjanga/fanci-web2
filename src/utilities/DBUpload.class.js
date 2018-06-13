@@ -12,7 +12,7 @@ class DBUpload {
     return new Promise((resolve)=>{
       storage.ref(name).getDownloadURL().then(function(url) {  
         resolve({url});
-      }).catch(function(error) {
+      }).catch(function() {
         resolve(null); 
       }); 
     }); 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Nav, NavItem, Button } from 'reactstrap';
 import menu, { dropdownSyles } from './../jsStyles/menu.styles.js';
@@ -32,6 +33,18 @@ const MenuSecondary = (props) => {
       </NavItem>  
     </Nav> 
   );
-}
+}//[end] MenuSecondary
+
+
+/**
+ * Type checking to make sure data received is valid
+ * (will throw an error if data received doesn't match the type or is not listed here)
+ */
+MenuSecondary.propTypes = {
+  onLogout: PropTypes.func, 
+  onToggleDropdown: PropTypes.func,  
+  children: PropTypes.array
+};
+
 
 export default MenuSecondary;
