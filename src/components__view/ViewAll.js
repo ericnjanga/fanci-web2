@@ -19,7 +19,7 @@ const ViewAll = (props) => {
     <section>   
       {/* Render login only (if p.userProfile is "unauthenticated") */} 
       <Route exact path="/login" render={() => (
-        !p.userProfile && <ViewLogin onRouteChange={p.onRouteChange} onLogin={p.onLogin} />
+        !p.userProfile && <ViewLogin {...p} />
       )}/>  
 
       {/* login route doesn't work (if p.userProfile is authenticated) */
@@ -38,7 +38,7 @@ const ViewAll = (props) => {
           <div className="l1"><Redirect to="/login"/></div>
         ) : ( 
           <Route path="/" exact={true} render={() => (
-            <ViewMap userProfile={p.userProfile} geolocation={p.geolocation} onRouteChange={p.onRouteChange} />
+            <ViewMap {...p} />
           )}/>  
         )
       )}/>
