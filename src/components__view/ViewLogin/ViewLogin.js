@@ -1,6 +1,6 @@
-import React from 'react'; 
+import React from 'react';
 import { Button } from 'reactstrap';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faGoogle from '@fortawesome/fontawesome-free-brands/faGoogle';
 import ViewApp from './../ViewApp.js';
 import './ViewLogin.css';
@@ -19,7 +19,7 @@ class ViewLogin extends ViewApp {
         lineHeight: '1rem' 
       }
     };
-    return( 
+    return (
       <div 
         className="view--login" 
         style={styles.body}> 

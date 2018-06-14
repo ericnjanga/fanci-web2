@@ -1,9 +1,9 @@
-import React from 'react'; 
+import React from 'react';
 // import './ViewTermsAndConditions.css';
 
 
 const ViewTermsAndConditions = () => {
-  return(
+  return (
     <div className="view__content ViewTimeline">  
       <h2>TermsAndConditions view</h2> 
       <p>Jelly candy chocolate cake danish tart marshmallow gummies cotton candy bonbon. Gummies jelly-o dragée candy canes chupa chups wafer jujubes cake. Chocolate wafer icing chocolate cake.Jelly apple pie jelly jujubes pie candy chupa chups bonbon. Fruitcake ice cream gummi bears. Brownie chupa chups wafer sweet sweet roll. Sweet muffin lollipop candy canes bear claw cheesecake.</p>

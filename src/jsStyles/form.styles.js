@@ -49,7 +49,7 @@ class FormTheme {
         marginBottom: '25px'
       }
     };
-    this.file.className = 'btn btn-info btn-block'; 
+    this.file.className = 'btn btn-info btn-block';
     this.formGroup = {...defaultStyle.formGroup};
     this.inputField = {...defaultStyle.inputField};
     this.checkBox = {

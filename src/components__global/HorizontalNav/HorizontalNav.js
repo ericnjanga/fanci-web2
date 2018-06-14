@@ -1,11 +1,11 @@
-import React from 'react';  
+import React from 'react'; 
 import PropTypes from 'prop-types';
 import './HorizontalNav.css';
 
 const HorizontalNav = (props) => {
   const { navIsActive, children } = props; 
    
-  return( 
+  return (
     <nav className={'HorizontalNav' + (navIsActive?' is-active':'')}>  
       {children}
     </nav> 

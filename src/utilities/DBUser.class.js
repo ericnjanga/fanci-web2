@@ -56,10 +56,10 @@ class DBUser {
           tpl_user.phoneNumber  = userFromDB.phoneNumber;  
         }else{
           //Otherwise, initialize these properties
-          tpl_user.biography    = '';     //set empty string
+          tpl_user.biography    = '';    //set empty string
           tpl_user.visible      = false;  //invisible by default
-          tpl_user.displayName  = tpl_user.displayName ? tpl_user.displayName : ''; //empty string if there is no value
-          tpl_user.phoneNumber  = tpl_user.phoneNumber ? tpl_user.phoneNumber : ''; //empty string if there is no value
+          tpl_user.displayName  = tpl_user.displayName ? tpl_user.displayName : '';//empty string if there is no value
+          tpl_user.phoneNumber  = tpl_user.phoneNumber ? tpl_user.phoneNumber : '';//empty string if there is no value
         }
         //...
         tpl_user.lastSignin = Date.now(); //Record the last time user signed in
@@ -71,14 +71,14 @@ class DBUser {
           if(userFromDB && typeof userFromDB.lat==='number'){
             tpl_user.lat = userFromDB.lat;
           }else{
-            tpl_user.lat = '---'; 
+            tpl_user.lat = '---';
           }
         }
         if(!tpl_user.lng){
           if(userFromDB && typeof userFromDB.lng==='number'){
             tpl_user.lng = userFromDB.lng;
           }else{
-            tpl_user.lng = '---'; 
+            tpl_user.lng = '---';
           }
         } 
         //(because we assume the user might have changed them somewhere else and will expect to see them reflected on this app) 

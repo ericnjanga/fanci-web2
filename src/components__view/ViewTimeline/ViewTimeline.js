@@ -1,16 +1,16 @@
 import React from 'react';
-import List from './../../components__reusable/List/List.js';     
-import ModalPostCreate from './../../components__widget/ModalPostCreate/ModalPostCreate.js'; 
-import PostItem from './../../components__widget/PostItem/PostItem.js'; 
-import PostItemPlaceholder from './../../components__widget/PostItemPlaceholder/PostItemPlaceholder.js';  
-import buttonStyle from './../../jsStyles/button.styles.js'; 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
-import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt'; 
+import List from './../../components__reusable/List/List.js';    
+import ModalPostCreate from './../../components__widget/ModalPostCreate/ModalPostCreate.js';
+import PostItem from './../../components__widget/PostItem/PostItem.js';
+import PostItemPlaceholder from './../../components__widget/PostItemPlaceholder/PostItemPlaceholder.js'; 
+import buttonStyle from './../../jsStyles/button.styles.js';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import { Button } from 'reactstrap';
-import ViewApp from './../ViewApp.js'; 
+import ViewApp from './../ViewApp.js';
 import DBPost from './../../utilities/DBPost.class.js';
-import './ViewTimeline.css';  
+import './ViewTimeline.css'; 
 
 
 class ViewTimeline extends ViewApp {
@@ -83,7 +83,7 @@ class ViewTimeline extends ViewApp {
       formFields: this.state.formFields
     }; 
 
-    return(  
+    return ( 
       <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 
         <Placeholders isVisible={!p.postList_runtime} />
 
@@ -149,7 +149,7 @@ export default ViewTimeline;
  */
 const Placeholders = (props) => {
   if(!props.isVisible) return false;
-  return(
+  return (
     <div>
       <PostItemPlaceholder style={{ marginBottom:'20px' }} />
       <PostItemPlaceholder style={{ marginBottom:'20px' }} />

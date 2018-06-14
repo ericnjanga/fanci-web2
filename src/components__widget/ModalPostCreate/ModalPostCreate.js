@@ -1,16 +1,16 @@
 /**
  * Renders a modal which allows user to "create" a post 
  */ 
-import React from 'react'; 
+import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, Label, Input } from 'reactstrap'; 
-import Figure from './../../components__reusable/Figure/Figure.js'; 
-import Toast from './../../components__reusable/Toast/Toast.js';  
-import DBPost from '../../utilities/DBPost.class.js';  
-import DBUpload from './../../utilities/DBUpload.class.js'; 
-import modalStyle from './../../jsStyles/modal.styles.js'; 
+import { Form, FormGroup, Label, Input } from 'reactstrap';
+import Figure from './../../components__reusable/Figure/Figure.js';
+import Toast from './../../components__reusable/Toast/Toast.js'; 
+import DBPost from '../../utilities/DBPost.class.js'; 
+import DBUpload from './../../utilities/DBUpload.class.js';
+import modalStyle from './../../jsStyles/modal.styles.js';
 import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './ModalPost.css';
 
@@ -146,7 +146,7 @@ class ModalPostCreate extends React.Component {
       //Save post
       DBPost.save(finalPost, user.uid)
       //Reset "postFormFields" state object once its done
-      .then((ready) => {  
+      .then((ready) => { 
         this.clearModal();
         this.freezeForm(false);
         toggleModal();
@@ -260,7 +260,7 @@ class ModalPostCreate extends React.Component {
     }; 
 
     
-    return( 
+    return (
       <Modal 
         isOpen={p.data.active} 
         toggle={p.toggle} 
@@ -321,7 +321,7 @@ const DisplayLabel = (props) => {
   const {type, formStyle, value} = props;
   const stl = formStyle;
 
-  return(
+  return (
     <Label 
       className={stl[type]?stl[type].className:''} 
       for={type} 
@@ -342,7 +342,7 @@ const DisplayFileUpload = (props) => {
   const stl = formStyle;
   const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'};
 
-  return(
+  return (
     <div style={{border:'0px solid red'}}> 
       <Label 
         className={stl[type]?stl[type].className:''} 
@@ -441,7 +441,7 @@ const MessageForm = (props) => {
     ); 
   });
 
-  return(
+  return (
     <div style={{position:'relative'}}>
       <Toast active={postFormIsFrozen}>Wait a moment...</Toast> 
       <Form onSubmit={handleSubmit}>
@@ -455,7 +455,7 @@ const MessageForm = (props) => {
 const FormFieldError = (props) => {
   const data = props.data;
   if(!data){ return false; }
-  return(
+  return (
     <div 
       className="invalid-feedback" 
       style={{display:'block', fontSize:'90%'}}>
@@ -492,7 +492,7 @@ const TexTLabelOtherInput = (props) => {
 const SelectInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, disabled } = props; 
   if(type!=='select') return false;
-  return(
+  return (
     <Input 
       type={type} 
       name={ident} 
@@ -515,7 +515,7 @@ const SelectInput = (props) => {
 const OtherInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, error, disabled } = props; 
   if(type==='select') return false;
-  return(
+  return (
     <div>
       <Input 
         type={type} 

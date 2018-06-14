@@ -2,17 +2,17 @@
  * Component rendering a list of all messages 
  */ 
 import React from 'react';
-import { Alert } from 'reactstrap'; 
+import { Alert } from 'reactstrap';
 
 
 const List = (props) => {
   const p = {...props},
         Item = p.itemComp; 
 
-  return(
+  return (
     <section style={p.style}> 
       { 
-        p.items.length ?props.items.map((item) => { 
+        p.items.length ?props.items.map((item) => {
           return (
             <Item 
               key={item.id} 

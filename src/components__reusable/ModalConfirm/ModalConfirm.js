@@ -10,7 +10,7 @@ const ModalConfirm = (props)=> {
    * Not providing toggle={...}       : Removes 'x' button from ModalHeader
    * backdrop={'static'}  : Prevents from being closed by clicking on the "backdrop"
    */
-  return( 
+  return (
     <Modal isOpen={p.isOpen} toggle={p.toggle} backdrop={'static'}>
       <ModalHeader style={modalStyle.header}>{p.title}</ModalHeader>
       <ModalBody>

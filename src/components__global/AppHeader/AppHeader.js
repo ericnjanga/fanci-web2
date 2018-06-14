@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { Dropdown, DropdownToggle, DropdownMenu, Button } from 'reactstrap';
 import HorizontalNav from './../HorizontalNav/HorizontalNav.js';
 import MenuPrimary from './../MenuPrimary.js';
-import MenuSecondary from './../MenuSecondary.js'; 
-import Figure from './../../components__reusable/Figure/Figure.js'; 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
+import MenuSecondary from './../MenuSecondary.js';
+import Figure from './../../components__reusable/Figure/Figure.js';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import './AppHeader.css';
 
@@ -30,7 +30,7 @@ class AppHeader extends React.Component {
 
   render() {
     const { user, onLogout, navIsActive, onToggleVertNav, onCloseVertNav } = this.props;
-    return(
+    return (
       <header className="AppHeader"> 
         <div className="AppHeader__top">
           <h1 className="AppBrand">

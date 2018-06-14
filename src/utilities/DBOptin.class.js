@@ -1,7 +1,7 @@
 /**
  * Class dedicated to posts
  */ 
-import { database } from './../services/firebase.js';  
+import { database } from './../services/firebase.js'; 
 
 
 const nodeName = 'opt-ins';

@@ -10,7 +10,7 @@ const MenuSecondary = (props) => {
   //Proveide shell of a function if there is nothing in props
   let toggleDropdown = onToggleDropdown ? onToggleDropdown: ()=> {};
 
-  return( 
+  return (
     <Nav>
       {props.children}
       

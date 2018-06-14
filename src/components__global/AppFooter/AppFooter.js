@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import './AppFooter.css';
 
 const AppFooter = () => {
-  return(
+  return (
     <footer className="AppFooter"> 
       <p>
         <Link to={`/terms-and-cnditions`}>Terms &amp; Conditions</Link>

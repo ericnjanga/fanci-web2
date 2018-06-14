@@ -1,10 +1,19 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-React application about a fictional "The Rock Fan club". This app is designed to demonstrate how specific things can be accomplished with ReactJS. Each feature will be branched, it demonstrates the usage of a specific technology or technique. You can clone any branch and reuse it for your specific project.
+React application allowing people to connect with each other via Google Map and post notifications
 
-### Contact me
-eric.njanga@gmail.com / 647 704 7219 / Toronto, Canada.
+### Developed by 
+[Eric Njanga](https://www.ericnjanga.com) / eric.njanga@gmail.com / Toronto, Canada.
 
+## Table of Contents
+
+- [JavaScript Style Guide](#javascript-style-guide)
+
+
+## JavaScript Style Guide
+Code is structured by [ESLint](https://eslint.org/) and follows [JavaScript Style Guide](https://github.com/airbnb/javascript)
+
+<!---
 ## Table of Contents
 
 - [Project Dependencies](#project-dependencies)
@@ -40,3 +49,4 @@ The steps:
     - When they log out (so gets unauthenticated), they must be immediately redirected to the login route, regardless of the current route
 - Organize the layout into components
 - Setup a shell login/logout system to simulate layout change (state change) when user authenticates in/out
+--->

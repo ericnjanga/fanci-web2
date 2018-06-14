@@ -53,7 +53,7 @@ const Figure = (props)=>{
   let { width, height } = sizes;
   let imgStyle = { borderRadius, width, height }; 
   let figStyle = p.style;
-  return(  
+  return ( 
     <figure 
       className={p.className} 
       style={figStyle}>

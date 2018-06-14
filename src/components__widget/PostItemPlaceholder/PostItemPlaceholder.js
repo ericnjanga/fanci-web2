@@ -2,10 +2,10 @@
  * Component rendering a card with details
  * - Fetches a specific user info when component mounts
  */ 
-import React from 'react'; 
-import { Card, CardTitle } from 'reactstrap'; 
+import React from 'react';
+import { Card, CardTitle } from 'reactstrap';
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
-import Figure from './../../components__reusable/Figure/Figure.js'; 
+import Figure from './../../components__reusable/Figure/Figure.js';
 // import PostItemPlaceholderStyle from './../../jsStyles/PostItemPlaceholder.styles.js';
 
 
@@ -25,7 +25,7 @@ const PostItemPlaceholder = (props) => {
         s_header_title = {...s2.header_title, ...ph.text};
   //...
   phs.body = {...s1.body, ...props.style};
-  return( 
+  return (
     <Card style={phs.body }> 
       { 
         <Figure 

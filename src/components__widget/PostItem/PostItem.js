@@ -2,24 +2,24 @@
  * Component rendering a card with details
  * - Fetches a specific user info when component mounts
  */ 
-import React from 'react'; 
-import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap'; 
+import React from 'react';
+import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap';
 import {  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
 import { Alert } from 'reactstrap';
-import { dropdownSyles } from './../../jsStyles/menu.styles.js';  
-import Toast from './../../components__reusable/Toast/Toast.js';   
+import { dropdownSyles } from './../../jsStyles/menu.styles.js'; 
+import Toast from './../../components__reusable/Toast/Toast.js';  
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
-import DBUser from '../../utilities/DBUser.class.js';  
+import DBUser from '../../utilities/DBUser.class.js'; 
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import DBOptin from './../../utilities/DBOptin.class.js';
-import Figure from './../../components__reusable/Figure/Figure.js'; 
-import modalStyle from './../../jsStyles/modal.styles.js'; 
+import Figure from './../../components__reusable/Figure/Figure.js';
+import modalStyle from './../../jsStyles/modal.styles.js';
 import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
-import DateFormat from './../../components__reusable/DateFormat.js'; 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';  
+import DateFormat from './../../components__reusable/DateFormat.js';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH';
 import faExclamationTriangle from '@fortawesome/fontawesome-free-solid/faExclamationTriangle';
@@ -27,7 +27,7 @@ import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
-import './PostItem.css'; 
+import './PostItem.css';
 
 
 
@@ -120,7 +120,7 @@ class PostItem extends React.Component {
     DBUpload.remove(filePath, true).then((result)=>{
       postFileUpload.file = null;
       postFileUpload.downloadURLs = null;
-      postFormFields.file = '';  
+      postFormFields.file = ''; 
       DBPost.updateField(postID, 'file', '').then((result)=>{
         this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields }); 
       });
@@ -155,7 +155,7 @@ class PostItem extends React.Component {
       //Update post 
       DBPost.update(postID, finalPost)
       //Reset "postFormFields" state object once its done
-      .then((ready) => {  
+      .then((ready) => { 
         this.clearModal();
         this.freezeForm(false);
         toggleModal();
@@ -250,7 +250,7 @@ class PostItem extends React.Component {
         postFileUpload = {...this.state.postFileUpload};
       //Save file value in a temporary field for now (non-empty value cannpt be saved in the "file" input)
       postFileUpload.file = postFormFields.file;
-      postFormFields.file = ''; 
+      postFormFields.file = '';
       this.setState({ postFormFields, postFileUpload }); 
     });//[end] toggleEM
   }//[end] handleEdit
@@ -316,7 +316,7 @@ class PostItem extends React.Component {
       active: true,
       title: 'Fanci Delete', 
       content : ()=> {
-        return(
+        return (
           <Alert color="danger" style={{marginBottom:0}}>
             <FontAwesomeIcon icon={faExclamationTriangle} /> {' '}
             Are you sure you want to delete this fanci?
@@ -340,7 +340,7 @@ class PostItem extends React.Component {
     }); 
     if(file) {   
       let postFileUpload = {...this.state.postFileUpload};
-      DBUpload.getFile(file).then((imgUrl) => { 
+      DBUpload.getFile(file).then((imgUrl) => {
         if(imgUrl){ 
           postFileUpload.downloadURLs = imgUrl.url;
           this.setState({ postFileUpload });
@@ -444,7 +444,7 @@ class PostItem extends React.Component {
       return false;
     }
 
-    return(  
+    return ( 
       <div>
         <Card className="PostItem" style={p.style}> 
           <DisplayPostMenu 
@@ -563,7 +563,7 @@ const DisplayLabel = (props) => {
   const {type, formStyle, value} = props;
   const stl = formStyle;
 
-  return(
+  return (
     <Label 
       className={stl[type]?stl[type].className:''} 
       for={type} 
@@ -584,7 +584,7 @@ const DisplayFileUpload = (props) => {
   const stl = formStyle;
   const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'}; 
 
-  return(
+  return (
     <div> 
       <Label 
         className={stl.file?stl.file.className:''} 
@@ -683,7 +683,7 @@ const MessageForm = (props) => {
     ); 
   });
 
-  return(
+  return (
     <div style={{position:'relative'}}>
       <Toast active={postFormIsFrozen}>Wait a moment...</Toast> 
       <Form onSubmit={handleSubmit}>
@@ -697,7 +697,7 @@ const MessageForm = (props) => {
 const FormFieldError = (props) => {
   const data = props.data;
   if(!data){ return false; }
-  return(
+  return (
     <div 
       className="invalid-feedback" 
       style={{display:'block', fontSize:'90%'}}
@@ -735,7 +735,7 @@ const TexTLabelOtherInput = (props) => {
 const SelectInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, disabled } = props; 
   if(type!=='select') return false;
-  return(
+  return (
     <Input 
       type={type} 
       name={ident} 
@@ -764,7 +764,7 @@ const SelectInput = (props) => {
 const OtherInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, error, disabled } = props; 
   if(type==='select') return false;
-  return(
+  return (
     <div>
       <Input 
         type={type} 
@@ -787,7 +787,7 @@ const OtherInput = (props) => {
  */
 const DisplayHeader = (props) => {
   if(!props.data) return false;
-  return(
+  return (
     <header style={props.style.header}> 
       <CardTitle style={props.style.title}>{props.data.title}</CardTitle> 
       <small className="PostItem__date">
@@ -800,7 +800,7 @@ const DisplayHeader = (props) => {
 //Display image
 const DisplayPostImage = (props) => {
   if(!props.src || !props.display) return false;
-  return(
+  return (
     <Figure img={props.src} alt={props.alt} /> 
   )
 }; 
@@ -812,7 +812,7 @@ const DisplayPostImage = (props) => {
 const DisplayPostMenu = (props) => {
   const { isOwner, data, isActive, handleToggle, handleEdit, openConfirm, style } = props;
   if(!isOwner) return false;
-  return(
+  return (
     //Only post owner can modify it ... 
     <Dropdown 
       direction="left" 
@@ -841,7 +841,7 @@ const DisplayPostMenu = (props) => {
 const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avatar}
   const { data, style } = props;
   if(!data) return false;
-  return(
+  return (
     <Figure 
       img={data.photoURL} 
       alt={data.displayName} 
@@ -861,7 +861,7 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
   const { ppt, state } = props; 
   if(!ppt.data || !props.display) return false; 
 
-  return(
+  return (
     <CardFooter className="PostItem__footer">
       <div className="PostItem__footer-info"> 
         {
@@ -911,7 +911,7 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
 
 const DisplayBody = (props) => {
   if(!props.data || !props.display) return false;
-  return(
+  return (
     <CardBody style={props.style}>   
       <CardText>{props.data.content}</CardText> 
     </CardBody>

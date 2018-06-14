@@ -1,10 +1,10 @@
-import React from 'react'; 
+import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import Figure from './../../components__reusable/Figure/Figure.js'; 
-import Toast from './../../components__reusable/Toast/Toast.js';  
-import DBUser from '../../utilities/DBUser.class.js'; 
-import DateFormat from './../../components__reusable/DateFormat.js'; 
-import ViewApp from './../ViewApp.js'; 
+import Figure from './../../components__reusable/Figure/Figure.js';
+import Toast from './../../components__reusable/Toast/Toast.js'; 
+import DBUser from '../../utilities/DBUser.class.js';
+import DateFormat from './../../components__reusable/DateFormat.js';
+import ViewApp from './../ViewApp.js';
 import { formStyleDarkTheme } from './../../jsStyles/form.styles.js';
 import './ViewProfile.css';
 
@@ -51,7 +51,7 @@ class ViewProfile extends ViewApp {
     const theme = formStyleDarkTheme;
     const checkboxFormGroup = {...theme.formGroup, ...theme.checkBox.formGroup}; 
 
-    return(
+    return (
       <div className="view__content ViewProfile">  
         { /* Display a toast if the list of items is not yet ready */ }
         <Toast active={overlayActive}>Saving data</Toast>

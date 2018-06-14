@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { database } from './../services/firebase.js';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faUpload from '@fortawesome/fontawesome-free-solid/faUpload';
 
 

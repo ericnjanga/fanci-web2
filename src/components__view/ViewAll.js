@@ -2,11 +2,11 @@
  * Component encapsulating all views
  */
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom'; 
+import { Route, Redirect } from 'react-router-dom';
 import ViewTimeline from './ViewTimeline/ViewTimeline.js';
 import ViewMap from './ViewMap/ViewMap.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
-import ViewProfile from './ViewProfile/ViewProfile.js'; 
+import ViewProfile from './ViewProfile/ViewProfile.js';
 import ViewSettings from './ViewSettings/ViewSettings.js';
 import ViewTermsAndConditions from './ViewTermsAndConditions/ViewTermsAndConditions.js';
 import './ViewAll.css';
@@ -15,7 +15,7 @@ import './ViewAll.css';
 const ViewAll = (props) => {
   const p = {...props};
  
-  return( 
+  return (
     <section>   
       {/* Render login only (if p.userProfile is "unauthenticated") */} 
       <Route 

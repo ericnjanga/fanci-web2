@@ -2,28 +2,28 @@
  * Main Application
  * ---------------------------
  */ 
-import React, { Component } from 'react'; 
-import { BrowserRouter as Router } from 'react-router-dom'; 
-import { auth, provider } from './services/firebase.js'; 
+import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { auth, provider } from './services/firebase.js';
 import './utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
 import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
-import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';  
+import SearchPanel from './components__widget/SearchPanel/SearchPanel.js'; 
 import AppFooter from './components__global/AppFooter/AppFooter.js';
 import MenuPrimary from './components__global/MenuPrimary.js';
 import MenuSecondary from './components__global/MenuSecondary.js';
-import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';   
-import ViewAll from './components__view/ViewAll.js';  
-import Toast from './components__reusable/Toast/Toast.js';  
-import DBUser from './utilities/DBUser.class.js';   
-import DBPost from './utilities/DBPost.class.js'; 
-import AppDoc from './utilities/AppDoc.class.js'; 
-import Geoloc from './utilities/Geoloc.class.js'; 
+import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';  
+import ViewAll from './components__view/ViewAll.js'; 
+import Toast from './components__reusable/Toast/Toast.js'; 
+import DBUser from './utilities/DBUser.class.js';  
+import DBPost from './utilities/DBPost.class.js';
+import AppDoc from './utilities/AppDoc.class.js';
+import Geoloc from './utilities/Geoloc.class.js';
 import { Container, Row, Col } from 'reactstrap';
-import './styles/App.css'; 
-import './styles/components/buttons.css'; 
-import './styles/components/dropdown.css'; 
-import './styles/components/form.css'; 
+import './styles/App.css';
+import './styles/components/buttons.css';
+import './styles/components/dropdown.css';
+import './styles/components/form.css';
 
 
 class App extends Component {
@@ -105,7 +105,7 @@ class App extends Component {
   handleLogin() {   
     auth.signInWithRedirect(provider);
     auth.getRedirectResult()
-    .then((userAuthObject) => { 
+    .then((userAuthObject) => {
       //...
     }).catch(function(error) {//[end] user successful login 
       var errorCode = error.code;
@@ -155,7 +155,7 @@ class App extends Component {
   componentDidMount(){
     //Signs users back-in everytime application loads 
     //(FirebaseAuth service remembers their credentials) 
-    auth.onAuthStateChanged((userAuthObject) => { 
+    auth.onAuthStateChanged((userAuthObject) => {
       //Save fresh user records in database and save a local version to the state
       //(state version might contains some info from the database)
       let userProfile; 
@@ -196,7 +196,7 @@ class App extends Component {
      * 2-a) upList_runtime: used for display
      * 2-b) upList: used to filter search
      */
-    DBPost.getNode().on('value', (snapshot) => { 
+    DBPost.getNode().on('value', (snapshot) => {
       const nodeVal = snapshot.val(); 
       let postList_runtime = [],
       upList_runtime = []; 

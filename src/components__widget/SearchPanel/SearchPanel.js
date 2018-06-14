@@ -3,10 +3,10 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react';
-import ReactDOM from 'react-dom'; 
-import AppDoc from './../../utilities/AppDoc.class.js'; 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
-import faArrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft'; 
+import ReactDOM from 'react-dom';
+import AppDoc from './../../utilities/AppDoc.class.js';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faArrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft';
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 
 import SearchPanelStyle from './../../jsStyles/searchPanel.styles.js';
@@ -34,7 +34,7 @@ class SearchPanel extends React.Component {
   componentDidMount(){
     this.focudInput();  
     //Toggle component if select DOM elt is targetted 
-    ReactDOM.findDOMNode(this).addEventListener('click', (event) => { 
+    ReactDOM.findDOMNode(this).addEventListener('click', (event) => {
       event.preventDefault(); 
       AppDoc.actIfNodeIs('.SearchPanel__btnExit', 'is targetted', event, this.props.toggleSearchPanel);
     });
@@ -48,7 +48,7 @@ class SearchPanel extends React.Component {
     const p = {...this.props};
     let style_runtime = SearchPanelStyle.computeStyles(p);
 
-    return(  
+    return ( 
       <section 
         style={style_runtime.panel} 
         className={'SearchPanel ' +(p.isActive?'active':'')}> 

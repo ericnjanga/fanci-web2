@@ -1,13 +1,13 @@
-import React from 'react'; 
+import React from 'react';
 import ViewApp from './../ViewApp.js';
-import './ViewMap.css';   
-import AppDoc from './../../utilities/AppDoc.class.js'; 
-import Map from './../../components__reusable/Map/Map.js'; 
+import './ViewMap.css';  
+import AppDoc from './../../utilities/AppDoc.class.js';
+import Map from './../../components__reusable/Map/Map.js';
 import MapPHStyles from './../../jsStyles/MapPlaceholder.styles.js';
 
 
-class ViewMap extends ViewApp { 
-  render () {  
+class ViewMap extends ViewApp {
+  render () {
     const p = {...this.props}; 
     const nbU = Array(15).fill(0);
     const style = {
@@ -18,7 +18,7 @@ class ViewMap extends ViewApp {
       }
     };
     const psStyle_body = {...MapPHStyles.body, ...style.body};
-    return(
+    return (
       <div className="view__content ViewMap"> 
         {  
           p.geolocation.on===true 

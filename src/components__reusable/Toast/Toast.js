@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import './Toast.css';
 
 
-const Toast = (props) => { 
+const Toast = (props) => {
   if(!props.active) return false;
 
   const style = {
@@ -59,7 +59,7 @@ const Toast = (props) => {
   };
   let spinnerDiv = Array(12).fill(0); 
 
-  return( 
+  return (
     <section className="Toast" style={style.toast}>
       <div className="Toast__content" style={style.box}>
         <div className="lds-css">
