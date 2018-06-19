@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import { Nav, NavItem } from 'reactstrap';
+import {NavLink } from 'react-router-dom';
+import {Nav, NavItem } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faHome from '@fortawesome/fontawesome-free-solid/faHome';
 import faComment from '@fortawesome/fontawesome-free-solid/faComment';
@@ -10,7 +10,7 @@ import faUser from '@fortawesome/fontawesome-free-solid/faUser';
 const MenuPrimary = (props) => {
   return (
     <Nav>
-      { props.children }
+      {props.children }
       <NavItem> 
         <NavLink to={`/`} exact>
           <span className="txt">Home</span>
@@ -31,14 +31,14 @@ const MenuPrimary = (props) => {
       </NavItem> 
     </Nav> 
   );
-}//[end] MenuPrimary
+}// [end] MenuPrimary
 
 
 /**
  * Type checking to make sure data received is valid
  * (will throw an error if data received doesn't match the type or is not listed here)
  */
-MenuPrimary.propTypes = { 
+MenuPrimary.propTypes = {
   children: PropTypes.array
 };
 

@@ -3,7 +3,7 @@ const modalStyle = {
     borderBottom: '0px solid',
     paddingBottom: '0'
   },
-  body : {
+  body: {
     paddingBottom:'0'
   },
   footer: {

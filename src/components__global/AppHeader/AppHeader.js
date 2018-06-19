@@ -1,49 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Dropdown, DropdownToggle, DropdownMenu, Button } from 'reactstrap';
+import {Link } from 'react-router-dom';
+import {Dropdown, DropdownToggle, DropdownMenu, Button } from 'reactstrap';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker.js';
 import HorizontalNav from './../HorizontalNav/HorizontalNav.js';
 import MenuPrimary from './../MenuPrimary.js';
 import MenuSecondary from './../MenuSecondary.js';
 import Figure from './../../components__reusable/Figure/Figure.js';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
 import './AppHeader.css';
 
 
- 
-class AppHeader extends React.Component { 
+class AppHeader extends React.Component {
 
   constructor(props) {
+
     super(props);
     this.state = {
-      dropdownOpen: false
-    }
+      dropdownOpen: false,
+    };
     this.toggleDropdown = this.toggleDropdown.bind(this);
+
   }
 
   toggleDropdown() {
+
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropdownOpen: !this.state.dropdownOpen,
     });
+
   }
 
   render() {
-    const { user, onLogout, navIsActive, onToggleVertNav, onCloseVertNav } = this.props;
+
+    const {
+      user, onLogout, navIsActive, onToggleVertNav, onCloseVertNav,
+    } = this.props;
     return (
-      <header className="AppHeader"> 
+      <header className="AppHeader">
         <div className="AppHeader__top">
           <h1 className="AppBrand">
-            <Link 
+            <Link
               onClick={onCloseVertNav} 
               to={`/`}>
               Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
-            </Link> 
-          </h1> 
-          { 
+            </Link>
+          </h1>
+          {
             user && (
               <div>
-                <Button 
+                <Button
                   className="btn-toggle-vertNav--sm" 
                   onClick={onToggleVertNav}>
                   <Figure 
@@ -52,7 +58,7 @@ class AppHeader extends React.Component {
                     avatar 
                     circle 
                     size="small" 
-                    style={{ margin:'0 10px 0 0' }} 
+                    style={{margin:'0 10px 0 0' }} 
                   /> 
                 </Button>
                 
@@ -68,7 +74,7 @@ class AppHeader extends React.Component {
                       avatar 
                       circle 
                       size="small" 
-                      style={{ margin:'0' }} 
+                      style={{margin:'0' }} 
                     /> 
                   </DropdownToggle>
                   <DropdownMenu>
@@ -93,10 +99,10 @@ class AppHeader extends React.Component {
           </HorizontalNav>
         } 
       </header>
-    ); 
+    );
 
-  }//[end] render
-}//[end] AppHeader
+  }// [end] render
+}// [end] AppHeader
 
 
 /**

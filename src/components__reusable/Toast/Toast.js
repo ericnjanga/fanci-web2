@@ -8,10 +8,10 @@ import './Toast.css';
 
 
 const Toast = (props) => {
-  if(!props.active) return false;
+  if (!props.active) return false;
 
   const style = {
-    toast : {
+    toast: {
       position: 'fixed',
       display: 'flex',
       alignItems: 'center', 
@@ -23,7 +23,7 @@ const Toast = (props) => {
       backgroundColor: 'rgba(255, 255, 255, 0.6)',
       zIndex: '1000'
     },
-    box : { 
+    box: {
       padding: '10px 10px 20px 10px',
       marginTop: '200px',
       // background: '#ddd',
@@ -34,18 +34,18 @@ const Toast = (props) => {
       width: '200px',
       textAlign: 'center'
     },
-    spinnerBox: { 
+    spinnerBox: {
       position: 'relative',
       width:'100%',
       height:'100%'
     },
-    msg : {
+    msg: {
       position: 'relative', 
       color: '#333',
       zIndex: '1010', 
       borderRadius:' 5px',
     }, 
-    spinnerDiv : {
+    spinnerDiv: {
       left: '94px',
       top: '48px',
       position: 'absolute',
@@ -57,7 +57,7 @@ const Toast = (props) => {
       transformOrigin: '6px 52px'
     }
   };
-  let spinnerDiv = Array(12).fill(0); 
+  let spinnerDiv = Array(12).fill(0);
 
   return (
     <section className="Toast" style={style.toast}>
@@ -77,7 +77,7 @@ const Toast = (props) => {
       </div>
     </section>
   );
-}//[end] Toast
+}// [end] Toast
 
 
 /**

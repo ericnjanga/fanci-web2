@@ -8,27 +8,27 @@ import PropTypes from 'prop-types';
 
 class ViewApp extends React.Component {
 
-  componentDidMount(){  
+  componentDidMount() { 
     const handleRouteChange = this.props.onRouteChange; 
-    if(handleRouteChange){
+    if (handleRouteChange) {
       handleRouteChange();
     }
   }
-  render(){
+  render() {
     return (
       <div>
         {this.props.children}
       </div>
-    ); 
+    );
   }
-}//[end] ViewApp
+}// [end] ViewApp
 
 
 /**
  * Type checking to make sure data received is valid
  * (will throw an error if data received doesn't match the type or is not listed here)
  */
-ViewApp.propTypes = { 
+ViewApp.propTypes = {
   onRouteChange: PropTypes.func,  
   children: PropTypes.any
 };

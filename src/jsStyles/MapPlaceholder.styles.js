@@ -1,12 +1,12 @@
 
-let MapPHStyles = { 
-  body : { 
+let MapPHStyles = {
+  body: {
     position: 'relative',
     background: '#EEE5E0',
     width: 'calc(100% + 30px)',
     height: '100%'
   },
-  user : {  
+  user: { 
     position: 'absolute',
     display: 'block',
     borderRadius: '100%',
@@ -14,7 +14,7 @@ let MapPHStyles = {
     height: '35px',
     border: '5px solid #999'
   },
-  mainUser : {
+  mainUser: {
     top:'50%',
     left:'50%',
     marginTop: '-30px',
@@ -22,7 +22,7 @@ let MapPHStyles = {
   } 
 };
 
-MapPHStyles.mainUser = {...MapPHStyles.mainUser, ...MapPHStyles.user, width:'60px', height:'60px' };
+MapPHStyles.mainUser = { ...MapPHStyles.mainUser, ...MapPHStyles.user, width:'60px', height:'60px' };
 
 
 export default MapPHStyles;

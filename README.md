@@ -6,47 +6,21 @@ React application allowing people to connect with each other via Google Map and 
 [Eric Njanga](https://www.ericnjanga.com) / eric.njanga@gmail.com / Toronto, Canada.
 
 ## Table of Contents
-
 - [JavaScript Style Guide](#javascript-style-guide)
+- [Good React Patterns](#good-react-patterns)
+- [Print the JS documentation](#print-js-documentation)
 
 
 ## JavaScript Style Guide
-Code is structured by [ESLint](https://eslint.org/) and follows [JavaScript Style Guide](https://github.com/airbnb/javascript)
+Code is structured by [ESLint](https://eslint.org/) and follows [JavaScript Style Guide](https://github.com/airbnb/javascript). Check rules inforcement in <b>.eslintrc</b> file.
 
-<!---
-## Table of Contents
+## Good React Patterns
+Functional programing patterns:
+- First class objects leading to <b>Higher-order Functions (HoF)</b>: Heavily used in the React ecosystem, HoFs are functions that take a function as a parameter, optionally some other parameters, and return a function. The returned function is usually enhanced with some special behaviors.
+- <b>Purity</b>: Also very used in the React ecosystem, pure functions are functions which do not change anything that is not local to them (they don't change the state, they don't modify higher scope variables, ...). Pure functions are easier to debug and reuse.
+- <b>Immutability</b>: In the immutability pattern, functions create and return new variables and values.
 
-- [Project Dependencies](#project-dependencies)
-- [Development Steps](#development-steps)
-  - [Setting up routes and shell login/logout system](#routes-login-logout-shell)
-  - [Font Awesome (through npm)](#xxx)
-  - [Adding Twitter Bootstrap (through npm)](#xxx)
-  - [Using modularized CSS](#xxx)
-  - [Connecting with firebase](#xxx)
-  - [Login/logout with firebase](#xxx)
-  - [Creating content with firebase](#xxx)
-  - [Views transition](#xxx)
-  - [Posting a update (twitter like with SVG circle)](#xxx)
-
-
-## Project Dependencies
-- [React Router](https://github.com/ReactTraining/react-router)
-- [Firebase](https://www.npmjs.com/package/firebase)
-- More coming ...
-
-## Development Steps
-Describes the incremental development steps and the features added
-
-### Setting up routes and shell login/logout system
-[See the branch here](https://github.com/ericnjanga/react__therock-fanclub/tree/routes-shell-auth).
-The steps:
-- Using [React Router](https://github.com/ReactTraining/react-router) to setup routes
-  - Unauthenticated users:
-    - They only have access to 2 pages: login and terms and conditions routes
-    - When they log in (so get authenticated), they must be immediately redirected to the home route
-  - Authenticated users:
-    - They have access to all pages, except login
-    - When they log out (so gets unauthenticated), they must be immediately redirected to the login route, regardless of the current route
-- Organize the layout into components
-- Setup a shell login/logout system to simulate layout change (state change) when user authenticates in/out
---->
+## Print JS documentation
+The JS documentation is printed in two steps. From your terminal, type:
+- babel src --out-dir src-babel
+- ./node_modules/.bin/esdoc -c .esdoc.json

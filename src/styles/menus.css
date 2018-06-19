@@ -6,12 +6,12 @@ hr.hr-menu {
   border-bottom: 0px solid #000;
   margin: 0;
 }
-hr.hr-menu.space { 
+hr.hr-menu.space {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.nav-item { 
+.nav-item {
   display: block; 
   width: 100%;
 }
@@ -21,10 +21,10 @@ hr.hr-menu.space {
 .btn-toggle-vertNav--lg a,
 .btn-toggle-vertNav--lg .btn-logout,
 .VerticalNav .nav a,
-.VerticalNav .nav .btn-logout { 
+.VerticalNav .nav .btn-logout {
   display: block;
   padding: 10px 20px; 
-  color: rgba(0,0,0,.6); 
+  color: rgba(0,0,0,.6);
   background: transparent; 
   width: 100%;
   border: 0px solid transparent;

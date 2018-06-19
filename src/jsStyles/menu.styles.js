@@ -1,11 +1,11 @@
 const menu = {
-  hr : {
+  hr: {
     margin: '0'
   }
 };
 
 export const menuSyles = {
-  item : {
+  item: {
     fontSize: '0.9rem',
     padding: '6px 20px',
     fontWeight: 'bold'
@@ -13,7 +13,7 @@ export const menuSyles = {
 };
 
 export const dropdownSyles = {
-  item : {
+  item: {
     fontSize: '0.9rem',
     padding: '6px 20px',
     fontWeight: 'bold',

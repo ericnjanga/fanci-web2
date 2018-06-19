@@ -2,7 +2,7 @@
  * Component encapsulating all views
  */
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import {Route, Redirect } from 'react-router-dom';
 import ViewTimeline from './ViewTimeline/ViewTimeline.js';
 import ViewMap from './ViewMap/ViewMap.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
@@ -13,7 +13,7 @@ import './ViewAll.css';
 
 
 const ViewAll = (props) => {
-  const p = {...props};
+  const p = { ...props};
  
   return (
     <section>   
@@ -22,7 +22,7 @@ const ViewAll = (props) => {
         exact 
         path="/login" 
         render={() => (
-          !p.userProfile && <ViewLogin {...p} />
+          !p.userProfile && <ViewLogin { ...p} />
         )}
       />  
 
@@ -52,7 +52,7 @@ const ViewAll = (props) => {
               path="/" 
               exact={true} 
               render={() => (
-                <ViewMap {...p} />
+                <ViewMap { ...p} />
               )}
             />  
           )
@@ -71,7 +71,7 @@ const ViewAll = (props) => {
               path="/around-us" 
               exact={true} 
               render={() => (
-                <ViewTimeline {...p} displayExpiredItems={false} />
+                <ViewTimeline { ...p} displayExpiredItems={false} />
               )}
             />  
           )
@@ -90,7 +90,7 @@ const ViewAll = (props) => {
               path="/profile" 
               exact={true} 
               render={()=>{
-                return <ViewProfile {...p} />
+                return <ViewProfile { ...p} />
               }} 
             />
           )
@@ -109,7 +109,7 @@ const ViewAll = (props) => {
               path="/settings" 
               exact={true} 
               render={() => (
-                <ViewSettings {...p} />
+                <ViewSettings { ...p} />
               )}
             />  
           )
@@ -128,7 +128,7 @@ const ViewAll = (props) => {
               path="/my-fancies" 
               exact={true} 
               render={() => (
-                <ViewTimeline {...p} />
+                <ViewTimeline { ...p} />
               )}
             />  
           )
@@ -142,7 +142,7 @@ const ViewAll = (props) => {
         path="/terms-and-cnditions" 
         exact={true} 
         render={() => (
-          <ViewTermsAndConditions {...p} />
+          <ViewTermsAndConditions { ...p} />
         )}
       />  
     </section> 

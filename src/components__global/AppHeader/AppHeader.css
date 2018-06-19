@@ -1,5 +1,5 @@
 
-.AppHeader { 
+.AppHeader {
   padding: 10px 15px;  
   background-color: #8ca3ad;   
 }
@@ -12,7 +12,7 @@
 .AppHeader .AppBrand {
   margin: 0; 
 }
-.AppHeader .AppBrand a { 
+.AppHeader .AppBrand a {
   color: #fff;
   text-decoration: none;
 }
@@ -45,7 +45,7 @@
  Small screens
  -------------
 */
-@media(max-width: 765px) {  
+@media(max-width: 765px) { 
   .AppHeader {
     position: fixed; 
     display: flex;
@@ -60,10 +60,10 @@
     justify-content: flex-end;
   }
 
-  .AppHeader .AppBrand { 
+  .AppHeader .AppBrand {
     font-size: 1.1rem; 
   }
-  .AppHeader .AppBrand small { 
+  .AppHeader .AppBrand small {
     font-size: 0.8rem;
   }
   .AppHeader .btn-toggle-vertNav--lg {
@@ -87,7 +87,7 @@
     color: #fff;
     border-bottom: 4px solid transparent;
   }
-  .AppHeader .HorizontalNav .svg-inline--fa { 
+  .AppHeader .HorizontalNav .svg-inline--fa {
     display: inline-block;
     font-size: 1rem;
   }
@@ -109,21 +109,21 @@
  Large screens
  -------------
 */
-@media(min-width: 766px) { 
-  .AppHeader { 
+@media(min-width: 766px) {
+  .AppHeader {
     padding: 20px;  
   }
-  .AppHeader__top { 
+  .AppHeader__top {
     justify-content: space-between;   
   }
-  .AppHeader .AppBrand { 
+  .AppHeader .AppBrand {
     font-size: 1.5rem; 
   }
-  .AppHeader .AppBrand small { 
+  .AppHeader .AppBrand small {
     font-size: 1rem;
   } 
   .AppHeader .btn-toggle-vertNav--sm,
-  .AppHeader .HorizontalNav .svg-inline--fa { 
+  .AppHeader .HorizontalNav .svg-inline--fa {
     display: none;
   }
   .AppHeader .HorizontalNav .txt {

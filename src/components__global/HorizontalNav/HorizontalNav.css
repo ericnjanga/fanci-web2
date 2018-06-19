@@ -14,7 +14,7 @@
 } 
  
 
-@media(max-width: 765px) { 
+@media(max-width: 765px) {
   /* .HorizontalNav {
     display: none;
   } */
@@ -32,12 +32,12 @@
     background-color: #ccc;
     font-size: 0.9rem;
   }
-  .HorizontalNav__list a { 
+  .HorizontalNav__list a {
     display: block;
     padding: 10px 20px; 
     color: #333;
   }
-  .HorizontalNav__btn-frame .App__btnLogout { 
+  .HorizontalNav__btn-frame .App__btnLogout {
     display: block;
     padding: 10px 20px;
     border: 0px solid;
@@ -47,7 +47,7 @@
 }
 
 @media(min-width: 766px) {
-  .HorizontalNav{   
+  .HorizontalNav{  
     font-size: 0.9rem;
     text-transform: uppercase;
   }
@@ -70,7 +70,7 @@
   .HorizontalNav__btn-frame {
     float: right;
   }
-  .HorizontalNav__btn-frame .App__btnLogout { 
+  .HorizontalNav__btn-frame .App__btnLogout {
     background: transparent;
     border: 0;
     color: #ff9800; 

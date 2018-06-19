@@ -1,19 +1,19 @@
-const PostItemPlaceholder = { 
-  body : { 
+const PostItemPlaceholder = {
+  body: {
     background: '#fff',
   },
-  avatar: { 
+  avatar: {
     margin: 0,
     position: 'absolute', 
     top: '10px',
     left: '10px'
   },
-  header: { 
+  header: {
     padding: '10px 10px 10px 55px',
     marginBottom: '1rem',
     lineHeight: '0.5rem'
   },
-  header_title: { 
+  header_title: {
     marginBottom: '0.3rem' 
   },
   cardBody: {

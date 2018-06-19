@@ -35,6 +35,6 @@ const ViewTermsAndConditions = () => {
       <p>Macaroon liquorice chocolate cake tart cake candy jujubes dessert chocolate bar. Pastry jelly beans muffin. Icing brownie macaroon wafer bear claw. Candy donut cupcake pastry marshmallow.Gingerbread apple pie marshmallow cookie jujubes fruitcake dragée icing. Lemon drops bear claw fruitcake dragée carrot cake bonbon sweet roll sesame snaps toffee. Pie apple pie sesame snaps caramels bonbon. Cake bonbon candy pastry.</p>
     </div>
   );
-}//[end] TermsAndConditions
+}// [end] TermsAndConditions
 
 export default ViewTermsAndConditions;

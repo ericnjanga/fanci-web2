@@ -2,14 +2,14 @@
  * Renders a modal which allows user to "create" a post 
  */ 
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {Form, FormGroup, Label, Input } from 'reactstrap';
 import Figure from './../../components__reusable/Figure/Figure.js';
 import Toast from './../../components__reusable/Toast/Toast.js'; 
 import DBPost from '../../utilities/DBPost.class.js'; 
 import DBUpload from './../../utilities/DBUpload.class.js';
 import modalStyle from './../../jsStyles/modal.styles.js';
-import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
+import {formStyleLightTheme } from './../../jsStyles/form.styles.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './ModalPost.css';
@@ -27,29 +27,29 @@ import './ModalPost.css';
 
 
 
-class ModalPostCreate extends React.Component { 
+class ModalPostCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      postFormFields : {
+      postFormFields: {
         ...DBPost.getPostObject()
       }, 
-      postFileUpload: { 
+      postFileUpload: {
         downloadURLs: null
       },
-      postFormValidity : {
+      postFormValidity: {
         title     : false,
         location  : false,
         content   : false,
       },
-      postFormErrors : {
+      postFormErrors: {
         title     : null,
         location  : null,
         content   : null,
         expiry    : null,
         places    : null
       },
-      postFormMinCars : {
+      postFormMinCars: {
         title     : 10,
         location  : 4,
         content   : 30,
@@ -60,22 +60,22 @@ class ModalPostCreate extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
-  }//[end] constructor
+  }// [end] constructor
 
-  handleRemoveImage(event, callback) { 
-    if(event){
-      event.preventDefault(); 
+  handleRemoveImage(event, callback) {
+    if (event) {
+      event.preventDefault();
     }
-    this.setState({ postFormIsFrozen:!this.state.postFormIsFrozen });
-    let postFormFields = {...this.state.postFormFields},
-        postFileUpload = {...this.state.postFileUpload},
+    this.setState({postFormIsFrozen:!this.state.postFormIsFrozen });
+    let postFormFields = { ...this.state.postFormFields},
+        postFileUpload = { ...this.state.postFileUpload},
         filePath = this.state.postFormFields.file; 
 
     //Only remove the image if there is a value
-    if(filePath){
+    if (filePath) {
       //...
       filePath = filePath?filePath:postFileUpload.file;
-      filePath = filePath.replace('timeline/',''); 
+      filePath = filePath.replace('timeline/','');
       //Delete image in storage
       //then clear related fields
       DBUpload.remove(filePath, true).then((result)=>{
@@ -84,32 +84,32 @@ class ModalPostCreate extends React.Component {
         postFormFields.file = '';
         //No image will be displayed
         postFileUpload.downloadURLs = null; 
-        this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields });
-      }); 
+        this.setState({postFormIsFrozen:false, postFileUpload, postFormFields });
+      });
     } 
  
-    if(typeof callback==='function'){
+    if (typeof callback==='function') {
       callback();
     }
-  }//[end] handleRemoveImage
+  }// [end] handleRemoveImage
 
-  clearModal(){ 
+  clearModal() {
     //Cleanup form when post is successful ...
     let postFormFields = { ...DBPost.getPostObject() }, 
-        postFileUpload = { downloadURLs: null, file:'' },
+        postFileUpload = {downloadURLs: null, file:'' },
         postFormIsFrozen = false;
     this.setState((prevState, props) => {
-      return { postFormFields, postFileUpload, postFormIsFrozen }
-    });  
-  }//[end] clearModal 
+      return {postFormFields, postFileUpload, postFormIsFrozen }
+    }); 
+  }// [end] clearModal 
 
 
   /**
    * - Unfreeze all fields
    * - Display overlay (z-index higher than everything inside modal except 'cancel' button)
    */ 
-  freezeForm(bool){
-    this.setState({ postFormIsFrozen:bool });
+  freezeForm(bool) {
+    this.setState({postFormIsFrozen:bool });
   }
 
 
@@ -117,13 +117,13 @@ class ModalPostCreate extends React.Component {
    * 
    * @param {*} postFormFields 
    */
-  getReadyPostObject(postFormFields) { 
+  getReadyPostObject(postFormFields) {
     //transfert post data to temporary object and cleanup file path
     let finalPost = { ...postFormFields };
     //Make sure file is saved in "timeline" folder ...
     //(only if "file" has been provided)
-    if(finalPost.file){ 
-      finalPost.file = finalPost.file.replace(/C:\\fakepath\\/, ''); 
+    if (finalPost.file) {
+      finalPost.file = finalPost.file.replace(/C:\\fakepath\\/, '');
       finalPost.file = 'timeline/'+finalPost.file;
     }
     return finalPost;
@@ -140,26 +140,26 @@ class ModalPostCreate extends React.Component {
   handleSubmit(event, user) {
     event.preventDefault();
     let toggleModal = this.props.toggle;
-    if(user){
-      this.freezeForm(true);  
-      let finalPost = this.getReadyPostObject(this.state.postFormFields); 
+    if (user) {
+      this.freezeForm(true); 
+      let finalPost = this.getReadyPostObject(this.state.postFormFields);
       //Save post
       DBPost.save(finalPost, user.uid)
       //Reset "postFormFields" state object once its done
-      .then((ready) => { 
+      .then((ready) => {
         this.clearModal();
         this.freezeForm(false);
         toggleModal();
-      }); 
+      });
     }//user
-  }//[end] handleSubmit
+  }// [end] handleSubmit
 
   /**
    * Use event.target to update the form property name and value
    * If target is a 'file' input, save value in "Firebase Storage"
    * @param {*} event 
    */
-  handleChange(event) { 
+  handleChange(event) {
     let postFormFields = this.state.postFormFields;
     const name = event.target.name;
     //Will be input value or new File object  
@@ -168,24 +168,24 @@ class ModalPostCreate extends React.Component {
     //For 'file' upload it right away on "Firebase Storage"
     //and save the name in the state for later use when post 
     //will be created
-    if(name==='file') { 
+    if (name==='file') {
       let newFile = event.target.files[0],
           env = this,
           postFileUpload = {}; 
        
-      this.setState({ postFormIsFrozen:true }); 
+      this.setState({postFormIsFrozen:true });
       
-      DBUpload.save(newFile).then(function(snapshot) { 
+      DBUpload.save(newFile).then(function(snapshot) {
         postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
-        env.setState({ postFileUpload, postFormIsFrozen:false });
+        env.setState({postFileUpload, postFormIsFrozen:false });
       });
-    }//[end] file 
+    }// [end] file 
     //....
     postFormFields[name] = value;
-    this.setState({ postFormFields }, ()=>{
+    this.setState({postFormFields }, ()=>{
       this.validateField(name, value);
-    }); 
-  }//[end] handleChange
+    });
+  }// [end] handleChange
 
   /**
    * Validate any form field (only title, location and content for now).
@@ -193,11 +193,11 @@ class ModalPostCreate extends React.Component {
    * @param {*} name 
    * @param {*} value 
    */
-  validateField(name, value) { 
-    if(name==='title' || name==='location' || name==='content'){
-      let postFormErrors = {...this.state.postFormErrors},
-      postFormValidity = {...this.state.postFormValidity},
-      postFormMinCars = {...this.state.postFormMinCars};
+  validateField(name, value) {
+    if (name==='title' || name==='location' || name==='content') {
+      let postFormErrors = { ...this.state.postFormErrors},
+      postFormValidity = { ...this.state.postFormValidity},
+      postFormMinCars = { ...this.state.postFormMinCars};
 
       let minCars = postFormMinCars[name],
           fieldValue = value.trim();
@@ -207,19 +207,19 @@ class ModalPostCreate extends React.Component {
       this.setState({postFormErrors, postFormValidity}, ()=>{
         this.validateForm(postFormValidity);
       });
-    }//[end]...
+    }// [end]...
   }
 
   /**
    * Find-out if all fields are valid and update the state property on form validity status
    * @param {*} postFormValidity 
    */
-  validateForm(postFormValidity) { 
-    const validObj = new Map(Object.entries(postFormValidity)); 
-    const validValues = Array.from(validObj.values()); 
-    let postFormIsValid = validValues.find((item)=>{ return item===false}); 
+  validateForm(postFormValidity) {
+    const validObj = new Map(Object.entries(postFormValidity));
+    const validValues = Array.from(validObj.values());
+    let postFormIsValid = validValues.find((item)=>{return item===false});
     postFormIsValid = (postFormIsValid===undefined)?true:false;
-    this.setState({ postFormIsValid }); 
+    this.setState({postFormIsValid });
   } 
 
   /**
@@ -228,8 +228,8 @@ class ModalPostCreate extends React.Component {
    * Unfreeze modal
    * Toggle modal visibility
    */
-  handleCancel() { 
-    this.handleRemoveImage(null, ()=>{ 
+  handleCancel() {
+    this.handleRemoveImage(null, ()=>{
       this.clearModal();
       this.freezeForm(false);
       this.props.toggle();
@@ -237,10 +237,10 @@ class ModalPostCreate extends React.Component {
   }
 
   render() {
-    const p = {...this.props};  
-    const s = {...this.state};
+    const p = { ...this.props};  
+    const s = { ...this.state};
     let style = {
-      avatar: { 
+      avatar: {
         margin: 0,
         position: 'absolute', 
         top: '10px',
@@ -306,9 +306,9 @@ class ModalPostCreate extends React.Component {
           </div>
         }
       </Modal>
-    ); 
+    );
   }
-}//[end] ModalPostCreate
+}// [end] ModalPostCreate
 
 export default ModalPostCreate;
 
@@ -317,7 +317,7 @@ export default ModalPostCreate;
  * -------------------------------------------------
  */
 const DisplayLabel = (props) => {
-  if(props.type==='file') return false;
+  if (props.type==='file') return false;
   const {type, formStyle, value} = props;
   const stl = formStyle;
 
@@ -337,7 +337,7 @@ const DisplayLabel = (props) => {
 
 
 const DisplayFileUpload = (props) => {
-  if(props.type!=='file') return false;
+  if (props.type!=='file') return false;
   const {type, formStyle, value, control, imgUrl, removeImage} = props;
   const stl = formStyle;
   const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'};
@@ -360,14 +360,14 @@ const DisplayFileUpload = (props) => {
         /> 
       </Label>
  
-      { 
+      {
         imgUrl && <div style={{position:'relative'}}> 
           <Button 
             style={btnDelStyle} 
             onClick={removeImage}>
             <FontAwesomeIcon 
               icon={faTimesCircle} 
-              style={{ background:'#fff', borderRadius:'30px'}} 
+              style={{background:'#fff', borderRadius:'30px'}} 
             />
           </Button>
           <img 
@@ -383,13 +383,13 @@ const DisplayFileUpload = (props) => {
 
 
 const MessageForm = (props) => {
-  const { handleSubmit, handleChange, removeImage, state } = props; 
+  const {handleSubmit, handleChange, removeImage, state } = props; 
   const stl = formStyleLightTheme;
   const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
-  const fields = new Map(Object.entries(DBPost.formFields)); 
+  const fields = new Map(Object.entries(DBPost.formFields));
   let formFields = []; 
 
-  fields.forEach((value, key)=>{ 
+  fields.forEach((value, key)=>{
     let inputStyle = stl[key]?stl[key].input:stl.inputField,
         labelStyle = stl[key]?stl[key].label:stl.label, 
         formGroupStyle = stl[key]?stl[key].formGroup:stl.formGroup, 
@@ -438,23 +438,23 @@ const MessageForm = (props) => {
           disabled={postFormIsFrozen}  
         /> 
       </FormGroup> 
-    ); 
+    );
   });
 
   return (
     <div style={{position:'relative'}}>
       <Toast active={postFormIsFrozen}>Wait a moment...</Toast> 
       <Form onSubmit={handleSubmit}>
-        { formFields.map((field)=> field) }
+        {formFields.map((field)=> field) }
       </Form>
     </div>
   );
-}//[end] MessageForm
+}// [end] MessageForm
 
 
 const FormFieldError = (props) => {
   const data = props.data;
-  if(!data){ return false; }
+  if (!data) {return false; }
   return (
     <div 
       className="invalid-feedback" 
@@ -467,7 +467,7 @@ const FormFieldError = (props) => {
 
 const IconLabel = (props) => {
   let icon = props.value.label.icon;
-  if(!icon) return false;
+  if (!icon) return false;
   return icon;
 }
 
@@ -476,7 +476,7 @@ const TexTLabelFileInput = (props) => {
   let type = props.type, 
     value = props.value,
     placeholder = props.tmpText; 
-  if(type!=='file') return false;
+  if (type!=='file') return false;
   //Display only filename or placeholder   
   return (!value)?placeholder:value.replace(/C:\\fakepath\\/, '');
 }
@@ -484,14 +484,14 @@ const TexTLabelFileInput = (props) => {
 
 const TexTLabelOtherInput = (props) => {
   let type = props.type, value = props.value;
-  if(type==='file') return false;
+  if (type==='file') return false;
   return value;
 }
 
 
 const SelectInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, disabled } = props; 
-  if(type!=='select') return false;
+  if (type!=='select') return false;
   return (
     <Input 
       type={type} 
@@ -514,7 +514,7 @@ const SelectInput = (props) => {
 
 const OtherInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, error, disabled } = props; 
-  if(type==='select') return false;
+  if (type==='select') return false;
   return (
     <div>
       <Input 

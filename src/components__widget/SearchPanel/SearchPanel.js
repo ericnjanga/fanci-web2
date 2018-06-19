@@ -10,12 +10,12 @@ import faArrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft';
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 
 import SearchPanelStyle from './../../jsStyles/searchPanel.styles.js';
-import { Button } from 'reactstrap';
+import {Button } from 'reactstrap';
 import Btn from './../../components__reusable/Btn/Btn.js';
 import './SearchPanel.css';
 
 
-class SearchPanel extends React.Component { 
+class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
     this.searchInput = React.createRef();
@@ -23,29 +23,29 @@ class SearchPanel extends React.Component {
     this.btnReset = React.createRef();
   }
 
-  focudInput(){
-    if(this.props.isActive){
+  focudInput() {
+    if (this.props.isActive) {
       this.searchInput.current.focus();
     }
   }
 
   //1) Add focus to search inout
   //2) Add an event handler which deals with closing the search panel
-  componentDidMount(){
-    this.focudInput();  
+  componentDidMount() {
+    this.focudInput(); 
     //Toggle component if select DOM elt is targetted 
     ReactDOM.findDOMNode(this).addEventListener('click', (event) => {
-      event.preventDefault(); 
+      event.preventDefault();
       AppDoc.actIfNodeIs('.SearchPanel__btnExit', 'is targetted', event, this.props.toggleSearchPanel);
     });
-  }//[end] componentDidMount
+  }// [end] componentDidMount
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.focudInput();
   } 
   
-  render() { 
-    const p = {...this.props};
+  render() {
+    const p = { ...this.props};
     let style_runtime = SearchPanelStyle.computeStyles(p);
 
     return ( 
@@ -107,7 +107,7 @@ class SearchPanel extends React.Component {
 
         </form>
       </section>  
-    ); 
+    );
   }
 }
 

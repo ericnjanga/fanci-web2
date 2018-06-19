@@ -1,6 +1,6 @@
 
 class AppDoc {
-  static getPathName(){
+  static getPathName() {
     let currPathName = document.location.pathname.replace('/','');
     currPathName = (currPathName==='')?'home':currPathName; 
     return currPathName;
@@ -14,27 +14,27 @@ class AppDoc {
    * @param {*} callback 
    */
   static actIfNodeIs(nodesSelector, condition, ev, callback) {
-    const nodeList = document.querySelectorAll(nodesSelector); 
-    if(condition==='is targetted'){
-      for (let node of nodeList) { 
-        if(ev.path.indexOf(node) >= 0){ 
-          if(typeof callback==='function'){
+    const nodeList = document.querySelectorAll(nodesSelector);
+    if (condition==='is targetted') {
+      for (let node of nodeList) {
+        if (ev.path.indexOf(node) >= 0) {
+          if (typeof callback==='function') {
             callback();
           }
           break;
         } 
       } 
     }else{
-      for (let node of nodeList) { 
-        if(ev.path.indexOf(node) === -1){ 
-          if(typeof callback==='function'){
+      for (let node of nodeList) {
+        if (ev.path.indexOf(node) === -1) {
+          if (typeof callback==='function') {
             callback();
           }
           break;
         } 
       }
     } 
-  }//[end] actIfNodeIs
+  }// [end] actIfNodeIs
 
   static getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
@@ -46,8 +46,8 @@ class AppDoc {
    * @param {*} obj2 
    */
   static objAreEqual(obj1, obj2) {
-    for(let ppt1 in obj1){
-      if(obj1.hasOwnProperty(ppt1) && obj1[ppt1]!==obj2[ppt1]){
+    for(let ppt1 in obj1) {
+      if (obj1.hasOwnProperty(ppt1) && obj1[ppt1]!==obj2[ppt1]) {
         return false;
       }
     }

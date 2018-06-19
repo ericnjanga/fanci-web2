@@ -10,8 +10,8 @@ import React from 'react';
 import './Figure.css';
 
 
-const Figure = (props)=>{ 
-  if(!props.img){
+const Figure = (props)=>{
+  if (!props.img) {
     return false;
   }
 
@@ -19,39 +19,39 @@ const Figure = (props)=>{
  
   let borderRadius, sizes,  imgClassName = 'animated-background';
 
-  const avatar = { 
+  const avatar = {
     size: {
-      'xxl' : {
+      'xxl': {
         width : '100px',
         height : '100px',
       },
-      'large' : {
+      'large': {
         width : '60px',
         height : '60px',
       },
-      'med' : {
+      'med': {
         width : '47px',
         height : '47px',
       },
-      'small' : {
+      'small': {
         width : '35px',
         height : '35px',
       }
     }
   };
 
-  if(p.circle){
+  if (p.circle) {
     borderRadius = '100%';
   }
-  if(p.avatar){
+  if (p.avatar) {
     sizes = avatar.size[p.size];
   }else{
     imgClassName += ' img-fluid';
-    sizes = { width:'100%', height:'200px' };
+    sizes = {width:'100%', height:'200px' };
   }
 
-  let { width, height } = sizes;
-  let imgStyle = { borderRadius, width, height }; 
+  let {width, height } = sizes;
+  let imgStyle = {borderRadius, width, height }; 
   let figStyle = p.style;
   return ( 
     <figure 
@@ -62,7 +62,7 @@ const Figure = (props)=>{
         <img 
           className={imgClassName} 
           src={p.img} 
-          alt={ p.alt?p.alt:''} 
+          alt={p.alt?p.alt:''} 
           style={imgStyle} 
         />
         :
@@ -71,7 +71,7 @@ const Figure = (props)=>{
           style={imgStyle} 
         />
       } 
-      { p.caption && <figcaption>{p.caption}</figcaption> }
+      {p.caption && <figcaption>{p.caption}</figcaption> }
     </figure>   
   );
 }

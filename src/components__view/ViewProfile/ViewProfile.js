@@ -1,33 +1,33 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Figure from './../../components__reusable/Figure/Figure.js';
 import Toast from './../../components__reusable/Toast/Toast.js'; 
 import DBUser from '../../utilities/DBUser.class.js';
 import DateFormat from './../../components__reusable/DateFormat.js';
 import ViewApp from './../ViewApp.js';
-import { formStyleDarkTheme } from './../../jsStyles/form.styles.js';
+import {formStyleDarkTheme } from './../../jsStyles/form.styles.js';
 import './ViewProfile.css';
 
 
 class ViewProfile extends ViewApp {
   constructor(props) {
-    super(props); 
-    this.state = { 
+    super(props);
+    this.state = {
       userProfile   : this.props.userProfile,  
       overlayActive : false
     }
-    this.handleInputChange  = this.handleInputChange.bind(this); 
+    this.handleInputChange  = this.handleInputChange.bind(this);
     this.handleSubmit       = this.handleSubmit.bind(this);
   } 
 
   //Save input value in the state object (@userProfile)
-  handleInputChange(e) { 
+  handleInputChange(e) {
     const target = e.target;
     const name = target.name;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    let userProfile = {...this.state.userProfile};
+    let userProfile = { ...this.state.userProfile};
     userProfile[name] = value;
-    this.setState({ userProfile });  
+    this.setState({userProfile }); 
   } 
 
   //When form is submitted:
@@ -36,24 +36,24 @@ class ViewProfile extends ViewApp {
   //-> Update @userProfile object at the application level (@onProfileChange)
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({ overlayActive : true });
+    this.setState({overlayActive : true });
 
-    DBUser.updateProfile(this.state.userProfile).then((success)=>{ 
+    DBUser.updateProfile(this.state.userProfile).then((success)=>{
       this.setState({
         overlayActive : false
-      }); 
+      });
       this.props.onProfileChange(this.state.userProfile);
     });
-  }//[end] handleSubmit
+  }// [end] handleSubmit
 
   render() {
-    const { userProfile, overlayActive } = this.state;
+    const {userProfile, overlayActive } = this.state;
     const theme = formStyleDarkTheme;
-    const checkboxFormGroup = {...theme.formGroup, ...theme.checkBox.formGroup}; 
+    const checkboxFormGroup = { ...theme.formGroup, ...theme.checkBox.formGroup}; 
 
     return (
       <div className="view__content ViewProfile">  
-        { /* Display a toast if the list of items is not yet ready */ }
+        {/* Display a toast if the list of items is not yet ready */ }
         <Toast active={overlayActive}>Saving data</Toast>
          
         <div className="ViewProfile__maincol">
@@ -66,10 +66,10 @@ class ViewProfile extends ViewApp {
               circle 
               size="xxl" 
             /> 
-            { 
+            {
               userProfile.lastSignin && 
-              <p style={{ display:'flex', marginTop:'5px', flexDirection:'column', textAlign:'center' }}>
-                <small style={{ color:'rgba(0,0,0,0.5)' }}>Last Signin</small> 
+              <p style={{display:'flex', marginTop:'5px', flexDirection:'column', textAlign:'center' }}>
+                <small style={{color:'rgba(0,0,0,0.5)' }}>Last Signin</small> 
                 <DateFormat millisec={userProfile.lastSignin} />
               </p> 
             }
@@ -224,8 +224,8 @@ class ViewProfile extends ViewApp {
           </Form> 
         </div> 
       </div>
-    ); 
-  }//[end] render
-}//[end] Profile
+    );
+  }// [end] render
+}// [end] Profile
 
 export default ViewProfile;

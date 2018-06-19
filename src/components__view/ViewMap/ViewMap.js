@@ -8,19 +8,19 @@ import MapPHStyles from './../../jsStyles/MapPlaceholder.styles.js';
 
 class ViewMap extends ViewApp {
   render () {
-    const p = {...this.props}; 
+    const p = { ...this.props}; 
     const nbU = Array(15).fill(0);
     const style = {
-      body : { 
+      body: {
         height:'85vh', 
         marginLeft:'-15px', 
         marginRight:'-15px' 
       }
     };
-    const psStyle_body = {...MapPHStyles.body, ...style.body};
+    const psStyle_body = { ...MapPHStyles.body, ...style.body};
     return (
       <div className="view__content ViewMap"> 
-        {  
+        { 
           p.geolocation.on===true 
           ? 
           <Map 
@@ -40,7 +40,7 @@ class ViewMap extends ViewApp {
       </div> 
     );
   }
-}//[end] Home
+}// [end] Home
 
 export default ViewMap;
 
@@ -50,11 +50,11 @@ const DisplayMapPlaceholder = (props) => {
   return (
     <div style={props.bodyStyle}> 
       {
-        props.list.map((item, index)=>{  
+        props.list.map((item, index)=>{ 
           let coord = {}, style;
           coord.left = AppDoc.getRandomArbitrary(30, 300)+'px';
           coord.top = AppDoc.getRandomArbitrary(30, 500)+'px';
-          style = {...props.pointsStyle, ...coord} 
+          style = { ...props.pointsStyle, ...coord} 
           return <span key={index} style={style} className="animated-background" />
         }) 
       } 

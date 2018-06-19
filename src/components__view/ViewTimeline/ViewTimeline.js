@@ -7,7 +7,7 @@ import buttonStyle from './../../jsStyles/button.styles.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
-import { Button } from 'reactstrap';
+import {Button } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import './ViewTimeline.css'; 
@@ -17,7 +17,7 @@ class ViewTimeline extends ViewApp {
   constructor(props) {
     super(props);
     this.state = {};
-    this.toggleModal = this.toggleModal.bind(this); 
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
 
@@ -26,11 +26,11 @@ class ViewTimeline extends ViewApp {
    * Toggle modal
    * @param {*} ppt 
    */
-  toggleModal(ppt) { 
-    let modal = {...this.state.modal}, formFields={}; 
-    if(ppt!==undefined && ppt.data && ppt.params){
-      modal.params = {...ppt.params}; 
-      formFields = {...ppt.data};
+  toggleModal(ppt) {
+    let modal = { ...this.state.modal}, formFields={}; 
+    if (ppt!==undefined && ppt.data && ppt.params) {
+      modal.params = { ...ppt.params}; 
+      formFields = { ...ppt.data};
     }
     else{
       modal.params = {
@@ -41,12 +41,12 @@ class ViewTimeline extends ViewApp {
       }; 
     }
     
-    this.setState({ modal, formFields }, ()=>{//toggle modal when data is updated
-      let modal = {...this.state.modal};
+    this.setState({modal, formFields }, ()=>{//toggle modal when data is updated
+      let modal = { ...this.state.modal};
       modal.active = !this.state.modal.active;
-      this.setState({ modal });  
-    }); 
-  }//[end] toggleModal
+      this.setState({modal }); 
+    });
+  }// [end] toggleModal
 
 
   getModalParams(arg) {
@@ -59,32 +59,32 @@ class ViewTimeline extends ViewApp {
   }//end] getModalParams
 
 
-  componentDidMount() { 
-    super.componentDidMount(); //User ViewApp parent component 
+  componentDidMount() {
+    super.componentDidMount();//User ViewApp parent component 
     this.setState({
       modal: {
         active: false, 
-        params : {//Create mode by default
+        params: {//Create mode by default
           ...this.getModalParams('create') 
         },
       },
-      formFields : {
+      formFields: {
         ...DBPost.data
       }
-    }); 
-  }//[end] componentDidMount
+    });
+  }// [end] componentDidMount
  
 
   render() {
-    const p = {...this.props}; 
-    const s = {...this.state};  
+    const p = { ...this.props}; 
+    const s = { ...this.state};  
     const modalData = {
       ...s.modal,
       formFields: this.state.formFields
     }; 
 
     return ( 
-      <div className="view__content ViewTimeline" style={{ paddingTop:'20px' }}> 
+      <div className="view__content ViewTimeline" style={{paddingTop:'20px' }}> 
         <Placeholders isVisible={!p.postList_runtime} />
 
         <List 
@@ -94,7 +94,7 @@ class ViewTimeline extends ViewApp {
           handleConfirmModal={p.handleConfirmModal} 
           confirmationModal={p.confirmationModal} 
           toggleTimelineModal={this.toggleModal} 
-          itemStyle={{ marginBottom:'20px' }} 
+          itemStyle={{marginBottom:'20px' }} 
           displayExpiredItems={p.displayExpiredItems} 
         />  
         {
@@ -132,9 +132,9 @@ class ViewTimeline extends ViewApp {
           <span className="sr-only">Write a Message</span> 
         </Button>  
       </div>
-    ); 
-  }//[end] render
-}//[end] ViewTimeline
+    );
+  }// [end] render
+}// [end] ViewTimeline
 
 export default ViewTimeline;
 
@@ -148,12 +148,12 @@ export default ViewTimeline;
  * -------------------------------------------------
  */
 const Placeholders = (props) => {
-  if(!props.isVisible) return false;
+  if (!props.isVisible) return false;
   return (
     <div>
-      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
-      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{marginBottom:'20px' }} />
       <PostItemPlaceholder />
     </div>
   )

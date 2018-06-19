@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import {Button } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faGoogle from '@fortawesome/fontawesome-free-brands/faGoogle';
 import ViewApp from './../ViewApp.js';
@@ -36,7 +36,7 @@ class ViewLogin extends ViewApp {
       </div>  
     );
   }
-}//[end] Login
+}// [end] Login
 
 
 

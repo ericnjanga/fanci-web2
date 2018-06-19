@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import './HorizontalNav.css';
 
 const HorizontalNav = (props) => {
-  const { navIsActive, children } = props; 
+  const {navIsActive, children } = props; 
    
   return (
     <nav className={'HorizontalNav' + (navIsActive?' is-active':'')}>  
       {children}
     </nav> 
-  ); 
-}//[end] HorizontalNav
+  );
+}// [end] HorizontalNav
 
 
 /**

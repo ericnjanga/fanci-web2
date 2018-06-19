@@ -1,6 +1,6 @@
 
 class Geoloc {
-  constructor(){
+  constructor() {
     this.geolocation = {
       on        : null,
       msg       : 'Loading your the map'
@@ -16,41 +16,41 @@ class Geoloc {
    * --> an error occurs while retriving data
    * (Always update message in any case)
    */
-  static getValue(){ 
-    let geolocation = {...this.geolocation};
-    return new Promise((resolve, reject)=>{ 
+  static getValue() {
+    let geolocation = { ...this.geolocation};
+    return new Promise((resolve, reject)=>{
       if (navigator.geolocation) {
         geolocation.on = true; 
         navigator.geolocation.getCurrentPosition((position)=>{
             geolocation.on = true;
             geolocation.currPosition = position; 
-            resolve(geolocation); 
+            resolve(geolocation);
           },
-          (err)=>{ 
+          (err)=>{
             geolocation.on = false;
             geolocation.msg = `ERROR(${err.code}): ${err.message}`;
-            resolve(geolocation); 
+            resolve(geolocation);
           },
           {timeout:30000}
         );
       } else {
         geolocation.on = false;
         geolocation.msg = 'Geolocation is not supported on your device... Map cannot work, sorry';
-        resolve(geolocation); 
+        resolve(geolocation);
       }
-    });//[end] new Promise
-  }//[end] getValue
+    });// [end] new Promise
+  }// [end] getValue
 
   /**
    * Return a simple object with 'lat', 'lng'
    */
   static getPosition(geolocObj) {
-    return { 
+    return {
       lat : geolocObj.currPosition.coords.latitude,
       lng : geolocObj.currPosition.coords.longitude
     }
   }
-}//[end] Geoloc
+}// [end] Geoloc
 
 export default Geoloc;
 

@@ -1,0 +1,8 @@
+{
+  "source": "./src-babel",
+  "destination": "./_plans/js-docs",
+  "plugins": [
+    {"name": "esdoc-ecmascript-proposal-plugin", "option": {"all": true}},
+    {"name": "esdoc-standard-plugin"}
+  ]
+}

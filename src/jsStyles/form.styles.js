@@ -7,8 +7,8 @@ let defaultStyle = {
     left: '10px',
     padding: '0 10px 0 2px'
   },
-  file: { 
-    input: { 
+  file: {
+    input: {
       width: '0.1px',
       height: '0.1px',
       opacity: '0',
@@ -40,20 +40,20 @@ let defaultStyle = {
  */
 class FormTheme {
   constructor() {
-    this.label = {...defaultStyle.label};
-    this.file = { 
-      input : {...defaultStyle.inputField, ...defaultStyle.file.input},
-      formGroup : {
+    this.label = { ...defaultStyle.label};
+    this.file = {
+      input: { ...defaultStyle.inputField, ...defaultStyle.file.input},
+      formGroup: {
         position: 'relative',
         marginTop: '15px',
         marginBottom: '25px'
       }
     };
     this.file.className = 'btn btn-info btn-block';
-    this.formGroup = {...defaultStyle.formGroup};
-    this.inputField = {...defaultStyle.inputField};
+    this.formGroup = { ...defaultStyle.formGroup};
+    this.inputField = { ...defaultStyle.inputField};
     this.checkBox = {
-      formGroup: { height:'40px' },
+      formGroup: {height:'40px' },
       input: {
         position:'relative', top:'20px', left:'20px'
       }
@@ -96,4 +96,4 @@ class FormThemeDark extends FormTheme {
  
 
 export const formStyleLightTheme = new FormThemeLight();
-export const formStyleDarkTheme = new FormThemeDark(); 
+export const formStyleDarkTheme = new FormThemeDark();

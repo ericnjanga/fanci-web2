@@ -7,7 +7,7 @@
 .PostItem__date {
   color: rgba(0,0,0,.54);
 }
-.PostItem__btn-action { 
+.PostItem__btn-action {
   bottom: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;

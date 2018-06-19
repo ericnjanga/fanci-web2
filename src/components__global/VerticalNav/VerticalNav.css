@@ -41,14 +41,14 @@
   transition-property: transform;
   transition-property: transform,-webkit-transform;
 }
-.VerticalNav .nav { 
+.VerticalNav .nav {
   padding: 10px 0; 
   font-size: 1.1rem;
 }
 
 .VerticalNav .nav a.active,
 .VerticalNav .nav a:hover,
-.VerticalNav .nav .btn-logout:hover {  
+.VerticalNav .nav .btn-logout:hover { 
   text-decoration: none;
   background: rgba(0,0,0,.1);
 }

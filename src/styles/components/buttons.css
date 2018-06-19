@@ -4,11 +4,11 @@
   border-color: #ff9800;
 }
 .btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled):hover { 
+.btn-primary:not(:disabled):not(.disabled):hover {
   background-color: #d47e00;
   border-color: #d47e00;
 }
-.btn-primary:not(:disabled):not(.disabled):focus { 
+.btn-primary:not(:disabled):not(.disabled):focus {
   box-shadow: 0 0 0 0.2rem rgba(255, 164, 26, 0.5);
 }
 .btn-info {

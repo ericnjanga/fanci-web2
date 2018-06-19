@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const DateFormat = (props) => {
   return (
-    <span>{ moment(props.millisec).format('MMMM Do, YYYY') }</span>
+    <span>{moment(props.millisec).format('MMMM Do, YYYY') }</span>
   );
 }
 

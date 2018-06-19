@@ -1,19 +1,19 @@
 /**
  * Class dedicated to users
  */
-import { database, auth } from './../services/firebase.js';
+import {database, auth } from './../services/firebase.js';
 
+let nodeName = 'users';
 
-class DBUser { 
-  static nodeName = 'users';
+class DBUser {
   //Get a user from the database ...
   //(returns a promise which resolves when the snapshot is ready) 
-  static get(uid) { 
+  static get(uid) {
     return new Promise((resolve, reject) => {
       database.ref('/'+this.nodeName+'/' + uid).once('value').then(function(snapshot) {
-        resolve(snapshot.val()); 
+        resolve(snapshot.val());
       });
-    }); 
+    });
   }
 
   //Returns a subset (user properties) of an object's properties (object containing many more properties). 
@@ -40,7 +40,7 @@ class DBUser {
    * Properties will constantly be updated are : 
    * - photoURL, email, lat (latitude), lng (longitude)
    */
-  static saveBasicInfo(authObject) { 
+  static saveBasicInfo(authObject) {
     return new Promise((resolve, reject) => {
       //get user in database
       this.get(authObject.uid).then((userFromDB)=>{
@@ -49,7 +49,7 @@ class DBUser {
   
         //If user info have already been recorded in database: 
         //Replace existing properties by wha'ts in the database
-        if(userFromDB){ 
+        if (userFromDB) {
           tpl_user.biography    = userFromDB.biography;
           tpl_user.visible      = userFromDB.visible;
           tpl_user.displayName  = userFromDB.displayName;
@@ -62,20 +62,20 @@ class DBUser {
           tpl_user.phoneNumber  = tpl_user.phoneNumber ? tpl_user.phoneNumber : '';//empty string if there is no value
         }
         //...
-        tpl_user.lastSignin = Date.now(); //Record the last time user signed in
-        resolve(tpl_user);                //Expose user object now
+        tpl_user.lastSignin = Date.now();//Record the last time user signed in
+        resolve(tpl_user);               //Expose user object now
 
         /** Note: 'photoURL', 'email', 'lat' and 'lng remains untouched and will always be updated **/
         //make sure user lat and lng hav at least a value
-        if(!tpl_user.lat){
-          if(userFromDB && typeof userFromDB.lat==='number'){
+        if (!tpl_user.lat) {
+          if (userFromDB && typeof userFromDB.lat==='number') {
             tpl_user.lat = userFromDB.lat;
           }else{
             tpl_user.lat = '---';
           }
         }
-        if(!tpl_user.lng){
-          if(userFromDB && typeof userFromDB.lng==='number'){
+        if (!tpl_user.lng) {
+          if (userFromDB && typeof userFromDB.lng==='number') {
             tpl_user.lng = userFromDB.lng;
           }else{
             tpl_user.lng = '---';
@@ -85,9 +85,9 @@ class DBUser {
         //Create or update user record in the database
         let record = {};
         record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user; 
-        database.ref().update(record); 
+        database.ref().update(record);
       });//get user from DB 
-    });//[end] new Promise
+    });// [end] new Promise
   }
 
   //Update user info in the database
@@ -106,7 +106,7 @@ class DBUser {
     //Create or update user record in the database
     let record = {};
     record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user;
-    return database.ref().update(record);  
+    return database.ref().update(record); 
   }
 
   //return currently logged user info

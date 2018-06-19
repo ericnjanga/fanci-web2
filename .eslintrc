@@ -18,6 +18,9 @@
   ],
   "rules": {
     "react/jsx-indent": [2, 2],
-    "arrow-body-style": ["error", "always"]
+    "import/extensions": ["error", "always", {"ignorePackages": true} ],
+    "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"] }],
+    "arrow-body-style": ["error", "always"],
+    "padded-blocks": ["error", {"blocks": "always" }]
   }
 }

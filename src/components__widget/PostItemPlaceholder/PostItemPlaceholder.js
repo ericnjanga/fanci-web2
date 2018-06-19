@@ -3,7 +3,7 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react';
-import { Card, CardTitle } from 'reactstrap';
+import {Card, CardTitle } from 'reactstrap';
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
 import Figure from './../../components__reusable/Figure/Figure.js';
 // import PostItemPlaceholderStyle from './../../jsStyles/PostItemPlaceholder.styles.js';
@@ -13,8 +13,8 @@ import Figure from './../../components__reusable/Figure/Figure.js';
 
 const PostItemPlaceholder = (props) => {
   let phs = {};
-  const ph = { //placeholder 
-    text : {
+  const ph = {//placeholder 
+    text: {
       width: '100%',
       height:'16px',
       marginBottom:'0.5rem'
@@ -22,12 +22,12 @@ const PostItemPlaceholder = (props) => {
   };
   const s1 = PostItemPlaceholder;
   const s2 = PostItemStyle,
-        s_header_title = {...s2.header_title, ...ph.text};
+        s_header_title = { ...s2.header_title, ...ph.text};
   //...
-  phs.body = {...s1.body, ...props.style};
+  phs.body = { ...s1.body, ...props.style};
   return (
     <Card style={phs.body }> 
-      { 
+      {
         <Figure 
           style={s2.avatar} 
           avatar 
@@ -49,7 +49,7 @@ const PostItemPlaceholder = (props) => {
         <Figure /> 
       }  
     </Card> 
-  ); 
+  );
 }
 
 export default PostItemPlaceholder;

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import modalStyle from './../../jsStyles/modal.styles.js';
 
 
 const ModalConfirm = (props)=> {
-  const p = {...props}; 
+  const p = { ...props}; 
    
   /**
-   * Not providing toggle={...}       : Removes 'x' button from ModalHeader
+   * Not providing toggle={ ...}       : Removes 'x' button from ModalHeader
    * backdrop={'static'}  : Prevents from being closed by clicking on the "backdrop"
    */
   return (
@@ -17,8 +17,8 @@ const ModalConfirm = (props)=> {
         {p.children}
       </ModalBody>
       <ModalFooter style={modalStyle.footer}>
-        <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={()=>{ p.toggle(false); } }>No</Button>{' '}
-        <Button style={{...modalStyle.ctaBtn, ...modalStyle.btnYes}} color="primary" onClick={()=>{ p.toggle(true); } }>Yes</Button>
+        <Button style={{ ...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={()=>{p.toggle(false);} }>No</Button>{' '}
+        <Button style={{ ...modalStyle.ctaBtn, ...modalStyle.btnYes}} color="primary" onClick={()=>{p.toggle(true);} }>Yes</Button>
       </ModalFooter>
     </Modal>
   );

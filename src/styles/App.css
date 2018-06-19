@@ -25,19 +25,19 @@
 
 
 .App > .AppHeader,
-.App > .AppFooter {  
+.App > .AppFooter { 
   z-index: 2;
 }
 
-@media(max-width: 765px) {  
-  .App > .AppContent { 
+@media(max-width: 765px) { 
+  .App > .AppContent {
     margin-top: 100px; /* header's height */
   } 
 }
 
 
 /*-- larger screens --*/
-@media(min-width: 766px) { 
+@media(min-width: 766px) {
   .App > .AppContent {
     margin: auto;
     margin-top: 60px; 

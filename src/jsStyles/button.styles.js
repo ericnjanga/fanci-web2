@@ -1,5 +1,5 @@
 const buttonStyle = {
-  fab: { 
+  fab: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center', 
@@ -8,7 +8,7 @@ const buttonStyle = {
     borderRadius: '60px', 
     boxShadow: '0 3px 8px rgba(0, 0, 0, .5)'
   },
-  fabIcon: { 
+  fabIcon: {
     margin: '0!important'
   }
 };

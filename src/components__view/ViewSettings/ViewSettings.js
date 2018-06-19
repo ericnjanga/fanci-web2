@@ -13,6 +13,6 @@ class ViewSettings extends ViewApp {
       </div>
     );
   }
-}//[end] About
+}// [end] About
 
 export default ViewSettings;

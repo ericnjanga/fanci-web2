@@ -3,12 +3,12 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react';
-import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap';
-import {  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
-import { Alert } from 'reactstrap';
-import { dropdownSyles } from './../../jsStyles/menu.styles.js'; 
+import {Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {Form, FormGroup, Label, Input } from 'reactstrap';
+import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
+import {Alert } from 'reactstrap';
+import {dropdownSyles } from './../../jsStyles/menu.styles.js'; 
 import Toast from './../../components__reusable/Toast/Toast.js';  
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
 import DBUser from '../../utilities/DBUser.class.js'; 
@@ -17,7 +17,7 @@ import DBPost from './../../utilities/DBPost.class.js';
 import DBOptin from './../../utilities/DBOptin.class.js';
 import Figure from './../../components__reusable/Figure/Figure.js';
 import modalStyle from './../../jsStyles/modal.styles.js';
-import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
+import {formStyleLightTheme } from './../../jsStyles/form.styles.js';
 import DateFormat from './../../components__reusable/DateFormat.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
@@ -51,31 +51,31 @@ class PostItem extends React.Component {
       canBeEdited     : false,
       modalEM         : false, 
       userOptin       : false, //By default, owner is not opted-in
-      postFormFields  : {}, 
-      postFileUpload: { 
+      postFormFields : {}, 
+      postFileUpload: {
         downloadURLs: null,
         file    : null
       },
-      postFormValidity : {
+      postFormValidity: {
         title     : true,
         location  : true,
         content   : true,
       },
-      postFormErrors : {
+      postFormErrors: {
         title     : null,
         location  : null,
         content   : null,
         expiry    : null,
         places    : null
       },
-      postFormMinCars : {
+      postFormMinCars: {
         title     : 10,
         location  : 4,
         content   : 30,
       },
       postFormIsValid   : true, //Post is valid by default because data is coming from a post
       postFormIsFrozen  : false 
-    }//[end] state
+    }// [end] state
     this.handleEdit     = this.handleEdit.bind(this);
     this.toggleEM       = this.toggleEM.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
@@ -83,7 +83,7 @@ class PostItem extends React.Component {
     this.handleChange   = this.handleChange.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
-  }//[end] constructor
+  }// [end] constructor
 
   /**
    * 
@@ -94,49 +94,49 @@ class PostItem extends React.Component {
   handleOptin(optinBool, ownerID, participantID) {
     let fanciID = this.props.data.id;
     let env = this;
-    this.setState({ postFormIsFrozen:true });
+    this.setState({postFormIsFrozen:true });
 
-    if(!optinBool){
+    if (!optinBool) {
       DBOptin.save(fanciID, ownerID, participantID).then(()=>{
-        env.setState({ userOptin:true, postFormIsFrozen:false });
+        env.setState({userOptin:true, postFormIsFrozen:false });
       });
     } else {
       DBOptin.remove(fanciID, participantID).then(()=>{
-        env.setState({ userOptin:false, postFormIsFrozen:false });
+        env.setState({userOptin:false, postFormIsFrozen:false });
       });
     }
   }
 
 
-  handleRemoveImage(event, postID) { 
+  handleRemoveImage(event, postID) {
     event.preventDefault();
-    this.setState({ postFormIsFrozen:true });
-    let postFormFields = {...this.state.postFormFields},
-        postFileUpload = {...this.state.postFileUpload},
+    this.setState({postFormIsFrozen:true });
+    let postFormFields = { ...this.state.postFormFields},
+        postFileUpload = { ...this.state.postFileUpload},
         filePath = this.state.postFormFields.file;  
         filePath = filePath?filePath:postFileUpload.file;
-        filePath = filePath.replace('timeline/',''); 
+        filePath = filePath.replace('timeline/','');
 
     DBUpload.remove(filePath, true).then((result)=>{
       postFileUpload.file = null;
       postFileUpload.downloadURLs = null;
       postFormFields.file = ''; 
       DBPost.updateField(postID, 'file', '').then((result)=>{
-        this.setState({ postFormIsFrozen:false, postFileUpload, postFormFields }); 
+        this.setState({postFormIsFrozen:false, postFileUpload, postFormFields });
       });
     });
-  }//[end] handleRemoveImage
+  }// [end] handleRemoveImage
 
 
-  clearModal(){ 
+  clearModal() {
     //Cleanup form when post is successful ...
     let postFormFields = { ...DBPost.getPostObject() }, 
         //We don't clear "postFileUpload" property here because this object still need it to display the image
         postFormIsFrozen = false;
     this.setState((prevState, props) => {
-      return { postFormFields, postFormIsFrozen }
-    });  
-  }//[end] clearModal
+      return {postFormFields, postFormIsFrozen }
+    }); 
+  }// [end] clearModal
 
   
   /**
@@ -149,27 +149,27 @@ class PostItem extends React.Component {
   handleSubmit(event, postID) {
     event.preventDefault();
     let toggleModal = this.toggleEM;
-    if(postID){
-      this.freezeForm(true);  
-      let finalPost = this.getReadyPostObject(this.state.postFormFields, this.state.postFileUpload);  
+    if (postID) {
+      this.freezeForm(true); 
+      let finalPost = this.getReadyPostObject(this.state.postFormFields, this.state.postFileUpload); 
       //Update post 
       DBPost.update(postID, finalPost)
       //Reset "postFormFields" state object once its done
-      .then((ready) => { 
+      .then((ready) => {
         this.clearModal();
         this.freezeForm(false);
         toggleModal();
       });
     }//postID
-  }//[end] handleSubmit
+  }// [end] handleSubmit
 
 
   /**
    * - Unfreeze all fields
    * - Display overlay (z-index higher than everything inside modal except 'cancel' button)
    */ 
-  freezeForm(bool){
-    this.setState({ postFormIsFrozen:bool });
+  freezeForm(bool) {
+    this.setState({postFormIsFrozen:bool });
   }
 
 
@@ -177,13 +177,13 @@ class PostItem extends React.Component {
    * 
    * @param {*} postFormFields 
    */
-  getReadyPostObject(postFormFields, postFileUpload) { 
+  getReadyPostObject(postFormFields, postFileUpload) {
     //No need to get the post ready
-    let formFields = {...postFormFields},
+    let formFields = { ...postFormFields},
         file = (formFields.file)?formFields.file:postFileUpload.file;
 
-    if(file){ 
-      formFields.file = file.replace(/C:\\fakepath\\/, '');   
+    if (file) {
+      formFields.file = file.replace(/C:\\fakepath\\/, '');  
     }
     return formFields;
   }
@@ -194,8 +194,8 @@ class PostItem extends React.Component {
    * If target is a 'file' input, save value in "Firebase Storage"
    * @param {*} event 
    */
-  handleChange(event, postID) { 
-    let { postFormFields } = this.state;
+  handleChange(event, postID) {
+    let {postFormFields } = this.state;
     const name = event.target.name;
     //Will be input value or new File object  
     let value = event.target.value; 
@@ -203,40 +203,40 @@ class PostItem extends React.Component {
     //For 'file' upload it right away on "Firebase Storage"
     //and save the name in the state for later use when post 
     //will be created
-    if(name==='file') { 
+    if (name==='file') {
       let newFile = event.target.files[0],
           env = this,
           postFileUpload = {}; 
        
-      env.setState({ postFormIsFrozen:true }); 
+      env.setState({postFormIsFrozen:true });
 
       //Remove any preexisting image before uploading a new one
-      if(this.state.postFileUpload.downloadURLs){
+      if (this.state.postFileUpload.downloadURLs) {
         this.handleRemoveImage(event, postID);
       }
       
       //...
-      DBUpload.save(newFile).then(function(snapshot) { 
+      DBUpload.save(newFile).then(function(snapshot) {
         postFileUpload.downloadURLs = snapshot.metadata.downloadURLs[0];
         postFileUpload.file = newFile.name; 
 
-        let filePath = postFileUpload.file.replace(/C:\\fakepath\\/, ''); 
+        let filePath = postFileUpload.file.replace(/C:\\fakepath\\/, '');
         filePath = 'timeline/'+filePath;
 
-        // env.setState({ postFileUpload, postFormIsFrozen:false });
-        DBPost.updateField(postID, 'file', filePath).then((result)=>{  
-          env.setState({ postFormIsFrozen:false, postFileUpload }); 
-        });//[end] DBPost.updateField 
-      });//[end] DBUpload.save
-    }//[end] file  
+        // env.setState({postFileUpload, postFormIsFrozen:false });
+        DBPost.updateField(postID, 'file', filePath).then((result)=>{ 
+          env.setState({postFormIsFrozen:false, postFileUpload });
+        });// [end] DBPost.updateField 
+      });// [end] DBUpload.save
+    }// [end] file  
 
  
     //....
     postFormFields[name] = value;
-    this.setState({ postFormFields }, ()=>{
+    this.setState({postFormFields }, ()=>{
       this.validateField(name, value);
-    }); 
-  }//[end] handleChange
+    });
+  }// [end] handleChange
 
 
   /**
@@ -244,16 +244,16 @@ class PostItem extends React.Component {
    * @param {*} postID 
    */
   handleEdit(postID) {
-    const p = {...this.props}; 
+    const p = { ...this.props}; 
     this.toggleEM(()=>{
-      let postFormFields = {...p.data},
-        postFileUpload = {...this.state.postFileUpload};
+      let postFormFields = { ...p.data},
+        postFileUpload = { ...this.state.postFileUpload};
       //Save file value in a temporary field for now (non-empty value cannpt be saved in the "file" input)
       postFileUpload.file = postFormFields.file;
       postFormFields.file = '';
-      this.setState({ postFormFields, postFileUpload }); 
-    });//[end] toggleEM
-  }//[end] handleEdit
+      this.setState({postFormFields, postFileUpload });
+    });// [end] toggleEM
+  }// [end] handleEdit
 
 
   /**
@@ -262,11 +262,11 @@ class PostItem extends React.Component {
    * @param {*} name 
    * @param {*} value 
    */
-  validateField(name, value) { 
-    if(name==='title' || name==='location' || name==='content'){
-      let postFormErrors = {...this.state.postFormErrors},
-      postFormValidity = {...this.state.postFormValidity},
-      postFormMinCars = {...this.state.postFormMinCars};
+  validateField(name, value) {
+    if (name==='title' || name==='location' || name==='content') {
+      let postFormErrors = { ...this.state.postFormErrors},
+      postFormValidity = { ...this.state.postFormValidity},
+      postFormMinCars = { ...this.state.postFormMinCars};
 
       let minCars = postFormMinCars[name],
           fieldValue = value.trim();
@@ -276,7 +276,7 @@ class PostItem extends React.Component {
       this.setState({postFormErrors, postFormValidity}, ()=>{
         this.validateForm(postFormValidity);
       });
-    }//[end]...
+    }// [end]...
   }
 
 
@@ -284,12 +284,12 @@ class PostItem extends React.Component {
    * Find-out if all fields are valid and update the state property on form validity status
    * @param {*} postFormValidity 
    */
-  validateForm(postFormValidity) { 
-    const validObj = new Map(Object.entries(postFormValidity)); 
-    const validValues = Array.from(validObj.values()); 
-    let postFormIsValid = validValues.find((item)=>{ return item===false}); 
+  validateForm(postFormValidity) {
+    const validObj = new Map(Object.entries(postFormValidity));
+    const validValues = Array.from(validObj.values());
+    let postFormIsValid = validValues.find((item)=>{return item===false});
     postFormIsValid = (postFormIsValid===undefined)?true:false;  
-    this.setState({ postFormIsValid }); 
+    this.setState({postFormIsValid });
   } 
 
 
@@ -301,7 +301,7 @@ class PostItem extends React.Component {
 
 
   toggleEM(callBack) {
-    if(typeof callBack === 'function'){
+    if (typeof callBack === 'function') {
       callBack();
     }
     this.setState({
@@ -325,8 +325,8 @@ class PostItem extends React.Component {
       }
     };
     this.props.handleConfirmModal(null, meta);
-    this.setState({ postDeleteRequested:true }); 
-  }//[end] oPenConfirmRemoveModal
+    this.setState({postDeleteRequested:true });
+  }// [end] oPenConfirmRemoveModal
 
   
   /**
@@ -334,16 +334,16 @@ class PostItem extends React.Component {
    * 2) Fetch post image information
    */
   componentDidMount() {
-    const { uid, file } = this.props.data; 
+    const {uid, file } = this.props.data; 
     DBUser.get(uid).then((user) => {
-      this.setState({ user });
-    }); 
-    if(file) {   
-      let postFileUpload = {...this.state.postFileUpload};
+      this.setState({user });
+    });
+    if (file) {  
+      let postFileUpload = { ...this.state.postFileUpload};
       DBUpload.getFile(file).then((imgUrl) => {
-        if(imgUrl){ 
+        if (imgUrl) {
           postFileUpload.downloadURLs = imgUrl.url;
-          this.setState({ postFileUpload });
+          this.setState({postFileUpload });
         }  
       });
     }
@@ -352,20 +352,20 @@ class PostItem extends React.Component {
     let fanciID = this.props.data.id,
         currUID = this.props.loggedUserID,
         env = this; 
-    DBOptin.findUser(fanciID, currUID).once('value', function(snapshot) { 
+    DBOptin.findUser(fanciID, currUID).once('value', function(snapshot) {
       if (snapshot.hasChild(currUID)) {
-        env.setState({ userOptin: true }); 
+        env.setState({userOptin: true });
       }
     });
   } 
 
   
-  componentDidUpdate(){
+  componentDidUpdate() {
     const s = this.state;
     const p = this.props;
     //Trigger 'post deletion process' if request has been made and confirmed
-    if(s.postDeleteRequested && p.confirmationModal.agreed){
-      this.handleDelete(p.data.id, p.data.file); 
+    if (s.postDeleteRequested && p.confirmationModal.agreed) {
+      this.handleDelete(p.data.id, p.data.file);
     }
   } 
 
@@ -375,7 +375,7 @@ class PostItem extends React.Component {
    * @param {*} postID 
    * @param {*} fileLocation 
    */
-  handleDelete(postID, fileLocation) {  
+  handleDelete(postID, fileLocation) { 
     DBPost.remove(postID)//Delete post
     .then(()=>{//then set confirm modal with new params
       let meta = {
@@ -387,17 +387,17 @@ class PostItem extends React.Component {
       //delete related "opt-in record" (if fanci is deleted user won't need to attend it)
       DBOptin.remove(postID);
     });
-    if(fileLocation){
+    if (fileLocation) {
       DBUpload.remove(fileLocation, false);
     }
-  }//[end] handleDelete
+  }// [end] handleDelete
 
   /**
    * Returns a boolean expressing the post's expiry state
    * (Consider post expired if "expiryDate" property is missing)
    */
   isExpired() {
-    if(!this.props.data.expiryDate){
+    if (!this.props.data.expiryDate) {
       return true;
     }  
     return this.props.data.expiryDate < Date.now();
@@ -405,11 +405,11 @@ class PostItem extends React.Component {
 
 
   render() {
-    const s = {...this.state}; 
-    const p = {...this.props};  
+    const s = { ...this.state}; 
+    const p = { ...this.props};  
     const imgURL = s.postFileUpload.downloadURLs;
     let style = {
-      avatar: { 
+      avatar: {
         margin: 0,
         position: 'absolute', 
         top: '10px',
@@ -428,19 +428,19 @@ class PostItem extends React.Component {
       }
     }; 
     let headerStyle = {};
-    headerStyle.header = {...PostItemStyle.header};
-    headerStyle.title = {...PostItemStyle.header_title};
+    headerStyle.header = { ...PostItemStyle.header};
+    headerStyle.title = { ...PostItemStyle.header_title};
 
     //Check if this is the current user
     let isOwner = (p.loggedUserID===p.data.uid);
 
     //Give the header a different background color if post is expired
-    if(this.isExpired()) { 
+    if (this.isExpired()) {
       headerStyle.header.backgroundColor = '#8ca3ad';
     }
 
     //Don't display if item is expired and not allowed to be displayed
-    if(this.isExpired() && !p.displayIfExpired){
+    if (this.isExpired() && !p.displayIfExpired) {
       return false;
     }
 
@@ -493,7 +493,7 @@ class PostItem extends React.Component {
           toggle={this.toggleEM} 
           className={'ModalPost'} 
           backdrop={'static'}>  
-          { 
+          {
             s.user && <Figure 
               img={s.user.photoURL} 
               alt={s.user.displayName} 
@@ -559,7 +559,7 @@ export default PostItem;
  * -------------------------------------------------
  */
 const DisplayLabel = (props) => {
-  if(props.type==='file') return false;
+  if (props.type==='file') return false;
   const {type, formStyle, value} = props;
   const stl = formStyle;
 
@@ -579,7 +579,7 @@ const DisplayLabel = (props) => {
 
 
 const DisplayFileUpload = (props) => {
-  if(props.type!=='file') return false;
+  if (props.type!=='file') return false;
   const {type, formStyle, value, control, imgUrl, removeImage} = props;
   const stl = formStyle;
   const btnDelStyle = {position:'absolute', top:'0px', right:'0px', fontSize:'1.7rem', background:'transparent', border:'0px', color:'#000'}; 
@@ -602,14 +602,14 @@ const DisplayFileUpload = (props) => {
         /> 
       </Label>
  
-      { 
+      {
         imgUrl && <div style={{position:'relative'}}> 
           <Button 
             style={btnDelStyle} 
             onClick={removeImage}>
             <FontAwesomeIcon 
               icon={faTimesCircle} 
-              style={{ background:'#fff', borderRadius:'30px'}} 
+              style={{background:'#fff', borderRadius:'30px'}} 
             />
           </Button>
           <img 
@@ -625,13 +625,13 @@ const DisplayFileUpload = (props) => {
 
 
 const MessageForm = (props) => {
-  const { handleSubmit, handleChange, removeImage, state } = props; 
+  const {handleSubmit, handleChange, removeImage, state } = props; 
   const stl = formStyleLightTheme;
   const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
-  const fields = new Map(Object.entries(DBPost.formFields)); 
+  const fields = new Map(Object.entries(DBPost.formFields));
   let formFields = [];  
 
-  fields.forEach((value, key)=>{ 
+  fields.forEach((value, key)=>{
     let inputStyle      = stl[key]?stl[key].input:stl.inputField,
         labelStyle      = stl[key]?stl[key].label:stl.label, 
         formGroupStyle  = stl[key]?stl[key].formGroup:stl.formGroup, 
@@ -680,23 +680,23 @@ const MessageForm = (props) => {
           disabled={postFormIsFrozen}  
         /> 
       </FormGroup> 
-    ); 
+    );
   });
 
   return (
     <div style={{position:'relative'}}>
       <Toast active={postFormIsFrozen}>Wait a moment...</Toast> 
       <Form onSubmit={handleSubmit}>
-        { formFields.map((field)=> field) }  
+        {formFields.map((field)=> field) }  
       </Form>
     </div>
   );
-}//[end] MessageForm 
+}// [end] MessageForm 
 
 
 const FormFieldError = (props) => {
   const data = props.data;
-  if(!data){ return false; }
+  if (!data) {return false; }
   return (
     <div 
       className="invalid-feedback" 
@@ -710,7 +710,7 @@ const FormFieldError = (props) => {
 
 const IconLabel = (props) => {
   let icon = props.value.label.icon;
-  if(!icon) return false;
+  if (!icon) return false;
   return icon;
 }
 
@@ -719,7 +719,7 @@ const TextLabelFileInput = (props) => {
   let type = props.type, 
     value = props.value,
     placeholder = props.tmpText; 
-  if(type!=='file') return false;
+  if (type!=='file') return false;
   //Display only filename or placeholder   
   return (!value)?placeholder:value.replace(/C:\\fakepath\\/, '');
 }
@@ -727,14 +727,14 @@ const TextLabelFileInput = (props) => {
 
 const TexTLabelOtherInput = (props) => {
   let type = props.type, value = props.value;
-  if(type==='file') return false;
+  if (type==='file') return false;
   return value;
 }
 
 
 const SelectInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, options, disabled } = props; 
-  if(type!=='select') return false;
+  if (type!=='select') return false;
   return (
     <Input 
       type={type} 
@@ -763,7 +763,7 @@ const SelectInput = (props) => {
 
 const OtherInput = (props) => {
   let {type, value, ident, style, placeholder, onChange, error, disabled } = props; 
-  if(type==='select') return false;
+  if (type==='select') return false;
   return (
     <div>
       <Input 
@@ -786,7 +786,7 @@ const OtherInput = (props) => {
  * -----------------------
  */
 const DisplayHeader = (props) => {
-  if(!props.data) return false;
+  if (!props.data) return false;
   return (
     <header style={props.style.header}> 
       <CardTitle style={props.style.title}>{props.data.title}</CardTitle> 
@@ -799,7 +799,7 @@ const DisplayHeader = (props) => {
 
 //Display image
 const DisplayPostImage = (props) => {
-  if(!props.src || !props.display) return false;
+  if (!props.src || !props.display) return false;
   return (
     <Figure img={props.src} alt={props.alt} /> 
   )
@@ -810,8 +810,8 @@ const DisplayPostImage = (props) => {
  * @param {*} props 
  */ 
 const DisplayPostMenu = (props) => {
-  const { isOwner, data, isActive, handleToggle, handleEdit, openConfirm, style } = props;
-  if(!isOwner) return false;
+  const {isOwner, data, isActive, handleToggle, handleEdit, openConfirm, style } = props;
+  if (!isOwner) return false;
   return (
     //Only post owner can modify it ... 
     <Dropdown 
@@ -830,7 +830,7 @@ const DisplayPostMenu = (props) => {
         </DropdownItem> 
         <DropdownItem 
           style={style} 
-          onClick={()=>{ openConfirm(data.id) }}
+          onClick={()=>{openConfirm(data.id) }}
           >Delete
         </DropdownItem>
       </DropdownMenu>
@@ -839,8 +839,8 @@ const DisplayPostMenu = (props) => {
 }
 
 const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avatar}
-  const { data, style } = props;
-  if(!data) return false;
+  const {data, style } = props;
+  if (!data) return false;
   return (
     <Figure 
       img={data.photoURL} 
@@ -858,8 +858,8 @@ const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
  * @param {*} props 
  */
 const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
-  const { ppt, state } = props; 
-  if(!ppt.data || !props.display) return false; 
+  const {ppt, state } = props; 
+  if (!ppt.data || !props.display) return false; 
 
   return (
     <CardFooter className="PostItem__footer">
@@ -881,8 +881,8 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
           placement="top" 
           isOpen={state.postFormIsFrozen} 
           target={"btn-action--"+ppt.data.id}>
-          { !state.userOptin && <span>You are being <b>added</b> to this fanci ...</span>}
-          { state.userOptin && <span>You are being <b>removed</b> to this fanci ...</span>}
+          {!state.userOptin && <span>You are being <b>added</b> to this fanci ...</span>}
+          {state.userOptin && <span>You are being <b>removed</b> to this fanci ...</span>}
         </Tooltip>
         <Button 
           id={"btn-action--"+ppt.data.id} 
@@ -910,7 +910,7 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
 }; 
 
 const DisplayBody = (props) => {
-  if(!props.data || !props.display) return false;
+  if (!props.data || !props.display) return false;
   return (
     <CardBody style={props.style}>   
       <CardText>{props.data.content}</CardText> 
