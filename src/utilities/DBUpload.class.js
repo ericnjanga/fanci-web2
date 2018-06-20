@@ -12,7 +12,7 @@ class DBUpload {
 
     console.log('-1-name=', name);
 
-    return new Promise((resolve)=>{
+    return new Promise((resolve) => {
 
       console.log('-2-name=', name);
 

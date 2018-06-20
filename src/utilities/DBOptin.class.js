@@ -37,7 +37,7 @@ class DBOptin {
         if (snapshot.hasChild(fanciID)) {
           recordExists = true;
         }
-      }).then(()=>{
+      }).then(() => {
         //2) if post is not existant
         //If this is a new record ...
         if (!recordExists) {

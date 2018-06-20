@@ -38,7 +38,7 @@ class ViewProfile extends ViewApp {
     e.preventDefault();
     this.setState({overlayActive : true });
 
-    DBUser.updateProfile(this.state.userProfile).then((success)=>{
+    DBUser.updateProfile(this.state.userProfile).then((success) => {
       this.setState({
         overlayActive : false
       });

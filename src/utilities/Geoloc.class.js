@@ -18,15 +18,15 @@ class Geoloc {
    */
   static getValue() {
     let geolocation = { ...this.geolocation};
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         geolocation.on = true; 
-        navigator.geolocation.getCurrentPosition((position)=>{
+        navigator.geolocation.getCurrentPosition((position) => {
             geolocation.on = true;
             geolocation.currPosition = position; 
             resolve(geolocation);
           },
-          (err)=>{
+          (err) => {
             geolocation.on = false;
             geolocation.msg = `ERROR(${err.code}): ${err.message}`;
             resolve(geolocation);

@@ -50,7 +50,7 @@ const DisplayMapPlaceholder = (props) => {
   return (
     <div style={props.bodyStyle}> 
       {
-        props.list.map((item, index)=>{ 
+        props.list.map((item, index) => { 
           let coord = {}, style;
           coord.left = AppDoc.getRandomArbitrary(30, 300)+'px';
           coord.top = AppDoc.getRandomArbitrary(30, 500)+'px';

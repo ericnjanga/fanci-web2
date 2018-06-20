@@ -13,23 +13,24 @@ import './ViewAll.css';
 
 
 const ViewAll = (props) => {
-  const p = { ...props};
- 
+
+  const p = { ...props };
+
   return (
-    <section>   
-      {/* Render login only (if p.userProfile is "unauthenticated") */} 
-      <Route 
-        exact 
-        path="/login" 
+    <section>
+      {/* Render login only (if p.userProfile is "unauthenticated") */}
+      <Route
+        exact
+        path="/login"
         render={() => (
           !p.userProfile && <ViewLogin { ...p} />
         )}
       />  
 
       {/* login route doesn't work (if p.userProfile is authenticated) */
-        p.userProfile && <Route 
-          exact 
-          path="/login" 
+        p.userProfile && <Route
+          exact
+          path="/login"
           render={() => (
             <Redirect to="/"/>
           )}
@@ -79,18 +80,20 @@ const ViewAll = (props) => {
       />
 
       {/* Profile? */}
-      <Route 
-        exact 
-        path="/profile" 
+      <Route
+        exact
+        path="/profile"
         render={() => (
           !p.userProfile ? (
             <Redirect to="/login"/>
           ) : (
-            <Route 
-              path="/profile" 
-              exact={true} 
-              render={()=>{
-                return <ViewProfile { ...p} />
+            <Route
+              path="/profile"
+              exact={true}
+              render={() => {
+
+                return <ViewProfile {...p} />;
+                
               }} 
             />
           )

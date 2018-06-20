@@ -78,7 +78,7 @@ class ModalPostCreate extends React.Component {
       filePath = filePath.replace('timeline/','');
       //Delete image in storage
       //then clear related fields
-      DBUpload.remove(filePath, true).then((result)=>{
+      DBUpload.remove(filePath, true).then((result) => {
         //file field cannot have 'null' for value
         postFileUpload.file = '';
         postFormFields.file = '';
@@ -182,7 +182,7 @@ class ModalPostCreate extends React.Component {
     }// [end] file 
     //....
     postFormFields[name] = value;
-    this.setState({postFormFields }, ()=>{
+    this.setState({postFormFields }, () => {
       this.validateField(name, value);
     });
   }// [end] handleChange
@@ -204,7 +204,7 @@ class ModalPostCreate extends React.Component {
       postFormValidity[name] = fieldValue.length >= minCars;
       postFormErrors[name] = postFormValidity[name] ? null : `${name} is too short, ${(minCars - fieldValue.length)} chars left`; 
     
-      this.setState({postFormErrors, postFormValidity}, ()=>{
+      this.setState({postFormErrors, postFormValidity}, () => {
         this.validateForm(postFormValidity);
       });
     }// [end]...
@@ -217,7 +217,7 @@ class ModalPostCreate extends React.Component {
   validateForm(postFormValidity) {
     const validObj = new Map(Object.entries(postFormValidity));
     const validValues = Array.from(validObj.values());
-    let postFormIsValid = validValues.find((item)=>{return item===false});
+    let postFormIsValid = validValues.find((item) => {return item===false});
     postFormIsValid = (postFormIsValid===undefined)?true:false;
     this.setState({postFormIsValid });
   } 
@@ -229,7 +229,7 @@ class ModalPostCreate extends React.Component {
    * Toggle modal visibility
    */
   handleCancel() {
-    this.handleRemoveImage(null, ()=>{
+    this.handleRemoveImage(null, () => {
       this.clearModal();
       this.freezeForm(false);
       this.props.toggle();
@@ -389,7 +389,7 @@ const MessageForm = (props) => {
   const fields = new Map(Object.entries(DBPost.formFields));
   let formFields = []; 
 
-  fields.forEach((value, key)=>{
+  fields.forEach((value, key) => {
     let inputStyle = stl[key]?stl[key].input:stl.inputField,
         labelStyle = stl[key]?stl[key].label:stl.label, 
         formGroupStyle = stl[key]?stl[key].formGroup:stl.formGroup, 
@@ -503,7 +503,7 @@ const SelectInput = (props) => {
       disabled={disabled}>
       <option>{placeholder}</option>
       {
-        options.map((option)=>{
+        options.map((option) => {
           return <option key={option.val} value={option.val}>{option.label}</option>
         })
       }

@@ -43,7 +43,7 @@ class DBUser {
   static saveBasicInfo(authObject) {
     return new Promise((resolve, reject) => {
       //get user in database
-      this.get(authObject.uid).then((userFromDB)=>{
+      this.get(authObject.uid).then((userFromDB) => {
         //Extract user properties from the auth object
         let tpl_user = this.getBasicProperties(authObject);
   

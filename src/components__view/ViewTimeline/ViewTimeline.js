@@ -24,9 +24,10 @@ class ViewTimeline extends ViewApp {
   /**
    * Customize 'timeline modal' (edit/delete), initialie for fields (default/existing data)
    * Toggle modal
-   * @param {*} ppt 
+   * @param {*} ppt
    */
   toggleModal(ppt) {
+
     let modal = { ...this.state.modal}, formFields={}; 
     if (ppt!==undefined && ppt.data && ppt.params) {
       modal.params = { ...ppt.params}; 
@@ -39,9 +40,10 @@ class ViewTimeline extends ViewApp {
       formFields = {
         ...DBPost.getPostObject()
       }; 
+
     }
     
-    this.setState({modal, formFields }, ()=>{//toggle modal when data is updated
+    this.setState({modal, formFields }, () => {//toggle modal when data is updated
       let modal = { ...this.state.modal};
       modal.active = !this.state.modal.active;
       this.setState({modal }); 
@@ -121,13 +123,13 @@ class ViewTimeline extends ViewApp {
         </Button> 
 
         <Button 
-          style={buttonStyle.fab} 
-          className="btn-post btn-fab" 
-          color="primary" 
+          style={buttonStyle.fab}
+          className="btn-post btn-fab"
+          color="primary"
           onClick={this.toggleModal}>
-          <FontAwesomeIcon 
-            style={buttonStyle.fabIcon} 
-            icon={faPencil} 
+          <FontAwesomeIcon
+            style={buttonStyle.fabIcon}
+            icon={faPencil}
           /> 
           <span className="sr-only">Write a Message</span> 
         </Button>  
@@ -137,10 +139,6 @@ class ViewTimeline extends ViewApp {
 }// [end] ViewTimeline
 
 export default ViewTimeline;
-
-
-
-
 
 
 /**

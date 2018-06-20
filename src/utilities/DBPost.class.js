@@ -137,7 +137,7 @@ class DBPost {
     const list = new Map(Object.entries(formFieldsTpl));
     let data = {};
 
-    list.forEach((value, key)=>{
+    list.forEach((value, key) => {
       let val = value.formField.value;
       data[key] = (val!==null) ? val : value.formField.options[0].val;  
     });
@@ -183,7 +183,7 @@ class DBPost {
     newPost.expiryDate = getExpiryDate(newPost.expiry);
     //...
     return new Promise((resolve, reject) => {
-      listRef.push(newPost, (error)=>{ 
+      listRef.push(newPost, (error) => { 
         if (error) {
           console.error('Error while pusing: ', error);
         }else{

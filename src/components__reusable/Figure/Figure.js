@@ -10,7 +10,7 @@ import React from 'react';
 import './Figure.css';
 
 
-const Figure = (props)=>{
+const Figure = (props) => {
   if (!props.img) {
     return false;
   }

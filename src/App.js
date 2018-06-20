@@ -146,7 +146,7 @@ class App extends Component {
   handlePostSearch(event) {
     let searchVal = event.target.value; 
     let list = this.state.postList; 
-    let postList_runtime = list.filter((item)=>{ 
+    let postList_runtime = list.filter((item) => { 
       return item.title.toLowerCase().search(searchVal) > -1;
     });
     this.setState({postList_runtime });
@@ -207,7 +207,7 @@ class App extends Component {
       upList_runtime = []; 
       if (nodeVal) {//Avoid error if there is no DB objects 
         const postMap = new Map(Object.entries(nodeVal));
-        postMap.forEach((value, key)=>{
+        postMap.forEach((value, key) => {
           let post = Object.assign({}, value);
           post.id = key;
           //push values in a regular array 
@@ -215,7 +215,7 @@ class App extends Component {
           postList_runtime = postList_runtime.reverse();//Reverse array (most recent posts first)
           //generate user private list
           const currUserUID = auth.currentUser.uid;
-          upList_runtime = postList_runtime.filter((post)=>{ 
+          upList_runtime = postList_runtime.filter((post) => { 
             return post.uid===currUserUID;
           });
         });//postMap

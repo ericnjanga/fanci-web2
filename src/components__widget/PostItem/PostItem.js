@@ -97,11 +97,11 @@ class PostItem extends React.Component {
     this.setState({postFormIsFrozen:true });
 
     if (!optinBool) {
-      DBOptin.save(fanciID, ownerID, participantID).then(()=>{
+      DBOptin.save(fanciID, ownerID, participantID).then(() => {
         env.setState({userOptin:true, postFormIsFrozen:false });
       });
     } else {
-      DBOptin.remove(fanciID, participantID).then(()=>{
+      DBOptin.remove(fanciID, participantID).then(() => {
         env.setState({userOptin:false, postFormIsFrozen:false });
       });
     }
@@ -117,11 +117,11 @@ class PostItem extends React.Component {
         filePath = filePath?filePath:postFileUpload.file;
         filePath = filePath.replace('timeline/','');
 
-    DBUpload.remove(filePath, true).then((result)=>{
+    DBUpload.remove(filePath, true).then((result) => {
       postFileUpload.file = null;
       postFileUpload.downloadURLs = null;
       postFormFields.file = ''; 
-      DBPost.updateField(postID, 'file', '').then((result)=>{
+      DBPost.updateField(postID, 'file', '').then((result) => {
         this.setState({postFormIsFrozen:false, postFileUpload, postFormFields });
       });
     });
@@ -224,7 +224,7 @@ class PostItem extends React.Component {
         filePath = 'timeline/'+filePath;
 
         // env.setState({postFileUpload, postFormIsFrozen:false });
-        DBPost.updateField(postID, 'file', filePath).then((result)=>{ 
+        DBPost.updateField(postID, 'file', filePath).then((result) => { 
           env.setState({postFormIsFrozen:false, postFileUpload });
         });// [end] DBPost.updateField 
       });// [end] DBUpload.save
@@ -233,7 +233,7 @@ class PostItem extends React.Component {
  
     //....
     postFormFields[name] = value;
-    this.setState({postFormFields }, ()=>{
+    this.setState({postFormFields }, () => {
       this.validateField(name, value);
     });
   }// [end] handleChange
@@ -245,7 +245,7 @@ class PostItem extends React.Component {
    */
   handleEdit(postID) {
     const p = { ...this.props}; 
-    this.toggleEM(()=>{
+    this.toggleEM(() => {
       let postFormFields = { ...p.data},
         postFileUpload = { ...this.state.postFileUpload};
       //Save file value in a temporary field for now (non-empty value cannpt be saved in the "file" input)
@@ -273,7 +273,7 @@ class PostItem extends React.Component {
       postFormValidity[name] = fieldValue.length >= minCars;
       postFormErrors[name] = postFormValidity[name] ? null : `${name} is too short, ${(minCars - fieldValue.length)} chars left`; 
     
-      this.setState({postFormErrors, postFormValidity}, ()=>{
+      this.setState({postFormErrors, postFormValidity}, () => {
         this.validateForm(postFormValidity);
       });
     }// [end]...
@@ -287,7 +287,7 @@ class PostItem extends React.Component {
   validateForm(postFormValidity) {
     const validObj = new Map(Object.entries(postFormValidity));
     const validValues = Array.from(validObj.values());
-    let postFormIsValid = validValues.find((item)=>{return item===false});
+    let postFormIsValid = validValues.find((item) => {return item===false});
     postFormIsValid = (postFormIsValid===undefined)?true:false;  
     this.setState({postFormIsValid });
   } 
@@ -377,7 +377,7 @@ class PostItem extends React.Component {
    */
   handleDelete(postID, fileLocation) { 
     DBPost.remove(postID)//Delete post
-    .then(()=>{//then set confirm modal with new params
+    .then(() => {//then set confirm modal with new params
       let meta = {
         active: false, //inactive
         agreed:false //consent to 'NO'
@@ -631,7 +631,7 @@ const MessageForm = (props) => {
   const fields = new Map(Object.entries(DBPost.formFields));
   let formFields = [];  
 
-  fields.forEach((value, key)=>{
+  fields.forEach((value, key) => {
     let inputStyle      = stl[key]?stl[key].input:stl.inputField,
         labelStyle      = stl[key]?stl[key].label:stl.label, 
         formGroupStyle  = stl[key]?stl[key].formGroup:stl.formGroup, 
@@ -746,7 +746,7 @@ const SelectInput = (props) => {
       disabled={disabled}>
       <option>{placeholder}</option>
       {
-        options.map((option)=>{
+        options.map((option) => {
           return (
             <option 
               key={option.val} 
@@ -830,7 +830,7 @@ const DisplayPostMenu = (props) => {
         </DropdownItem> 
         <DropdownItem 
           style={style} 
-          onClick={()=>{openConfirm(data.id) }}
+          onClick={() => {openConfirm(data.id) }}
           >Delete
         </DropdownItem>
       </DropdownMenu>
