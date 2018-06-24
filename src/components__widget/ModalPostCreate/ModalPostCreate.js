@@ -15,7 +15,6 @@ import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './ModalPost.css';
 
 
-
 /**
  * TODO:
  * 1) SET EMPTY PROPERTY TO NULL: obj.ppt = null (except file, will through an error if value is null. place empty string instead)
@@ -24,7 +23,6 @@ import './ModalPost.css';
  * 3) MERGE "PostItem" AND "ModalPostCreate" methods into one (start from the small methods)
  * 4) Let DBPost handle 'timeline/' prefix
  */
-
 
 
 class ModalPostCreate extends React.Component {
@@ -386,6 +384,12 @@ const MessageForm = (props) => {
   const {handleSubmit, handleChange, removeImage, state } = props; 
   const stl = formStyleLightTheme;
   const {postFormFields, postFormErrors, postFormIsFrozen, postFileUpload} = state; 
+
+
+  console.log('>>>>>DBPost.formFields=', DBPost.formFields);
+
+
+
   const fields = new Map(Object.entries(DBPost.formFields));
   let formFields = []; 
 

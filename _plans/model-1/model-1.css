@@ -11,11 +11,20 @@
 
 
 h1 {    
+  margin-top: 20px;
   margin-bottom: 20px; 
 }
-.main-header {    
-  margin-bottom: 30px;
+h2 {    
+  font-size: 1rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: dodgerblue;
+}
+.main-header {     
+  background: turquoise;
   text-align: center; 
+  padding-top: 1px;
 }
 /* .main-header .nav {
   text-align: center;

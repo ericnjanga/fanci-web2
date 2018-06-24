@@ -22,32 +22,38 @@ class ViewTimeline extends ViewApp {
 
 
   /**
-   * Customize 'timeline modal' (edit/delete), initialie for fields (default/existing data)
-   * Toggle modal
+   * - prepare modal content (better detail later)
+   * - Toggle modal active state
    * @param {*} ppt
    */
   toggleModal(ppt) {
 
-    let modal = { ...this.state.modal}, formFields={}; 
-    if (ppt!==undefined && ppt.data && ppt.params) {
-      modal.params = { ...ppt.params}; 
-      formFields = { ...ppt.data};
-    }
-    else{
+    let modal = { ...this.state.modal };
+    let formFields = {};
+    if (ppt !== undefined && ppt.data && ppt.params) {
+
+      modal.params = { ...ppt.params };
+      formFields = { ...ppt.data };
+
+    } else {
+
       modal.params = {
-        ...this.getModalParams('create') 
-      }; 
+        ...this.getModalParams('create'),
+      };
       formFields = {
-        ...DBPost.getPostObject()
-      }; 
+        ...DBPost.getPostObject(),
+      };
 
     }
-    
-    this.setState({modal, formFields }, () => {//toggle modal when data is updated
-      let modal = { ...this.state.modal};
+
+    this.setState({ modal, formFields }, () => { // toggle modal when data is updated
+
+      modal = { ...this.state.modal };
       modal.active = !this.state.modal.active;
-      this.setState({modal }); 
+      this.setState({ modal });
+
     });
+
   }// [end] toggleModal
 
 

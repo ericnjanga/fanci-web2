@@ -121,13 +121,24 @@ class DBPost {
    * @param {*} obj 
    */
   static getPostObj(obj) {
+
     let newObj = {};
-    for(let ppt in obj) {
+    for (let ppt in obj) {
+
       if (formFieldsTpl.hasOwnProperty(ppt)) {
         newObj[ppt] = obj[ppt]; 
       }
+
     }
+
     return newObj;
+  }
+  
+
+  static get formFields() {
+
+    return formFieldsTpl;
+
   }
 
   /**
