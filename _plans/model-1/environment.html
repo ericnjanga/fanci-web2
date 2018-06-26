@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css">
     <link rel="stylesheet" href="model-1.css">
 
     <title>Site Map | Plan model 1</title>
@@ -20,69 +21,41 @@
 
         <ul class="nav nav-tabs justify-content-center">
           <li class="nav-item">
-            <a class="nav-link active" href="/model-1/index.html">Site Map</a>
+            <a class="nav-link" href="/model-1/index.html">Site Map</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/model-1/interactions.html">Interactions</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/model-1/environment.html">Environment</a>
+            <a class="nav-link active" href="/model-1/environment.html">Environment</a>
           </li> 
         </ul>
       </header>
 
 
 
-      <h2>Views of the application</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-m2-4">
+            <p>There is a need to create 2 storage instances on firebase: </p>
+            <ul>
+              <li><b>1 for development:</b> for testing purposes (developers only)</li>
+              <li><b>1 for production:</b> visible live (for users)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
  
-      
-
-      <table class="table">
-        <tr>
-          <td>Login</td>
-          <td>-></td>
-          <td>
-            <!-- ?????????????????????????? --> 
-            <table class="table">
-              <tbody>  
-                <tr>
-                  <td scope="row">Terms &amp; Conditions</td> 
-                  <td></td>
-                </tr>
-                <tr>
-                  <td scope="row">Settings</td> 
-                  <td></td>
-                </tr>
-                <tr>
-                  <td scope="row">My Fancies</td> 
-                  <td></td>
-                </tr>
-                <tr>
-                  <td scope="row">Profile</td> 
-                  <td></td>
-                </tr> 
-                <tr>
-                  <td scope="row">Around Us</td> 
-                  <td></td>
-                </tr> 
-                <tr>
-                  <td scope="row">Home</th> 
-                    <td></td>
-                </tr>
-              </tbody> 
-            </table>
-            <!-- ?????????????????????????? -->
-          </td>
-        </tr>
-      </table>
+    
  
     </div>
     
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
   </body>
 </html>
