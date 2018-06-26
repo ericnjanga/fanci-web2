@@ -85,28 +85,6 @@ class PostItem extends React.Component {
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }// [end] constructor
 
-  /**
-   * 
-   * @param {*} optinBool 
-   * @param {*} participantID 
-   * @param {*} ownerID 
-   */
-  handleOptin(optinBool, ownerID, participantID) {
-    let fanciID = this.props.data.id;
-    let env = this;
-    this.setState({postFormIsFrozen:true });
-
-    if (!optinBool) {
-      DBOptin.save(fanciID, ownerID, participantID).then(() => {
-        env.setState({userOptin:true, postFormIsFrozen:false });
-      });
-    } else {
-      DBOptin.remove(fanciID, participantID).then(() => {
-        env.setState({userOptin:false, postFormIsFrozen:false });
-      });
-    }
-  }
-
 
   handleRemoveImage(event, postID) {
     event.preventDefault();
@@ -186,6 +164,39 @@ class PostItem extends React.Component {
       formFields.file = file.replace(/C:\\fakepath\\/, '');  
     }
     return formFields;
+  }
+
+
+  /**
+   * 
+   * @param {*} optinBool 
+   * @param {*} participantID 
+   * @param {*} ownerID 
+   */
+  handleOptin(optinBool, ownerID, participantID) {
+
+    const fanciID = this.props.data.id;
+    const env = this;
+    this.setState({ postFormIsFrozen: true });
+
+    if (!optinBool) {
+
+      DBOptin.save(fanciID, ownerID, participantID).then(() => {
+
+        env.setState({ userOptin: true, postFormIsFrozen: false });
+
+      });
+
+    } else {
+
+      DBOptin.remove(fanciID, participantID).then(() => {
+
+        env.setState({ userOptin: false, postFormIsFrozen: false });
+
+      });
+
+    }
+
   }
 
 
