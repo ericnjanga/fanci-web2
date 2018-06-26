@@ -1,7 +1,7 @@
 /**
  * Class managing file upload/download from Firebase
  */
-import {storage } from './../services/firebase.js';
+import {storage } from './../services/connection-details.js';
 
 
 const nodeName = 'timeline';

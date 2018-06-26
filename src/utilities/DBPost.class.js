@@ -2,7 +2,7 @@
  * Class dedicated to posts
  */
 import React from 'react';
-import { database } from './../services/firebase.js';
+import { database } from './../services/connection-details.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faUpload from '@fortawesome/fontawesome-free-solid/faUpload';
 

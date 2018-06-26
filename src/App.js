@@ -4,7 +4,7 @@
  */ 
 import React, {Component } from 'react';
 import {BrowserRouter as Router } from 'react-router-dom';
-import {auth, provider } from './services/firebase.js';
+import {auth, provider } from './services/connection-details.js';
 import './utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
 import VerticalNav from './components__global/VerticalNav/VerticalNav.js';

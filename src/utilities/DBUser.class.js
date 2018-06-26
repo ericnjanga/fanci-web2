@@ -1,7 +1,7 @@
 /**
  * Class dedicated to users
  */
-import {database, auth } from './../services/firebase.js';
+import {database, auth } from './../services/connection-details.js';
 
 let nodeName = 'users';
 
