@@ -10,31 +10,37 @@ class DBUpload {
 
   static getFile(name) { 
 
-    console.log('-1-name=', name);
+    // console.log('-1-name=', name);
 
     return new Promise((resolve) => {
 
-      console.log('-2-name=', name);
+      // console.log('-2-name=', name);
 
       storage.ref(name).getDownloadURL().then(function(url) { 
 
-        console.log('-3-url=', url);
+        // console.log('-3-url=', url);
 
         resolve({url});
       }).catch(function() {
         resolve(null);
       });
     });
+
   }
-  
+
+  /**
+   * Save file in Firestorage
+   * @param {*} file 
+   */
   static save(file) {
+
     let metadata = {
-      //more info here...
-      //https://firebase.google.com/docs/storage/web/file-metadata
+      // more info here...
+      // https://firebase.google.com/docs/storage/web/file-metadata
     };
 
     // Create a root reference
-    let storageRef = storage.ref(nodeName+'/'+file.name); 
+    const storageRef = storage.ref(nodeName + '/' + file.name);
     return storageRef.put(file, metadata);
   }
 
