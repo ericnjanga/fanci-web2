@@ -61,11 +61,6 @@ class App extends Component {
     this.handleConfirmModal   = this.handleConfirmModal.bind(this);
   }
 
-  //Update state with current path name:
-  //(Useful for styling the app at the highest level based on the current route) 
-  handleRouteChange(currPathName) {
-    this.setState({currPathName: AppDoc.getPathName()});
-  }
 
   //Handles a modal component which plays the role of a "confirm dialog"
   //----------------------
@@ -101,8 +96,10 @@ class App extends Component {
     this.setState({confirmationModal });
   }// [end] handleConfirmModal
 
-  //Shell login method
-  handleLogin() {  
+
+  // Shell login method
+  handleLogin() {
+
     auth.signInWithRedirect(provider);
     auth.getRedirectResult()
     .then((userAuthObject) => {
@@ -111,30 +108,37 @@ class App extends Component {
       var errorCode = error.code;
       error.log('>>>errorCode=', errorCode);
     });
+
   }
 
-  //Shell logout method
+  // Shell logout method
   handleLogout() {
-    let drawer = this.state.drawer;
+
+    const { drawer } = this.state;
     drawer.active = false;
     auth.signOut().then(() => {
-      this.setState({
-        userProfile     : null,
-        drawer
-      });
-    }); 
-  } 
 
-  //Toggling vertical navigation visibility
-  handleToggleVertNav() { 
-    let drawer = this.state.drawer;
-    drawer.active = !this.state.drawer.active;
-    this.setState({drawer });
+      this.setState({
+        userProfile: null,
+        drawer,
+      });
+
+    });
+
   }
 
-  //When we want the nav to be explicitely closed
+  // Toggling vertical navigation visibility
+  handleToggleVertNav() {
+
+    const { drawer } = this.state;
+    drawer.active = !this.state.drawer.active;
+    this.setState({ drawer });
+
+  }
+
+  // When we want the nav to be explicitely closed
   handleCloseVertNav() {
-    let drawer = this.state.drawer; 
+    const { drawer } = this.state; 
     if (drawer.active) {
       drawer.active = !drawer.active;
       this.setState({drawer });
@@ -149,14 +153,17 @@ class App extends Component {
     let postList_runtime = list.filter((item) => { 
       return item.title.toLowerCase().search(searchVal) > -1;
     });
-    this.setState({postList_runtime });
+    this.setState({ postList_runtime });
   }
+
 
   componentDidMount() {
 
     // Signs users back-in everytime application loads
     // (FirebaseAuth service remembers their credentials)
     auth.onAuthStateChanged((userAuthObject) => {
+
+      console.log('>>>>auth.onAuthStateChanged : ', userAuthObject);
       // Save fresh user records in database and save a local version to the state
       // (state version might contains some info from the database)
       let userProfile;
@@ -184,13 +191,14 @@ class App extends Component {
           });// [end] Get gelolocation object 
         });// [end] DBUser.saveBasicInfo
       } else {
-        this.setState({userProfile: null });
+        this.setState({ userProfile: null });
       }    
     }, (error) => {
       error.log('>>>error=', error);
     }, (completed) => {
       //...
-    });// [end] user sign-in + save
+    }); // [end] user sign-in + save
+
 
     /**
      * Fetch post list from database:
@@ -226,9 +234,19 @@ class App extends Component {
     });// [end] Fetch Fancies ...
     
   }// [end]componentDidMount
+
+
+  // Update state with current path name:
+  // (Useful for styling the app at the highest level based on the current route) 
+  handleRouteChange() {
+
+    this.setState({ currPathName: AppDoc.getPathName() });
+
+  }
+
   
   handleProfileUpdate(userProfile) {
-    this.setState({userProfile });
+    this.setState({ userProfile });
   }
 
   /**
