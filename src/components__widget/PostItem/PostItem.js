@@ -168,25 +168,30 @@ class PostItem extends React.Component {
 
 
   /**
-   * 
-   * @param {*} optinBool 
+   * Connect a user to a post
+   * (This happens when a user chooses to opt-in/out of a fanci)
+   * - Freeze post
+   * - Unfreeze post when operation is done
+   * @param {*} boolUserHasOpedIn 
    * @param {*} participantID 
-   * @param {*} ownerID 
+   * @param {*} postOwnerID 
    */
-  handleOptin(optinBool, ownerID, participantID) {
+  handleOptin(boolUserHasOpedIn, postOwnerID, participantID) {
 
     const fanciID = this.props.data.id;
     const env = this;
     this.setState({ postFormIsFrozen: true });
 
-    if (!optinBool) {
+    // Connect user if not opted-in
+    if (!boolUserHasOpedIn) {
 
-      DBOptin.save(fanciID, ownerID, participantID).then(() => {
+      DBOptin.save(fanciID, postOwnerID, participantID).then(() => {
 
         env.setState({ userOptin: true, postFormIsFrozen: false });
 
       });
 
+      // Disconnect user if opted-in
     } else {
 
       DBOptin.remove(fanciID, participantID).then(() => {
