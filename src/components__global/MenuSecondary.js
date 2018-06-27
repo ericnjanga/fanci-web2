@@ -15,21 +15,31 @@ const MenuSecondary = (props) => {
       {props.children}
       
       {/*<NavItem>
-        <NavLink to={`/profile`} onClick={() => {onToggleDropdown();} }>Profile</NavLink>
+        <NavLink to={`/profile`} onClick={() => {onToggleDropdown(); } }>Profile</NavLink>
       </NavItem>*/} 
       
       <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/my-fancies`} onClick={() => {toggleDropdown();} }>My Fancies</NavLink>
+        <NavLink style={dropdownSyles.item} to={`/my-fancies`} onClick={() => { toggleDropdown(); } }>My Fancies</NavLink>
       </NavItem>
       
       <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/settings`} onClick={() => {toggleDropdown();} }>Settings</NavLink>
+        <NavLink style={dropdownSyles.item} to={`/where-do-i-go`} onClick={() => { toggleDropdown(); } }>Where do I go?</NavLink>
+      </NavItem>
+      
+      <NavItem>
+        <NavLink style={dropdownSyles.item} to={`/who-is-coming`} onClick={() => { toggleDropdown(); } }>Who is coming?</NavLink>
       </NavItem>
 
       <hr style={menu.hr} className="hr-menu space" />
       
       <NavItem>
-        <Button style={dropdownSyles.item} onClick={() => {onLogout();toggleDropdown();} }  className="btn-logout">Sign Out</Button> 
+        <NavLink style={dropdownSyles.item} to={`/settings`} onClick={() => { toggleDropdown(); } }>Settings</NavLink>
+      </NavItem>
+
+      <hr style={menu.hr} className="hr-menu space" />
+      
+      <NavItem>
+        <Button style={dropdownSyles.item} onClick={() => {onLogout();toggleDropdown(); } }  className="btn-logout">Sign Out</Button> 
       </NavItem>  
     </Nav> 
   );

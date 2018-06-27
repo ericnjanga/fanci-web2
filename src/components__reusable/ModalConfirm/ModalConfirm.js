@@ -17,8 +17,8 @@ const ModalConfirm = (props)=> {
         {p.children}
       </ModalBody>
       <ModalFooter style={modalStyle.footer}>
-        <Button style={{ ...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={() => {p.toggle(false);} }>No</Button>{' '}
-        <Button style={{ ...modalStyle.ctaBtn, ...modalStyle.btnYes}} color="primary" onClick={() => {p.toggle(true);} }>Yes</Button>
+        <Button style={{ ...modalStyle.ctaBtn, ...modalStyle.btnNo}} color="secondary" onClick={() => {p.toggle(false); } }>No</Button>{' '}
+        <Button style={{ ...modalStyle.ctaBtn, ...modalStyle.btnYes}} color="primary" onClick={() => {p.toggle(true); } }>Yes</Button>
       </ModalFooter>
     </Modal>
   );

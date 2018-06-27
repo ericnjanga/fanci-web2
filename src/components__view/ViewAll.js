@@ -139,6 +139,46 @@ const ViewAll = (props) => {
       />
       {/* Render views (if logged in) / [login view] (if logged out) */}
 
+      {/* Where do I go? */}
+      <Route 
+        exact 
+        path="/where-do-i-go" 
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/where-do-i-go" 
+              exact={true} 
+              render={() => (
+                <ViewTimeline { ...p} />
+              )}
+            />  
+          )
+        )}
+      />
+      {/* Render views (if logged in) / [login view] (if logged out) */}
+
+      {/* Who is coming? */}
+      <Route 
+        exact 
+        path="/who-is-coming"
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/who-is-coming" 
+              exact={true} 
+              render={() => (
+                <ViewTimeline { ...p} />
+              )}
+            />  
+          )
+        )}
+      />
+      {/* Render views (if logged in) / [login view] (if logged out) */}
+
 
       {/* Render [terms & conditions view] at anytime */}
       <Route 
