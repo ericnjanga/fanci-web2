@@ -7,7 +7,7 @@ import buttonStyle from './../../jsStyles/button.styles.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
-import {Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import './ViewTimeline.css'; 

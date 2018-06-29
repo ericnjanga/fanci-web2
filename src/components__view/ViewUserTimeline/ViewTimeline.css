@@ -1,0 +1,33 @@
+
+
+.ViewTimeline .btn-post,
+.ViewTimeline .btn-search {
+  position: fixed;
+  z-index: 9; 
+  right: 16px;
+}
+
+.ViewTimeline .btn-search {
+  bottom: 86px;
+  background: rgb(137, 155, 255);
+    border: 1px solid rgb(137, 155, 255);
+    color: #fff;
+}
+.ViewTimeline .btn-post { 
+  bottom: 26px;
+  box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12), 0 1px 1px 0 rgba(0,0,0,.24);
+}
+
+.ViewTimeline .btn-primary span {
+  display: none;
+}
+.ViewTimeline .btn-primary .svg-inline--fa {
+  margin: 0;
+}
+
+.ViewTimeline .frame-search {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  max-width: 600px;
+}

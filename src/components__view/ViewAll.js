@@ -2,8 +2,9 @@
  * Component encapsulating all views
  */
 import React from 'react';
-import {Route, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import ViewTimeline from './ViewTimeline/ViewTimeline.js';
+import ViewUserTimeline from './ViewUserTimeline/ViewUserTimeline.js';
 import ViewMap from './ViewMap/ViewMap.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
 import ViewProfile from './ViewProfile/ViewProfile.js';
@@ -131,7 +132,7 @@ const ViewAll = (props) => {
               path="/my-fancies" 
               exact={true} 
               render={() => (
-                <ViewTimeline { ...p} />
+                <ViewUserTimeline { ...p} />
               )}
             />  
           )
