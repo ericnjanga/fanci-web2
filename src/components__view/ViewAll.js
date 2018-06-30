@@ -73,7 +73,7 @@ const ViewAll = (props) => {
               path="/around-us" 
               exact={true} 
               render={() => (
-                <ViewTimeline { ...p} displayExpiredItems={false} />
+                <ViewTimeline {...p} displayExpiredItems={false} />
               )}
             />  
           )

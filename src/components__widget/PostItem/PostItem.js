@@ -3,21 +3,21 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react';
-import {Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap';
+import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {Form, FormGroup, Label, Input } from 'reactstrap';
-import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
-import {Alert } from 'reactstrap';
-import {dropdownSyles } from './../../jsStyles/menu.styles.js'; 
-import Toast from './../../components__reusable/Toast/Toast.js';  
+import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
+import { Alert } from 'reactstrap';
+import { dropdownSyles } from './../../jsStyles/menu.styles.js';
+import Toast from './../../components__reusable/Toast/Toast.js';
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
-import DBUser from '../../utilities/DBUser.class.js'; 
+import DBUser from '../../utilities/DBUser.class.js';
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import DBOptin from './../../utilities/DBOptin.class.js';
 import Figure from './../../components__reusable/Figure/Figure.js';
 import modalStyle from './../../jsStyles/modal.styles.js';
-import {formStyleLightTheme } from './../../jsStyles/form.styles.js';
+import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
 import DateFormat from './../../components__reusable/DateFormat.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
@@ -28,7 +28,6 @@ import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './PostItem.css';
-
 
 
 /**
@@ -87,6 +86,7 @@ class PostItem extends React.Component {
 
 
   handleRemoveImage(event, postID) {
+
     event.preventDefault();
     this.setState({postFormIsFrozen:true });
     let postFormFields = { ...this.state.postFormFields},
@@ -103,20 +103,23 @@ class PostItem extends React.Component {
         this.setState({postFormIsFrozen:false, postFileUpload, postFormFields });
       });
     });
+
   }// [end] handleRemoveImage
 
 
   clearModal() {
+
     //Cleanup form when post is successful ...
     let postFormFields = { ...DBPost.getPostObject() }, 
         //We don't clear "postFileUpload" property here because this object still need it to display the image
         postFormIsFrozen = false;
     this.setState((prevState, props) => {
       return {postFormFields, postFormIsFrozen }
-    }); 
+    });
+
   }// [end] clearModal
 
-  
+
   /**
    * Save form data in the database
    * Cleanup form and modal
@@ -482,20 +485,31 @@ class PostItem extends React.Component {
             data={p.data} 
             style={headerStyle} 
           /> 
+
+          <DisplaySubscribers
+            {...p}
+          />
   
-          <DisplayPostImage 
+          <DisplayPostImage
+            {...p}
             src={imgURL} 
             alt={p.data.title} 
             display={()=>this.isExpired()} 
           />
 
-          <DisplayBody 
+          <DisplayBody
+            {...p}
             data={p.data} 
             style={PostItemStyle.cardBody} 
             display={()=>this.isExpired()} 
           />
+
+          <DisplayPreviewCta
+            {...p}
+          />
           
-          <DisplayPostFooter 
+          <DisplayPostFooter
+            {...p}
             isOwner={isOwner} 
             state={s} ppt={p} 
             display={()=>this.isExpired()} 
@@ -813,11 +827,75 @@ const DisplayHeader = (props) => {
   );
 }
 
+
+/**
+ * ...
+ * (Don't display if not in "compressed mode")
+ * -----------------------
+ */
+const DisplaySubscribers = (props) => {
+  if(!props.isCompressed) {
+    return false;
+  }
+
+  const divStyle = {
+    padding: '10px 20px',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    // backgroundColor: 'rgba(0,0,0,0.1)',
+  }; 
+
+  return (
+    <div style={divStyle}>
+      Subscribers here ...
+    </div>
+  );
+}
+
+
+/**
+ * ...
+ * (Don't display if not in "compressed mode")
+ * -----------------------
+ */
+const DisplayPreviewCta = (props) => {
+  if(!props.isCompressed) {
+    return false;
+  }
+
+  const divStyle = {
+    padding: '10px 20px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  };
+  const btnStyle = {
+    ...modalStyle.ctaBtn, 
+    ...modalStyle.btnYes,
+    height: '27px',
+    minWidth: '100px',
+    fontSize: '12px',
+  };
+  return (
+    <div style={divStyle}>
+      <Button 
+        style={btnStyle} 
+        color="primary">
+        View
+      </Button>
+    </div>
+  );
+}
+
+
 //Display image
 const DisplayPostImage = (props) => {
-  if (!props.src || !props.display) return false;
+  if(props.isCompressed || !props.src || !props.display) {
+    return false;
+  } 
+
   return (
-    <Figure img={props.src} alt={props.alt} /> 
+    <Figure img={props.src} alt={props.alt} isPostFeatured /> 
   )
 }; 
 
@@ -875,7 +953,8 @@ const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
  */
 const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
   const {ppt, state } = props; 
-  if (!ppt.data || !props.display) return false; 
+
+  if (props.isCompressed || !ppt.data || !props.display) return false; 
 
   return (
     <CardFooter className="PostItem__footer">
@@ -926,12 +1005,15 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
 }; 
 
 const DisplayBody = (props) => {
-  if (!props.data || !props.display) return false;
+
+  if (props.isCompressed || !props.data || !props.display) return false;
+
   return (
     <CardBody style={props.style}>   
       <CardText>{props.data.content}</CardText> 
     </CardBody>
   )
+
 }
 
 

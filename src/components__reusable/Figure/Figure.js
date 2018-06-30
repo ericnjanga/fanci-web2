@@ -15,7 +15,23 @@ const Figure = (props) => {
     return false;
   }
 
-  const p = { ...props};
+  const p = { ...props };
+
+  // If this is a post featured image:
+  // display a full width image with height hidden starting at "200px"
+  if(p.isPostFeatured) {
+    return (
+      <figure style={{overflow: 'hidden', maxHeight: '200px'}}>
+        <img 
+          className={imgClassName} 
+          src={p.img}
+          alt={p.alt?p.alt:''}
+          style={{width: '100%'}}
+        />
+      </figure>
+    );
+     
+  }
  
   let borderRadius, sizes,  imgClassName = 'animated-background';
 

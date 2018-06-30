@@ -47,16 +47,31 @@
       <div class="inner-container"> 
         <div class="row">
           <div class="col-md-3">
-            <h4>States of a post</h4>
+            <h4>Post display mode</h4>
             <figure class="figure">
-              <figcaption class="figure-caption">Anatomy of a blog post component having 3 different states of appearance</figcaption>
-              <a href="./img/fanci-project__post-anatomy.jpg" data-lightbox="open-modal" data-title="Anatomy of a blog post component having 3 different states of appearance">
-                <img src="./img/fanci-project__post-anatomy.jpg" alt="..." class="img-thumbnail">
+              <a href="./img/fanci-project__post-anatomy-1.jpg" data-lightbox="open-modal" data-title="Anatomy of a blog post component having 3 different modes of appearance. Please look at the shart to see which elements are removed depending on the active mode">
+                <img src="./img/fanci-project__post-anatomy-1.jpg" alt="..." class="img-thumbnail">
               </a> 
+              <figcaption class="figure-caption">Fig 1: post modes</figcaption>
             </figure>
           </div><!-- col -->
-          <div class="col-md-3">
-            <h4>What does a post need?</h4> 
+          <div class="col-md-4">
+            <h4>Where is Post used?</h4> 
+            <ul>
+              <li><pre>List.js > ViewTimeline.js</pre></li>
+            </ul>
+
+            <h4>How post different modes are displayed?</h4>
+            <p>The following properties are passed to the component: <small>(The post in its entirety will be displayed of no "mode property" is passed)</small></p>
+            <ul>
+              <li>
+                <span class="badge badge-secondary">isTimeline</span>: The post will be rendered in <b>timeline mode</b> (see Fig 1)
+              </li>
+              <li>
+                <span class="badge badge-secondary">isCompressed</span>: The post will be rendered in <b>compressed mode</b> (see Fig 1)
+              </li>
+            </ul>
+
           </div><!-- col -->
  
 
