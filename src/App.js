@@ -2,24 +2,25 @@
  * Main Application
  * ---------------------------
  */ 
-import React, {Component } from 'react';
-import {BrowserRouter as Router } from 'react-router-dom';
-import {auth, provider } from './services/connection-details.js';
+import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { auth, provider } from './services/connection-details.js';
 import './utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
 import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
-import SearchPanel from './components__widget/SearchPanel/SearchPanel.js'; 
+import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';
 import AppFooter from './components__global/AppFooter/AppFooter.js';
 import MenuPrimary from './components__global/MenuPrimary.js';
 import MenuSecondary from './components__global/MenuSecondary.js';
-import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';  
-import ViewAll from './components__view/ViewAll.js'; 
-import Toast from './components__reusable/Toast/Toast.js'; 
-import DBUser from './utilities/DBUser.class.js';  
+import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';
+import ViewAll from './components__view/ViewAll.js';
+import Toast from './components__reusable/Toast/Toast.js';
+import DBUser from './utilities/DBUser.class.js';
+import DBOptin from './utilities/DBOptin.class.js';
 import DBPost from './utilities/DBPost.class.js';
 import AppDoc from './utilities/AppDoc.class.js';
 import Geoloc from './utilities/Geoloc.class.js';
-import {Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import './styles/App.css';
 import './styles/components/buttons.css';
 import './styles/components/dropdown.css';
@@ -27,6 +28,7 @@ import './styles/components/form.css';
 
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -145,15 +147,17 @@ class App extends Component {
     } 
   }
 
-  //Filter the original list of fancies against user search input
-  //and updatge the state with the resulting array
+  // Filter the original list of fancies against user search input
+  // and updatge the state with the resulting array
   handlePostSearch(event) {
+
     let searchVal = event.target.value; 
     let list = this.state.postList; 
     let postList_runtime = list.filter((item) => { 
       return item.title.toLowerCase().search(searchVal) > -1;
     });
     this.setState({ postList_runtime });
+
   }
 
 
@@ -229,9 +233,43 @@ class App extends Component {
         });//postMap
       }//nodeVal
       //save array in state
-      this.setState({postList_runtime, upList_runtime });
-      this.setState({postList:postList_runtime, upList:upList_runtime });
+      this.setState({ postList_runtime, upList_runtime });
+      this.setState({ postList: postList_runtime, upList: upList_runtime });
     });// [end] Fetch Fancies ...
+
+
+    /**
+     * ...
+     */
+    DBOptin.getNode().on('value', (snapshot) => {
+
+      const nodeVal = snapshot.val();
+      let listPostSubscription = []; 
+      if (nodeVal) { // Avoid error if there is no DB objects 
+        const itemMap = new Map(Object.entries(nodeVal));
+        itemMap.forEach((value, key) => {
+          console.log('>>>key=', key);
+          const item = Object.assign({}, value);
+          if (auth.currentUser.uid === item.ownerID) {
+
+            listPostSubscription.push({ postID: key, subscribers: { ...item.participants } });
+
+          }
+
+        });// itemMap
+
+        console.log('>>>listPostSubscription=', listPostSubscription);
+        this.setState({ listPostSubscription }); 
+
+      }// nodeVal
+      // //save array in state
+      // this.setState({postList_runtime, upList_runtime });
+      // this.setState({postList:postList_runtime, upList:upList_runtime });
+
+    });// [end] Fetch Fancies ...
+
+
+    
     
   }// [end]componentDidMount
 

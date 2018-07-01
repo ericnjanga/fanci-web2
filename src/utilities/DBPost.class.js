@@ -182,6 +182,16 @@ class DBPost {
 
   }
 
+  
+  /**
+   * ...
+   */
+  static getItem(id) {
+
+    return database.ref(`${nodeName}/${id}`);
+
+  }
+
 
   /**
    * Save info in the database
@@ -210,23 +220,24 @@ class DBPost {
 
 
   static update(postID, postObj) {
-    let newPost = { ...postObj};
+    let newPost = { ...postObj };
     newPost.date  = Date.now();
     newPost.expiryDate = getExpiryDate(newPost.expiry);
-    return database.ref(nodeName+'/'+postID).update(newPost);
+    return database.ref(`${nodeName}/${postID}`).update(newPost); 
   }
 
 
   static updateField(postID, key, value) {
     let obj = {};
     obj[key] = value;
-    return database.ref(nodeName+'/'+postID).update(obj);
+    return database.ref(`${nodeName}/${postID}`).update(obj); 
   }
 
 
   //Delete a post
   static remove(id) {
-    return database.ref(nodeName+'/'+id).remove(); 
+
+    return database.ref(`${nodeName}/${id}`).remove();
   }
 }
 

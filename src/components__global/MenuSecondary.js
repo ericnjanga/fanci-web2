@@ -27,7 +27,7 @@ const MenuSecondary = (props) => {
       </NavItem>
       
       <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/who-is-coming`} onClick={() => { toggleDropdown(); } }>Who is coming?</NavLink>
+        <NavLink style={dropdownSyles.item} to={`/my-subscribers`} onClick={() => { toggleDropdown(); } }>My Subscribers</NavLink>
       </NavItem>
 
       <hr style={menu.hr} className="hr-menu space" />

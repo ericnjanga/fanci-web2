@@ -367,15 +367,18 @@ class PostItem extends React.Component {
       });
     }
 
-    //Check if current user has "opted-in"
-    let fanciID = this.props.data.id,
-        currUID = this.props.loggedUserID,
-        env = this; 
-    DBOptin.findUser(fanciID, currUID).once('value', function(snapshot) {
-      if (snapshot.hasChild(currUID)) {
-        env.setState({userOptin: true });
-      }
-    });
+    // Check if current user has "opted-in"
+    // (only do this on timeline mode)
+    if(this.props.isTimeline) {
+      let fanciID = this.props.data.id,
+          currUID = this.props.loggedUserID,
+          env = this; 
+      DBOptin.findUser(fanciID, currUID).once('value', function(snapshot) {
+        if (snapshot.hasChild(currUID)) {
+          env.setState({userOptin: true });
+        }
+      });
+    }
   } 
 
   
@@ -839,19 +842,33 @@ const DisplaySubscribers = (props) => {
   }
 
   const divStyle = {
-    padding: '10px 20px',
+    position: 'relative',
+    padding: '20px 10px 0 10px',
     display: 'flex',
     justifyContent: 'flex-start',
-    // backgroundColor: 'rgba(0,0,0,0.1)',
   }; 
+
+  const spanStyle = {
+    position: 'absolute', 
+    'top': '2px', 
+    'left': '10px',
+    'font-size': '0.7rem',
+    'color': 'rgb(14, 161, 247)',
+  };
+
 
   return (
     <div style={divStyle}>
-      Subscribers here ...
+      {
+        props.subscribers.map((item)=>{
+          return <DisplayPostAvatar style={{ margin: '0 10px 10px 0' }} data={item} />;
+        })
+      }
+      <span style={spanStyle}>Subscribers</span>
     </div>
   );
 }
-
+  
 
 /**
  * ...

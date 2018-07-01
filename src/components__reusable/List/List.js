@@ -2,7 +2,7 @@
  * Component rendering a list of all messages 
  */ 
 import React from 'react';
-import {Alert } from 'reactstrap';
+import { Alert } from 'reactstrap';
 
 
 const List = (props) => {

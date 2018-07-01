@@ -160,19 +160,19 @@ const ViewAll = (props) => {
       />
       {/* Render views (if logged in) / [login view] (if logged out) */}
 
-      {/* Who is coming? */}
+      {/* My Subscribers */}
       <Route 
         exact 
-        path="/who-is-coming"
+        path="/my-subscribers"
         render={() => (
           !p.userProfile ? (
             <Redirect to="/login"/>
           ) : (
             <Route 
-              path="/who-is-coming" 
+              path="/my-subscribers" 
               exact={true} 
               render={() => (
-                <ViewTimeline { ...p} />
+                <ViewUserTimeline { ...p}  />
               )}
             />  
           )
