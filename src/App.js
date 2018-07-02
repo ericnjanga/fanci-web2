@@ -239,38 +239,32 @@ class App extends Component {
 
 
     /**
-     * ...
+     * Getting post belonging to the logged user on which people have subscribed
      */
     DBOptin.getNode().on('value', (snapshot) => {
 
       const nodeVal = snapshot.val();
-      let listPostSubscription = []; 
-      if (nodeVal) { // Avoid error if there is no DB objects 
+      const listPostSubscription = [];
+      if (nodeVal) { // Avoid error if there is no DB objects
+
         const itemMap = new Map(Object.entries(nodeVal));
         itemMap.forEach((value, key) => {
-          console.log('>>>key=', key);
+
           const item = Object.assign({}, value);
           if (auth.currentUser.uid === item.ownerID) {
 
-            listPostSubscription.push({ postID: key, subscribers: { ...item.participants } });
+            listPostSubscription.push({ postID: key, subscribers: { ...item.subscribers } });
 
           }
 
         });// itemMap
 
-        console.log('>>>listPostSubscription=', listPostSubscription);
-        this.setState({ listPostSubscription }); 
+        this.setState({ listPostSubscription });
 
       }// nodeVal
-      // //save array in state
-      // this.setState({postList_runtime, upList_runtime });
-      // this.setState({postList:postList_runtime, upList:upList_runtime });
 
     });// [end] Fetch Fancies ...
 
-
-    
-    
   }// [end]componentDidMount
 
 

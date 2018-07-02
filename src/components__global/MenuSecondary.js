@@ -23,7 +23,7 @@ const MenuSecondary = (props) => {
       </NavItem>
       
       <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/where-do-i-go`} onClick={() => { toggleDropdown(); } }>Where do I go?</NavLink>
+        <NavLink style={dropdownSyles.item} to={`/my-subscriptions`} onClick={() => { toggleDropdown(); } }>My subscriptions</NavLink>
       </NavItem>
       
       <NavItem>

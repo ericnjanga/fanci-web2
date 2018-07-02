@@ -82,3 +82,8 @@ div[class^="col-md-"] h4 {
 .inner-container ul {
   padding-left: 17px
 }
+
+
+.grid-item {
+  margin-bottom: 30px;
+}

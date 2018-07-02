@@ -4,7 +4,7 @@
 import { database } from './../services/connection-details.js'; 
 
 
-const nodeName = 'opt-ins';
+const nodeName = 'subscriptions';
 
 
 class DBOptin {
@@ -51,8 +51,8 @@ class DBOptin {
           const newRecord = {};
           newRecord[fanciID] = {};
           newRecord[fanciID].ownerID = ownerID;
-          newRecord[fanciID].participants = {};
-          newRecord[fanciID].participants[participantID] = {
+          newRecord[fanciID].subscribers = {};
+          newRecord[fanciID].subscribers[participantID] = {
             date: Date.now(),
           };
 
@@ -61,8 +61,8 @@ class DBOptin {
         } else {
 
           // If post is already existing ...
-          // nodeName + '/' + fanciID + '/participants/' + participantID
-          const listRefChild = database.ref(`${nodeName}/${fanciID}/participants/${participantID}`);
+          // nodeName + '/' + fanciID + '/subscribers/' + participantID
+          const listRefChild = database.ref(`${nodeName}/${fanciID}/subscribers/${participantID}`);
           const newRecord = {
             date: Date.now(),
           };
@@ -81,7 +81,7 @@ class DBOptin {
    */
   static findUser(fanciID) {
 
-    return database.ref(`${nodeName}/${fanciID}/participants`);
+    return database.ref(`${nodeName}/${fanciID}/subscribers`);
 
   }
 
@@ -92,7 +92,7 @@ class DBOptin {
     let uri = `${nodeName}/${fanciID}`;
     if (participantID) {
 
-      uri += `/participants/${participantID}`;
+      uri += `/subscribers/${participantID}`;
 
     }
     return database.ref(uri).remove();

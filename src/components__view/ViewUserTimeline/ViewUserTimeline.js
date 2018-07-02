@@ -16,55 +16,66 @@ class ViewUserTimeline extends ViewApp {
     this.state = {};
 
   }
-  
+
 
   componentDidMount() {
 
-    let list = [];
+    /**
+     * Extract data of :
+     * - Each post subscribed
+     * -- Each of the subscribers
+     */
+    const list = [];
 
     this.props.listPostSubscription.map((item) => {
-            
+      
+      /**
+       * Get a promise which is supposed to resolve with { postObject, subscribersArray[ userObj, userObj, ...] }
+       * (resolves only when post data and all subscribers data are retrieved)
+       */
+      const postSubscripSnapshot = new Promise((resolve) => {
 
-      const postSnapshot = new Promise((resolve) => {
         DBPost.getItem(item.postID).on('value', (snapshot) => {
-          // const postData = snapshot.val();
+
           const listSubscribers = Object.keys(item.subscribers);
+
+          // Save post data and prepare subscribers array
           const data = { postData: snapshot.val(), subscribers: [] };
 
-          console.log('....item.subscribers=', Object.keys(item.subscribers) );
-          // if (item.subscribers) {
+          listSubscribers.map((uid) => {
 
-            listSubscribers.map((uid) => {
-              console.log('.....uid=', uid);
-              // DBUser.get(uid)
-              DBUser.get(uid).then((user) => {
-                data.subscribers.push(user);
-                if(data.subscribers.length === listSubscribers.length) {
-                  resolve(data);
-                }
-              });
+            DBUser.get(uid).then((user) => {
+
+              data.subscribers.push(user);
+
+              // Resolve promise only when all subscribers data has been retrieved
+              if (data.subscribers.length === listSubscribers.length) {
+
+                resolve(data);
+
+              }
 
             });
 
-          // }
-          
+          });
 
-          
         });
-      });
 
-      postSnapshot.then((data)=>{
+      }); // postSubscripSnapshot
+
+
+      /**
+       * Save post+user data in the list
+       * (for each resolved promise)
+       */
+      postSubscripSnapshot.then((data) => {
 
         list.push(data);
         this.setState({ list });
-        console.log('...>>>>list=', list);
 
       });
 
-
     });
-
-    // super.componentDidMount();
 
   }// [end] componentDidMount
 
@@ -84,12 +95,9 @@ class ViewUserTimeline extends ViewApp {
 
 
         {
-          // Display all posts items 
+          // Display all posts items
           
           s.list && s.list.length ? s.list.map((item) => {
-
-
-          console.log(' - item=', item);
 
             return (
               <PostItem
