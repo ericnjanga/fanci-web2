@@ -17,65 +17,116 @@ class ViewUserTimeline extends ViewApp {
 
   }
 
-
+  /**
+   * Fetch the following lists: (depending on param provided)
+   * - "My subscriptions"
+   * - "My subscribers"
+   * (List is filled as soon as a post data is resolved)
+   */
   componentDidMount() {
 
     /**
      * Extract data of :
      * - Each post subscribed
-     * -- Each of the subscribers
      */
     const list = [];
 
-    this.props.listPostSubscription.map((item) => {
-      
-      /**
-       * Get a promise which is supposed to resolve with { postObject, subscribersArray[ userObj, userObj, ...] }
-       * (resolves only when post data and all subscribers data are retrieved)
-       */
-      const postSubscripSnapshot = new Promise((resolve) => {
+    // Fetch "My subscriptions" list
+    if (this.props.isMySubscriptions) {
 
-        DBPost.getItem(item.postID).on('value', (snapshot) => {
+      this.props.listMySubscriptions.map((item) => {
 
-          const listSubscribers = Object.keys(item.subscribers);
+        /**
+         * Get a promise which is supposed to resolve with { postObject }
+         */
+        const postSubscripSnapshot = new Promise((resolve) => {
 
-          // Save post data and prepare subscribers array
-          const data = { postData: snapshot.val(), subscribers: [] };
+          DBPost.getItem(item.postID).on('value', (snapshot) => {
 
-          listSubscribers.map((uid) => {
-
-            DBUser.get(uid).then((user) => {
-
-              data.subscribers.push(user);
-
-              // Resolve promise only when all subscribers data has been retrieved
-              if (data.subscribers.length === listSubscribers.length) {
-
-                resolve(data);
-
-              }
-
-            });
-
+            const data = { postData: snapshot.val() };
+            resolve(data);
+  
           });
-
+  
+        }); // postSubscripSnapshot
+  
+  
+        /**
+         * Save post+user data in the list
+         * (for each resolved promise)
+         */
+        postSubscripSnapshot.then((data) => {
+  
+          list.push(data);
+          this.setState({ list, title: 'My Subscriptions' });
+  
         });
 
-      }); // postSubscripSnapshot
+        return false;
+  
+      }); // listPostSubscription
+
+    } // Setting up "MySubscriptions"
 
 
-      /**
-       * Save post+user data in the list
-       * (for each resolved promise)
-       */
-      postSubscripSnapshot.then((data) => {
 
-        list.push(data);
-        this.setState({ list });
 
-      });
+    // Fet "My subscribers" list
+    if (this.props.isMySubscribers) {
 
-    });
+      this.props.listPostSubscription.map((item) => {
+
+        /**
+         * Get a promise which is supposed to resolve with { postObject, subscribersArray[ userObj, userObj, ...] }
+         * (resolves only when post data and all subscribers data are retrieved)
+         */
+        const postSubscripSnapshot = new Promise((resolve) => {
+
+          DBPost.getItem(item.postID).on('value', (snapshot) => {
+  
+            const listSubscribers = Object.keys(item.subscribers);
+  
+            // Save post data and prepare subscribers array
+            const data = { postData: snapshot.val(), subscribers: [] };
+  
+            listSubscribers.map((uid) => {
+  
+              DBUser.get(uid).then((user) => {
+  
+                data.subscribers.push(user);
+  
+                // Resolve promise only when all subscribers data has been retrieved
+                if (data.subscribers.length === listSubscribers.length) {
+  
+                  resolve(data);
+  
+                }
+  
+              });
+  
+            });
+  
+          });
+  
+        }); // postSubscripSnapshot
+  
+  
+        /**
+         * Save post+user data in the list
+         * (for each resolved promise)
+         */
+        postSubscripSnapshot.then((data) => {
+  
+          list.push(data);
+          this.setState({ list, title: 'My Subscribers' });
+  
+        });
+
+        return false;
+  
+      }); // listPostSubscription
+
+    } // Setting up "MySubscribers"
 
   }// [end] componentDidMount
 
@@ -89,7 +140,10 @@ class ViewUserTimeline extends ViewApp {
     return (
       <div className="view__content ViewTimeline">
 
-        <h1 style={{ marginBottom: '30px', textAlign: 'center', fontSize: '1.8rem' }}>My Subscribers</h1>
+        <h1 style={{ marginBottom: '30px', textAlign: 'center', fontSize: '1.8rem' }}>
+          { this.props.isMySubscribers && s.title }
+          { this.props.isMySubscriptions && s.title }
+        </h1>
 
         <Placeholders isVisible={!p.postList_runtime} />
 

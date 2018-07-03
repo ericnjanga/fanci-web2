@@ -39,7 +39,7 @@ const ViewAll = (props) => {
       }
 
       {
-        /* Render views (if p.userProfile is authenticated), otherwise 
+        /* Render views (if p.userProfile is authenticated), otherwise
         (if p.userProfile is unauthenticated) render login */
       }
       {/* Home? */}
@@ -152,7 +152,7 @@ const ViewAll = (props) => {
               path="/my-subscriptions" 
               exact={true} 
               render={() => (
-                <ViewTimeline { ...p} />
+                <ViewUserTimeline { ...p} isMySubscriptions />
               )}
             />  
           )
@@ -172,7 +172,7 @@ const ViewAll = (props) => {
               path="/my-subscribers" 
               exact={true} 
               render={() => (
-                <ViewUserTimeline { ...p}  />
+                <ViewUserTimeline { ...p} isMySubscribers />
               )}
             />  
           )

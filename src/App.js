@@ -167,7 +167,6 @@ class App extends Component {
     // (FirebaseAuth service remembers their credentials)
     auth.onAuthStateChanged((userAuthObject) => {
 
-      console.log('>>>>auth.onAuthStateChanged : ', userAuthObject);
       // Save fresh user records in database and save a local version to the state
       // (state version might contains some info from the database)
       let userProfile;
@@ -175,8 +174,9 @@ class App extends Component {
 
         DBUser.saveBasicInfo(userAuthObject)
         .then((currUserInfo) => {
+
           userProfile = currUserInfo;
-          this.setState({userProfile });
+          this.setState({ userProfile });
 
           // Get gelolocation object ...
           // save user position in the database and object geolocation state
@@ -190,15 +190,23 @@ class App extends Component {
               DBUser.saveBasicInfo(userProfile);
 
             }
-            //save goelocation object anyway
-            this.setState({geolocation });
-          });// [end] Get gelolocation object 
+
+            // save goelocation object anyway
+            this.setState({ geolocation });
+
+          });// [end] Get gelolocation object
+
         });// [end] DBUser.saveBasicInfo
+
       } else {
+
         this.setState({ userProfile: null });
+
       }    
     }, (error) => {
+
       error.log('>>>error=', error);
+
     }, (completed) => {
       //...
     }); // [end] user sign-in + save
@@ -239,7 +247,9 @@ class App extends Component {
 
 
     /**
-     * Getting post belonging to the logged user on which people have subscribed
+     * GET MY SUBSCRIBERS
+     * -------------------
+     * Getting post belonging to the "logged user" on which people have subscribed
      */
     DBOptin.getNode().on('value', (snapshot) => {
 
@@ -260,6 +270,47 @@ class App extends Component {
         });// itemMap
 
         this.setState({ listPostSubscription });
+
+      }// nodeVal
+
+    });// [end] Fetch Fancies ...
+
+
+    /**
+     * GET MY SUBSCRIPTIONS
+     * -------------------
+     * Getting posts not belonging to the "logged user" on which he/she has subscribed
+     */
+    DBOptin.getNode().on('value', (snapshot) => {
+
+      const nodeVal = snapshot.val();
+      const listMySubscriptions = [];
+      if (nodeVal) { // Avoid error if there is no DB objects
+
+        const itemMap = new Map(Object.entries(nodeVal));
+
+        itemMap.forEach((value, postID) => {
+
+          const item = Object.assign({}, value);
+          if (auth.currentUser.uid !== item.ownerID) {
+
+            const listSubscribers = Object.keys(item.subscribers);
+
+            listSubscribers.map((subscriberID) => {
+
+              if (subscriberID === auth.currentUser.uid) {
+
+                listMySubscriptions.push({ postID });
+
+              }
+
+            });
+
+          }
+
+        });// itemMap
+
+        this.setState({ listMySubscriptions });
 
       }// nodeVal
 

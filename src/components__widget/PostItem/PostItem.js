@@ -833,11 +833,13 @@ const DisplayHeader = (props) => {
 
 /**
  * ...
- * (Don't display if not in "compressed mode")
+ * (Don't display if:
+ * - not in "compressed mode"
+ * - no subscribers provided)
  * -----------------------
  */
 const DisplaySubscribers = (props) => {
-  if(!props.isCompressed) {
+  if(!props.isCompressed || !props.subscribers) {
     return false;
   }
 
@@ -852,7 +854,7 @@ const DisplaySubscribers = (props) => {
     position: 'absolute', 
     'top': '2px', 
     'left': '10px',
-    'font-size': '0.7rem',
+    'fontSize': '0.7rem',
     'color': 'rgb(14, 161, 247)',
   };
 
@@ -860,8 +862,8 @@ const DisplaySubscribers = (props) => {
   return (
     <div style={divStyle}>
       {
-        props.subscribers.map((item)=>{
-          return <DisplayPostAvatar style={{ margin: '0 10px 10px 0' }} data={item} />;
+        props.subscribers.map((item, key)=>{
+          return <DisplayPostAvatar key={item.uid} style={{ margin: '0 10px 10px 0' }} data={item} />;
         })
       }
       <span style={spanStyle}>Subscribers</span>
