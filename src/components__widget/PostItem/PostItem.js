@@ -49,6 +49,7 @@ class PostItem extends React.Component {
       postDeleteRequested  : false,
       canBeEdited     : false,
       modalEM         : false, 
+      modalPreview    : false,
       userOptin       : false, //By default, owner is not opted-in
       postFormFields : {}, 
       postFileUpload: {
@@ -75,11 +76,12 @@ class PostItem extends React.Component {
       postFormIsValid   : true, //Post is valid by default because data is coming from a post
       postFormIsFrozen  : false 
     }// [end] state
-    this.handleEdit     = this.handleEdit.bind(this);
-    this.toggleEM       = this.toggleEM.bind(this);
-    this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.handleOptin    = this.handleOptin.bind(this);
-    this.handleChange   = this.handleChange.bind(this);
+    this.handleEdit       = this.handleEdit.bind(this);
+    this.toggleEM         = this.toggleEM.bind(this);
+    this.togglePreview    = this.togglePreview.bind(this);
+    this.toggleDropdown   = this.toggleDropdown.bind(this);
+    this.handleOptin      = this.handleOptin.bind(this);
+    this.handleChange     = this.handleChange.bind(this);
     this.handleRemoveImage = this.handleRemoveImage.bind(this);
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }// [end] constructor
@@ -329,6 +331,13 @@ class PostItem extends React.Component {
   }
 
 
+  togglePreview() {
+    this.setState({
+      modalPreview: !this.state.modalPreview
+    });
+  }
+
+
   //Open confirmation modal to see if this post can be deleted
   oPenConfirmRemoveModal(postID) {
     let meta = {
@@ -508,6 +517,7 @@ class PostItem extends React.Component {
           />
 
           <DisplayPreviewCta
+            toggleModal={this.togglePreview}
             {...p}
           />
           
@@ -520,7 +530,10 @@ class PostItem extends React.Component {
           />
         </Card>   
 
-         
+        
+        { 
+          /*- Modal: Edit Post */
+        }
         <Modal 
           isOpen={this.state.modalEM} 
           toggle={this.toggleEM} 
@@ -569,7 +582,80 @@ class PostItem extends React.Component {
               Update
             </Button>
           </ModalFooter> 
-        </Modal>    
+        </Modal>   
+
+        
+
+        
+        { 
+          /*- Modal: Preview Post */
+        }
+        <Modal 
+          isOpen={this.state.modalPreview} 
+          toggle={this.togglePreview} 
+          className={'ModalPost'} 
+          backdrop={'static'}>  
+          {
+            // s.user && <Figure 
+            //   img={s.user.photoURL} 
+            //   alt={s.user.displayName} 
+            //   style={style.avatar} 
+            //   avatar 
+            //   circle 
+            //   size="med" 
+            // /> 
+          }
+
+          <DisplayPostAvatar 
+            data={s.user} 
+            style={PostItemStyle.avatar} 
+          />
+
+          <DisplayHeader 
+            data={p.data} 
+            style={headerStyle} 
+          />
+
+          <NativeDisplayPostImage
+            {...p}
+            src={imgURL}
+            alt={p.data.title}
+          />
+          
+          <Card className="PostItem" style={{border: '0px', margin: '1px'}}>
+            <NativeDisplayBody
+              {...p}
+              data={p.data} 
+              style={PostItemStyle.cardBody}  
+            />
+          </Card>
+
+          <div> 
+            <div className="PostItem__footer-info" style={{borderRadius: '0', marginBottom: '20px'}}> 
+              {
+                p.data.location && <small className="PostItem__date">
+                                  <FontAwesomeIcon icon={faMapMarker} />{p.data.location}
+                                </small>
+              }  
+              {
+                p.data.places && <small className="PostItem__date">
+                                  <FontAwesomeIcon icon={faUsers} />{p.data.places}
+                                </small>
+              }
+            </div>
+          </div>
+
+
+           
+          <ModalFooter style={modalStyle.footer}>
+            <Button 
+              style={style.btnCancel} 
+              color="secondary" 
+              onClick={this.togglePreview}>
+              Cancel
+            </Button>
+          </ModalFooter> 
+        </Modal>  
       </div>
     );
   }
@@ -899,7 +985,7 @@ const DisplayPreviewCta = (props) => {
     <div style={divStyle}>
       <Button 
         style={btnStyle} 
-        color="primary">
+        color="primary" onClick={props.toggleModal}>
         View
       </Button>
     </div>
@@ -908,8 +994,9 @@ const DisplayPreviewCta = (props) => {
 
 
 //Display image
-const DisplayPostImage = (props) => {
-  if(props.isCompressed || !props.src || !props.display) {
+const NativeDisplayPostImage = (props) => {
+
+  if(!props.src) {
     return false;
   } 
 
@@ -917,6 +1004,17 @@ const DisplayPostImage = (props) => {
     <Figure img={props.src} alt={props.alt} isPostFeatured /> 
   )
 }; 
+
+//Display image
+const DisplayPostImage = (props) => {
+  if(props.isCompressed || !props.display) {
+    return false;
+  } 
+
+  return (
+    <NativeDisplayPostImage {...props} /> 
+  )
+};
 
 /**
  * Only owners of this posts can use this menu
@@ -1023,15 +1121,24 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
   )
 }; 
 
-const DisplayBody = (props) => {
+// Display body without checking for display mode ,..
+const NativeDisplayBody = (props) => {
 
-  if (props.isCompressed || !props.data || !props.display) return false;
+  if (!props.data) return false;
 
   return (
     <CardBody style={props.style}>   
       <CardText>{props.data.content}</CardText> 
     </CardBody>
   )
+
+}
+
+const DisplayBody = (props) => {
+
+  if (props.isCompressed || !props.display) return false;
+
+  return <NativeDisplayBody {...props} />
 
 }
 
