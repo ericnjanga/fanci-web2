@@ -2,9 +2,9 @@
   "name": "fanci-web2-plans",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "serve": "^9.1.0"
-  },
+  "dependencies": {},
   "scripts": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "serve": "^9.1.0"
+  }
 }
