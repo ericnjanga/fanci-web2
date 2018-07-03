@@ -2,24 +2,25 @@
  * Main Application
  * ---------------------------
  */ 
-import React, {Component } from 'react';
-import {BrowserRouter as Router } from 'react-router-dom';
-import {auth, provider } from './services/firebase.js';
+import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { auth, provider } from './services/connection-details.js';
 import './utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
 import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
-import SearchPanel from './components__widget/SearchPanel/SearchPanel.js'; 
+import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';
 import AppFooter from './components__global/AppFooter/AppFooter.js';
 import MenuPrimary from './components__global/MenuPrimary.js';
 import MenuSecondary from './components__global/MenuSecondary.js';
-import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';  
-import ViewAll from './components__view/ViewAll.js'; 
-import Toast from './components__reusable/Toast/Toast.js'; 
-import DBUser from './utilities/DBUser.class.js';  
+import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';
+import ViewAll from './components__view/ViewAll.js';
+import Toast from './components__reusable/Toast/Toast.js';
+import DBUser from './utilities/DBUser.class.js';
+import DBOptin from './utilities/DBOptin.class.js';
 import DBPost from './utilities/DBPost.class.js';
 import AppDoc from './utilities/AppDoc.class.js';
 import Geoloc from './utilities/Geoloc.class.js';
-import {Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import './styles/App.css';
 import './styles/components/buttons.css';
 import './styles/components/dropdown.css';
@@ -27,6 +28,7 @@ import './styles/components/form.css';
 
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -61,11 +63,6 @@ class App extends Component {
     this.handleConfirmModal   = this.handleConfirmModal.bind(this);
   }
 
-  //Update state with current path name:
-  //(Useful for styling the app at the highest level based on the current route) 
-  handleRouteChange(currPathName) {
-    this.setState({currPathName: AppDoc.getPathName()});
-  }
 
   //Handles a modal component which plays the role of a "confirm dialog"
   //----------------------
@@ -101,8 +98,10 @@ class App extends Component {
     this.setState({confirmationModal });
   }// [end] handleConfirmModal
 
-  //Shell login method
-  handleLogin() {  
+
+  // Shell login method
+  handleLogin() {
+
     auth.signInWithRedirect(provider);
     auth.getRedirectResult()
     .then((userAuthObject) => {
@@ -111,52 +110,63 @@ class App extends Component {
       var errorCode = error.code;
       error.log('>>>errorCode=', errorCode);
     });
+
   }
 
-  //Shell logout method
+  // Shell logout method
   handleLogout() {
-    let drawer = this.state.drawer;
+
+    const { drawer } = this.state;
     drawer.active = false;
     auth.signOut().then(() => {
-      this.setState({
-        userProfile     : null,
-        drawer
-      });
-    }); 
-  } 
 
-  //Toggling vertical navigation visibility
-  handleToggleVertNav() { 
-    let drawer = this.state.drawer;
-    drawer.active = !this.state.drawer.active;
-    this.setState({drawer });
+      this.setState({
+        userProfile: null,
+        drawer,
+      });
+
+    });
+
   }
 
-  //When we want the nav to be explicitely closed
+  // Toggling vertical navigation visibility
+  handleToggleVertNav() {
+
+    const { drawer } = this.state;
+    drawer.active = !this.state.drawer.active;
+    this.setState({ drawer });
+
+  }
+
+  // When we want the nav to be explicitely closed
   handleCloseVertNav() {
-    let drawer = this.state.drawer; 
+    const { drawer } = this.state; 
     if (drawer.active) {
       drawer.active = !drawer.active;
       this.setState({drawer });
     } 
   }
 
-  //Filter the original list of fancies against user search input
-  //and updatge the state with the resulting array
+  // Filter the original list of fancies against user search input
+  // and updatge the state with the resulting array
   handlePostSearch(event) {
+
     let searchVal = event.target.value; 
     let list = this.state.postList; 
     let postList_runtime = list.filter((item) => { 
       return item.title.toLowerCase().search(searchVal) > -1;
     });
-    this.setState({postList_runtime });
+    this.setState({ postList_runtime });
+
   }
+
 
   componentDidMount() {
 
     // Signs users back-in everytime application loads
     // (FirebaseAuth service remembers their credentials)
     auth.onAuthStateChanged((userAuthObject) => {
+
       // Save fresh user records in database and save a local version to the state
       // (state version might contains some info from the database)
       let userProfile;
@@ -164,8 +174,9 @@ class App extends Component {
 
         DBUser.saveBasicInfo(userAuthObject)
         .then((currUserInfo) => {
+
           userProfile = currUserInfo;
-          this.setState({userProfile });
+          this.setState({ userProfile });
 
           // Get gelolocation object ...
           // save user position in the database and object geolocation state
@@ -179,18 +190,27 @@ class App extends Component {
               DBUser.saveBasicInfo(userProfile);
 
             }
-            //save goelocation object anyway
-            this.setState({geolocation });
-          });// [end] Get gelolocation object 
+
+            // save goelocation object anyway
+            this.setState({ geolocation });
+
+          });// [end] Get gelolocation object
+
         });// [end] DBUser.saveBasicInfo
+
       } else {
-        this.setState({userProfile: null });
+
+        this.setState({ userProfile: null });
+
       }    
     }, (error) => {
+
       error.log('>>>error=', error);
+
     }, (completed) => {
       //...
-    });// [end] user sign-in + save
+    }); // [end] user sign-in + save
+
 
     /**
      * Fetch post list from database:
@@ -221,14 +241,95 @@ class App extends Component {
         });//postMap
       }//nodeVal
       //save array in state
-      this.setState({postList_runtime, upList_runtime });
-      this.setState({postList:postList_runtime, upList:upList_runtime });
+      this.setState({ postList_runtime, upList_runtime });
+      this.setState({ postList: postList_runtime, upList: upList_runtime });
     });// [end] Fetch Fancies ...
-    
+
+
+    /**
+     * GET MY SUBSCRIBERS
+     * -------------------
+     * Getting post belonging to the "logged user" on which people have subscribed
+     */
+    DBOptin.getNode().on('value', (snapshot) => {
+
+      const nodeVal = snapshot.val();
+      const listPostSubscription = [];
+      if (nodeVal) { // Avoid error if there is no DB objects
+
+        const itemMap = new Map(Object.entries(nodeVal));
+        itemMap.forEach((value, key) => {
+
+          const item = Object.assign({}, value);
+          if (auth.currentUser.uid === item.ownerID) {
+
+            listPostSubscription.push({ postID: key, subscribers: { ...item.subscribers } });
+
+          }
+
+        });// itemMap
+
+        this.setState({ listPostSubscription });
+
+      }// nodeVal
+
+    });// [end] Fetch Fancies ...
+
+
+    /**
+     * GET MY SUBSCRIPTIONS
+     * -------------------
+     * Getting posts not belonging to the "logged user" on which he/she has subscribed
+     */
+    DBOptin.getNode().on('value', (snapshot) => {
+
+      const nodeVal = snapshot.val();
+      const listMySubscriptions = [];
+      if (nodeVal) { // Avoid error if there is no DB objects
+
+        const itemMap = new Map(Object.entries(nodeVal));
+
+        itemMap.forEach((value, postID) => {
+
+          const item = Object.assign({}, value);
+          if (auth.currentUser.uid !== item.ownerID) {
+
+            const listSubscribers = Object.keys(item.subscribers);
+
+            listSubscribers.map((subscriberID) => {
+
+              if (subscriberID === auth.currentUser.uid) {
+
+                listMySubscriptions.push({ postID });
+
+              }
+
+            });
+
+          }
+
+        });// itemMap
+
+        this.setState({ listMySubscriptions });
+
+      }// nodeVal
+
+    });// [end] Fetch Fancies ...
+
   }// [end]componentDidMount
+
+
+  // Update state with current path name:
+  // (Useful for styling the app at the highest level based on the current route) 
+  handleRouteChange() {
+
+    this.setState({ currPathName: AppDoc.getPathName() });
+
+  }
+
   
   handleProfileUpdate(userProfile) {
-    this.setState({userProfile });
+    this.setState({ userProfile });
   }
 
   /**

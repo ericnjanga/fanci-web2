@@ -2,8 +2,9 @@
  * Component encapsulating all views
  */
 import React from 'react';
-import {Route, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import ViewTimeline from './ViewTimeline/ViewTimeline.js';
+import ViewUserTimeline from './ViewUserTimeline/ViewUserTimeline.js';
 import ViewMap from './ViewMap/ViewMap.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
 import ViewProfile from './ViewProfile/ViewProfile.js';
@@ -38,7 +39,7 @@ const ViewAll = (props) => {
       }
 
       {
-        /* Render views (if p.userProfile is authenticated), otherwise 
+        /* Render views (if p.userProfile is authenticated), otherwise
         (if p.userProfile is unauthenticated) render login */
       }
       {/* Home? */}
@@ -72,7 +73,7 @@ const ViewAll = (props) => {
               path="/around-us" 
               exact={true} 
               render={() => (
-                <ViewTimeline { ...p} displayExpiredItems={false} />
+                <ViewTimeline {...p} displayExpiredItems={false} />
               )}
             />  
           )
@@ -131,7 +132,47 @@ const ViewAll = (props) => {
               path="/my-fancies" 
               exact={true} 
               render={() => (
-                <ViewTimeline { ...p} />
+                <ViewUserTimeline { ...p} />
+              )}
+            />  
+          )
+        )}
+      />
+      {/* Render views (if logged in) / [login view] (if logged out) */}
+
+      {/* My subscriptions? */}
+      <Route 
+        exact 
+        path="/my-subscriptions" 
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/my-subscriptions" 
+              exact={true} 
+              render={() => (
+                <ViewUserTimeline { ...p} isMySubscriptions />
+              )}
+            />  
+          )
+        )}
+      />
+      {/* Render views (if logged in) / [login view] (if logged out) */}
+
+      {/* My Subscribers */}
+      <Route 
+        exact 
+        path="/my-subscribers"
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/my-subscribers" 
+              exact={true} 
+              render={() => (
+                <ViewUserTimeline { ...p} isMySubscribers />
               )}
             />  
           )

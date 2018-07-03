@@ -3,21 +3,21 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react';
-import {Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap';
+import { Button, Card, CardText, CardBody, CardTitle, CardFooter } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {Form, FormGroup, Label, Input } from 'reactstrap';
-import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
-import {Alert } from 'reactstrap';
-import {dropdownSyles } from './../../jsStyles/menu.styles.js'; 
-import Toast from './../../components__reusable/Toast/Toast.js';  
+import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Tooltip } from 'reactstrap';
+import { Alert } from 'reactstrap';
+import { dropdownSyles } from './../../jsStyles/menu.styles.js';
+import Toast from './../../components__reusable/Toast/Toast.js';
 import PostItemStyle from './../../jsStyles/PostItem.styles.js';
-import DBUser from '../../utilities/DBUser.class.js'; 
+import DBUser from '../../utilities/DBUser.class.js';
 import DBUpload from './../../utilities/DBUpload.class.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import DBOptin from './../../utilities/DBOptin.class.js';
 import Figure from './../../components__reusable/Figure/Figure.js';
 import modalStyle from './../../jsStyles/modal.styles.js';
-import {formStyleLightTheme } from './../../jsStyles/form.styles.js';
+import { formStyleLightTheme } from './../../jsStyles/form.styles.js';
 import DateFormat from './../../components__reusable/DateFormat.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'; 
 import faMapMarker from '@fortawesome/fontawesome-free-solid/faMapMarker';
@@ -28,7 +28,6 @@ import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 import faUsers from '@fortawesome/fontawesome-free-solid/faUsers';
 import faTimesCircle from '@fortawesome/fontawesome-free-solid/faTimesCircle';
 import './PostItem.css';
-
 
 
 /**
@@ -85,30 +84,9 @@ class PostItem extends React.Component {
     this.oPenConfirmRemoveModal = this.oPenConfirmRemoveModal.bind(this);
   }// [end] constructor
 
-  /**
-   * 
-   * @param {*} optinBool 
-   * @param {*} participantID 
-   * @param {*} ownerID 
-   */
-  handleOptin(optinBool, ownerID, participantID) {
-    let fanciID = this.props.data.id;
-    let env = this;
-    this.setState({postFormIsFrozen:true });
-
-    if (!optinBool) {
-      DBOptin.save(fanciID, ownerID, participantID).then(() => {
-        env.setState({userOptin:true, postFormIsFrozen:false });
-      });
-    } else {
-      DBOptin.remove(fanciID, participantID).then(() => {
-        env.setState({userOptin:false, postFormIsFrozen:false });
-      });
-    }
-  }
-
 
   handleRemoveImage(event, postID) {
+
     event.preventDefault();
     this.setState({postFormIsFrozen:true });
     let postFormFields = { ...this.state.postFormFields},
@@ -125,20 +103,23 @@ class PostItem extends React.Component {
         this.setState({postFormIsFrozen:false, postFileUpload, postFormFields });
       });
     });
+
   }// [end] handleRemoveImage
 
 
   clearModal() {
+
     //Cleanup form when post is successful ...
     let postFormFields = { ...DBPost.getPostObject() }, 
         //We don't clear "postFileUpload" property here because this object still need it to display the image
         postFormIsFrozen = false;
     this.setState((prevState, props) => {
       return {postFormFields, postFormIsFrozen }
-    }); 
+    });
+
   }// [end] clearModal
 
-  
+
   /**
    * Save form data in the database
    * Cleanup form and modal
@@ -186,6 +167,44 @@ class PostItem extends React.Component {
       formFields.file = file.replace(/C:\\fakepath\\/, '');  
     }
     return formFields;
+  }
+
+
+  /**
+   * Connect a user to a post
+   * (This happens when a user chooses to opt-in/out of a fanci)
+   * - Freeze post
+   * - Unfreeze post when operation is done
+   * @param {*} boolUserHasOpedIn 
+   * @param {*} participantID 
+   * @param {*} postOwnerID 
+   */
+  handleOptin(boolUserHasOpedIn, postOwnerID, participantID) {
+
+    const fanciID = this.props.data.id;
+    const env = this;
+    this.setState({ postFormIsFrozen: true });
+
+    // Connect user if not opted-in
+    if (!boolUserHasOpedIn) {
+
+      DBOptin.save(fanciID, postOwnerID, participantID).then(() => {
+
+        env.setState({ userOptin: true, postFormIsFrozen: false });
+
+      });
+
+      // Disconnect user if opted-in
+    } else {
+
+      DBOptin.remove(fanciID, participantID).then(() => {
+
+        env.setState({ userOptin: false, postFormIsFrozen: false });
+
+      });
+
+    }
+
   }
 
 
@@ -348,15 +367,18 @@ class PostItem extends React.Component {
       });
     }
 
-    //Check if current user has "opted-in"
-    let fanciID = this.props.data.id,
-        currUID = this.props.loggedUserID,
-        env = this; 
-    DBOptin.findUser(fanciID, currUID).once('value', function(snapshot) {
-      if (snapshot.hasChild(currUID)) {
-        env.setState({userOptin: true });
-      }
-    });
+    // Check if current user has "opted-in"
+    // (only do this on timeline mode)
+    if(this.props.isTimeline) {
+      let fanciID = this.props.data.id,
+          currUID = this.props.loggedUserID,
+          env = this; 
+      DBOptin.findUser(fanciID, currUID).once('value', function(snapshot) {
+        if (snapshot.hasChild(currUID)) {
+          env.setState({userOptin: true });
+        }
+      });
+    }
   } 
 
   
@@ -466,20 +488,31 @@ class PostItem extends React.Component {
             data={p.data} 
             style={headerStyle} 
           /> 
+
+          <DisplaySubscribers
+            {...p}
+          />
   
-          <DisplayPostImage 
+          <DisplayPostImage
+            {...p}
             src={imgURL} 
             alt={p.data.title} 
             display={()=>this.isExpired()} 
           />
 
-          <DisplayBody 
+          <DisplayBody
+            {...p}
             data={p.data} 
             style={PostItemStyle.cardBody} 
             display={()=>this.isExpired()} 
           />
+
+          <DisplayPreviewCta
+            {...p}
+          />
           
-          <DisplayPostFooter 
+          <DisplayPostFooter
+            {...p}
             isOwner={isOwner} 
             state={s} ppt={p} 
             display={()=>this.isExpired()} 
@@ -797,11 +830,91 @@ const DisplayHeader = (props) => {
   );
 }
 
+
+/**
+ * ...
+ * (Don't display if:
+ * - not in "compressed mode"
+ * - no subscribers provided)
+ * -----------------------
+ */
+const DisplaySubscribers = (props) => {
+  if(!props.isCompressed || !props.subscribers) {
+    return false;
+  }
+
+  const divStyle = {
+    position: 'relative',
+    padding: '20px 10px 0 10px',
+    display: 'flex',
+    justifyContent: 'flex-start',
+  }; 
+
+  const spanStyle = {
+    position: 'absolute', 
+    'top': '2px', 
+    'left': '10px',
+    'fontSize': '0.7rem',
+    'color': 'rgb(14, 161, 247)',
+  };
+
+
+  return (
+    <div style={divStyle}>
+      {
+        props.subscribers.map((item, key)=>{
+          return <DisplayPostAvatar key={item.uid} style={{ margin: '0 10px 10px 0' }} data={item} />;
+        })
+      }
+      <span style={spanStyle}>Subscribers</span>
+    </div>
+  );
+}
+  
+
+/**
+ * ...
+ * (Don't display if not in "compressed mode")
+ * -----------------------
+ */
+const DisplayPreviewCta = (props) => {
+  if(!props.isCompressed) {
+    return false;
+  }
+
+  const divStyle = {
+    padding: '10px 20px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  };
+  const btnStyle = {
+    ...modalStyle.ctaBtn, 
+    ...modalStyle.btnYes,
+    height: '27px',
+    minWidth: '100px',
+    fontSize: '12px',
+  };
+  return (
+    <div style={divStyle}>
+      <Button 
+        style={btnStyle} 
+        color="primary">
+        View
+      </Button>
+    </div>
+  );
+}
+
+
 //Display image
 const DisplayPostImage = (props) => {
-  if (!props.src || !props.display) return false;
+  if(props.isCompressed || !props.src || !props.display) {
+    return false;
+  } 
+
   return (
-    <Figure img={props.src} alt={props.alt} /> 
+    <Figure img={props.src} alt={props.alt} isPostFeatured /> 
   )
 }; 
 
@@ -859,7 +972,8 @@ const DisplayPostAvatar = (props) => {//data={s.user} style={PostItemStyle.avata
  */
 const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avatar}
   const {ppt, state } = props; 
-  if (!ppt.data || !props.display) return false; 
+
+  if (props.isCompressed || !ppt.data || !props.display) return false; 
 
   return (
     <CardFooter className="PostItem__footer">
@@ -910,12 +1024,15 @@ const DisplayPostFooter = (props) => {//data={s.user} style={PostItemStyle.avata
 }; 
 
 const DisplayBody = (props) => {
-  if (!props.data || !props.display) return false;
+
+  if (props.isCompressed || !props.data || !props.display) return false;
+
   return (
     <CardBody style={props.style}>   
       <CardText>{props.data.content}</CardText> 
     </CardBody>
   )
+
 }
 
 

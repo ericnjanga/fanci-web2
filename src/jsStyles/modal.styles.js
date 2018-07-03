@@ -1,28 +1,28 @@
 const modalStyle = {
   header: {
     borderBottom: '0px solid',
-    paddingBottom: '0'
+    paddingBottom: '0',
   },
   body: {
-    paddingBottom:'0'
+    paddingBottom: '0',
   },
   footer: {
     paddingTop: '0',
-    borderTop: '0px solid'
+    borderTop: '0px solid',
   },
   ctaBtn: {
     minWidth: '130px',
     textTransform: 'uppercase',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   btnNo: {
     color: 'rgba(0,0,0,0.54)',
     border: '0px solid',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   btnYes: {
-    boxShadow: '0 2px 5px 0 rgba(0,0,0,0.26)'
-  }
+    boxShadow: '0 2px 5px 0 rgba(0,0,0,0.26)',
+  },
 };
 
 

@@ -14,9 +14,9 @@ let defaultStyle = {
       opacity: '0',
       overflow: 'hidden',
       position: 'absolute',
-      zIndex: '-1' 
+      zIndex: '-1',
     },
-    label: null
+    label: null,
   },
   formGroup: {
     position: 'relative',
@@ -93,7 +93,7 @@ class FormThemeDark extends FormTheme {
     
   }
 }//FormThemeDark
- 
+
 
 export const formStyleLightTheme = new FormThemeLight();
 export const formStyleDarkTheme = new FormThemeDark();

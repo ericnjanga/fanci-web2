@@ -22,18 +22,12 @@ h2 {
   color: dodgerblue;
 }
 .main-header {     
-  background: turquoise;
-  text-align: center; 
-  padding-top: 1px;
+  background: turquoise; 
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
 }
-/* .main-header .nav {
-  text-align: center;
-  border-bottom: 1px solid #999;
-}
-  */
-/* .table-1 tr {
-  background-color: lime;
-} */
+ 
 .table {
   border-top: 1px solid #787878;
 }
@@ -55,28 +49,41 @@ h2 {
   border-bottom: 0px solid #787878;
 }
 
-
-/* 
-.table-2 tr:nth-of-type(1) {
-  background-color: 	#F0F0F0;
-}
-.table-2 tr:nth-of-type(2) {
-  background-color: #D8D8D8;
-}
-.table-2 tr:nth-of-type(3) {
-  background-color: #C0C0C0;
-}
-.table-2 tr:nth-of-type(4) {
-  background-color: #A9A9A9;
-}
-.table-2 tr:nth-of-type(5) {
-  background-color: #909090;
-}
-.table-2 tr:nth-of-type(6) {
-  background-color: #787878;
-}
-.table tr tr tr {
-  background-color: lime;
-} */
-
  
+
+
+
+
+.nav.flex-column {
+  position: fixed;
+  z-index: 10;
+  background: #fff;
+  width: 200px;
+  left: 0;
+}
+.nav.flex-column a {
+  color: #666;
+}
+.nav.flex-column a.active {
+  color: #0b98ea;
+  font-weight: bold;
+}
+.inner-container {
+  padding-left: 200px;
+}
+
+
+
+
+div[class^="col-md-"] h4 {
+  font-size: 1.2rem;
+}
+
+.inner-container ul {
+  padding-left: 17px
+}
+
+
+.grid-item {
+  margin-bottom: 30px;
+}

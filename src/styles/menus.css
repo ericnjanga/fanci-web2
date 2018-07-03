@@ -32,6 +32,11 @@ hr.hr-menu.space {
   border-radius: 0;
 }
 
+/* Correcting menu width */
+.btn-toggle-vertNav--lg .dropdown-menu {
+  min-width: 170px!important;
+}
+
 .VerticalNav .nav a .svg-inline--fa {
   display: none;
 }

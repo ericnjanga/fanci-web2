@@ -81,38 +81,39 @@ class ViewTimeline extends ViewApp {
       }
     });
   }// [end] componentDidMount
- 
+
 
   render() {
-    const p = { ...this.props}; 
-    const s = { ...this.state};  
+
+    const p = { ...this.props };
+    const s = { ...this.state };
     const modalData = {
       ...s.modal,
-      formFields: this.state.formFields
-    }; 
+      formFields: this.state.formFields,
+    };
 
-    return ( 
+    return (
       <div className="view__content ViewTimeline" style={{paddingTop:'20px' }}> 
         <Placeholders isVisible={!p.postList_runtime} />
 
-        <List 
-          items={p.postList_runtime} 
-          itemComp={PostItem} 
-          user={p.userProfile} 
-          handleConfirmModal={p.handleConfirmModal} 
-          confirmationModal={p.confirmationModal} 
-          toggleTimelineModal={this.toggleModal} 
-          itemStyle={{marginBottom:'20px' }} 
-          displayExpiredItems={p.displayExpiredItems} 
-        />  
+        <List
+          items={p.postList_runtime}
+          itemComp={PostItem}
+          user={p.userProfile}
+          handleConfirmModal={p.handleConfirmModal}
+          confirmationModal={p.confirmationModal}
+          toggleTimelineModal={this.toggleModal}
+          itemStyle={{ marginBottom: '20px' }}
+          displayExpiredItems={p.displayExpiredItems}
+        />
         {
           s.modal && <div>
-            <ModalPostCreate 
-              user={p.userProfile} 
-              data={modalData} 
-              toggle={this.toggleModal} 
-              className={this.props.className} 
-            /> 
+            <ModalPostCreate
+              user={p.userProfile}
+              data={modalData}
+              toggle={this.toggleModal}
+              className={this.props.className}
+            />
           </div>
         }
         

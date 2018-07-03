@@ -1,23 +1,23 @@
 /**
  * Class dedicated to users
  */
-import {database, auth } from './../services/firebase.js';
+import {database, auth } from './../services/connection-details.js';
 
-let nodeName = 'users';
+const nodeName = 'users';
 
 class DBUser {
-  //Get a user from the database ...
-  //(returns a promise which resolves when the snapshot is ready) 
+  // Get a user from the database ...
+  // (returns a promise which resolves when the snapshot is ready) 
   static get(uid) {
     return new Promise((resolve, reject) => {
-      database.ref('/'+this.nodeName+'/' + uid).once('value').then(function(snapshot) {
+      database.ref('/'+nodeName+'/' + uid).once('value').then(function(snapshot) {
         resolve(snapshot.val());
       });
     });
   }
 
-  //Returns a subset (user properties) of an object's properties (object containing many more properties). 
-  //https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties 
+  // Returns a subset (user properties) of an object's properties (object containing many more properties). 
+  // https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties 
   static getBasicProperties(data) {
     const properties = (({
       displayName, email, phoneNumber, photoURL, biography, visible, lat, lng, uid 
@@ -84,7 +84,7 @@ class DBUser {
         //(because we assume the user might have changed them somewhere else and will expect to see them reflected on this app) 
         //Create or update user record in the database
         let record = {};
-        record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user; 
+        record['/'+nodeName+'/'+ authObject.uid] = tpl_user; 
         database.ref().update(record);
       });//get user from DB 
     });// [end] new Promise
@@ -105,7 +105,7 @@ class DBUser {
     tpl_user.email        = authObject.email;
     //Create or update user record in the database
     let record = {};
-    record['/'+this.nodeName+'/'+ authObject.uid] = tpl_user;
+    record['/'+nodeName+'/'+ authObject.uid] = tpl_user;
     return database.ref().update(record); 
   }
 

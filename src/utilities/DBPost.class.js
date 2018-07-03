@@ -2,7 +2,7 @@
  * Class dedicated to posts
  */
 import React from 'react';
-import {database } from './../services/firebase.js';
+import { database } from './../services/connection-details.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faUpload from '@fortawesome/fontawesome-free-solid/faUpload';
 
@@ -175,18 +175,31 @@ class DBPost {
   
   /**
    * Return database node (for external use)
-   */ 
+   */
   static getNode() {
+
     return database.ref(nodeName);
+
   }
 
   
+  /**
+   * ...
+   */
+  static getItem(id) {
+
+    return database.ref(`${nodeName}/${id}`);
+
+  }
+
+
   /**
    * Save info in the database
    * - copy info in new object and ogment it with new props (uid, date)
    * - return a promise that resolves with a success message
    */
   static save(item, uid) {
+
     const listRef = database.ref(nodeName);
     let newPost   = Object.assign({}, item);
     newPost.uid   = uid;
@@ -201,28 +214,30 @@ class DBPost {
           resolve('post successful!');
         }
       });// [end] listRef.push
-    });// [end] promise 
+    });// [end] promise
+
   }// [end] save
 
 
   static update(postID, postObj) {
-    let newPost = { ...postObj};
+    let newPost = { ...postObj };
     newPost.date  = Date.now();
     newPost.expiryDate = getExpiryDate(newPost.expiry);
-    return database.ref(nodeName+'/'+postID).update(newPost);
+    return database.ref(`${nodeName}/${postID}`).update(newPost); 
   }
 
 
   static updateField(postID, key, value) {
     let obj = {};
     obj[key] = value;
-    return database.ref(nodeName+'/'+postID).update(obj);
+    return database.ref(`${nodeName}/${postID}`).update(obj); 
   }
 
 
   //Delete a post
   static remove(id) {
-    return database.ref(nodeName+'/'+id).remove(); 
+
+    return database.ref(`${nodeName}/${id}`).remove();
   }
 }
 

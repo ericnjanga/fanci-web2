@@ -13,6 +13,5 @@ const buttonStyle = {
   }
 };
 
- 
 
 export default buttonStyle;
