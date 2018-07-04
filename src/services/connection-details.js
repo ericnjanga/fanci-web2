@@ -3,6 +3,8 @@
  */
 import firebase from 'firebase';
 
+export const appEnv = 'dev';
+
 // Config files
 const config = {
   dev: {
@@ -24,7 +26,7 @@ const config = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(config.dev);
+firebase.initializeApp(config[appEnv]);
 
 // Get a references ...
 export const provider = new firebase.auth.GoogleAuthProvider(); // provider

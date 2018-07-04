@@ -13,7 +13,7 @@ import ViewTermsAndConditions from './ViewTermsAndConditions/ViewTermsAndConditi
 import './ViewAll.css';
 
 
-const ViewAll = (props) => {
+const ViewAll = (props) => {  
 
   const p = { ...props };
 
@@ -51,7 +51,7 @@ const ViewAll = (props) => {
             <div className="l1"><Redirect to="/login"/></div>
           ) : ( 
             <Route 
-              path="/" 
+              path="/"    
               exact={true} 
               render={() => (
                 <ViewMap { ...p} />

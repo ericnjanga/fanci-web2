@@ -6,7 +6,7 @@ import Map from './../../components__reusable/Map/Map.js';
 import MapPHStyles from './../../jsStyles/MapPlaceholder.styles.js';
 
 
-class ViewMap extends ViewApp {
+class ViewMap extends ViewApp {  
   render () {
     const p = { ...this.props}; 
     const nbU = Array(15).fill(0);
@@ -24,7 +24,7 @@ class ViewMap extends ViewApp {
           p.geolocation.on===true 
           ? 
           <Map 
-            points={p.userProfile} 
+            {...p}
             lat={p.geolocation.currPosition.coords.latitude} 
             lng={p.geolocation.currPosition.coords.longitude} 
             style={style.body}

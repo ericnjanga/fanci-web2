@@ -76,12 +76,21 @@ class SearchPanel extends React.Component {
     const p = { ...this.props};
     const s = { ...this.state};
     let style_runtime = SearchPanelStyle.computeStyles(p);
+    const style = {
+      container: { maxWidth: '440px', marginLeft: 'auto', marginRight: 'auto' },
+    }
+    style.searchContainer = { 
+      overflowY: 'scroll', 
+      height: 'calc(100% - 40px)', 
+      marginTop: '20px', 
+      ...style.container 
+    }
 
     return ( 
       <section 
         style={style_runtime.panel} 
         className={'SearchPanel ' +(p.isActive?'active':'')}> 
-        <form className="SearchPanel__form">
+        <form className="SearchPanel__form" style={style.container}>
 
           <section style={style_runtime.inputFrame}> 
             <button 
@@ -119,9 +128,9 @@ class SearchPanel extends React.Component {
             />
           </section>
         </form>
+        
 
-
-        <div style={{ overflowY: 'scroll', height: 'calc(100% - 40px)', marginTop: '20px' }}>
+        <div style={style.searchContainer}>
           {
             // Display all posts items
             s.list && s.list.length ? s.list.map((item) => {

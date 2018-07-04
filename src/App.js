@@ -147,10 +147,13 @@ class App extends Component {
   }
 
 
-  componentDidMount() {
+  componentDidMount() { 
 
-    // Signs users back-in everytime application loads
-    // (FirebaseAuth service remembers their credentials)
+    /**
+     * SIGNS USERS BACK-IN
+     * -------------------
+     * (FirebaseAuth service remembers their credentials)
+     */
     auth.onAuthStateChanged((userAuthObject) => {
 
       // Save fresh user records in database and save a local version to the state
@@ -199,7 +202,8 @@ class App extends Component {
 
 
     /**
-     * Fetch post list from database:
+     * GET ALL POSTS
+     * -------------
      * 1) For everyone's timeline: (AROUND US)
      * 1-a) postList_search: used for display
      * 1-b) postList: used to filter search
@@ -300,6 +304,33 @@ class App extends Component {
 
       }// nodeVal
 
+    });// [end] Fetch Fancies ...
+
+
+    /**
+     * GET ALL USERS
+     * -------------
+     * (save array of users in the state)
+     */
+    DBUser.getNode().on('value', (snapshot) => {
+
+      const nodeVal = snapshot.val();
+      let listUsers = [];
+
+      if (nodeVal) {//Avoid error if there is no DB objects 
+        const postMap = new Map(Object.entries(nodeVal));
+
+        postMap.forEach((item, key) => {
+
+          listUsers.push(item);
+
+        });//postMap
+
+      }//nodeVal
+
+      //save array in state
+      this.setState({ listUsers });
+      
     });// [end] Fetch Fancies ...
 
   }// [end]componentDidMount

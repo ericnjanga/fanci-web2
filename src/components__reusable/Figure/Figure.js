@@ -12,7 +12,7 @@ import './Figure.css';
 
 const Figure = (props) => {
   if (!props.img) {
-    return false;
+    return false;  
   }
 
   const p = { ...props };

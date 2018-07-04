@@ -93,7 +93,7 @@ class DBUser {
   //Update user info in the database
   static updateProfile(preferences) {
     let authObject = this.getCurrentUser();
-    let tpl_user = {
+    let tpl_user = {   
       biography    : preferences.biography,
       visible      : preferences.visible,
       displayName  : preferences.displayName,
@@ -107,6 +107,16 @@ class DBUser {
     let record = {};
     record['/'+nodeName+'/'+ authObject.uid] = tpl_user;
     return database.ref().update(record); 
+  }
+
+  
+  /**
+   * Return database node (for external use)
+   */
+  static getNode() {
+
+    return database.ref(nodeName);
+
   }
 
   //return currently logged user info
