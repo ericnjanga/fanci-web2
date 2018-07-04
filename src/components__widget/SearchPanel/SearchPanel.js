@@ -3,41 +3,69 @@
  * - Fetches a specific user info when component mounts
  */ 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import AppDoc from './../../utilities/AppDoc.class.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faArrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft';
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 
+import PostItem from './../../components__widget/PostItem/PostItem.js';
+import { Alert } from 'reactstrap';
+
 import SearchPanelStyle from './../../jsStyles/searchPanel.styles.js';
-import {Button } from 'reactstrap';
-import Btn from './../../components__reusable/Btn/Btn.js';
 import './SearchPanel.css';
 
 
 class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
-    this.searchInput = React.createRef();
-    this.btnExit = React.createRef();
-    this.btnReset = React.createRef();
+    this.inputExit          = React.createRef();
+    this.inputReset         = React.createRef();
+    this.inputSearch        = React.createRef();
+    this.exitSearch         = this.exitSearch.bind(this);
+    this.clearSearch        = this.clearSearch.bind(this);
+    this.handlePostSearch   = this.handlePostSearch.bind(this);
+    this.state = {
+      list : null
+    };
   }
+  
+
+  // Filter the original list of fancies against user search input
+  // and updatge the state with the resulting array
+  handlePostSearch(event) {
+    const value = event;
+    let searchVal = value ? event.target.value : '' ; 
+    let list = this.props.postList_search; 
+    let postList_search = list.filter((item) => { 
+      return item.title.toLowerCase().search(searchVal) > -1;
+    });
+    this.setState({ list: postList_search });
+  }
+
+  exitSearch(event) {
+    event.preventDefault();
+    this.clearSearch(event);
+    this.props.toggleSearchPanel();
+  }
+
+  // Clear search field (this will restore item list)
+  clearSearch(event) {
+    event.preventDefault();
+    this.inputSearch.current.value = '';
+    this.handlePostSearch('');
+  }
+
 
   focudInput() {
     if (this.props.isActive) {
-      this.searchInput.current.focus();
+      this.inputSearch.current.focus();
     }
-  }
+  }    
 
   //1) Add focus to search inout
   //2) Add an event handler which deals with closing the search panel
   componentDidMount() {
     this.focudInput(); 
-    //Toggle component if select DOM elt is targetted 
-    ReactDOM.findDOMNode(this).addEventListener('click', (event) => {
-      event.preventDefault();
-      AppDoc.actIfNodeIs('.SearchPanel__btnExit', 'is targetted', event, this.props.toggleSearchPanel);
-    });
+    this.setState({ list: this.props.postList_search });
   }// [end] componentDidMount
 
   componentDidUpdate() {
@@ -46,66 +74,74 @@ class SearchPanel extends React.Component {
   
   render() {
     const p = { ...this.props};
+    const s = { ...this.state};
     let style_runtime = SearchPanelStyle.computeStyles(p);
 
     return ( 
       <section 
         style={style_runtime.panel} 
         className={'SearchPanel ' +(p.isActive?'active':'')}> 
-        <form className="SearchPanel__form"> 
-          {
-            false && <div>
-              <Button 
-                style={style_runtime.btnExit} 
-                className="btn-post btn-fab" 
-                color="primary" 
-                onClick={this.toggleModal}>
-                <FontAwesomeIcon icon={faArrowLeft} />  
-              </Button> 
-
-              <Button 
-                style={style_runtime.btnReset} 
-                className="btn-post btn-fab" 
-                color="primary" 
-                onClick={this.toggleModal}>
-                <FontAwesomeIcon icon={faTimes} /> 
-                <span className="sr-only">Write a Message</span> 
-              </Button> 
-            </div>
-          } 
-
-
-
+        <form className="SearchPanel__form">
 
           <section style={style_runtime.inputFrame}> 
-            <Btn 
-              className="SearchPanel__btnExit" 
-              style={style_runtime.btnExit} 
-              icon={faArrowLeft} 
-              text='Exit search'>
-              <span className="sr-only">Write a Message</span> 
-            </Btn>
-            <Btn 
-              className="SearchPanel__btnReset" 
-              style={style_runtime.btnReset} 
-              icon={faTimes} 
-              text='Clear Search'>
-              <span className="sr-only">Reset Your Search</span> 
-            </Btn>
+            <button 
+              ref={this.inputExit}
+              className="SearchPanel__btnExit"
+              onClick={this.exitSearch}
+              style={style_runtime.btnExit}>
+              <FontAwesomeIcon 
+                icon={faArrowLeft} 
+              /> 
+              <span className="sr-only">Exit search</span> 
+            </button>
+            
+            <button 
+              ref={this.inputReset} 
+              onClick={
+                (event)=>this.clearSearch(event)
+              } 
+              style={style_runtime.btnReset}>
+              <FontAwesomeIcon 
+                icon={faTimes} 
+              /> 
+              <span className="sr-only">Clear Search</span> 
+            </button>
+
             <input 
+              ref={this.inputSearch}
               style={style_runtime.input} 
-              ref={this.searchInput} 
               name="fanci-search" 
               id="fanci-search" 
               placeholder="Search a Fanci" 
               type="text" 
               className="form-control" 
-              onChange={p.handleSearch}  
+              onChange={this.handlePostSearch}  
             />
           </section>
-
-
         </form>
+
+
+        <div style={{ overflowY: 'scroll', height: 'calc(100% - 40px)', marginTop: '20px' }}>
+          {
+            // Display all posts items
+            s.list && s.list.length ? s.list.map((item) => {
+
+              return (
+                <PostItem
+                  key={item.id}
+                  data={item}
+                  displayIfExpired={p.displayExpiredItems}
+                  style={{ marginBottom: '20px' }}
+                  isCompressed
+                />
+              );
+
+            }) : 
+            <Alert color="info">No item found!</Alert>
+          }
+        </div>
+
+
       </section>  
     );
   }

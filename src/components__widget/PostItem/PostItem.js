@@ -453,6 +453,19 @@ class PostItem extends React.Component {
         position: 'relative',
         zIndex: '1100' 
       },
+      btnCancel_modalPreview: {
+        ...modalStyle.ctaBtn,
+        ...modalStyle.btnNo,
+        //Make sure cancel button is always supperior than inner <Toast />
+        position: 'relative',
+        zIndex: '1100',
+        paddingRight: '0'
+      },
+      footer_modalPreview: {
+        paddingTop: '0px', 
+        paddingRight: '0px', 
+        borderTop: '0px solid'
+      },
       btnSubmit: {
         ...modalStyle.ctaBtn, 
         ...modalStyle.btnYes
@@ -594,17 +607,7 @@ class PostItem extends React.Component {
           isOpen={this.state.modalPreview} 
           toggle={this.togglePreview} 
           className={'ModalPost'} 
-          backdrop={'static'}>  
-          {
-            // s.user && <Figure 
-            //   img={s.user.photoURL} 
-            //   alt={s.user.displayName} 
-            //   style={style.avatar} 
-            //   avatar 
-            //   circle 
-            //   size="med" 
-            // /> 
-          }
+          backdrop={'static'}>
 
           <DisplayPostAvatar 
             data={s.user} 
@@ -631,7 +634,7 @@ class PostItem extends React.Component {
           </Card>
 
           <div> 
-            <div className="PostItem__footer-info" style={{borderRadius: '0', marginBottom: '20px'}}> 
+            <div className="PostItem__footer-info" style={{borderRadius: '0', marginBottom: '10px'}}> 
               {
                 p.data.location && <small className="PostItem__date">
                                   <FontAwesomeIcon icon={faMapMarker} />{p.data.location}
@@ -647,12 +650,12 @@ class PostItem extends React.Component {
 
 
            
-          <ModalFooter style={modalStyle.footer}>
+          <ModalFooter style={style.footer_modalPreview}>
             <Button 
-              style={style.btnCancel} 
+              style={style.btnCancel_modalPreview} 
               color="secondary" 
               onClick={this.togglePreview}>
-              Cancel
+              Close
             </Button>
           </ModalFooter> 
         </Modal>  

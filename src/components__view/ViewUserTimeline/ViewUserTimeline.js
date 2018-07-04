@@ -1,5 +1,4 @@
 import React from 'react';
-import List from './../../components__reusable/List/List.js';
 import DBPost from './../../utilities/DBPost.class.js';
 import DBUser from './../../utilities/DBUser.class.js'; 
 import PostItem from './../../components__widget/PostItem/PostItem.js';
@@ -145,7 +144,7 @@ class ViewUserTimeline extends ViewApp {
           { this.props.isMySubscriptions && s.title }
         </h1>
 
-        <Placeholders isVisible={!p.postList_runtime} />
+        <Placeholders isVisible={!p.postList} />
 
 
         {

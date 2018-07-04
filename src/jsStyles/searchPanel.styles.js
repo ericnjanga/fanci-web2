@@ -28,6 +28,8 @@ const style = {
     backgroundColor: 'transparent',
     border: '0px solid',
     zIndex: '2',
+    height: '38px', 
+    width: '35px'
   },
   btnExit: {
     left: '0',
@@ -42,6 +44,7 @@ const style = {
     zIndex: '1',
   },
 };// style
+
 
 
 class SearchPanelStyle {

@@ -41,7 +41,7 @@ class App extends Component {
       }, 
       currPathName        : null,
       postList            : null,
-      postList_runtime    : null,
+      postList_search    : null,
       confirmationModal  : {
         active    : false,
         agreed : false,
@@ -59,9 +59,8 @@ class App extends Component {
     this.handleProfileUpdate  = this.handleProfileUpdate.bind(this);
     this.handleRouteChange    = this.handleRouteChange.bind(this);
     this.toggleSearchPanel    = this.toggleSearchPanel.bind(this);
-    this.handlePostSearch     = this.handlePostSearch.bind(this);
     this.handleConfirmModal   = this.handleConfirmModal.bind(this);
-  }
+  } // Constructor
 
 
   //Handles a modal component which plays the role of a "confirm dialog"
@@ -147,19 +146,6 @@ class App extends Component {
     } 
   }
 
-  // Filter the original list of fancies against user search input
-  // and updatge the state with the resulting array
-  handlePostSearch(event) {
-
-    let searchVal = event.target.value; 
-    let list = this.state.postList; 
-    let postList_runtime = list.filter((item) => { 
-      return item.title.toLowerCase().search(searchVal) > -1;
-    });
-    this.setState({ postList_runtime });
-
-  }
-
 
   componentDidMount() {
 
@@ -215,7 +201,7 @@ class App extends Component {
     /**
      * Fetch post list from database:
      * 1) For everyone's timeline: (AROUND US)
-     * 1-a) postList_runtime: used for display
+     * 1-a) postList_search: used for display
      * 1-b) postList: used to filter search
      * 2) For user private timeline: (MY FANCIES)
      * 2-a) upList_runtime: used for display
@@ -223,7 +209,7 @@ class App extends Component {
      */
     DBPost.getNode().on('value', (snapshot) => {
       const nodeVal = snapshot.val();
-      let postList_runtime = [],
+      let postList_search = [],
       upList_runtime = []; 
       if (nodeVal) {//Avoid error if there is no DB objects 
         const postMap = new Map(Object.entries(nodeVal));
@@ -231,18 +217,18 @@ class App extends Component {
           let post = Object.assign({}, value);
           post.id = key;
           //push values in a regular array 
-          postList_runtime.push(post);
-          postList_runtime = postList_runtime.reverse();//Reverse array (most recent posts first)
+          postList_search.push(post);
+          postList_search = postList_search.reverse();//Reverse array (most recent posts first)
           //generate user private list
           const currUserUID = auth.currentUser.uid;
-          upList_runtime = postList_runtime.filter((post) => { 
+          upList_runtime = postList_search.filter((post) => { 
             return post.uid===currUserUID;
           });
         });//postMap
       }//nodeVal
       //save array in state
-      this.setState({ postList_runtime, upList_runtime });
-      this.setState({ postList: postList_runtime, upList: upList_runtime });
+      this.setState({ postList_search, upList_runtime });
+      this.setState({ postList: postList_search, upList: upList_runtime });
     });// [end] Fetch Fancies ...
 
 
@@ -364,8 +350,8 @@ class App extends Component {
               s.currPathName==='around-us' && <SearchPanel 
               isActive={s.searchPanel.active} 
               toggleSearchPanel={this.toggleSearchPanel} 
-              handleSearch={this.handlePostSearch} 
-            />
+              { ...s} 
+            />   
           }
 
           {

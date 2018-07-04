@@ -94,10 +94,10 @@ class ViewTimeline extends ViewApp {
 
     return (
       <div className="view__content ViewTimeline" style={{paddingTop:'20px' }}> 
-        <Placeholders isVisible={!p.postList_runtime} />
+        <Placeholders isVisible={!p.postList} />
 
         <List
-          items={p.postList_runtime}
+          items={p.postList}
           itemComp={PostItem}
           user={p.userProfile}
           handleConfirmModal={p.handleConfirmModal}
