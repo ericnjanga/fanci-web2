@@ -7,10 +7,11 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import Figure from './../Figure/Figure.js';
-import { appEnv, googleMapAPIkey } from './../../services/connection-details';
+import { appEnv, googleMapAPIkey, devGeoLocations } from './../../services/connection-details';
 
-  
+
 class Map extends React.Component {
+
   render() {
     const p = { ...this.props};
 
@@ -23,23 +24,37 @@ class Map extends React.Component {
           {/* just adding "lat" and "lng" properties to a child component position it on the map */}
 
           {
-            p.listUsers.map((item) => {
+            p.listUsersPosts.map((listItem, index) => {
 
-              // Calculate each item coordinates
-              // In a dev environment, use fake 'lat' and 'lng' (added manually on Firebase)
-              const coorSuffix = (appEnv=='dev') ? '-dev' : '';
-              const latPpt = `lat${coorSuffix}`;
-              const lngPpt = `lng${coorSuffix}`;
-              // In a dev environment, use hardcoded value for "logged-in" user because data are recreated each time they login
-              const lat = item[latPpt] ? item[latPpt] : 43.651356500000006;
-              const lng = item[lngPpt] ? item[lngPpt] : -79.5638379;
-
+              // Extract basic info
+              const item = listItem.user;
+              const post = listItem.posts[listItem.posts.length - 1];
               const uData = { ...item };
               const master = { ...p.userProfile };
+              let lat = 0;
+              let lng = 0;
+
+              // use fake location values for 'dev' environment
+              if(appEnv=='dev') {
+                if(item.uid!==master.uid) {
+                  lat = devGeoLocations[index].lat;
+                  lng = devGeoLocations[index].lng;
+                } else {
+                  lat = devGeoLocations[0].lat;
+                  lng = devGeoLocations[0].lng;
+                } 
+
+              // use real values for 'production' environment
+              } else { 
+                lat = item.lat;
+                lng = item.lng;
+              }
+
               return (
                 <MapUser
                   key={item.uid}
                   item={uData} 
+                  message={post}
                   master={master} 
                   lat={lat} 
                   lng={lng}
@@ -64,22 +79,15 @@ class MapUser extends React.Component {
 
   constructor(props) {
     super(props);
-  }
-
-  /**
-   * Fetch latest post
-   * ...
-   */
-  componentDidMount() {
-    console.log(`>>fetchin ${this.props.item.uid} latest post`)
-  }
+  } 
 
   render() {
 
     const p = {...this.props};
     const style = {
       tooltip : {
-        marginBottom: '3px',
+        position: 'relative',
+        marginBottom: '15px',
         minWidth: '150px',
         fontSize: '14px',
         display: 'inline-block', 
@@ -87,6 +95,16 @@ class MapUser extends React.Component {
         color: '#ccc',
         padding: '10px',
         borderRadius: '5px'
+      },
+      tooltipArrow : { 
+        position: 'absolute',
+        bottom: '-10px',
+        left: '10px',
+        width: '0',
+        height: '0', 
+        borderLeft: '10px solid transparent',
+        borderRight: '10px solid transparent',
+        borderTop: '10px solid #333',
       }
     };
     const item = { ...p.item };
@@ -95,7 +113,10 @@ class MapUser extends React.Component {
       <div>
         {
           // Don't display tooltip for master user
-          item.uid!==p.master.uid && <span style={style.tooltip}>fjof fiwfioew fewifhwef wefeifnw</span>
+          (item.uid!==p.master.uid && p.message) && <span style={style.tooltip}>
+            <b style={{color: '#ff9800'}}>Fanci</b> {` ${p.message.title}`}
+            <span style={style.tooltipArrow} />
+          </span>
         }
   
         <Figure
