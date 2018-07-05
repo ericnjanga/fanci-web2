@@ -3,7 +3,7 @@
  */
 import firebase from 'firebase';
 
-export const appEnv = 'dev';
+export const appEnv = 'prod';
 
 // Config files
 const config = {
@@ -30,13 +30,13 @@ firebase.initializeApp(config[appEnv]);
 
 // Get a references ...
 export const provider = new firebase.auth.GoogleAuthProvider(); // provider
-export const database = firebase.database(); // database 
-export const auth     = firebase.auth(); // auth 
+export const database = firebase.database(); // database
+export const auth     = firebase.auth(); // auth
 export const storage  = firebase.storage(); //storage service (which is used to create references in your storage bucket)
 export const googleMapAPIkey = 'AIzaSyACIFpmGqxK8mmy65nY9eKrufxdpea3muo';
 
 // Locations for dev purposes
-export const devGeoLocations = [ 
+export const devGeoLocations = [
   { //master user
     lat : 43.651356500000006,
     lng : -79.5638379,
