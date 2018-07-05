@@ -294,9 +294,13 @@ class App extends Component {
 
               }
 
+              return false;
+
             });
 
           }
+
+          return false;
 
         });// itemMap
 

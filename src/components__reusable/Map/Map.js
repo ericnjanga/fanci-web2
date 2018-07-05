@@ -35,7 +35,7 @@ class Map extends React.Component {
               let lng = 0;
 
               // use fake location values for 'dev' environment
-              if(appEnv=='dev') {
+              if(appEnv==='dev') {
                 if(item.uid!==master.uid) {
                   lat = devGeoLocations[index].lat;
                   lng = devGeoLocations[index].lng;
@@ -76,10 +76,6 @@ class Map extends React.Component {
  * - Tooltip containing latest post
  */
 class MapUser extends React.Component {
-
-  constructor(props) {
-    super(props);
-  } 
 
   render() {
 

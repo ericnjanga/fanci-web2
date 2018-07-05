@@ -16,6 +16,9 @@ const Figure = (props) => {
   }
 
   const p = { ...props };
+  let borderRadius = '';
+  let sizes = '';
+  let imgClassName = 'animated-background';
 
   // If this is a post featured image:
   // display a full width image with height hidden starting at "200px"
@@ -32,8 +35,6 @@ const Figure = (props) => {
     );
      
   }
- 
-  let borderRadius, sizes,  imgClassName = 'animated-background';
 
   const avatar = {
     size: {

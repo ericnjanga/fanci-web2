@@ -98,12 +98,20 @@ class ViewUserTimeline extends ViewApp {
                   resolve(data);
   
                 }
+
+                return false;
   
               });
+
+              return false;
   
             });
+
+            return false;
   
           });
+
+          return false;
   
         }); // postSubscripSnapshot
   
