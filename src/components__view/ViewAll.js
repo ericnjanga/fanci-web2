@@ -132,7 +132,7 @@ const ViewAll = (props) => {
               path="/my-fancies" 
               exact={true} 
               render={() => (
-                <ViewUserTimeline { ...p} />
+                <ViewUserTimeline { ...p} isMyFancies />
               )}
             />  
           )
@@ -183,12 +183,37 @@ const ViewAll = (props) => {
 
       {/* Render [terms & conditions view] at anytime */}
       <Route 
-        path="/terms-and-cnditions" 
+        path="/terms-and-conditions" 
         exact={true} 
         render={() => (
           <ViewTermsAndConditions { ...p} />
         )}
       />  
+
+
+
+
+      {/* Hidden admin page */}
+      <Route 
+        exact 
+        path="/analytics" 
+        render={() => (
+          !p.userProfile ? (
+            <Redirect to="/login"/>
+          ) : (
+            <Route 
+              path="/analytics" 
+              exact={true} 
+              render={() => (
+                <ViewUserTimeline { ...p} isMySubscriptions />
+              )}
+            />  
+          )
+        )}
+      />
+      {/* Render views (if logged in) / [login view] (if logged out) */}
+
+
     </section> 
   );
 };

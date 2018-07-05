@@ -372,7 +372,8 @@ class App extends Component {
             user={s.userProfile} 
             onLogout={this.handleLogout} 
             onToggleVertNav={this.handleToggleVertNav}
-            onCloseVertNav={this.handleCloseVertNav}>
+            onCloseVertNav={this.handleCloseVertNav}
+            { ...s}>
             <MenuPrimary />
           </AppHeader>
 
@@ -400,7 +401,8 @@ class App extends Component {
             <VerticalNav 
               user={s.userProfile} 
               isActive={s.drawer.active} 
-              onCloseVertNav={this.handleCloseVertNav}>
+              onCloseVertNav={this.handleCloseVertNav}
+              { ...s}>
                 <MenuPrimary />
                 <hr className="hr-menu" />
                 <MenuSecondary onLogout={this.handleLogout} />

@@ -68,9 +68,7 @@ class ViewUserTimeline extends ViewApp {
     } // Setting up "MySubscriptions"
 
 
-
-
-    // Fet "My subscribers" list
+    // Fetch "My subscribers" list
     if (this.props.isMySubscribers) {
 
       this.props.listPostSubscription.map((item) => {
@@ -127,6 +125,14 @@ class ViewUserTimeline extends ViewApp {
 
     } // Setting up "MySubscribers"
 
+
+    // Fetch "My Fancies" list
+    if (this.props.isMyFancies) {
+
+      this.setState({ list:this.props.upList, title: 'My Fancies' });
+
+    } // Setting up "My Fancies"
+
   }// [end] componentDidMount
 
 
@@ -134,7 +140,6 @@ class ViewUserTimeline extends ViewApp {
 
     const p = { ...this.props };
     const s = { ...this.state };
-
 
     return (
       <div className="view__content ViewTimeline">
@@ -151,11 +156,12 @@ class ViewUserTimeline extends ViewApp {
           // Display all posts items
           
           s.list && s.list.length ? s.list.map((item) => {
+            const pItem = item.postData ? item.postData : item;
 
             return (
               <PostItem
-                key={item.postData.date}
-                data={item.postData}
+                key={pItem.date}
+                data={pItem}
                 subscribers={item.subscribers}
                 displayIfExpired={p.displayExpiredItems}
                 style={{ marginTop: '20px' }}

@@ -6,7 +6,7 @@ const AppFooter = () => {
   return (
     <footer className="AppFooter"> 
       <p>
-        <Link to={`/terms-and-cnditions`}>Terms &amp; Conditions</Link>
+        <Link to={`/terms-and-conditions`}>Terms &amp; Conditions</Link>
       </p>  
     </footer>
   );

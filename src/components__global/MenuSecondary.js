@@ -39,6 +39,10 @@ const MenuSecondary = (props) => {
       <hr style={menu.hr} className="hr-menu space" />
       
       <NavItem>
+        <NavLink style={dropdownSyles.item} to={`/analytics`} onClick={() => { toggleDropdown(); } }>Analytics</NavLink>
+      </NavItem>
+      
+      <NavItem>
         <Button style={dropdownSyles.item} onClick={() => {onLogout();toggleDropdown(); } }  className="btn-logout">Sign Out</Button> 
       </NavItem>  
     </Nav> 
