@@ -1,28 +1,25 @@
 /**
  * Class managing file upload/download from Firebase
  */
-import {storage } from './../services/connection-details.js';
+import { storage } from './../services/connection-details.js';
 
 
 const nodeName = 'timeline';
 
 class DBUpload {
 
-  static getFile(name) { 
-
-    // console.log('-1-name=', name);
+  static getFile(name) {
 
     return new Promise((resolve) => {
 
-      // console.log('-2-name=', name);
-
-      storage.ref(name).getDownloadURL().then(function(url) { 
-
-        // console.log('-3-url=', url);
+      storage.ref(name).getDownloadURL().then(function(url) {
 
         resolve({url});
+
       }).catch(function() {
+
         resolve(null);
+
       });
     });
 

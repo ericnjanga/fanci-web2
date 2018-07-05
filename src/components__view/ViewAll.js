@@ -9,12 +9,13 @@ import ViewMap from './ViewMap/ViewMap.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
 import ViewProfile from './ViewProfile/ViewProfile.js';
 import ViewSettings from './ViewSettings/ViewSettings.js';
+import ViewAnalytics from './ViewAnalytics/ViewAnalytics.js';
 import ViewTermsAndConditions from './ViewTermsAndConditions/ViewTermsAndConditions.js';
 import './ViewAll.css';
 
 
 const ViewAll = (props) => {  
-
+  
   const p = { ...props };
 
   return (
@@ -205,7 +206,7 @@ const ViewAll = (props) => {
               path="/analytics" 
               exact={true} 
               render={() => (
-                <ViewUserTimeline { ...p} isMySubscriptions />
+                <ViewAnalytics { ...p} isMySubscriptions />
               )}
             />  
           )

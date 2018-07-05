@@ -408,10 +408,6 @@ const MessageForm = (props) => {
   const { postFormFields, postFormErrors, postFormIsFrozen, postFileUpload } = state;
 
 
-  // console.log('>>>>>DBPost.formFields=', DBPost.formFields);
-
-
-
   const fields = new Map(Object.entries(DBPost.formFields));
   let formFields = [];
 
