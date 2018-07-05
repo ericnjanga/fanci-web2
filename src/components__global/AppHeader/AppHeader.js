@@ -40,9 +40,15 @@ class AppHeader extends React.Component {
     const style = {
       loggedIn: {
         background: '#8ca3ad',
+        brand: {
+          color: '#fff',
+        },
       },
       loggedOut: {
         background: 'transparent',
+        brand: {
+          color: '#446675',
+        },
       },
     };
 
@@ -54,8 +60,8 @@ class AppHeader extends React.Component {
         <div className="AppHeader__top">
           <h1 className="AppBrand">
             <Link
-              onClick={onCloseVertNav} 
-              to={`/`}>
+              onClick={onCloseVertNav}
+              to={`/`} style={currStyle.brand}>
               Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
             </Link>
           </h1>

@@ -3,7 +3,6 @@ import {Button } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faGoogle from '@fortawesome/fontawesome-free-brands/faGoogle';
 import ViewApp from './../ViewApp.js';
-import './ViewLogin.css';
 
 
 class ViewLogin extends ViewApp {
@@ -26,7 +25,7 @@ class ViewLogin extends ViewApp {
         <Button 
           color="primary" 
           onClick={this.props.onLogin}>
-          <FontAwesomeIcon icon={faGoogle} />
+          <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '20px' }} />
           Login with Google
         </Button> 
         <p style={styles.p}> 
