@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /_plans/node_modules
+/_owners_manual/node_modules
 
 # testing
 /coverage
