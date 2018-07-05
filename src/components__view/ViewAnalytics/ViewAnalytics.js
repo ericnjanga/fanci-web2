@@ -6,8 +6,9 @@ const ViewTermsAndConditions = (props) => {
   const pMargin = 10;
 
   const style = {
-    
+
     container: {
+      marginTop: '30px',
       display: 'flex',
       flexWrap: 'wrap',
     },

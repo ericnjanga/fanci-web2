@@ -34,10 +34,23 @@ class AppHeader extends React.Component {
   render() {
 
     const {
-      user, onLogout, navIsActive, onToggleVertNav, onCloseVertNav,
+      user, onLogout, navIsActive, onToggleVertNav, onCloseVertNav, userProfile,
     } = this.props;
+
+    const style = {
+      loggedIn: {
+        background: '#8ca3ad',
+      },
+      loggedOut: {
+        background: 'transparent',
+      },
+    };
+
+    const currStyle = userProfile ? style.loggedIn : style.loggedOut;
+
+
     return (
-      <header className="AppHeader">
+      <header className="AppHeader" style={currStyle}>
         <div className="AppHeader__top">
           <h1 className="AppBrand">
             <Link

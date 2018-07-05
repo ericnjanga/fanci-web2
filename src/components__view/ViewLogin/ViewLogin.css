@@ -1,11 +1,8 @@
 /* Giving main header a unique style on this view */
-.App.login .AppHeader {
-  background: transparent;
-}
+
 .App.login .AppHeader .AppBrand a {
   color: #446675;
 }
- 
  
 .view--login .btn .svg-inline--fa {
   margin-right: 20px;

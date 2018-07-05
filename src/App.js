@@ -328,11 +328,11 @@ class App extends Component {
 
           listUsers.push(item);
 
-        });//postMap
+        });// postMap
 
-      }//nodeVal
+      }// nodeVal
 
-      //save array in state
+      // save array in state
       this.setState({ listUsers });
       
     });// [end] Fetch Fancies ...
@@ -341,7 +341,7 @@ class App extends Component {
 
 
   // Update state with current path name:
-  // (Useful for styling the app at the highest level based on the current route) 
+  // (Useful for styling the app at the highest level based on the current route)
   handleRouteChange() {
 
     this.setState({ currPathName: AppDoc.getPathName() });
@@ -350,34 +350,40 @@ class App extends Component {
 
   
   handleProfileUpdate(userProfile) {
+  
     this.setState({ userProfile });
+  
   }
 
   /**
    * - Toggle Search Panel visibility
-   * - If the panel is being closed and 
-   */ 
+   * - If the panel is being closed and
+   */
   toggleSearchPanel() {
-    let searchPanel = this.state.searchPanel;
+
+    const { searchPanel } = this.state;
     searchPanel.active = !this.state.searchPanel.active;
-    this.setState({searchPanel });
+    this.setState({ searchPanel });
+
   }
  
   
   render() {
-    const s = { ...this.state};  
+
+    const s = { ...this.state };
     return (
       <Router>
-        <div className={'App '+s.currPathName}>    
+        <div className={`App ${s.currPathName}`}>
           {/* Display toast when user profile is not loaded yet*/ }
-          <Toast active={s.userProfile===undefined}>Connecting to database</Toast>
+          <Toast active={s.userProfile === undefined}>Connecting to database</Toast>
           
-          <AppHeader 
-            user={s.userProfile} 
-            onLogout={this.handleLogout} 
+          <AppHeader
+            user={s.userProfile}
+            onLogout={this.handleLogout}
             onToggleVertNav={this.handleToggleVertNav}
             onCloseVertNav={this.handleCloseVertNav}
-            { ...s}>
+            {...s}
+          >
             <MenuPrimary />
           </AppHeader>
 
@@ -386,7 +392,7 @@ class App extends Component {
               s.currPathName==='around-us' && <SearchPanel 
               isActive={s.searchPanel.active} 
               toggleSearchPanel={this.toggleSearchPanel} 
-              { ...s} 
+              {...s} 
             />   
           }
 
@@ -406,7 +412,7 @@ class App extends Component {
               user={s.userProfile} 
               isActive={s.drawer.active} 
               onCloseVertNav={this.handleCloseVertNav}
-              { ...s}>
+              {...s}>
                 <MenuPrimary />
                 <hr className="hr-menu" />
                 <MenuSecondary onLogout={this.handleLogout} />
@@ -419,7 +425,7 @@ class App extends Component {
                 <Row>
                   <Col>
                     <ViewAll 
-                      { ...s} 
+                      {...s} 
                       toggleSearchPanel={this.toggleSearchPanel} 
                       handleConfirmModal={this.handleConfirmModal} 
                       onRouteChange={this.handleRouteChange} 
