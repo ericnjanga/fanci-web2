@@ -34,7 +34,7 @@ class AppHeader extends React.Component {
   render() {
 
     const {
-      user, onLogout, navIsActive, onToggleVertNav, onCloseVertNav, userProfile,
+      user, onLogout, navIsActive, onToggleVertNav, userProfile,
     } = this.props;
 
     const style = {
@@ -60,7 +60,7 @@ class AppHeader extends React.Component {
         <div className="AppHeader__top">
           <h1 className="AppBrand">
             <Link
-              onClick={onCloseVertNav}
+              onClick={onToggleVertNav}
               to={`/`} style={currStyle.brand}>
               Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
             </Link>
@@ -112,7 +112,7 @@ class AppHeader extends React.Component {
           user && <HorizontalNav 
                     navIsActive={navIsActive} 
                     onLogout={onLogout} 
-                    onCloseVertNav={onCloseVertNav}
+                    onToggleVertNav={onToggleVertNav}
                   >
             <MenuPrimary />
           </HorizontalNav>
@@ -133,7 +133,6 @@ AppHeader.propTypes = {
   onLogout: PropTypes.func,
   navIsActive: PropTypes.bool,
   onToggleVertNav: PropTypes.func,
-  onCloseVertNav: PropTypes.func
 };
 
 

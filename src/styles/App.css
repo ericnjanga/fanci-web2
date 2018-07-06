@@ -22,10 +22,15 @@
   max-width: 440px;
 }
 
-/* .App > .AppContent,
-.App > .AppHeader,
-.App > .AppFooter { 
-  z-index: 1;
+/* .App {
+  z-index: 0;
+}
+.App > .AppHeader { 
+  z-index: -1;
+}
+.App > .AppFooter,
+.App > .AppContent { 
+  z-index: -2;
 } */
 
 @media(max-width: 765px) { 

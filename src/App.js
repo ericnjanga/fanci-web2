@@ -1,25 +1,19 @@
 /**
  * Main Application
  * ---------------------------
- */ 
+ */
 import React, { Component } from 'react';
 import Sidebar from 'react-sidebar';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { auth, provider } from './services/connection-details.js';
 import './utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
-
-import DrawerContent from './components__global/VerticalNav/DrawerContent.js';
-
-//Remove this ...
-// import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
-
-import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';
+import DrawerContent from './components__global/Drawer/DrawerContent.js';
 import AppFooter from './components__global/AppFooter/AppFooter.js';
 import MenuPrimary from './components__global/MenuPrimary.js';
-import MenuSecondary from './components__global/MenuSecondary.js';
 import ModalConfirm from './components__reusable/ModalConfirm/ModalConfirm.js';
 import ViewAll from './components__view/ViewAll.js';
+import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';
 import Toast from './components__reusable/Toast/Toast.js';
 import DBUser from './utilities/DBUser.class.js';
 import DBOptin from './utilities/DBOptin.class.js';
@@ -69,8 +63,7 @@ class App extends Component {
     }
     this.handleLogin          = this.handleLogin.bind(this);
     this.handleLogout         = this.handleLogout.bind(this);
-    this.handleDrawer = this.handleDrawer.bind(this);
-    this.handleCloseVertNav   = this.handleCloseVertNav.bind(this);
+    this.handleDrawer = this.handleDrawer.bind(this); 
     this.handleProfileUpdate  = this.handleProfileUpdate.bind(this);
     this.handleRouteChange    = this.handleRouteChange.bind(this);
     this.toggleSearchPanel    = this.toggleSearchPanel.bind(this);
@@ -150,20 +143,7 @@ class App extends Component {
     drawer.open = !this.state.drawer.open;
     this.setState({ drawer });
 
-  }
-
-  // When we want the nav to be explicitely closed
-  handleCloseVertNav() {
-  
-    const { drawer } = this.state;
-    if (drawer.active) {
-
-      drawer.active = !drawer.active;
-      this.setState({ drawer });
-
-    }
-  
-  }
+  } 
 
 
   componentDidMount() { 
@@ -393,12 +373,8 @@ class App extends Component {
   render() {
 
     const s = { ...this.state };
-
-
-    
-
     const sidebarProps = {
-      sidebar: <DrawerContent handleLogout={this.handleLogout} />,
+      sidebar: <DrawerContent user={s.userProfile} onToggleVertNav={this.handleDrawer} handleLogout={this.handleLogout} />,
       docked: this.state.drawer.docked,
       sidebarClassName: 'custom-sidebar-class',
       open: this.state.drawer.open,
@@ -425,8 +401,7 @@ class App extends Component {
             <AppHeader
               user={s.userProfile}
               onLogout={this.handleLogout}
-              onToggleVertNav={this.handleDrawer}
-              onCloseVertNav={this.handleCloseVertNav}
+              onToggleVertNav={this.handleDrawer} 
               {...s}
             >
               <MenuPrimary />
@@ -449,18 +424,6 @@ class App extends Component {
                 title={s.confirmationModal.title}> 
                 {s.confirmationModal.content && s.confirmationModal.content() } 
               </ModalConfirm>
-            } 
-
-            {
-              // s.userProfile && <VerticalNav 
-              //   user={s.userProfile} 
-              //   isActive={s.drawer.active} 
-              //   onCloseVertNav={this.handleCloseVertNav}
-              //   {...s}>
-              //     <MenuPrimary />
-              //     <hr className="hr-menu" />
-              //     <MenuSecondary onLogout={this.handleLogout} />
-              // </VerticalNav>
             }
             
             <section className="AppContent">
@@ -469,7 +432,7 @@ class App extends Component {
                   <Row>
                     <Col>
                       <ViewAll
-                        {...s} 
+                        {...s}
                         toggleSearchPanel={this.toggleSearchPanel} 
                         handleConfirmModal={this.handleConfirmModal} 
                         onRouteChange={this.handleRouteChange} 

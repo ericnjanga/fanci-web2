@@ -1,53 +1,118 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {NavLink } from 'react-router-dom';
-import {Nav, NavItem, Button } from 'reactstrap';
-import menu, {dropdownSyles } from './../jsStyles/menu.styles.js';
+import { NavLink } from 'react-router-dom';
+import { Nav, NavItem, Button } from 'reactstrap';
+import menu, { dropdownSyles } from './../jsStyles/menu.styles.js';
 
 const MenuSecondary = (props) => {
-  const {onLogout, onToggleDropdown } = props; 
 
-  //Proveide shell of a function if there is nothing in props
-  let toggleDropdown = onToggleDropdown ? onToggleDropdown: ()=> {};
+  const { onLogout, onToggleDropdown, onToggleVertNav } = props;
+
+  // Proveide shell of a function if there is nothing in props
+  const toggleDropdown = onToggleDropdown ? onToggleDropdown: ()=> {};
+  const toggleVertNav = onToggleVertNav ? onToggleVertNav: ()=> {};
+  const linksHandleClick = () => {
+
+    toggleDropdown();
+    toggleVertNav();
+
+  };
+  const links = [
+    {
+      url: '/my-fancies',
+      name: 'My Fancies',
+      isButton: false,
+      handleClick: linksHandleClick,
+    },
+    {
+      url: '/my-subscriptions',
+      name: 'My subscriptions',
+      isButton: false,
+      handleClick: linksHandleClick,
+    },
+    {
+      url: '/my-subscribers',
+      name: 'My Subscribers',
+      isButton: false,
+      sepAfter: true,
+      handleClick: linksHandleClick,
+    },
+    {
+      url: '/settings',
+      name: 'Settings',
+      isButton: false,
+      handleClick: linksHandleClick,
+    },
+    {
+      url: '/analytics',
+      name: 'Analytics',
+      isButton: false,
+      sepAfter: true,
+      handleClick: linksHandleClick,
+    },
+    {
+      className: 'btn-logout',
+      name: 'Sign Out',
+      isButton: true,
+      handleClick: () => {
+
+        onLogout();
+        toggleDropdown();
+
+      },
+    },
+  ];
+
 
   return (
     <Nav>
       {props.children}
-      
-      {/*<NavItem>
-        <NavLink to={`/profile`} onClick={() => {onToggleDropdown(); } }>Profile</NavLink>
-      </NavItem>*/} 
-      
-      <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/my-fancies`} onClick={() => { toggleDropdown(); } }>My Fancies</NavLink>
-      </NavItem>
-      
-      <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/my-subscriptions`} onClick={() => { toggleDropdown(); } }>My subscriptions</NavLink>
-      </NavItem>
-      
-      <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/my-subscribers`} onClick={() => { toggleDropdown(); } }>My Subscribers</NavLink>
-      </NavItem>
 
-      <hr style={menu.hr} className="hr-menu space" />
-      
-      <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/settings`} onClick={() => { toggleDropdown(); } }>Settings</NavLink>
-      </NavItem>
+      {
+        links.map((item) => {
 
-      <hr style={menu.hr} className="hr-menu space" />
-      
-      <NavItem>
-        <NavLink style={dropdownSyles.item} to={`/analytics`} onClick={() => { toggleDropdown(); } }>Analytics</NavLink>
-      </NavItem>
-      
-      <NavItem>
-        <Button style={dropdownSyles.item} onClick={() => {onLogout();toggleDropdown(); } }  className="btn-logout">Sign Out</Button> 
-      </NavItem>  
-    </Nav> 
+          return (
+            <MenuNavLink key={item.name} {...item}>{item.name}</MenuNavLink>
+          );
+
+        })
+      }
+    </Nav>
   );
 }// [end] MenuSecondary
+
+
+const MenuNavLink = (props) => {
+
+  return (
+    <NavItem>
+      {
+        props.isButton &&
+        <Button
+          style={dropdownSyles.item}
+          onClick={props.handleClick}
+          className={props.className}>
+          {props.children}
+        </Button>
+      }
+      {
+        !props.isButton &&
+        <NavLink
+          to={props.url}
+          style={dropdownSyles.item}
+          onClick={props.handleClick}
+          className={props.className}>
+          {props.children}
+        </NavLink>
+      }
+      {
+        props.sepAfter &&
+        <hr style={menu.hr} className="hr-menu space" />
+      }
+    </NavItem> 
+  );
+
+}
 
 
 /**
