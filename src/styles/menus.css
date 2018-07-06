@@ -20,8 +20,8 @@ hr.hr-menu.space {
 
 .btn-toggle-vertNav--lg a,
 .btn-toggle-vertNav--lg .btn-logout,
-.VerticalNav .nav a,
-.VerticalNav .nav .btn-logout {
+.custom-sidebar-class .nav a,
+.custom-sidebar-class .nav .btn-logout {
   display: block;
   padding: 10px 20px; 
   color: rgba(0,0,0,.6);
@@ -37,6 +37,6 @@ hr.hr-menu.space {
   min-width: 170px!important;
 }
 
-.VerticalNav .nav a .svg-inline--fa {
+.custom-sidebar-class .nav a .svg-inline--fa {
   display: none;
 }

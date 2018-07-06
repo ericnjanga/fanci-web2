@@ -31,7 +31,7 @@ class ViewUserTimeline extends ViewApp {
     const list = [];
 
     // Fetch "My subscriptions" list
-    if (this.props.isMySubscriptions) {
+    if (this.props.isMySubscriptions && this.props.listMySubscriptions) {
 
       this.props.listMySubscriptions.map((item) => {
 
@@ -69,7 +69,7 @@ class ViewUserTimeline extends ViewApp {
 
 
     // Fetch "My subscribers" list
-    if (this.props.isMySubscribers) {
+    if (this.props.isMySubscribers && this.props.listPostSubscription) {
 
       this.props.listPostSubscription.map((item) => {
 
@@ -198,9 +198,9 @@ const Placeholders = (props) => {
   if (!props.isVisible) return false;
   return (
     <div>
-      <PostItemPlaceholder style={{marginBottom:'20px' }} />
-      <PostItemPlaceholder style={{marginBottom:'20px' }} />
-      <PostItemPlaceholder style={{marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
+      <PostItemPlaceholder style={{ marginBottom:'20px' }} />
       <PostItemPlaceholder />
     </div>
   )

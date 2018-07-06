@@ -31,6 +31,7 @@ import './styles/App.css';
 import './styles/components/buttons.css';
 import './styles/components/dropdown.css';
 import './styles/components/form.css';
+import './styles/menus.css';
 
 
 class App extends Component {

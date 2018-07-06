@@ -25,6 +25,10 @@ const styles = {
     height: '100%',
     backgroundColor: 'white',
   },
+  hero: {
+    background: 'rgb(140, 163, 173)',
+    height: '100px',
+  }
 };
 
 const SidebarContent = (props) => {
@@ -39,6 +43,9 @@ const SidebarContent = (props) => {
 
   return (
     <div title="Menu" style={style}>
+      <div style={styles.hero}>
+
+      </div>
       <div style={styles.content}>
         <MenuPrimary />
         <hr className="hr-menu" />
