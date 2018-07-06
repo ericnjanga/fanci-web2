@@ -4,6 +4,7 @@ import './ViewMap.css';
 import AppDoc from './../../utilities/AppDoc.class.js';
 import Map from './../../components__reusable/Map/Map.js';
 import MapPHStyles from './../../jsStyles/MapPlaceholder.styles.js';
+import placeholder from './../../images/map-placeholder.jpg';
 
 
 class ViewMap extends ViewApp {  
@@ -58,12 +59,10 @@ class ViewMap extends ViewApp {
             style={style.body}
           />
           :
-          <DisplayMapPlaceholder 
-            bodyStyle={psStyle_body} 
-            mainPostStyle={MapPHStyles.mainUser} 
-            pointsStyle={MapPHStyles.user} 
-            list={nbU}
-          />
+          <div style={{ position: 'relative', overflow: 'hidden', maxHeight: '750px' }}>
+            <h4 style={{ position: 'absolute', top: '20%', left: '0', width: '100%', textAlign: 'center' }}>Loading Your Map</h4>
+            <img src={placeholder} alt="Map placeholder" />
+          </div>
         } 
       </div> 
     );
