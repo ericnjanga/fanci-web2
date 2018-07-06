@@ -130,7 +130,7 @@ class App extends Component {
   handleLogout() {
 
     const { drawer } = this.state;
-    drawer.active = false;
+    drawer.open = false;
     auth.signOut().then(() => {
 
       this.setState({
@@ -397,7 +397,7 @@ class App extends Component {
     
 
     const sidebarProps = {
-      sidebar: <DrawerContent />,
+      sidebar: <DrawerContent handleLogout={this.handleLogout} />,
       docked: this.state.drawer.docked,
       sidebarClassName: 'custom-sidebar-class',
       open: this.state.drawer.open,

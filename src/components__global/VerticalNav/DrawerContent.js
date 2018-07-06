@@ -1,4 +1,6 @@
 import React from 'react';
+import MenuPrimary from './../MenuPrimary.js';
+import MenuSecondary from './../MenuSecondary.js';
 // import MaterialTitlePanel from './material_title_panel';
 import PropTypes from 'prop-types';
 
@@ -38,6 +40,14 @@ const SidebarContent = (props) => {
   return (
     <div title="Menu" style={style}>
       <div style={styles.content}>
+        <MenuPrimary />
+        <hr className="hr-menu" />
+        <MenuSecondary onLogout={props.handleLogout} />
+
+        <hr className="hr-menu" />
+        <hr className="hr-menu" />
+        <hr className="hr-menu" />
+
         <a href="index.html" style={styles.sidebarLink}>Home</a>
         <a href="responsive_example.html" style={styles.sidebarLink}>Responsive Example</a>
         <div style={styles.divider} />
@@ -49,6 +59,7 @@ const SidebarContent = (props) => {
 
 SidebarContent.propTypes = {
   style: PropTypes.object,
+  handleLogout : PropTypes.func,
 };
 
 export default SidebarContent;
