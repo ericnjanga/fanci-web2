@@ -38,12 +38,9 @@ class ViewMap extends ViewApp {
 
     const style = {
       body: {
-        // height: '85vh',
-        // marginLeft: '-15px',
-        // marginRight: '-15px',
         height: '85vh',
         position: 'fixed',
-        bottom: '23px',
+        bottom: '0',
         left: '0',
         width: '100%',
       },
