@@ -1,12 +1,5 @@
 
 
-.ViewTimeline .btn-post,
-.ViewTimeline .btn-search {
-  position: fixed;
-  z-index: 9; 
-  right: 16px;
-}
-
 .ViewTimeline .btn-search {
   bottom: 86px;
   background: rgb(137, 155, 255);
@@ -25,9 +18,3 @@
   margin: 0;
 }
 
-.ViewTimeline .frame-search {
-  position: fixed;
-  z-index: 10;
-  width: 100%;
-  max-width: 600px;
-}

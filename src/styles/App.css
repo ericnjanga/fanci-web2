@@ -17,17 +17,16 @@
   real estate left by 'AppHeader' and 'AppFooter' --*/
   flex: 1; 
   width: 100%; 
-  z-index: 1;
 }
 .AppContent > .container {
   max-width: 440px;
 }
 
-
+/* .App > .AppContent,
 .App > .AppHeader,
 .App > .AppFooter { 
-  z-index: 2;
-}
+  z-index: 1;
+} */
 
 @media(max-width: 765px) { 
   .App > .AppContent {

@@ -3,11 +3,17 @@
  * ---------------------------
  */ 
 import React, { Component } from 'react';
+import Sidebar from 'react-sidebar';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { auth, provider } from './services/connection-details.js';
 import './utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
-import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
+
+import DrawerContent from './components__global/VerticalNav/DrawerContent.js';
+
+//Remove this ...
+// import VerticalNav from './components__global/VerticalNav/VerticalNav.js';
+
 import SearchPanel from './components__widget/SearchPanel/SearchPanel.js';
 import AppFooter from './components__global/AppFooter/AppFooter.js';
 import MenuPrimary from './components__global/MenuPrimary.js';
@@ -32,9 +38,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userProfile         : undefined,  
+      userProfile         : undefined,
       drawer             : {
-        active    : false
+        open: false,
+        docked: false,
+        open: false,
+        transitions: true,
+        touch: true,
+        shadow: true,
+        pullRight: false,
+        touchHandleWidth: 20,
+        dragToggleDistance: 30,
       },
       searchPanel        : {
         active: false,
@@ -54,7 +68,7 @@ class App extends Component {
     }
     this.handleLogin          = this.handleLogin.bind(this);
     this.handleLogout         = this.handleLogout.bind(this);
-    this.handleToggleVertNav  = this.handleToggleVertNav.bind(this);
+    this.handleDrawer = this.handleDrawer.bind(this);
     this.handleCloseVertNav   = this.handleCloseVertNav.bind(this);
     this.handleProfileUpdate  = this.handleProfileUpdate.bind(this);
     this.handleRouteChange    = this.handleRouteChange.bind(this);
@@ -129,21 +143,25 @@ class App extends Component {
   }
 
   // Toggling vertical navigation visibility
-  handleToggleVertNav() {
+  handleDrawer() {
 
     const { drawer } = this.state;
-    drawer.active = !this.state.drawer.active;
+    drawer.open = !this.state.drawer.open;
     this.setState({ drawer });
 
   }
 
   // When we want the nav to be explicitely closed
   handleCloseVertNav() {
-    const { drawer } = this.state; 
+  
+    const { drawer } = this.state;
     if (drawer.active) {
+
       drawer.active = !drawer.active;
-      this.setState({drawer });
-    } 
+      this.setState({ drawer });
+
+    }
+  
   }
 
 
@@ -374,78 +392,102 @@ class App extends Component {
   render() {
 
     const s = { ...this.state };
+
+
+    
+
+    const sidebarProps = {
+      sidebar: <DrawerContent />,
+      docked: this.state.drawer.docked,
+      sidebarClassName: 'custom-sidebar-class',
+      open: this.state.drawer.open,
+      touch: this.state.drawer.touch,
+      shadow: this.state.drawer.shadow,
+      pullRight: this.state.drawer.pullRight,
+      touchHandleWidth: this.state.drawer.touchHandleWidth,
+      dragToggleDistance: this.state.drawer.dragToggleDistance,
+      transitions: this.state.drawer.transitions,
+      onSetOpen: this.handleDrawer,
+    };
+    
+                  
+                 
+
+            
     return (
       <Router>
-        <div className={`App ${s.currPathName}`}>
-          {/* Display toast when user profile is not loaded yet*/ }
-          <Toast active={s.userProfile === undefined}>Connecting to database</Toast>
-          
-          <AppHeader
-            user={s.userProfile}
-            onLogout={this.handleLogout}
-            onToggleVertNav={this.handleToggleVertNav}
-            onCloseVertNav={this.handleCloseVertNav}
-            {...s}
-          >
-            <MenuPrimary />
-          </AppHeader>
-
-          {
-            /* Search panel appears only on the timeline*/
-              s.currPathName==='around-us' && <SearchPanel 
-              isActive={s.searchPanel.active} 
-              toggleSearchPanel={this.toggleSearchPanel} 
-              {...s} 
-            />   
-          }
-
-          {
-            s.confirmationModal.content && 
-            <ModalConfirm 
-              isOpen={s.confirmationModal.active} 
-              toggle={this.handleConfirmModal} 
-              title={s.confirmationModal.title}> 
-              {s.confirmationModal.content && s.confirmationModal.content() } 
-            </ModalConfirm>
-          } 
-
-          {
-            s.userProfile && 
-            <VerticalNav 
-              user={s.userProfile} 
-              isActive={s.drawer.active} 
+        <Sidebar {...sidebarProps}>
+          <div className={`App ${s.currPathName}`}>
+            {/* Display toast when user profile is not loaded yet*/ }
+            <Toast active={s.userProfile === undefined}>Connecting to database</Toast>
+            
+            <AppHeader
+              user={s.userProfile}
+              onLogout={this.handleLogout}
+              onToggleVertNav={this.handleDrawer}
               onCloseVertNav={this.handleCloseVertNav}
-              {...s}>
-                <MenuPrimary />
-                <hr className="hr-menu" />
-                <MenuSecondary onLogout={this.handleLogout} />
-            </VerticalNav>
-          }
-          
-          <section className="AppContent"> 
-            {
-              <Container>
-                <Row>
-                  <Col>
-                    <ViewAll 
-                      {...s} 
-                      toggleSearchPanel={this.toggleSearchPanel} 
-                      handleConfirmModal={this.handleConfirmModal} 
-                      onRouteChange={this.handleRouteChange} 
-                      onProfileChange={this.handleProfileUpdate} 
-                      onLogin={this.handleLogin} 
-                    />
-                  </Col>
-                </Row>
-              </Container>
-            }  
-          </section>
+              {...s}
+            >
+              <MenuPrimary />
+            </AppHeader>
 
-          <AppFooter />
-        </div>
+            {
+              /* Search panel appears only on the timeline*/
+                s.currPathName==='around-us' && <SearchPanel 
+                isActive={s.searchPanel.active} 
+                toggleSearchPanel={this.toggleSearchPanel} 
+                {...s} 
+              />   
+            }
+
+            {
+              s.confirmationModal.content && 
+              <ModalConfirm 
+                isOpen={s.confirmationModal.active} 
+                toggle={this.handleConfirmModal} 
+                title={s.confirmationModal.title}> 
+                {s.confirmationModal.content && s.confirmationModal.content() } 
+              </ModalConfirm>
+            } 
+
+            {
+              // s.userProfile && <VerticalNav 
+              //   user={s.userProfile} 
+              //   isActive={s.drawer.active} 
+              //   onCloseVertNav={this.handleCloseVertNav}
+              //   {...s}>
+              //     <MenuPrimary />
+              //     <hr className="hr-menu" />
+              //     <MenuSecondary onLogout={this.handleLogout} />
+              // </VerticalNav>
+            }
+            
+            <section className="AppContent">
+              {
+                <Container>
+                  <Row>
+                    <Col>
+                      <ViewAll
+                        {...s} 
+                        toggleSearchPanel={this.toggleSearchPanel} 
+                        handleConfirmModal={this.handleConfirmModal} 
+                        onRouteChange={this.handleRouteChange} 
+                        onProfileChange={this.handleProfileUpdate} 
+                        onLogin={this.handleLogin} 
+                      />
+                    </Col>
+                  </Row>
+                </Container>
+              }  
+            </section>
+
+            <AppFooter />
+          </div>
+        </Sidebar>
       </Router>
     );
   }
+
 }
 
 export default App;
