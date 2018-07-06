@@ -154,36 +154,38 @@ class App extends Component {
      * -------------------
      * (FirebaseAuth service remembers their credentials)
      */
+
     auth.onAuthStateChanged((userAuthObject) => {
 
-      // Save fresh user records in database and save a local version to the state
-      // (state version might contains some info from the database)
+      // Save user record in the database before attempting to retrieve the
+      // geolocation coordinates (it's not guaranteed that's why we save user info first)
       let userProfile;
-      if (userAuthObject) {
+      if (userAuthObject) { 
 
-        DBUser.saveBasicInfo(userAuthObject)
-        .then((currUserInfo) => {
+        DBUser.saveBasicInfo(userAuthObject).then((currUserInfo) => {
 
           userProfile = currUserInfo;
           this.setState({ userProfile });
 
           // Get gelolocation object ...
           // save user position in the database and object geolocation state
-          Geoloc.getValue().then((geolocation) => {
+          Geoloc.getValue().then((geolocation) => { 
 
             if (geolocation.on) {
 
               const userProfileTmp = userProfile;
               const latLong = Geoloc.getPosition(geolocation);
+
               userProfile = { ...userProfileTmp, ...latLong };
+
               DBUser.saveBasicInfo(userProfile);
 
             }
 
-            // save goelocation object anyway
+            // save geolocation object anyway
             this.setState({ geolocation });
 
-          });// [end] Get gelolocation object
+          });// [end] Get geolocation object
 
         });// [end] DBUser.saveBasicInfo
 
@@ -191,14 +193,13 @@ class App extends Component {
 
         this.setState({ userProfile: null });
 
-      }    
+      }
     }, (error) => {
 
       error.log('>>>error=', error);
 
-    }, (completed) => {
-      //...
     }); // [end] user sign-in + save
+
 
 
     /**
@@ -212,9 +213,10 @@ class App extends Component {
      * 2-b) upList: used to filter search
      */
     DBPost.getNode().on('value', (snapshot) => {
+
       const nodeVal = snapshot.val();
-      let postList_search = [],
-      upList_runtime = []; 
+      let postList_search = [];
+      let upList_runtime = [];
       if (nodeVal) {//Avoid error if there is no DB objects 
         const postMap = new Map(Object.entries(nodeVal));
         postMap.forEach((value, key) => {
@@ -233,6 +235,7 @@ class App extends Component {
       //save array in state
       this.setState({ postList_search, upList_runtime });
       this.setState({ postList: postList_search, upList: upList_runtime });
+
     });// [end] Fetch Fancies ...
 
 

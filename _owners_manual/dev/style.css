@@ -1,0 +1,144 @@
+body {
+  background: #333;
+  color: #ccc;
+}
+
+
+body > section {
+  /* display: flex; */
+  /* border: 20px solid lime; */
+  padding: 5rem;
+}
+
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-highlight {
+  background-color: #fba82d;
+}
+.section-highlight a {
+  color: #333;
+}
+.section-highlight h2 {
+  color: rgb(68, 102, 117);
+}
+
+
+
+.section-bgimg {
+  position: relative;
+  background: url(./img/fanci_project__post-delete.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+}
+.section-bgimg:after { 
+  background-color: rgba(0,0,0,0.7); 
+}
+.section-bgimg .row {
+  position: relative;
+  z-index: 2;
+}
+
+
+
+
+.navbar  {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  background: transparent;
+}
+.navbar > * {
+  z-index: 4;
+}
+.navbar:after { 
+  background-color: rgb(68, 102, 117, 0.6)!important; 
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #fff;
+}
+.navbar-light .navbar-nav .active .nav-link {
+  color: #ff9800;
+}
+.navbar-brand {
+  color: #fff!important;
+  font-weight: bold;
+}
+.navbar-brand .fas {
+  color: #ff9800;
+}
+
+
+
+
+
+.carousel .carousel-item .text { 
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  flex-direction: column;
+  z-index: 90;
+  padding: 20px; 
+  height: 100%;
+  color: #ccc;
+  width: 100%;
+  left: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-align: center;
+}
+
+.carousel .carousel-item .text p { 
+  display: none;
+}
+.carousel .carousel-item .text .btn { 
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 150px;
+}
+@media(min-width: 401px) {
+  .carousel .carousel-item .text { 
+    width: 400px;
+    left: calc(50% - 200px); 
+  } 
+  .carousel .carousel-item .text p { 
+    display: block;
+  }
+}
+@media(min-width: 601px) {
+  .carousel .carousel-item .text { 
+    left: 25%;
+    width: 50%;
+    max-width: 600px;
+    padding-left: 20px;
+    padding-right: 20px;
+  } 
+}
+
+.carousel .carousel-item:after {
+  background-color: rgba(0,0,0,0.7); 
+  z-index: 4;
+}
+.carousel-control-next, .carousel-control-prev {
+  z-index: 100;
+}
+
+
+
+/* Overlay items */
+.carousel .carousel-item:after,
+.section-bgimg:after,
+.navbar:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 100%; 
+  z-index: 1;
+}

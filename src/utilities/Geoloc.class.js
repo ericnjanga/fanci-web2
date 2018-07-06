@@ -17,28 +17,39 @@ class Geoloc {
    * (Always update message in any case)
    */
   static getValue() {
-    let geolocation = { ...this.geolocation};
+
+    const geolocation = { ...this.geolocation };
     return new Promise((resolve, reject) => {
+
       if (navigator.geolocation) {
-        geolocation.on = true; 
-        navigator.geolocation.getCurrentPosition((position) => {
+
+        geolocation.on = true;
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+
             geolocation.on = true;
-            geolocation.currPosition = position; 
+            geolocation.currPosition = position;
             resolve(geolocation);
+
           },
           (err) => {
+
             geolocation.on = false;
             geolocation.msg = `ERROR(${err.code}): ${err.message}`;
             resolve(geolocation);
+
           },
-          {timeout:30000}
+          { timeout: 30000 }
         );
       } else {
+
         geolocation.on = false;
         geolocation.msg = 'Geolocation is not supported on your device... Map cannot work, sorry';
         resolve(geolocation);
+
       }
     });// [end] new Promise
+    
   }// [end] getValue
 
   /**

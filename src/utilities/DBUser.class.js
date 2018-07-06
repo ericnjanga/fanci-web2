@@ -41,52 +41,61 @@ class DBUser {
    * - photoURL, email, lat (latitude), lng (longitude)
    */
   static saveBasicInfo(authObject) {
-    return new Promise((resolve, reject) => {
-      //get user in database
-      this.get(authObject.uid).then((userFromDB) => {
-        //Extract user properties from the auth object
-        let tpl_user = this.getBasicProperties(authObject);
   
-        //If user info have already been recorded in database: 
-        //Replace existing properties by wha'ts in the database
+    return new Promise((resolve, reject) => {
+
+      // get user in database
+      this.get(authObject.uid).then((userFromDB) => {
+
+        // Extract user properties from the auth object
+        const tpl_user = this.getBasicProperties(authObject);
+  
+        // If user info have already been recorded in database: 
+        // Replace existing properties by wha'ts in the database
         if (userFromDB) {
+
           tpl_user.biography    = userFromDB.biography;
           tpl_user.visible      = userFromDB.visible;
           tpl_user.displayName  = userFromDB.displayName;
-          tpl_user.phoneNumber  = userFromDB.phoneNumber;  
-        }else{
+          tpl_user.phoneNumber  = userFromDB.phoneNumber;
+
+        } else {
+
           //Otherwise, initialize these properties
           tpl_user.biography    = '';    //set empty string
           tpl_user.visible      = false;  //invisible by default
           tpl_user.displayName  = tpl_user.displayName ? tpl_user.displayName : '';//empty string if there is no value
           tpl_user.phoneNumber  = tpl_user.phoneNumber ? tpl_user.phoneNumber : '';//empty string if there is no value
+
         }
-        //...
+        
         tpl_user.lastSignin = Date.now();//Record the last time user signed in
         resolve(tpl_user);               //Expose user object now
 
-        /** Note: 'photoURL', 'email', 'lat' and 'lng remains untouched and will always be updated **/
-        //make sure user lat and lng hav at least a value
+        /* Note: 'photoURL', 'email', 'lat' and 'lng remains untouched and will always be updated */
+
+        // make sure user lat and lng hav at least a value
         if (!tpl_user.lat) {
           if (userFromDB && typeof userFromDB.lat==='number') {
             tpl_user.lat = userFromDB.lat;
-          }else{
-            tpl_user.lat = '---';
+          } else {
+            tpl_user.lat = null;
           }
         }
         if (!tpl_user.lng) {
           if (userFromDB && typeof userFromDB.lng==='number') {
             tpl_user.lng = userFromDB.lng;
-          }else{
-            tpl_user.lng = '---';
+          } else {
+            tpl_user.lng = null;
           }
         } 
-        //(because we assume the user might have changed them somewhere else and will expect to see them reflected on this app) 
-        //Create or update user record in the database
+        // (because we assume the user might have changed them somewhere else and will expect to see them reflected on this app) 
+        // Create or update user record in the database
         let record = {};
         record['/'+nodeName+'/'+ authObject.uid] = tpl_user; 
         database.ref().update(record);
-      });//get user from DB 
+        
+      });// get user from DB 
     });// [end] new Promise
   }
 

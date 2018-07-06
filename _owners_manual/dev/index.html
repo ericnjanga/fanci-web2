@@ -7,83 +7,287 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css">
-    <link rel="stylesheet" href="model-1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.3.1/lity.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 
-    <title>Site Map | Plan model 1</title>
+    <title>Fanci App | Owner manual</title>
   </head>
   <body>
-
-    <div class="container-fluid">
-
-      <header class="main-header">
-          <h1>Site Map</h1> 
-      </header>
-
-
-
-        
-
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link" href="/model-1/index.html">Site Map</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/model-1/interactions.html">Interactions</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/model-1/subscriptions.html">Subscriptions</a>
-        </li> 
-        <li class="nav-item">
-          <a class="nav-link" href="/model-1/post-anatomy.html">Post Anatomy</a>
-        </li> 
-        <li class="nav-item">
-          <a class="nav-link" href="/model-1/bad-patterns.html">Bad Patterns</a>
-        </li> 
-      </ul>
-
-
-
-      <div class="inner-container">
-        <div class="row">
-            <div class="col-md-4">
-              <p>Documenting the process behind a users deciding to join a fanci: </p> 
-            </div>
-            <div class="col-md-4">
-              <h4>Rules:</h4>
-              <ul>
-                <li>A post creator cannot participate to his/her own post</li>
-              </ul>
-            </div><!-- col -->
-        </div><!-- row -->
-  
-        <div class="row grid">
-
-          <h3>How to create a fanci</h3>
-          <p>...</p>
-          
-        </div><!-- row -->
-      </div><!-- inner-container -->
-    </div><!-- container-fluid -->
     
+    <!-- main nav -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="#">
+        Fanci App 
+        <i class="fas fa-map-marker"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav my-2 my-lg-0" style="margin-left: auto;">
+          <li class="nav-item active">
+            <a class="nav-link" href="#the-app">The App</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#basic-use">Basic Use</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#development-phases">Development Phases</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- main nav -->
+
+
+    <!-- carousel -->
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="text">
+            <h3>consectetur adipisicing elit</h3>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti magnam sit quam dolorum praesentium nemo voluptate! Quaerat quo explicabo hic nulla? Eum fugiat non esse officiis obcaecati molestiae doloribus iusto?</p>
+            <a href="" class="btn btn-primary">Visit App</a>
+          </div>
+          <img class="d-block w-100" src="./img/slide1.png" alt="First slide">
+        </div>
+        <div class="carousel-item">
+            <div class="text">
+              <h3>consectetur adipisicing elit</h3>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti magnam sit quam dolorum praesentium nemo voluptate! Quaerat quo explicabo hic nulla? Eum fugiat non esse officiis obcaecati molestiae doloribus iusto?</p>
+              <a href="" class="btn btn-primary">Visit App</a>
+            </div>
+            <img class="d-block w-100" src="./img/slide2.png" alt="First slide">
+        </div>
+        <div class="carousel-item">
+            <div class="text">
+              <h3>consectetur adipisicing elit</h3>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti magnam sit quam dolorum praesentium nemo voluptate! Quaerat quo explicabo hic nulla? Eum fugiat non esse officiis obcaecati molestiae doloribus iusto?</p>
+              <a href="" class="btn btn-primary">Visit App</a>
+            </div>
+          <img class="d-block w-100" src="./img/slide3.png" alt="Third slide">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+    <!-- carousel -->
+
+
+
+    <section class="section-highlight">
+      <div class="row">
+        <div class="col">
+          <h2>Basic Use</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col">
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="section-bgimg">
+      <div class="row">
+        <div class="col">
+          <h2>Development Phases</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Phase 1</h3>
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Phase 2</h3>
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Phase 3</h3>
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section>
+      <div class="row">
+        <div class="col">
+          <h2>Contact</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Phase 1</h3>
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Phase 2</h3>
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Phase 3</h3>
+          <ul>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+            <li>
+              <a href="#">vkiweifiwf fiwfewiofinowe</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.1/masonry.pkgd.min.js"></script>
-
-
-    <script>
-      // https://masonry.desandro.com/extras.html#bootstrap
-      $('.grid').masonry({
-        // options
-        itemSelector: '.grid-item',
-        columnWidth: '.grid-sizer',
-        percentPosition: true
-      });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lity/2.3.1/lity.min.js"></script>
   </body>
 </html>
