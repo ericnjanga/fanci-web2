@@ -392,6 +392,12 @@ class App extends Component {
 
             
     return (
+      {/* 
+        IMPORTANT: I had to hard code react-sidebar zindex (sidebar and overlay
+        (I couldn't find a way to change z-indexes via props)
+        (default z-index were too small '2', '1' and couldn't handle the layout's complexity)
+      */
+      }
       <Router>
         <Sidebar {...sidebarProps}>
           <div className={`App ${s.currPathName}`}>
