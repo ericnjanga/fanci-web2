@@ -48,15 +48,22 @@ h2 {
 
 .navbar  {
   position: fixed;
-  z-index: 100;
+  z-index: 110;
   width: 100%;
   background: transparent;
 }
+.navbar-light .navbar-toggler {
+  border-color: #fba82d;
+}
+.navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(251, 168, 45, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
 .navbar > * {
   z-index: 4;
 }
 .navbar:after { 
-  background-color: rgb(68, 102, 117, 0.6)!important; 
+  background-color: rgb(68, 102, 117, 1)!important; 
 }
 .navbar-light .navbar-nav .nav-link {
   color: #fff;
@@ -93,9 +100,23 @@ h2 {
   text-align: center;
 }
 
-.carousel .carousel-item .text p { 
-  display: none;
+.carousel .carousel-item .text .btn {
+  margin-top: 20px;
 }
+
+.carousel .carousel-item .text h3 {
+  color: #fba82d;
+}
+
+.carousel .carousel-item .slide-lg,
+.carousel .carousel-item .text p { 
+  display: none; 
+}
+.carousel .carousel-item .slide-sm { 
+  display: block;
+} 
+
+
 .carousel .carousel-item .text .btn { 
   margin-left: auto;
   margin-right: auto;
@@ -106,21 +127,49 @@ h2 {
     width: 400px;
     left: calc(50% - 200px); 
   } 
+}
+@media(min-width: 700px) {
   .carousel .carousel-item .text p { 
     display: block;
   }
 }
-@media(min-width: 601px) {
+@media(min-width: 801px) {
   .carousel .carousel-item .text { 
     left: calc(50% - 300px); 
     width: 600px;
-    padding-left: 20px;
-    padding-right: 20px;
+  } 
+}
+
+@media(max-width: 799px) {
+  .carousel .carousel-item .text p {  
+    font-size: 1.2rem;
+  }
+}
+@media(min-width: 800px) {
+  .carousel .carousel-item h3 { 
+    font-size: 2.3rem;
+  } 
+  .carousel .carousel-item p { 
+    font-size: 1.5rem;
+  } 
+  .carousel .carousel-item .btn { 
+    font-size: 1.4rem;
+  } 
+}
+
+
+
+@media(min-width: 506px) {
+  .carousel .carousel-item .slide-sm { 
+    display: none;
+  } 
+  .carousel .carousel-item .slide-lg { 
+    display: block;
   } 
 }
 
 .carousel .carousel-item:after {
-  background-color: rgba(0,0,0,0.7); 
+  background-color: rgba(0,0,0,0.8); 
   z-index: 4;
 }
 .carousel-control-next, .carousel-control-prev {
