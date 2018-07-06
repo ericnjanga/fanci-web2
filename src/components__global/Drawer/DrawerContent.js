@@ -73,7 +73,7 @@ const DrawerContent = (props) => {
             <div>
               <MenuPrimary onToggleVertNav={onToggleVertNav} />
               <div role="presentation" style={styles.divider} />
-              <MenuSecondary onToggleVertNav={onToggleVertNav} onLogout={props.handleLogout} />
+              <MenuSecondary style={{ item:{padding:'10px 20px'} }} onToggleVertNav={onToggleVertNav} onLogout={props.handleLogout} />
               <div role="presentation" style={styles.divider} />
             </div>
           )

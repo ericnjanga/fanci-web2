@@ -17,7 +17,7 @@ export const dropdownSyles = {
     fontSize: '0.9rem',
     padding: '6px 20px',
     fontWeight: 'bold',
-    textDecoration: 'none'
+    textDecoration: 'none',
   }
 };
 

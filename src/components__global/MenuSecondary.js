@@ -8,6 +8,19 @@ const MenuSecondary = (props) => {
 
   const { onLogout, onToggleDropdown, onToggleVertNav } = props;
 
+  let itemStyle = '';
+
+  if (props.style && props.style.item) {
+
+    itemStyle = props.style.item;
+
+  } else {
+
+    itemStyle = dropdownSyles.item;
+
+  }
+
+
   // Proveide shell of a function if there is nothing in props
   const toggleDropdown = onToggleDropdown ? onToggleDropdown: ()=> {};
   const toggleVertNav = onToggleVertNav ? onToggleVertNav: ()=> {};
@@ -72,7 +85,7 @@ const MenuSecondary = (props) => {
         links.map((item) => {
 
           return (
-            <MenuNavLink key={item.name} {...item}>{item.name}</MenuNavLink>
+            <MenuNavLink key={item.name} {...item} style={itemStyle}>{item.name}</MenuNavLink>
           );
 
         })
@@ -89,7 +102,7 @@ const MenuNavLink = (props) => {
       {
         props.isButton &&
         <Button
-          style={dropdownSyles.item}
+          style={props.style}
           onClick={props.handleClick}
           className={props.className}>
           {props.children}
@@ -99,7 +112,7 @@ const MenuNavLink = (props) => {
         !props.isButton &&
         <NavLink
           to={props.url}
-          style={dropdownSyles.item}
+          style={props.style}
           onClick={props.handleClick}
           className={props.className}>
           {props.children}
