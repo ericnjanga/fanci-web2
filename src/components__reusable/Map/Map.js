@@ -120,7 +120,7 @@ class MapUser extends React.Component {
           alt={item.displayName} 
           avatar 
           circle 
-          size={(item.uid===p.master.uid)?'large':'med'}
+          size={(item.uid===p.master.uid)?'large':'small'}
         />
       </div>
     );
