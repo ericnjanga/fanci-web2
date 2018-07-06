@@ -9,7 +9,9 @@ const styles = {
   sidebar: {
     width: 256,
     height: '100%',
-    zIndex: '100',
+  },
+  overlay: {
+    zIndex: 18,
   },
   sidebarLink: {
     display: 'block',
@@ -42,7 +44,7 @@ const styles = {
   },
 };
 
-const SidebarContent = (props) => {
+const DrawerContent = (props) => {
 
   const style = props.style ? { ...styles.sidebar, ...props.style } : styles.sidebar;
   const { user, onToggleVertNav } = props;
@@ -66,22 +68,25 @@ const SidebarContent = (props) => {
         }
       </div>
       <div style={styles.content}>
-        <MenuPrimary onToggleVertNav={onToggleVertNav} />
-
-        <div role="presentation" style={styles.divider} />
-
-        <MenuSecondary onToggleVertNav={onToggleVertNav} onLogout={props.handleLogout} />
-
-        <div role="presentation" style={styles.divider} /> 
+        {
+          user && (
+            <div>
+              <MenuPrimary onToggleVertNav={onToggleVertNav} />
+              <div role="presentation" style={styles.divider} />
+              <MenuSecondary onToggleVertNav={onToggleVertNav} onLogout={props.handleLogout} />
+              <div role="presentation" style={styles.divider} />
+            </div>
+          )
+        }
       </div>
     </div>
   );
 };
 
-SidebarContent.propTypes = {
+DrawerContent.propTypes = {
   user: PropTypes.object,
   style: PropTypes.object,
   handleLogout : PropTypes.func,
 };
 
-export default SidebarContent;
+export default DrawerContent;

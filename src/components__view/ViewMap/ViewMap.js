@@ -38,23 +38,28 @@ class ViewMap extends ViewApp {
 
     const style = {
       body: {
+        // height: '85vh',
+        // marginLeft: '-15px',
+        // marginRight: '-15px',
         height: '85vh',
-        marginLeft: '-15px',
-        marginRight: '-15px',
-      },
-      img: {
-        position: 'relative',
-        overflow: 'hidden',
-        maxHeight: '750px',
-        heading: {
-          position: 'absolute',
-          top: '20%',
-          left: '0',
-          width: '100%',
-          textAlign: 'center',
-        },
+        position: 'fixed',
+        bottom: '23px',
+        left: '0',
+        width: '100%',
       },
     };
+
+    const stylePlaceholderImg = {
+      ...style.body,
+      overflow: 'hidden',
+      heading: {
+        position: 'absolute',
+        top: '20%',
+        left: '0',
+        width: '100%',
+        textAlign: 'center',
+      },
+    }
 
     return (
       <div className="view__content ViewMap">
@@ -72,9 +77,9 @@ class ViewMap extends ViewApp {
             style={style.body}
           />
           :
-          <div className="blink" style={style.img}>
-            <h4 style={style.img.heading}>Loading Your Map</h4>
-            <img src={placeholder} alt="Map placeholder" />
+          <div className="blink" style={stylePlaceholderImg}>
+            <h4 style={stylePlaceholderImg.heading}>Loading Your Map</h4>
+            <img src={placeholder} style={{ width: '100%' }} alt="Map placeholder" />
           </div>
         }
       </div>

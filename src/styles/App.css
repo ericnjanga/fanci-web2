@@ -22,12 +22,13 @@
   max-width: 440px;
 }
 
+.App > .AppHeader { 
+  z-index: 18;
+}
 /* .App {
   z-index: 0;
 }
-.App > .AppHeader { 
-  z-index: -1;
-}
+
 .App > .AppFooter,
 .App > .AppContent { 
   z-index: -2;

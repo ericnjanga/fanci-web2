@@ -59,11 +59,19 @@ class AppHeader extends React.Component {
       <header className="AppHeader" style={currStyle}>
         <div className="AppHeader__top">
           <h1 className="AppBrand">
-            <Link
-              onClick={onToggleVertNav}
-              to={`/`} style={currStyle.brand}>
-              Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
-            </Link>
+            
+            {
+              user ? <Link
+                        onClick={onToggleVertNav}
+                        to={`/`} style={currStyle.brand}>
+                        Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
+                      </Link>
+                    :
+                    <Link
+                      to={`/`} style={currStyle.brand}>
+                      Fanci <small><FontAwesomeIcon icon={faMapMarker} /></small>
+                    </Link>
+            }
           </h1>
           {
             user && (
