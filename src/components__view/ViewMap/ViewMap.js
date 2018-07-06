@@ -31,21 +31,34 @@ class ViewMap extends ViewApp {
   }
 
 
-  render () {
-    const p = { ...this.props}; 
-    const s = { ...this.state}; 
-    const nbU = Array(15).fill(0);
+  render() {
+
+    const p = { ...this.props };
+    const s = { ...this.state };
+
     const style = {
       body: {
-        height:'85vh', 
-        marginLeft:'-15px', 
-        marginRight:'-15px' 
-      }
+        height: '85vh',
+        marginLeft: '-15px',
+        marginRight: '-15px',
+      },
+      img: {
+        position: 'relative',
+        overflow: 'hidden',
+        maxHeight: '750px',
+        heading: {
+          position: 'absolute',
+          top: '20%',
+          left: '0',
+          width: '100%',
+          textAlign: 'center',
+        },
+      },
     };
-    const psStyle_body = { ...MapPHStyles.body, ...style.body};
+
     return (
-      <div className="view__content ViewMap"> 
-        { 
+      <div className="view__content ViewMap">
+        {
           // Render Map only if:
           // - Geolocation is activated and list
           // - List of users with their posts is available
@@ -59,37 +72,17 @@ class ViewMap extends ViewApp {
             style={style.body}
           />
           :
-          <div style={{ position: 'relative', overflow: 'hidden', maxHeight: '750px' }}>
-            <h4 style={{ position: 'absolute', top: '20%', left: '0', width: '100%', textAlign: 'center' }}>Loading Your Map</h4>
+          <div className="blink" style={style.img}>
+            <h4 style={style.img.heading}>Loading Your Map</h4>
             <img src={placeholder} alt="Map placeholder" />
           </div>
-        } 
-      </div> 
+        }
+      </div>
     );
+
   }
 
 }// [end] Home
 
 export default ViewMap;
 
-
-/*-- Display a Map placeholder --*/
-const DisplayMapPlaceholder = (props) => {
-  return (
-    <div style={props.bodyStyle}> 
-      {
-        props.list.map((item, index) => { 
-          let coord = {}, style;
-          coord.left = AppDoc.getRandomArbitrary(30, 300)+'px';
-          coord.top = AppDoc.getRandomArbitrary(30, 500)+'px';
-          style = { ...props.pointsStyle, ...coord} 
-          return <span key={index} style={style} className="animated-background" />
-        }) 
-      } 
-      <span 
-        style={props.mainPostStyle} 
-        className="animated-background" 
-      />
-    </div>
-  );
-}
