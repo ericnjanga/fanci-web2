@@ -1,33 +1,47 @@
 import React from 'react';
 import ViewApp from './../ViewApp.js';
-import './ViewMap.css';  
-import AppDoc from './../../utilities/AppDoc.class.js';
+import './ViewMap.css';
 import Map from './../../components__reusable/Map/Map.js';
-import MapPHStyles from './../../jsStyles/MapPlaceholder.styles.js';
 import placeholder from './../../images/map-placeholder.jpg';
 
 
-class ViewMap extends ViewApp {  
+class ViewMap extends ViewApp {
 
   constructor(props) {
+
     super(props);
     this.state = {};
+
   }
 
+  // State update on DidMount should only be done here
+  onMount(listUsersPosts) {
+
+    this.setState({ listUsersPosts });
+
+  }
+
+
   componentDidMount() {
-    const { listUsers, postList } = this.props; 
+
+    const { listUsers, postList } = this.props;
 
     const listUsersPosts = listUsers.map((uItem) => {
+
       // returns { user:{}, posts:[{}, {}, {}] }
       return {
         user: uItem,
         posts: postList.filter((pItem) => {
-          return pItem.uid===uItem.uid
+
+          return pItem.uid === uItem.uid;
+
         }),
-      }; 
+      };
+
     });
-    // ...
-    this.setState({ listUsersPosts });
+
+    this.onMount(listUsersPosts);
+
   }
 
 
@@ -61,10 +75,12 @@ class ViewMap extends ViewApp {
     return (
       <div className="view__content ViewMap">
         {
-          // Render Map only if:
-          // - Geolocation is activated and list
-          // - List of users with their posts is available
-          (p.geolocation.on===true && s.listUsersPosts)
+          /**
+           * Placeholder will keep being displayed if:
+           * - Geolocation "is not yet active"
+           * - List of users with their posts "is not yet available"
+           */
+          (p.geolocation.on === true && s.listUsersPosts)
           ? 
           <Map 
             {...p}
