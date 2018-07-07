@@ -137,11 +137,22 @@ class ViewUserTimeline extends ViewApp {
     // Fetch "My Fancies" list
     if (this.props.isMyFancies) {
 
-      this.setState({ list:this.props.upList, title: 'My Fancies' });
+      this.onMount();
 
     } // Setting up "My Fancies"
 
   }// [end] componentDidMount
+
+
+  // State update on DidMount should only be done here
+  onMount() {
+
+    this.setState({
+      list: this.props.upList,
+      title: 'My Fancies',
+    });
+
+  }
 
 
   render() {

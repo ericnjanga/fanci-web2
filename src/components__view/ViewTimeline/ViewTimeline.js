@@ -67,19 +67,29 @@ class ViewTimeline extends ViewApp {
   }//end] getModalParams
 
 
-  componentDidMount() {
-    super.componentDidMount();//User ViewApp parent component 
+  // State update on DidMount should only be done here
+  onMount() {
+
     this.setState({
       modal: {
-        active: false, 
-        params: {//Create mode by default
-          ...this.getModalParams('create') 
+        active: false,
+        params: { // Create mode by default
+          ...this.getModalParams('create'),
         },
       },
       formFields: {
-        ...DBPost.data
-      }
+        ...DBPost.data,
+      },
     });
+
+  }
+
+
+  componentDidMount() {
+
+    super.componentDidMount(); // User ViewApp parent component
+    this.onMount();
+
   }// [end] componentDidMount
 
 

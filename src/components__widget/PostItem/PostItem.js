@@ -364,7 +364,7 @@ class PostItem extends React.Component {
   componentDidMount() {
     const {uid, file } = this.props.data; 
     DBUser.get(uid).then((user) => {
-      this.setState({user });
+      this.setState({ user });
     });
     if (file) {  
       let postFileUpload = { ...this.state.postFileUpload};

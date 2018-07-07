@@ -59,19 +59,33 @@ class SearchPanel extends React.Component {
     if (this.props.isActive) {
       this.inputSearch.current.focus();
     }
-  }    
+  }
 
-  //1) Add focus to search inout
-  //2) Add an event handler which deals with closing the search panel
+
+  // 1) Add focus to search inout
+  // 2) Add an event handler which deals with closing the search panel
   componentDidMount() {
-    this.focudInput(); 
-    this.setState({ list: this.props.postList_search });
+
+    this.focudInput();
+    this.onMount();
+
   }// [end] componentDidMount
 
+
+  // State update on DidMount should only be done here
+  onMount() {
+
+    this.setState({ list: this.props.postList_search });
+
+  }
+
   componentDidUpdate() {
+
     this.focudInput();
-  } 
-  
+
+  }
+
+
   render() {
     const p = { ...this.props};
     const s = { ...this.state};
