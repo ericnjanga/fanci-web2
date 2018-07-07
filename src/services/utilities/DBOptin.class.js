@@ -1,7 +1,7 @@
 /**
  * Class dedicated to posts
  */ 
-import { database } from './../services/connection-details.js'; 
+import { database } from './../services-init.js'; 
 
 
 const nodeName = 'subscriptions';

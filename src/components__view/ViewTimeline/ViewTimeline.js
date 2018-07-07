@@ -9,7 +9,7 @@ import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import {Button } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
-import DBPost from './../../utilities/DBPost.class.js';
+import DBPost from './../../services/utilities/DBPost.class.js';
 import './ViewTimeline.css'; 
 
 

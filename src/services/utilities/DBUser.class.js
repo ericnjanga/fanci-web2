@@ -1,7 +1,7 @@
 /**
  * Class dedicated to users
  */
-import {database, auth } from './../services/connection-details.js';
+import {database, auth } from './../services-init.js';
 
 const nodeName = 'users';
 

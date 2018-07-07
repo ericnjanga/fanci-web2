@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Figure from './../../components__reusable/Figure/Figure.js';
 import Toast from './../../components__reusable/Toast/Toast.js'; 
-import DBUser from '../../utilities/DBUser.class.js';
+import DBUser from '../../services/utilities/DBUser.class.js';
 import DateFormat from './../../components__reusable/DateFormat.js';
 import ViewApp from './../ViewApp.js';
 import {formStyleDarkTheme } from './../../jsStyles/form.styles.js';

@@ -6,8 +6,9 @@
  */
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
-import Figure from './../Figure/Figure.js';
-import { appEnv, googleMapAPIkey, devGeoLocations } from './../../services/connection-details';
+import Figure from './../Figure/Figure';
+import appEnv from './../../settings/env';
+import devGeoLocations, { googleMapAPIkey } from './../../settings/geolocation';
 
 
 class Map extends React.Component {
