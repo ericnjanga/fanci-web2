@@ -91,7 +91,7 @@ class ViewMap extends ViewApp {
           />
           :
           <div className="blink" style={stylePlaceholderImg}>
-            <h4 style={stylePlaceholderImg.heading}>Loading Your Map</h4>
+            <h4 style={stylePlaceholderImg.heading}>{p.geolocation.msg}</h4>
             <img src={placeholder} style={{ width: '100%' }} alt="Map placeholder" />
           </div>
         }
