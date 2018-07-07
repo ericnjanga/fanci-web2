@@ -4,9 +4,7 @@ body {
 }
 
 
-body > section {
-  /* display: flex; */
-  /* border: 20px solid lime; */
+.section-padding {
   padding: 5rem;
 }
 
