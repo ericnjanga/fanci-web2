@@ -1,0 +1,32 @@
+[debug] [2018-07-08T19:06:43.773Z] ----------------------------------------------------------------------
+[debug] [2018-07-08T19:06:43.775Z] Command:       /usr/local/Cellar/node/8.9.1/bin/node /usr/local/bin/firebase serve
+[debug] [2018-07-08T19:06:43.776Z] CLI Version:   3.19.3
+[debug] [2018-07-08T19:06:43.776Z] Platform:      darwin
+[debug] [2018-07-08T19:06:43.776Z] Node Version:  v8.9.1
+[debug] [2018-07-08T19:06:43.776Z] Time:          Sun Jul 08 2018 15:06:43 GMT-0400 (EDT)
+[debug] [2018-07-08T19:06:43.776Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-08T19:06:43.797Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-08T19:06:43.797Z] > authorizing via signed-in user
+[debug] [2018-07-08T19:06:43.800Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fanci-prod  
+  
+ Sun Jul 08 2018 15:06:43 GMT-0400 (EDT)
+[debug] [2018-07-08T19:06:45.938Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-08T19:06:45.939Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fanci-prod/tokens  
+  
+ Sun Jul 08 2018 15:06:45 GMT-0400 (EDT)
+[debug] [2018-07-08T19:06:46.277Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-08T19:06:46.278Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fanci-prod  
+  
+ Sun Jul 08 2018 15:06:46 GMT-0400 (EDT)
+[debug] [2018-07-08T19:06:46.617Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/ericnjanga/Sites/web_projects/2018/fanci-web2'...
+[info] 
+[debug] [2018-07-08T19:06:46.618Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/497067572730/clients/_:getWebAppConfig  
+  
+ Sun Jul 08 2018 15:06:46 GMT-0400 (EDT)
+[debug] [2018-07-08T19:06:47.217Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] ✔  hosting: Local server: http://localhost:5000
+
