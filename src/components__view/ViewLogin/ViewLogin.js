@@ -18,6 +18,9 @@ class ViewLogin extends ViewApp {
         lineHeight: '1rem' 
       }
     };
+
+    console.log('...this.props=', this.props);
+
     return (
       <div 
         className="view--login" 
@@ -36,7 +39,6 @@ class ViewLogin extends ViewApp {
     );
   }
 }// [end] Login
-
 
 
 export default ViewLogin;
