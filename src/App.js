@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import Sidebar from 'react-sidebar';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { auth, provider } from './services/services-init.js';
+import { UserContext, auth, provider } from './services/services-init.js';
 import './services/utilities/polyfills.js';
 import AppHeader from './components__global/AppHeader/AppHeader.js';
 import DrawerContent from './components__global/Drawer/DrawerContent.js';
@@ -395,63 +395,65 @@ class App extends Component {
     */
 
     return (
-      <Router>
-        <Sidebar {...sidebarProps}>
-          <div className={`App ${s.currPathName}`}>
-            {/* Display toast when user profile is not loaded yet*/ }
-            <Toast active={s.userProfile === undefined}>Connecting to database</Toast>
-            
-            <AppHeader
-              user={s.userProfile}
-              onLogout={this.handleLogout}
-              onToggleVertNav={this.handleDrawer} 
-              {...s}
-            >
-              <MenuPrimary />
-            </AppHeader>
+      <UserContext.Provider value={s.userProfile}>
+        <Router>
+          <Sidebar {...sidebarProps}>
+            <div className={`App ${s.currPathName}`}>
+              {/* Display toast when user profile is not loaded yet*/ }
+              <Toast active={s.userProfile === undefined}>Connecting to database</Toast>
+              
+              <AppHeader
+                user={s.userProfile}
+                onLogout={this.handleLogout}
+                onToggleVertNav={this.handleDrawer}
+                {...s}
+              >
+                <MenuPrimary />
+              </AppHeader>
 
-            {
-              /* Search panel appears only on the timeline*/
-                s.currPathName==='around-us' && <SearchPanel 
-                isActive={s.searchPanel.active} 
-                toggleSearchPanel={this.toggleSearchPanel} 
-                {...s} 
-              />   
-            }
-
-            {
-              s.confirmationModal.content && 
-              <ModalConfirm 
-                isOpen={s.confirmationModal.active} 
-                toggle={this.handleConfirmModal} 
-                title={s.confirmationModal.title}> 
-                {s.confirmationModal.content && s.confirmationModal.content() } 
-              </ModalConfirm>
-            }
-            
-            <section className="AppContent">
               {
-                <Container>
-                  <Row>
-                    <Col>
-                      <ViewAll
-                        {...s}
-                        toggleSearchPanel={this.toggleSearchPanel} 
-                        handleConfirmModal={this.handleConfirmModal} 
-                        onRouteChange={this.handleRouteChange} 
-                        onProfileChange={this.handleProfileUpdate} 
-                        onLogin={this.handleLogin} 
-                      />
-                    </Col>
-                  </Row>
-                </Container>
-              }  
-            </section>
+                /* Search panel appears only on the timeline*/
+                  s.currPathName==='around-us' && <SearchPanel 
+                  isActive={s.searchPanel.active} 
+                  toggleSearchPanel={this.toggleSearchPanel} 
+                  {...s} 
+                />   
+              }
 
-            <AppFooter />
-          </div>
-        </Sidebar>
-      </Router>
+              {
+                s.confirmationModal.content && 
+                <ModalConfirm 
+                  isOpen={s.confirmationModal.active} 
+                  toggle={this.handleConfirmModal} 
+                  title={s.confirmationModal.title}> 
+                  {s.confirmationModal.content && s.confirmationModal.content() } 
+                </ModalConfirm>
+              }
+              
+              <section className="AppContent">
+                {
+                  <Container>
+                    <Row>
+                      <Col>
+                        <ViewAll
+                          {...s}
+                          toggleSearchPanel={this.toggleSearchPanel} 
+                          handleConfirmModal={this.handleConfirmModal} 
+                          onRouteChange={this.handleRouteChange} 
+                          onProfileChange={this.handleProfileUpdate} 
+                          onLogin={this.handleLogin} 
+                        />
+                      </Col>
+                    </Row>
+                  </Container>
+                }  
+              </section>
+
+              <AppFooter />
+            </div>
+          </Sidebar>
+        </Router>
+      </UserContext.Provider>
     );
   }
 
