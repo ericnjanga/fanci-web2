@@ -11,15 +11,13 @@ class ViewLogin extends ViewApp {
     const styles = {
       body: {
         marginTop: '30%',
-        textAlign: 'center'
+        textAlign: 'center',
       },
       p: {
         marginTop: '20px',
-        lineHeight: '1rem' 
+        lineHeight: '1rem',
       }
     };
-
-    console.log('...this.props=', this.props);
 
     return (
       <div 

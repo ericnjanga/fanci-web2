@@ -31,9 +31,9 @@ import './styles/menus.css';
 class App extends Component {
 
   constructor(props) {
+
     super(props);
     this.state = {
-      userProfile         : undefined,
       drawer             : {
         open: false,
         docked: false,
@@ -128,7 +128,7 @@ class App extends Component {
     auth.signOut().then(() => {
 
       this.setState({
-        userProfile: null,
+        user: null,
         drawer,
       });
 
@@ -158,13 +158,13 @@ class App extends Component {
 
       // Save user record in the database before attempting to retrieve the
       // geolocation coordinates (it's not guaranteed that's why we save user info first)
-      let userProfile;
+      let user;
       if (userAuthObject) { 
 
         DBUser.saveBasicInfo(userAuthObject).then((currUserInfo) => {
 
-          userProfile = currUserInfo;
-          this.setState({ userProfile });
+          user = currUserInfo;
+          this.setState({ user });
 
           // Get gelolocation object ...
           // save user position in the database and object geolocation state
@@ -172,12 +172,12 @@ class App extends Component {
 
             if (geolocation.on) {
 
-              const userProfileTmp = userProfile;
+              const userTmp = user;
               const latLong = Geoloc.getPosition(geolocation);
 
-              userProfile = { ...userProfileTmp, ...latLong };
+              user = { ...userTmp, ...latLong };
 
-              DBUser.saveBasicInfo(userProfile);
+              DBUser.saveBasicInfo(user);
 
             }
 
@@ -190,7 +190,7 @@ class App extends Component {
 
       } else {
 
-        this.setState({ userProfile: null });
+        this.setState({ user: null });
 
       }
     }, (error) => {
@@ -350,11 +350,11 @@ class App extends Component {
 
   }
 
-  
-  handleProfileUpdate(userProfile) {
-  
-    this.setState({ userProfile });
-  
+
+  handleProfileUpdate(user) {
+
+    this.setState({ user });
+
   }
 
   /**
@@ -368,13 +368,13 @@ class App extends Component {
     this.setState({ searchPanel });
 
   }
- 
-  
+
+
   render() {
 
     const s = { ...this.state };
     const sidebarProps = {
-      sidebar: <DrawerContent user={s.userProfile} onToggleVertNav={this.handleDrawer} handleLogout={this.handleLogout} />,
+      sidebar: <DrawerContent user={s.user} onToggleVertNav={this.handleDrawer} handleLogout={this.handleLogout} />,
       docked: this.state.drawer.docked,
       sidebarClassName: 'custom-sidebar-class',
       open: this.state.drawer.open,
@@ -395,15 +395,12 @@ class App extends Component {
     */
 
     return (
-      <UserContext.Provider value={s.userProfile}>
+      <UserContext.Provider value={s.user}>
         <Router>
           <Sidebar {...sidebarProps}>
             <div className={`App ${s.currPathName}`}>
-              {/* Display toast when user profile is not loaded yet*/ }
-              <Toast active={s.userProfile === undefined}>Connecting to database</Toast>
               
               <AppHeader
-                user={s.userProfile}
                 onLogout={this.handleLogout}
                 onToggleVertNav={this.handleDrawer}
                 {...s}

@@ -25,7 +25,6 @@ class ViewMap extends ViewApp {
   componentDidMount() {
 
     const { listUsers, postList } = this.props;
-
     const listUsersPosts = listUsers.map((uItem) => {
 
       // returns { user:{}, posts:[{}, {}, {}] }

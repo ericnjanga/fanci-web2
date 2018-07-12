@@ -7,10 +7,10 @@ import buttonStyle from './../../jsStyles/button.styles.js';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faPencil from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
-import {Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import ViewApp from './../ViewApp.js';
 import DBPost from './../../services/utilities/DBPost.class.js';
-import './ViewTimeline.css'; 
+import './ViewTimeline.css';
 
 
 class ViewTimeline extends ViewApp {
@@ -109,7 +109,7 @@ class ViewTimeline extends ViewApp {
         <List
           items={p.postList}
           itemComp={PostItem}
-          user={p.userProfile}
+          user={p.user}
           handleConfirmModal={p.handleConfirmModal}
           confirmationModal={p.confirmationModal}
           toggleTimelineModal={this.toggleModal}
@@ -119,7 +119,7 @@ class ViewTimeline extends ViewApp {
         {
           s.modal && <div>
             <ModalPostCreate
-              user={p.userProfile}
+              user={p.user}
               data={modalData}
               toggle={this.toggleModal}
               className={this.props.className}

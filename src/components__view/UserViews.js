@@ -1,7 +1,6 @@
 import React from 'react';
 import withUser from './../Hoc/withUser.js';
 import { Route, Redirect } from 'react-router-dom';
-import ViewApp from './../components__view/ViewApp.js';
 import ViewLogin from './ViewLogin/ViewLogin.js';
 import ViewMap from './ViewMap/ViewMap.js';
 import ViewTimeline from './ViewTimeline/ViewTimeline.js';
@@ -57,7 +56,7 @@ const UserViewsContainer = (props) => {
         path="/around-us"
         exact={true}
         render={() => (
-          <ViewTimeline {...props} displayExpiredItems={false} />
+          <ViewTimeline {...props} user={props.user} displayExpiredItems={false} />
         )}
       />
 
@@ -124,4 +123,3 @@ const UserViewsContainer = (props) => {
 const UserViews = withUser(UserViewsContainer);
 
 export default UserViews;
-

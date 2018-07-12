@@ -3,7 +3,7 @@
  * and is inherited by sub-views
  * - Method1: handleRouteChange (top level method)
  */
-import React from 'react'; 
+import React from 'react';
 import PropTypes from 'prop-types';
 
 class ViewApp extends React.Component {
