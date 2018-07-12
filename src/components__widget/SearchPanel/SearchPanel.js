@@ -57,7 +57,7 @@ class SearchPanel extends React.Component {
 
   focudInput() {
     if (this.props.isActive) {
-      this.inputSearch.current.focus();
+      this.inputSearch.current.focus();  
     }
   }
 
