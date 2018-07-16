@@ -28,7 +28,7 @@ const UserOnMap = ({ item, master, message }) => {
       bottom: '-10px',
       left: '10px',
       width: '0',
-      height: '0', 
+      height: '0',
       borderLeft: '10px solid transparent',
       borderRight: '10px solid transparent',
       borderTop: '10px solid #333',
@@ -36,10 +36,12 @@ const UserOnMap = ({ item, master, message }) => {
   };
 
   if (!item || !master || !message) {
+
     return false;
+
   }
 
-  console.log('>>>>>>', item, '||', master, '||', message);
+  // console.log('>>>>>>', item, '||', master, '||', message);
 
   return (
     <div>
@@ -65,6 +67,7 @@ const UserOnMap = ({ item, master, message }) => {
 export default UserOnMap;
 
 
+// "item" and "master" have the same structure
 UserOnMap.propTypes = {
   item: PropTypes.shape({
     biography: PropTypes.string.isRequired,
@@ -78,6 +81,31 @@ UserOnMap.propTypes = {
     uid: PropTypes.string.isRequired,
     visible: PropTypes.bool.isRequired,
   }).isRequired,
-  master: PropTypes.shape.isRequired,
-  message: PropTypes.string.isRequired,
+  master: PropTypes.shape({
+    biography: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    lastSignin: PropTypes.number.isRequired,
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+    phoneNumber: PropTypes.string.isRequired,
+    photoURL: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+    visible: PropTypes.bool.isRequired,
+  }).isRequired,
+  message: PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    date: PropTypes.number.isRequired,
+    expiry: PropTypes.string.isRequired,
+    expiryDate: PropTypes.number.isRequired,
+    file: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    places: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    title: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+  }).isRequired,
 };
