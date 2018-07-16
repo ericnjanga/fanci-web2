@@ -66,7 +66,18 @@ export default UserOnMap;
 
 
 UserOnMap.propTypes = {
-  item: PropTypes.shape.isRequired,
+  item: PropTypes.shape({
+    biography: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    lastSignin: PropTypes.number.isRequired,
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+    phoneNumber: PropTypes.string.isRequired,
+    photoURL: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+    visible: PropTypes.bool.isRequired,
+  }).isRequired,
   master: PropTypes.shape.isRequired,
   message: PropTypes.string.isRequired,
 };
