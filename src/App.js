@@ -20,6 +20,11 @@ import DBOptin from './services/utilities/DBOptin.class.js';
 import DBPost from './services/utilities/DBPost.class.js';
 import AppDoc from './services/utilities/AppDoc.class.js';
 import Geoloc from './services/utilities/Geoloc.class.js';
+
+
+import Posts from './__tests/Post.class.js';
+
+
 import { Container, Row, Col } from 'reactstrap';
 import './styles/App.css';
 import './styles/components/buttons.css';
@@ -147,6 +152,38 @@ class App extends Component {
 
 
   componentDidMount() { 
+
+
+
+
+
+    
+
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * EXPERIMENTAL WAY OF FETCHING POSTS:
+     * USED IN:
+     * - list-test
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+    Posts.fetch().then(posts => {
+      this.setState({ posts })
+    });
+
+
+
+
+
 
     /**
      * SIGNS USERS BACK-IN

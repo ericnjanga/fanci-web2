@@ -32,6 +32,12 @@ const MenuPrimary = (props) => {
           <FontAwesomeIcon icon={faUser} />
         </NavLink>
       </NavItem> 
+      <NavItem> 
+        <NavLink to={`/list-test`} onClick={onToggleVertNav}>
+          <span className="txt">List Test</span>
+          <FontAwesomeIcon icon={faUser} />
+        </NavLink>
+      </NavItem> 
     </Nav> 
   );
 }// [end] MenuPrimary

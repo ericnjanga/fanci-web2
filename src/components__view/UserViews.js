@@ -10,6 +10,8 @@ import ViewSettings from './ViewSettings/ViewSettings.js';
 import ViewAnalytics from './ViewAnalytics/ViewAnalytics.js';
 import ViewTermsAndConditions from './ViewTermsAndConditions/ViewTermsAndConditions.js';
 
+import TestViewList from './../__tests/TestViewList.js';
+
 
 const UserViewsContainer = (props) => {
 
@@ -65,6 +67,14 @@ const UserViewsContainer = (props) => {
         exact={true}
         render={() => (
           <ViewProfile {...props} />
+        )}
+      />
+
+      <Route
+        path="/list-test"
+        exact={true}
+        render={() => (
+          <TestViewList {...props} />
         )}
       />
 
