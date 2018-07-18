@@ -12,7 +12,6 @@ const Item = ({ title, text, img, style }) => {
   return (
     <li style={style.container}>
       <h3 style={style.title}>{title}</h3>
-      { console.log('---img=', img) }
       { img && <Figure src={img} alt={title} /> }
       { text && <div style={style.text}>{text}</div> }
     </li>
@@ -50,7 +49,8 @@ Item.defaultProps = {
       listStyle: 'none',
       margin: '50px 0',
       background: '#fff',
-      boxShadow: '0px 0px 1px 0px rgba(135,135,135,1)',
+      borderRadius: '.25rem',
+      boxShadow: '0px 0px 1px 0px rgba(160,160,160,1)',
     },
     title: {
       margin: '0',
