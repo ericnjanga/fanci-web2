@@ -2,30 +2,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Figure from './Figure.js';
 
-
-const Avatar = ({ photoURL, alt, size, style }) => {
+/**
+ * Component representing an avatar
+ * (Uses <Figure /> component to render the avatar)
+ * @param {*} photoURL
+ * @param {*} alt
+ * @param {*} size // Avatar size (extra small, small, large, extra large)
+ * @param {*} style
+ */
+const Avatar = ({
+  photoURL,
+  alt,
+  size,
+  style,
+}) => {
 
   let width = 0;
   let height = 0;
 
   switch (size) {
 
-    case 'sm':
+    case 'sm': // small
       width = '55px';
       height = '55px';
       break;
 
-    case 'lg':
+    case 'lg': // large
       width = '75px';
       height = '75px';
       break;
 
-    case 'xl':
+    case 'xl': // extra large
       width = '100px';
       height = '100px';
       break;
 
-    default:
+    default: // extra small
       width = '35px';
       height = '35px';
   }
@@ -42,6 +54,9 @@ const Avatar = ({ photoURL, alt, size, style }) => {
 
 };
 
+/**
+ * Component props validation
+ */
 Avatar.propTypes = {
   photoURL: PropTypes.string,
   alt: PropTypes.string,
@@ -50,11 +65,14 @@ Avatar.propTypes = {
   }),
 };
 
+/**
+ * Component props default values
+ */
 Avatar.defaultProps = {
   photoURL: 'http://via.placeholder.com/500x500',
   alt: '',
   size: 'xs',
-  style: {
+  style: { // Default styles
     figure: {
       margin: 0,
       padding: 0,

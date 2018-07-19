@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 import Figure from './Figure.js';
 
 /**
- * Component representing an item of the list
+ * Component representing an item
  * @param {*} title
  * @param {*} text
+ * @param {*} img
+ * @param {*} style
  */
-const Item = ({ title, text, img, style }) => {
+const Item = ({
+  title,
+  text,
+  img,
+  style,
+}) => {
 
   return (
     <li style={style.container}>
@@ -19,6 +26,9 @@ const Item = ({ title, text, img, style }) => {
 
 };
 
+/**
+ * Component props validation
+ */
 Item.propTypes = {
   title: PropTypes.string.isRequired, // specify the optional field
   text: PropTypes.string, // (optional)
@@ -41,10 +51,13 @@ Item.propTypes = {
   }),
 };
 
+/**
+ * Component props default values
+ */
 Item.defaultProps = {
   text: '',
   img: '',
-  style: { // Component will be styled by default if no "style" object is provided
+  style: { // Default styles
     container: {
       listStyle: 'none',
       margin: '50px 0',

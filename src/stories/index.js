@@ -1,8 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import List from './../__tests/List.js';
+import Item from './../__tests/Item.js';
 import Avatar from './../__tests/Avatar.js';
-import { dummyPosts, user } from './../settings/dummy-data.js';
+import { dummyPosts, user, dummyPost } from './../settings/dummy-data.js';
 
 
 /**
@@ -77,6 +78,24 @@ storiesOf('Avatar', module)
         size="xl"
         alt={user.displayName}
         photoURL={user.photoURL}
+      />
+    );
+
+  });
+
+
+/**
+ * Post
+ * ---------
+ */
+storiesOf('Post', module)
+  .add('Extra small & No image', () => {
+
+    return (
+      <Item
+        title={dummyPost.title}
+        text={dummyPost.content}
+        img={dummyPost.img}
       />
     );
 
